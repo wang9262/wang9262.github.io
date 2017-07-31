@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Objective-C," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Vong" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="本文主要介绍一些 Objective-C 的一些新特性。">
+<meta name="keywords" content="Objective-C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Modern Objective-C">
+<meta property="og:url" content="http://vongloo.me/2017/04/21/Modern-Objective-C/index.html">
+<meta property="og:site_name" content="Vong">
+<meta property="og:description" content="本文主要介绍一些 Objective-C 的一些新特性。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/14912017895530.jpg">
+<meta property="og:updated_time" content="2017-04-21T15:00:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Modern Objective-C">
+<meta name="twitter:description" content="本文主要介绍一些 Objective-C 的一些新特性。">
+<meta name="twitter:image" content="http://o9sih3398.bkt.clouddn.com/14912017895530.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vongloo.me/2017/04/21/Modern-Objective-C/"/>
+
+
+
+
+
+  <title>Modern Objective-C | Vong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d71967fb1ab9069e28b091ea724fa86c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://vongloo.me/2017/04/21/Modern-Objective-C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Vong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://ww1.sinaimg.cn/large/ba81ca29gw1evcwqme7gbj20cs0cs74n.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Modern Objective-C</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T20:51:41+08:00">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/21/Modern-Objective-C/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/21/Modern-Objective-C/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/04/21/Modern-Objective-C/" class="leancloud_visitors" data-flag-title="Modern Objective-C">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要介绍一些 Objective-C 的一些新特性。<br><a id="more"></a></p>
+<h3 id="从一个-Bug-来说说-Objective-C-中的指定构造器"><a href="#从一个-Bug-来说说-Objective-C-中的指定构造器" class="headerlink" title="从一个 Bug 来说说 Objective-C 中的指定构造器"></a>从一个 Bug 来说说 Objective-C 中的指定构造器</h3><p>某天测试反馈，iOS8 点击按钮时弹出一个列表视图出现必现崩溃，看了下崩溃日志，是野指针导致导出乱崩，具体是 <code>[xxx collectionView:numberOfItemsInSection:] unrecognized selector send to instance xxxxx</code>。<br>连上设备调试，发现 <code>setupDataSource</code> 走了两次，由于调用栈非常类似，一开始没注意它调了两次，一直没找到问题所在。后面各种断点上去，发现 <code>setupDataSource</code> 方法被调用了两次，进一步 <code>commonInit</code> 被调用了两次。最后查看初始化代码，才发现调用 <code>convenience init method</code> 时，没有调 <code>designed init method</code>，并且调完之后又再调了一次 <code>commonInit</code>。具体看下代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">PanelView</span>()</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UICollectionView</span> *collectionView;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)aDecoder &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithCoder:aDecoder]) &#123;</div><div class="line">        [<span class="keyword">self</span> commonInit];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame]) &#123;</div><div class="line">        [<span class="keyword">self</span> commonInit];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithType:(PanelType)type &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</div><div class="line">        [<span class="keyword">self</span> commonInit];</div><div class="line">        <span class="keyword">self</span>.type = type;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)commonInit &#123;</div><div class="line">    <span class="keyword">self</span>.colletionView = ...</div><div class="line">    [<span class="keyword">self</span> addSubview:<span class="keyword">self</span>.colletionView];</div><div class="line">    [<span class="keyword">self</span> setupDataSource];</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)setupDataSource &#123;</div><div class="line">    DataSource *dataSource = [[DataSource alloc] initWithCollectionView:<span class="keyword">self</span>.collectionView];</div><div class="line">    dataSource.delegate = <span class="keyword">self</span>;</div><div class="line">    <span class="keyword">self</span>.collectionView.dataSource = dataSource;</div><div class="line">    <span class="keyword">self</span>.dataSource = dataSource;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 外面使用 initWithType: 做了初始化</span></div></pre></td></tr></table></figure>
+<p>由于调了两次 <code>commonInit</code>，导致创建了两个 <code>collectionView</code> 和 <code>dataSource</code>，由于第一次创建的 <code>dataSource</code> 没有持有者，被释放为 <code>nil</code>，而第一次创建的 <code>collectionView</code> 被加到视图层级当中被 <code>self</code> 持有，所以在第一个 <code>collectionView</code> 在执行调用数据源方法时，<code>dataSource</code> 为 <code>nil</code>，但是在 iOS9 之前 <code>UICollectionView</code> 和 <code>UITableView</code> 的 <code>delegate</code> 和 <code>dataSource</code> 属性用 <code>assign</code> 而非 <code>weak</code> 修饰，导致这一块内存被污染，继续调用时会出现野指针崩溃。</p>
+<p>归根结底，就是初始化的姿势不对。</p>
+<p>正确的姿势应该是：</p>
+<ol>
+<li>子类指定构造器必须调用父类指定构造器</li>
+<li>便捷构造器只能通过调用自身指定构造器来完成初始化</li>
+<li>指定构造器必须要用 <code>NS_DESIGNATED_INITIALIZER</code> 标示</li>
+</ol>
+<p>可参考下图</p>
+<p><img src="http://o9sih3398.bkt.clouddn.com/14912017895530.jpg" alt=""></p>
+<blockquote>
+<p>图片出自 《The Swift Programming Language (Swift 3.0.1)》 Initialization - Syntax for Designated and Convenience Initializers 小节</p>
+</blockquote>
+<p>关于指定构造器，iOS 自身内部实现也有一个 bug <a href="http://www.openradar.me/23709930" target="_blank" rel="external">UITableViewController subclass designated initializer Crash</a>、<a href="http://stackoverflow.com/questions/25139494/how-to-subclass-uitableviewcontroller-in-swift" target="_blank" rel="external">How to subclass UITableViewController in Swift</a>。iOS8 下自定义一个 <code>UIViewController</code> 继承自 <code>UITableViewController</code>，然后自定义指定构造器，代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 指定构造器</span></div><div class="line">- (<span class="keyword">instancetype</span>)initWithTitle:(<span class="built_in">NSString</span> *)title &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithStyle:<span class="built_in">UITableViewStyleGrouped</span>]) &#123;</div><div class="line">        <span class="comment">//....</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithNibName:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)nibNameOrNil bundle:(<span class="keyword">nullable</span> <span class="built_in">NSBundle</span> *)nibBundleOrNil &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> initWithTitle:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithStyle:(<span class="built_in">UITableViewStyle</span>)style &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> initWithTitle:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 外面调用，iOS8 下调用此段代码，必崩</span></div><div class="line"><span class="comment">// 所以 iOS8 最好不要继承自 UITableViewController</span></div><div class="line">TestViewController *vc = [[TestViewController alloc] initWithTitle:<span class="string">@"Hello"</span>];</div></pre></td></tr></table></figure>
+<h4 id="几个小问题"><a href="#几个小问题" class="headerlink" title="几个小问题"></a>几个小问题</h4><ul>
+<li><strong>Question 1</strong>: <code>instancetype</code> 和 <code>id</code> 两者有什么区别？</li>
+</ul>
+<blockquote>
+<p><code>instancetype</code> 能够做到类型检测而 <code>id</code> 不行。前者仅可做方法返回值，不能作为参数，见示例代码<br>比如如下代码：</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestObjectA</span> : <span class="title">NSObject</span></span></div><div class="line"></div><div class="line">+ (<span class="keyword">id</span>)createObjectA;</div><div class="line">- (<span class="keyword">void</span>)methodA;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestObjectB</span> : <span class="title">NSObject</span></span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)createObjectB;</div><div class="line">- (<span class="keyword">void</span>)methodB;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">[[TestObjectA createObjectA] methodB];      <span class="comment">// no compile error or warning but crash</span></div><div class="line">[[TestObjectB createObjectB] methodA];      <span class="comment">// compile error --&gt; No visible @interface for 'TestObjectB' declares the selector 'methodA'</span></div></pre></td></tr></table></figure>
+<p>延伸问题：为什么<code>(id)initWithXXX:</code> 也可以做到类型检测？</p>
+<blockquote>
+<p>类方法只要以 <code>alloc</code>、<code>new</code> 开头就会有关联返回类型（即类型检测）<br>实例方法只要以 <code>init</code>、<code>autorelease</code>、<code>retain</code>、<code>self</code> 开头就会有关联返回类型<br><a href="https://clang.llvm.org/docs/LanguageExtensions.html#objective-c-features" target="_blank" rel="external">Clang Language Extensions–Objective-C Features</a><br><strong>Note</strong>: ARC 下实测，实例方法只有 <code>init</code> 开头的才有关联返回类型。</p>
+</blockquote>
+<ul>
+<li><strong>Question 2</strong>: 新建一个VC 文件同时勾选 <code>Also create XIB file</code> 后，初始化 <code>VC *vc = [[VC alloc] init]</code> 得到的是否和 <code>initWithNibName:bundle:</code> 初始化得到的 UI 一致？为什么？</li>
+</ul>
+<blockquote>
+<p>是一致的，因为最终都会调到指定构造器 <code>initWithNibName:bundle:</code>，但此时 <code>nibName</code> 为 <code>nil</code>，关于 <code>nibName</code> 的相关设置文档是这么说的<br>However, if you do not specify a nib name, and do not override the loadView method in your custom subclass, the view controller searches for a nib file using other means. Specifically, it looks for a nib file with an appropriate name (without the .nib extension) and loads that nib file whenever its view is requested. Specifically, it looks (in order) for a nib file with one of the following names:<br>If the view controller class name ends with the word ‘Controller’, as in MyViewController, it looks for a nib file whose name matches the class name without the word ‘Controller’, as in MyView.nib.<br>It looks for a nib file whose name matches the name of the view controller class. For example, if the class name is MyViewController, it looks for a MyViewController.nib file.</p>
+<p>简单来说，如果没设置该属性也没有复写 <code>loadView</code> 方法，则系统有一套自己的寻找机制来看是否有对应的 xib 文件，如果有，则加载 xib 文件。</p>
+</blockquote>
+<ul>
+<li><strong>Question 3</strong>: 如下代码输出的是什么？为什么？ 选自 <a href="http://blog.sunnyxx.com/2014/11/06/runtime-nuts/" target="_blank" rel="external">神经病院objc runtime入院考试</a></li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestSubclass</span> : <span class="title">TestSuperclass</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TestSubclass</span></span></div><div class="line">- (<span class="keyword">instancetype</span>)init &#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, <span class="built_in">NSStringFromClass</span>([<span class="keyword">self</span> <span class="keyword">class</span>]));</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, <span class="built_in">NSStringFromClass</span>([<span class="keyword">super</span> <span class="keyword">class</span>]));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>输出的都是 <code>TestSubclass</code>，因为两者的 receiver 都是 self。当我们给 super 发消息的时候，实际上是给 self 发消息，只不过在查找方法列表时会自动跳过当前类的方法列表，而从父类方法列表中开始查找。归根结底，最后产生的消息是 <code>objc_msgSendSuper(self, @selector(init));</code>。</p>
+</blockquote>
+<ul>
+<li><strong>Question 4</strong>: 为什么我们初始化方法的写法都长这样？</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SomeClass</span> : <span class="title">TestSuperClass</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"><span class="class"><span class="keyword">@implementation</span></span></div><div class="line">- (<span class="keyword">instancetype</span>)init </div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line">SomeClass *aInstance = [[SomeClass alloc] init];</div></pre></td></tr></table></figure>
+<blockquote>
+<p>我们可以将上面代码拆成以下几个步骤：</p>
+<ol>
+<li><code>[SomeClass alloc]</code> 返回一个 <code>SomeClass</code> 的实例</li>
+<li>紧接着给 <strong>步骤1</strong> 生成的实例发 <code>init</code> 消息，所以 <strong>init</strong> 方法中的 self 为 <strong>步骤1</strong> 生成的实例</li>
+<li><code>[super init]</code> 实际上调用的是父类的初始化方法，在父类的方法中，<strong>self</strong> 依然是 <strong>步骤1</strong> 生成的实例，<strong>对于这一点的理解很重要</strong></li>
+<li>父类的 <code>init</code> 方法要么做一些基本的初始化工作，要么修改 self，然后返回一个新的实例</li>
+<li>回到 SomeClass 的<code>init</code>方法中来，此时得到的要么是 <strong>步骤1</strong> 生成的实例，要么是新生成的实例。这就是为什么我们要加 if 判断的原因。</li>
+</ol>
+</blockquote>
+<h3 id="新增关键字及特性"><a href="#新增关键字及特性" class="headerlink" title="新增关键字及特性"></a>新增关键字及特性</h3><h4 id="Nullability"><a href="#Nullability" class="headerlink" title="Nullability"></a>Nullability</h4><p><code>nonnull/_Nonnull</code> 表达的意思是一样的，<code>nullable/_Nullable</code> 同理，只是修饰符的位置不同<br><code>_Nonnull</code> 和 <code>_Nullable</code> 的位置和 C语言的 <code>const</code> 关键字位置一致。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 写法1和2 表达的意思完全一致</span></div><div class="line"><span class="comment">// 写法1</span></div><div class="line">- (AAPLListItem * _Nullable)itemWithName:(<span class="built_in">NSString</span> * _Nonnull)name;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">copy</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span> * _Nonnull allItems;</div><div class="line"><span class="comment">// 写法2</span></div><div class="line">- (<span class="keyword">nullable</span> AAPLListItem *)itemWithName:(<span class="keyword">nonnull</span> <span class="built_in">NSString</span> *)name;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">copy</span>, <span class="keyword">readonly</span>, <span class="keyword">nonnull</span>) <span class="built_in">NSArray</span> *allItems;</div></pre></td></tr></table></figure>
+<p>几个特例：</p>
+<ul>
+<li><code>typedef</code> 类型由于可以从上下文中推断出它是空（nullable）或非空（nonnull），所以内部不需要写 <code>nullable</code> 或 <code>nonnull</code>。</li>
+<li>复杂指针必须显式声明其是否可为空，比如指定一个指向非空对象的可空指针可声明为 <code>_Nullable id * _Nonnull</code></li>
+<li><code>NSError **</code> 类型通常为一个指向可空对象的可空指针。</li>
+</ul>
+<p>为了避免重复写 <code>nonnull</code>，有一对宏 <code>NS_ASSUME_NONNULL_BEGIN</code> 和 <code>NS_ASSUME_NONNULL_END</code>，被这两个宏包裹的代码，默认都是 <code>nonnull</code>，如果可为空，则需显式声明为 <code>nullable</code> 或者 <code>_Nullable</code>。</p>
+<p><code>null_resettable</code>: 可被置 nil，但是调用 getter 时又会重新创建，可参考 <code>UIViewController</code> 的 <code>view</code> 属性 或者 <code>UIView</code> 的 <code>tintColor</code> 属性。</p>
+<p>更多关于 Nullability 可参考：</p>
+<blockquote>
+<p><a href="https://developer.apple.com/swift/blog/?id=25" target="_blank" rel="external">Nullability and Objective-C</a><br><a href="http://stackoverflow.com/questions/32452889/difference-between-nullable-nullable-and-nullable-in-objective-c" target="_blank" rel="external">Difference between nullable, __nullable and _Nullable in Objective-C</a></p>
+</blockquote>
+<h4 id="kindof"><a href="#kindof" class="headerlink" title="__kindof"></a>__kindof</h4><p>该关键字的出现可以很好的避免做强转，比如 <code>UIView</code>、<code>UITableView</code> 的如下方法/属性</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// UIView.h</span></div><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">copy</span>) <span class="built_in">NSArray</span>&lt;__kindof <span class="built_in">UIView</span> *&gt; *subviews;</div><div class="line">- (<span class="keyword">nullable</span> __kindof <span class="built_in">UIView</span> *)viewWithTag:(<span class="built_in">NSInteger</span>)tag;</div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment">// UITableView.h</span></div><div class="line">- (<span class="keyword">nullable</span> __kindof <span class="built_in">UITableViewCell</span> *)cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span>&lt;__kindof <span class="built_in">UITableViewCell</span> *&gt; *visibleCells;</div><div class="line"></div><div class="line"><span class="comment">// 无警告，不需要做强转</span></div><div class="line"><span class="built_in">UIlabel</span> *textLabel = view.subviews.firstObject; </div><div class="line">CustomCell *cell = <span class="keyword">self</span>.tableView.visibleCells.lastObject;</div></pre></td></tr></table></figure>
+<h4 id="Generics"><a href="#Generics" class="headerlink" title="Generics"></a>Generics</h4><p>为了更好的桥接 Swift，Objective-C 新增了轻量级的泛型支持，之所以是轻量级泛型，是因为它只是编译时的泛型。目前 Swift 仅支持 NSArray,、NSDictionary、NSSet 这 3 个类的泛型桥接，其它类(含自定义)，不支持。<br><a href="https://useyourloaf.com/blog/using-objective-c-lightweight-generics/" target="_blank" rel="external">Using Objective-C Lightweight Generics</a></p>
+<h5 id="covariant"><a href="#covariant" class="headerlink" title="__covariant"></a>__covariant</h5><p>子类可赋给父类</p>
+<h5 id="contravariant"><a href="#contravariant" class="headerlink" title="__contravariant"></a>__contravariant</h5><p>父类可赋给子类，目前没有想到适用的场景，<code>__kindof</code> 和这个有点类似，但是又不一样，<code>__kindof</code> 可直接修饰属性。<br>比如 <code>@property (nullable, nonatomic, strong) __kindof NSObject *object;</code></p>
+<p>协变和逆变的具体区别可参考，sunnyxx 的博客<a href="http://blog.sunnyxx.com/2015/06/12/objc-new-features-in-2015/" target="_blank" rel="external">2015 Objective-C 新特性</a></p>
+<h3 id="attributes-命令"><a href="#attributes-命令" class="headerlink" title="__attributes__ 命令"></a>__attributes__ 命令</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p><code>__attribute__</code> 命令是用来修饰 C/C++/Objective-C 中的代码片段，让它们拥有额外的属性，进而使编译器做出对应的优化或者为代码调用者提供有用的上下文（警告或提示）。进一步来讲，就是 <code>__attributes__</code> 命令为我们提供了阅读代码的上下文，便于编译器提前做出优化，达到事半功倍的效果。</p>
+<h4 id="什么时候用"><a href="#什么时候用" class="headerlink" title="什么时候用"></a>什么时候用</h4><p>Twitter 官方博客是推荐，能用且可以提供额外上下文的地方就尽量用。这样不仅可以让编译器做优化，同时可以让其他阅读代码的人（包括你自己）受益匪浅。当你想用却又在犹豫该不该用时，就不要用了。</p>
+<h4 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h4><p>虽然上面说到在能够使用的地方尽量使用，但是也不能乱用、滥用。具体例子可以参考下面提到的 Twitter 官方博客。</p>
+<p>最开始接触 <code>__attribute__</code> 命令是在 <code>PSPDFUIKitMainThreadGuard.m</code>，第一次看到这个的时候一脸懵逼，仅仅一个 <code>.m</code> 文件，就可以起到检测是否在主线程执行的作用，而且对项目毫无侵入。后面看了下源代码，然后每个方法都设置了一个断点，然后在非主线程操作 UI，看断点位置。结果运行后，就走到了一个方法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// This installs a small guard that checks for the most common threading-errors in UIKit.</span></div><div class="line"><span class="comment">// This won't really slow down performance but still only is compiled in DEBUG versions of PSPDFKit.</span></div><div class="line"><span class="comment">// @note No private API is used here.</span></div><div class="line">__attribute__((constructor)) <span class="keyword">static</span> <span class="keyword">void</span> PSPDFUIKitMainThreadGuard(<span class="keyword">void</span>) &#123;</div><div class="line">    <span class="keyword">@autoreleasepool</span> &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSString</span> *selStr <span class="keyword">in</span> @[PROPERTY(setNeedsLayout), PROPERTY(setNeedsDisplay), PROPERTY(setNeedsDisplayInRect:)]) &#123;</div><div class="line">            SEL selector = <span class="built_in">NSSelectorFromString</span>(selStr);</div><div class="line">            SEL newSelector = <span class="built_in">NSSelectorFromString</span>([<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"pspdf_%@"</span>, selStr]);</div><div class="line">            <span class="keyword">if</span> ([selStr hasSuffix:<span class="string">@":"</span>]) &#123;</div><div class="line">                PSPDFReplaceMethodWithBlock(<span class="built_in">UIView</span>.class, selector, newSelector, ^(__<span class="keyword">unsafe_unretained</span> <span class="built_in">UIView</span> *_<span class="keyword">self</span>, <span class="built_in">CGRect</span> r) &#123;</div><div class="line">                    PSPDFAssertIfNotMainThread();</div><div class="line">                    ((<span class="keyword">void</span> ( *)(<span class="keyword">id</span>, SEL, <span class="built_in">CGRect</span>))objc_msgSend)(_<span class="keyword">self</span>, newSelector, r);</div><div class="line">                &#125;);</div><div class="line">            &#125;<span class="keyword">else</span> &#123;</div><div class="line">                PSPDFReplaceMethodWithBlock(<span class="built_in">UIView</span>.class, selector, newSelector, ^(__<span class="keyword">unsafe_unretained</span> <span class="built_in">UIView</span> *_<span class="keyword">self</span>) &#123;</div><div class="line">                    PSPDFAssertIfNotMainThread();</div><div class="line">                    ((<span class="keyword">void</span> ( *)(<span class="keyword">id</span>, SEL))objc_msgSend)(_<span class="keyword">self</span>, newSelector);</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>具体代码就不分析了，就是 hook 了一些布局才会调用的函数，然后判断其是否在主线程。最有意思的是前面的修饰符<code>__attribute__((constructor))</code>，后面查阅资料才知道，该修饰符修饰的方法，在 <code>main()</code> 函数执行前， <code>+load</code> 方法执行后。</p>
+<blockquote>
+<p>constructor 和 +load 都是在 main 函数执行前调用，但 +load 比 constructor 更加早一丢丢，因为 dyld（动态链接器，程序的最初起点）在加载 image（可以理解成 Mach-O 文件）时会先通知 objc runtime 去加载其中所有的类，每加载一个类时，它的 +load 随之调用，全部加载完成后，dyld 才会调用这个 image 中所有的 constructor 方法。<br><a href="http://blog.sunnyxx.com/2016/05/14/clang-attributes/" target="_blank" rel="external">Clang Attributes 黑魔法小记</a></p>
+</blockquote>
+<p><code>__attribute__</code> 是编译器命令，后面会跟随两个括号对，主要是为了防止宏的歧义，方便宏的展开。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// +(void)load 执行之后，main() 执行之前，只对 C 方法生效</span></div><div class="line"><span class="comment">// 若有多个 constructor 且想控制优先级的话，可以写成 __attribute__((constructor(101)))</span></div><div class="line"><span class="comment">// 里面的数字越小优先级越高，1 ~ 100 为系统保留</span></div><div class="line">__attribute__((constructor))</div><div class="line">__attribute__((objc_requires_super)) <span class="comment">// 子类复写时，必须先调用父类方法</span></div><div class="line"></div><div class="line"><span class="comment">// ---------- </span></div><div class="line"><span class="comment">// 用于 @interface 或 @protocol，将类或协议的名字在编译时指定成另一个</span></div><div class="line">__attribute__((objc_runtime_name(<span class="string">"SomeClass"</span>)))</div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Some</span> : <span class="title">NSObject</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, <span class="built_in">NSStringFromClass</span>([Some <span class="keyword">class</span>]));  <span class="comment">// "SomeClass"</span></div></pre></td></tr></table></figure>
+<p>更多的 <code>__attribute__</code> 命令可参考：</p>
+<blockquote>
+<p>Twitter 官方博客：<a href="https://blog.twitter.com/2014/attribute-directives-in-objective-c" target="_blank" rel="external"><strong>attribute</strong> directives in Objective-C</a><br>NSHipster 关于 <code>__attribute__</code> 的讨论： <a href="http://nshipster.com/__attribute__/" target="_blank" rel="external"><strong>attribute</strong></a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/17/Useful-Xcode-Plugins/" rel="next" title="Xcode 常用插件">
+                <i class="fa fa-chevron-left"></i> Xcode 常用插件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcwqme7gbj20cs0cs74n.jpg"
+               alt="Vong" />
+          <p class="site-author-name" itemprop="name">Vong</p>
+           
+              <p class="site-description motion-element" itemprop="description">Learning and Sharing.iOS 开发进阶中~</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wang9262" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/Vong_HUST" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/VongLo" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://shixiong.name/" title="Daemon" target="_blank">Daemon</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://colin1994.github.io/" title="Colin丶" target="_blank">Colin丶</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.linhere.com/" title="东风路倒垃圾的" target="_blank">东风路倒垃圾的</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从一个-Bug-来说说-Objective-C-中的指定构造器"><span class="nav-number">1.</span> <span class="nav-text">从一个 Bug 来说说 Objective-C 中的指定构造器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#几个小问题"><span class="nav-number">1.1.</span> <span class="nav-text">几个小问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增关键字及特性"><span class="nav-number">2.</span> <span class="nav-text">新增关键字及特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Nullability"><span class="nav-number">2.1.</span> <span class="nav-text">Nullability</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kindof"><span class="nav-number">2.2.</span> <span class="nav-text">__kindof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Generics"><span class="nav-number">2.3.</span> <span class="nav-text">Generics</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#covariant"><span class="nav-number">2.3.1.</span> <span class="nav-text">__covariant</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#contravariant"><span class="nav-number">2.3.2.</span> <span class="nav-text">__contravariant</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attributes-命令"><span class="nav-number">3.</span> <span class="nav-text">__attributes__ 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">3.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么时候用"><span class="nav-number">3.2.</span> <span class="nav-text">什么时候用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#怎么用"><span class="nav-number">3.3.</span> <span class="nav-text">怎么用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vong</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://disqus_KFNEnZt0uI.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://vongloo.me/2017/04/21/Modern-Objective-C/';
+          this.page.identifier = '2017/04/21/Modern-Objective-C/';
+          this.page.title = 'Modern Objective-C';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://disqus_KFNEnZt0uI.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yoeEE8mEwSubmHRkUpWIMKzO-gzGzoHsz", "p79IVHIdevP5Ft8IKt40rOed");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

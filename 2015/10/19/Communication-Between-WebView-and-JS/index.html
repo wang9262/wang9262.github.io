@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="原创,WebView," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Vong" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。">
+<meta name="keywords" content="原创,WebView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebView 与 JS 的交互">
+<meta property="og:url" content="http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/index.html">
+<meta property="og:site_name" content="Vong">
+<meta property="og:description" content="本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/ba81ca29gw1evpc6lvjkvj21ee0vqgry.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/ba81ca29gw1evpd3k7ax7j21iu0s0n5u.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/ba81ca29gw1evw1vs00ktj20af0j5t92.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/ba81ca29gw1evw1xpangwj20bz01b74b.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/ba81ca29gw1ew0u1lmnsgj21kw0q3wj0.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/ba81ca29gw1ew0uh69rcxj21kw0s9gqr.jpg">
+<meta property="og:updated_time" content="2016-06-26T05:45:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebView 与 JS 的交互">
+<meta name="twitter:description" content="本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/ba81ca29gw1evpc6lvjkvj21ee0vqgry.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/"/>
+
+
+
+
+
+  <title>WebView 与 JS 的交互 | Vong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d71967fb1ab9069e28b091ea724fa86c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Vong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://ww1.sinaimg.cn/large/ba81ca29gw1evcwqme7gbj20cs0cs74n.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WebView 与 JS 的交互</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-19T00:14:41+08:00">
+                2015-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/19/Communication-Between-WebView-and-JS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/10/19/Communication-Between-WebView-and-JS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/10/19/Communication-Between-WebView-and-JS/" class="leancloud_visitors" data-flag-title="WebView 与 JS 的交互">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p>
+<a id="more"></a>
+<h3 id="UIWebView-调-JS-方法"><a href="#UIWebView-调-JS-方法" class="headerlink" title="UIWebView 调 JS 方法"></a>UIWebView 调 JS 方法</h3><p>通过调用如下方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)stringByEvaluatingJavaScriptFromString:(<span class="built_in">NSString</span> *)script;</div></pre></td></tr></table></figure>
+<p>比如获取网页 title，也可以动态注入 JS，先写一个 JS 函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showAlert</span>(<span class="params"></span>) </span>&#123;  </div><div class="line">    alert(<span class="string">'show alert'</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后保存为js 文件，最后读取这个文件并注入</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *filePath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"test"</span> ofType:<span class="string">@"js"</span>];  </div><div class="line"><span class="built_in">NSString</span> *jsString = [[<span class="built_in">NSString</span> alloc] initWithContentsOfFile:filePath];  </div><div class="line">[webView stringByEvaluatingJavaScriptFromString:jsString];</div></pre></td></tr></table></figure>
+<h3 id="JS-调原生方法"><a href="#JS-调原生方法" class="headerlink" title="JS 调原生方法"></a>JS 调原生方法</h3><p>直接调用无法做到，可以间接实现。</p>
+<h4 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h4><p>JS 中要从现在的网页跳到另外一个网页的时候，就会去修改 <code>window.location.href</code> ，而在 <code>@protocol UIWebViewDelegate</code> 中有一个回调方法</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)webView:(<span class="built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="built_in">NSURLRequest</span> *)request navigationType:(<span class="built_in">UIWebViewNavigationType</span>)navigationType;</div></pre></td></tr></table></figure>
+<p>可以监听到网页的跳转，所以可以在此做文章。<br>通过指定<code>window.location.href = schemename://nativemethodname:args</code>就可以去间接调用到原生函数。JS 一旦修改了<code>window.location.href</code>，<code>UIWebView</code>就会收到相应回调，也就是上面说的方法，这样我们可以通过判断<code>request</code>的<code>url</code>是否为自定义的 <code>scheme</code>来决定是否调用原生函数。</p>
+<h4 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h4><p>创建iframe，设置src，并插入到body节点</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params">url</span>) </span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">  <span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">"IFRAME"</span>);</div><div class="line">  iframe.setAttribute(<span class="string">"src"</span>, url);</div><div class="line">  <span class="built_in">document</span>.documentElement.appendChild(iframe);</div><div class="line">  iframe.parentNode.removeChild(iframe);</div><div class="line">  iframe = <span class="literal">null</span>;</div><div class="line">&#125;</div><div class="line">execute(<span class="string">"schemename://nativemethodname:args"</span>);</div></pre></td></tr></table></figure>
+<p>上述的这一串<code>schemename://nativemethodname:args</code>由客户端和前端约定好即可。剩余的事就是截获这个<code>request</code>，然后解析得到相应的参数，传入要调用的原生函数即可。同时在回调方法中要<code>return NO</code>。<br>大致代码如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)webView:(<span class="built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="built_in">NSURLRequest</span> *)request navigationType:(<span class="built_in">UIWebViewNavigationType</span>)navigationType</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSURL</span> *requestUrl = request.URL;</div><div class="line">    <span class="keyword">if</span> ([requestUrl.scheme isEqualToString:<span class="string">@"schemename"</span>]) &#123;</div><div class="line">            <span class="built_in">NSArray</span> *components = [requestUrl.absoluteString componentsSeparatedByString:<span class="string">@":"</span>];</div><div class="line">            <span class="built_in">NSString</span> *resultJSONString = [components[<span class="number">2</span>] stringByReplacingPercentEscapesUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            [<span class="keyword">self</span> customMethod:resultJsonString];</div><div class="line">            <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">        &#125;</div><div class="line">   <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="WebViewJavaScriptBridge"><a href="#WebViewJavaScriptBridge" class="headerlink" title="WebViewJavaScriptBridge"></a>WebViewJavaScriptBridge</h3><p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evpc6lvjkvj21ee0vqgry.jpg" alt=""></p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>大致原理与上面说的一致。只不过<code>WebViewJavaScriptBridge</code>进行了更完善的封装，使得 <code>JS</code>与<code>Native</code>之间的通信变得更为简便。</p>
+<p>一开始注入<code>WebViewJavaScriptBridge.js</code>,该文件中的<code>JS</code>方法主要做了以下几件事</p>
+<ul>
+<li>创建了一个用于发送消息的iFrame(通过创建一个隐藏的<code>ifrmae</code>，并设置它的URL 来发出一个请求，从而触发UIWebView的<code>shouldStartLoadWithRequest</code>回调协议)</li>
+<li>创建了一个核心对象<code>WebViewJavaScriptBridge</code>，并给它定义了几个方法，这些方法大部分是公开的API方法</li>
+<li>创建了一个事件：<code>WebViewJavaScriptBridgeReady</code>，并<code>dispatch</code>。##</li>
+</ul>
+<p><code>native</code>将方法名、参数、回调的id放到一个对象中传给<code>js</code>。<code>js</code>根据方法名字调用相应方法，之后将返回数据和<code>responseId</code>拼装，最后通过<code>src</code> 重定向到<code>UIWebview</code> 的<code>delegate</code>。<code>native</code>得到数据后根据<code>responseId</code>调用事先装入<code>_responseCallbacks</code>的<code>block</code>，动态读取调用，从而完成交互。</p>
+<h4 id="流程（Native端）"><a href="#流程（Native端）" class="headerlink" title="流程（Native端）"></a>流程（Native端）</h4><h5 id="Public-Interface"><a href="#Public-Interface" class="headerlink" title="Public Interface"></a>Public Interface</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">+ (<span class="keyword">instancetype</span>)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView handler:(WVJBHandler)handler;</div><div class="line">+ (<span class="keyword">instancetype</span>)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)handler;</div><div class="line">+ (<span class="keyword">instancetype</span>)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)handler resourceBundle:(<span class="built_in">NSBundle</span>*)bundle;</div><div class="line">+ (<span class="keyword">void</span>)enableLogging;</div><div class="line">- (<span class="keyword">void</span>)send:(<span class="keyword">id</span>)message;</div><div class="line">- (<span class="keyword">void</span>)send:(<span class="keyword">id</span>)message responseCallback:(WVJBResponseCallback)responseCallback;</div><div class="line">- (<span class="keyword">void</span>)registerHandler:(<span class="built_in">NSString</span>*)handlerName handler:(WVJBHandler)handler;</div><div class="line">- (<span class="keyword">void</span>)callHandler:(<span class="built_in">NSString</span>*)handlerName;</div><div class="line">- (<span class="keyword">void</span>)callHandler:(<span class="built_in">NSString</span>*)handlerName data:(<span class="keyword">id</span>)data;</div><div class="line">- (<span class="keyword">void</span>)callHandler:(<span class="built_in">NSString</span>*)handlerName data:(<span class="keyword">id</span>)data responseCallback:(WVJBResponseCallback)responseCallback;</div></pre></td></tr></table></figure>
+<h5 id="初始化一个-bridge"><a href="#初始化一个-bridge" class="headerlink" title="初始化一个 bridge"></a>初始化一个 bridge</h5><p>初始化的工作主要如下：</p>
+<ul>
+<li>设置默认的消息处理 block ———— messageHandler</li>
+<li>初始化用来保存消息处理 block 的字典 ———— messageHandlers</li>
+<li>初始化消息队列数组 ———— startupMessageQueue</li>
+<li>初始化响应回调 ———— responseCallbacks</li>
+<li>以及初始化全局唯一标识 ———— uniqueId</li>
+</ul>
+<p>当在外部调用 </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)registerHandler:(<span class="built_in">NSString</span> *)handlerName handler:(WVJBHandler)handler;</div></pre></td></tr></table></figure>
+<p>方法时，会将 handler 保存到上面初始化好的 messageHandlers 当中，key为上述方法中的 handlerName，value 为上述方法的 handler。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)sendData:(<span class="keyword">id</span>)data responseCallback:(WVJBResponseCallback)responseCallback handlerName:(<span class="built_in">NSString</span>*)handlerName;</div></pre></td></tr></table></figure>
+<p>发送消息时，会将消息加入到消息队列数组，加到数组当中的object 为字典型，字典有三个 key，分别为 data，callbackId， handlerName，分别对应上述方法的三个参数。入队时，如果当前消息队列存在，则将该消息入队，否则立即分发该消息。</p>
+<h5 id="网页加载过程"><a href="#网页加载过程" class="headerlink" title="网页加载过程"></a>网页加载过程</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)webView:(<span class="built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="built_in">NSURLRequest</span> *)request navigationType:(<span class="built_in">UIWebViewNavigationType</span>)navigationType;</div></pre></td></tr></table></figure>
+<p>加载请求或 html 时，在 shouldStartLoadWithRequest 回调中会先判断请求是否带自定义协议。如果带有自定义协议，会调用注入的 js 中 WebViewJavaScriptBridge 的_fetchQueue 方法来获取当前消息，然后分发该消息。主要是在分发消息这一块，拿到消息 json 然后序列化，如果这个消息是队列(数组)才进行处理，消息队列中也是一系列字典型对象，这些对象可能有这么几个key：responseId，responseData，callbackId，handlerName，data。<br>然后对消息队列做一个遍历大致逻辑如下：</p>
+<ul>
+<li>如果 responseId 对应的 value 存在，那么就到 responseCallbacks 字典中去寻找对应的 WVJBResponseCallback 型回调 block，然后执行，block 参数为 responseData 对应的 value。然后把这个 block 从 responseCallbacks 字典中移除。</li>
+<li>如果 responseId 对应的 value 不存在，再看 callbackId 对应的 value 是否存在，存在则设置回调 responseCallback，这个 responseCallback 主要是创建一个消息，然后是消息入队，这个消息字典为 <code>@{ @&quot;responseId&quot;:callbackId, @&quot;responseData&quot;:responseData }</code>；反之 responseCallback 中什么也不执行；最后判断 handlerName 对应的 value 是否存在，存在则取 messageHandlers 中对应的回调 handler，不存在就是用默认的 handler，最后执行这个 WVJBHandler 型的 handler，参数为 data 对应的 value 以及 responseCallback。</li>
+</ul>
+<p>文字有点多，参考下下面这个流程图：</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evpd3k7ax7j21iu0s0n5u.jpg" alt=""></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)webViewDidFinishLoad:(<span class="built_in">UIWebView</span> *)webView;</div></pre></td></tr></table></figure>
+<p>加载结束的回调中判断 js 是否初始化了 WebViewJavaScriptBridge实例，如果不存在，就注入本地的 js。然后检测到 bridge 调用自定义 scheme 后会分发整个消息队列即 startupMessageQueue，遍历消息队列然后取出每一个消息对象(NSDictionary) 然后将其序列化成 JSON，在主线程中调用 JS 的 WebViewJavaScriptBridge._handleMessageFromObjC 方法，参数就是序列化后的 JSON 数据。分发完成后，将 startupMessageQueue 队列置为 nil。</p>
+<p>至此 OC 端的整个流程完毕。</p>
+<h4 id="JS-端流程"><a href="#JS-端流程" class="headerlink" title="JS 端流程"></a>JS 端流程</h4><p>JS 端流程和 OC 端流程大致是一样的</p>
+<h5 id="Public-Interface-1"><a href="#Public-Interface-1" class="headerlink" title="Public Interface"></a>Public Interface</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params">messageHandler</span>)</span></div><div class="line"><span class="function"><span class="title">function</span> <span class="title">send</span>(<span class="params">data, responseCallback</span>)</span></div><div class="line"><span class="function"><span class="title">function</span> <span class="title">registerHandler</span>(<span class="params">handlerName, handler</span>)</span></div><div class="line"><span class="function"><span class="title">function</span> <span class="title">callHandler</span>(<span class="params">handlerName, data, responseCallback</span>)</span></div><div class="line"><span class="function"><span class="title">function</span> <span class="title">_fetchQueue</span>(<span class="params"></span>)</span></div><div class="line"><span class="function"><span class="title">function</span> <span class="title">_handleMessageFromObjC</span>(<span class="params">messageJSON</span>)</span></div></pre></td></tr></table></figure>
+<h5 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h5><p>类似 OC 中的初始化</p>
+<ul>
+<li>注入一个默认的 messageHandler</li>
+<li>初始化一个消息接收队列，然后调用内部方法 _dispatchMessageFromObjC 来分发消息,同时将消息接收队列置空</li>
+</ul>
+<h5 id="发送消息"><a href="#发送消息" class="headerlink" title="发送消息"></a>发送消息</h5><p>调用内部 <code>function _doSend(message, responseCallback)</code> 函数，该函数通过判断 responseCallback 回调是否存在，存在则将这个回调存入到 responseCallbacks 字典中，其 key 是全局唯一的，同时将这个 key 存入到 message 这个字典参数中，其 key 和 value 一致，及 message[‘key’] = key。接着把这个 message 参数入队即加到 sendMessageQueue 数组中。然后重定向 frame 的 src，这样 OC 端就可以在代理回调方法中去拦截这个 src 对应的 request。</p>
+<h5 id="消息处理机制"><a href="#消息处理机制" class="headerlink" title="消息处理机制"></a>消息处理机制</h5><p>如果消息接受队列存在则将消息 JSON 入队即添加到 receiveMessageQueue 数组中。反之，调用内部消息分发方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">_dispatchMessageFromObjC</span>(<span class="params">messageJSON</span>)</span></div></pre></td></tr></table></figure>
+<p>分发机制类似 OC 端的那张流程图，在此不做详述。</p>
+<h5 id="注册及调用-handler"><a href="#注册及调用-handler" class="headerlink" title="注册及调用 handler"></a>注册及调用 handler</h5><ul>
+<li>注册：在 messageHandlers 这个字典添加对应的 key 和 value。key 为 name，value 为 handler</li>
+<li>调用：类似发送消息，message 参数为 { handlerName:handlerName, data:data }</li>
+</ul>
+<h5 id="获取消息队列-供-OC-端调用"><a href="#获取消息队列-供-OC-端调用" class="headerlink" title="获取消息队列(供 OC 端调用)"></a>获取消息队列(供 OC 端调用)</h5><p>这里会将消息发送数组进行 JSON 转化，转换后清空消息队列，然后返回给 OC 端。</p>
+<h5 id="内部注入的-JS"><a href="#内部注入的-JS" class="headerlink" title="内部注入的 JS"></a>内部注入的 JS</h5><p>上面说的所有都在内部注入的 JS(WebViewJavaScriptBridge.js.txt) 中完成,该 JS 做的事情在上述的实现原理中也有提到，这里不再展开。</p>
+<h5 id="外部-html-或-js-需要处理的事"><a href="#外部-html-或-js-需要处理的事" class="headerlink" title="外部 html 或 js 需要处理的事"></a>外部 html 或 js 需要处理的事</h5><p>可参考下例的写法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'WebViewJavascriptBridgeReady'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> bridge = event.bridge</div><div class="line">    <span class="comment">// Start using the bridge</span></div><div class="line">&#125;, <span class="literal">false</span>)</div></pre></td></tr></table></figure>
+<p>可将上述代码封装到一个 JS 函数中，然后在函数中进行其它一系列操作，如init，send 等具体参见 <a href="https://github.com/marcuswestin/WebViewJavascriptBridge" target="_blank" rel="external">Demo</a>。</p>
+<h3 id="JavaScriptCore-iOS7-amp-OS-X-10-9-later"><a href="#JavaScriptCore-iOS7-amp-OS-X-10-9-later" class="headerlink" title="JavaScriptCore(iOS7 &amp; OS X 10.9 later)"></a>JavaScriptCore(iOS7 &amp; OS X 10.9 later)</h3><h4 id="主要的类"><a href="#主要的类" class="headerlink" title="主要的类:"></a>主要的类:</h4><ul>
+<li>JSVirtualMachine：非常轻量，可初始化多个 VM 来支持 JS 中的多线程</li>
+<li>JSContext：给 JS 提供运行上下文环境以及一系列值操作(通过下标来获取，类似 NSdictionary，即context[@”objectKey”])，一个 VM 中可有多个 context</li>
+<li>JSValue：数据桥梁</li>
+<li>JSManagedValue：用于解决 retain cycle</li>
+</ul>
+<h4 id="OC-调用-JS"><a href="#OC-调用-JS" class="headerlink" title="OC 调用 JS"></a>OC 调用 JS</h4><p>JSContext 可调用 <code>evaluateScript:</code> 方法来执行某个脚本如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[context evaluateScript:@”var square = function(x) &#123;<span class="keyword">return</span> x*x;&#125;”]; </div><div class="line">JSValue *squareFunction = context[@”square”]; <span class="built_in">NSLog</span>(@”%@”, squareFunction);  <span class="comment">// function (x) &#123;return x*x;&#125;</span></div><div class="line">JSValue *aSquared = [squareFunction callWithArguments:@[context[@”a”]]]; <span class="built_in">NSLog</span>(@”a^<span class="number">2</span>: %@”, aSquared); <span class="comment">//a^2: 25</span></div><div class="line">JSValue *nineSquared = [squareFunction callWithArguments:@[@<span class="number">9</span>]]; </div><div class="line"><span class="built_in">NSLog</span>(@”<span class="number">9</span>^<span class="number">2</span>: %@”, nineSquared); <span class="comment">//81</span></div></pre></td></tr></table></figure>
+<h4 id="JS-调用-OC"><a href="#JS-调用-OC" class="headerlink" title="JS 调用 OC"></a>JS 调用 OC</h4><p>两种方式：</p>
+<ul>
+<li>Block</li>
+<li>JSExport 协议</li>
+</ul>
+<h5 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">context[<span class="string">@"factorial"</span>] = ^(<span class="keyword">int</span> x) &#123;</div><div class="line">        <span class="keyword">int</span> factorial = <span class="number">1</span>;</div><div class="line">        <span class="keyword">for</span> (; x &gt; <span class="number">1</span>; x--) &#123;</div><div class="line">            factorial *= x;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> factorial;</div><div class="line">    &#125;;</div><div class="line">[context evaluateScript:<span class="string">@"var fiveFactorial = factorial(5);"</span>];</div><div class="line">JSValue *fiveFactorial = context[<span class="string">@"fiveFactorial"</span>];</div><div class="line"><span class="comment">// 5! = 120</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"5! = %@"</span>, fiveFactorial);</div></pre></td></tr></table></figure>
+<p>值得注意的是：</p>
+<ul>
+<li>不要在 block 中持有 JSValue，而是应该将JSValue 作为参数来传递</li>
+<li>不要在 block 中持有 JSContext，可通过 <code>[JSContext currentContext]</code>来获取当前 context</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">JSContext *context = [[JSContext alloc] init];context[<span class="string">@"callback"</span>] = ^&#123;</div><div class="line">	<span class="comment">//错误示例 </span>     JSValue *object = [JSValue valueWithNewObjectInContext:context];</div><div class="line">     <span class="comment">//正确的姿势</span></div><div class="line">     JSValue *object = [JSValue valueWithNewObjectInContext:        [JSContext currentContext]];     object[<span class="string">@"x"</span>] = <span class="number">2</span>;     object[<span class="string">@"y"</span>] = <span class="number">3</span>;     <span class="keyword">return</span> object;&#125;;</div></pre></td></tr></table></figure>
+<h5 id="JSExport-协议"><a href="#JSExport-协议" class="headerlink" title="JSExport 协议"></a>JSExport 协议</h5><p>如果没有这个协议，OC 端的修改会同步到 JS 端，但是 JS 端的修改对 JS 和 OC 均无影响。见下例</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//TestModel.m</span></div><div class="line">- (<span class="built_in">NSString</span> *)description</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSString</span> *str = [<span class="string">@"TestModel With testString:"</span> stringByAppendingString:<span class="keyword">self</span>.testString];</div><div class="line">    <span class="keyword">return</span> [str stringByAppendingString:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@" and numberStr:%@"</span>,<span class="keyword">self</span>.numberStr]];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// viewDidLoad</span></div><div class="line">TestModel *model = [[TestModel alloc] init];</div><div class="line">model.testString = <span class="string">@"test string"</span>;</div><div class="line">model.numberStr = <span class="string">@"123"</span>;</div><div class="line">JSContext *context = [[JSContext alloc] initWithVirtualMachine:[[JSVirtualMachine alloc] init]];</div><div class="line">context[<span class="string">@"model"</span>] = model;</div><div class="line">JSValue *modelValue = context[<span class="string">@"model"</span>];</div><div class="line"><span class="comment">// model: TestModel With testString:test string and numberStr:123</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model: %@"</span>,model);</div><div class="line"><span class="comment">// model JSValue: TestModel With testString:test string and numberStr:123</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model JSValue: %@"</span>,modelValue);</div><div class="line">model.numberStr = <span class="string">@"456"</span>;</div><div class="line"><span class="comment">// model: TestModel With testString:test string and numberStr:456</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model: %@"</span>,model);</div><div class="line"><span class="comment">// model JSValue: TestModel With testString:test string and numberStr:456</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model JSValue: %@"</span>,modelValue);</div><div class="line">[context evaluateScript:<span class="string">@"model.testString = \"anotoher test\";model.numberStr = \"789\""</span>];</div><div class="line"><span class="comment">// model: TestModel With testString:test string and numberStr:456</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model: %@"</span>,model);</div><div class="line"><span class="comment">// model JSValue: TestModel With testString:test string and numberStr:456</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model JSValue: %@"</span>,modelValue);</div></pre></td></tr></table></figure>
+<p>如果想要上述 JS 修改起作用,则需要实现 JSExport 协议。<br>通过实现该协议来暴露自定义类给 JS，这样 JS 会为这个类创建一个 wrapper object，这样看起来就像 OC 和 JS 在互相传值一样。这样，一个对象可以在 JS 和 OC 间共享，任何一端的更改都将同步到另外一端。需要注意的是，JS 只能修改暴露在协议中的属性或调用协议中的方法。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// .h</span></div><div class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">TestModelDelegate</span> &lt;<span class="title">JSExport</span>&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *testString;</div><div class="line">- (<span class="keyword">void</span>)modelTest;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestModel</span> : <span class="title">NSObject</span> &lt;<span class="title">TestModelDelegate</span>&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *testString;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *numberStr;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">// .m</span></div><div class="line"></div><div class="line">- (<span class="built_in">NSString</span> *)description</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSString</span> *str = [<span class="string">@"TestModel With testString:"</span> stringByAppendingString:<span class="keyword">self</span>.testString];</div><div class="line">    <span class="keyword">return</span> [str stringByAppendingString:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@" and numberStr:%@"</span>,<span class="keyword">self</span>.numberStr]];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)modelTest</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"modelTest!!!"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)test</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Test!!!"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// viewDidLoad</span></div><div class="line">[context evaluateScript:<span class="string">@"model.testString = \"anotoher test\";model.numberStr = \"567\""</span>];</div><div class="line"><span class="comment">// model: TestModel With testString:anotoher test and numberStr:123</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model: %@"</span>,model);</div><div class="line"><span class="comment">// model JSValue: TestModel With testString:anotoher test and numberStr:123</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"model JSValue: %@"</span>,modelValue);</div><div class="line"><span class="comment">// modelTest!!!</span></div><div class="line">[context evaluateScript:<span class="string">@"model.modelTest()"</span>];</div><div class="line">JSValue *unknowValue = [context evaluateScript:<span class="string">@"model.test()"</span>];</div><div class="line"><span class="comment">// unknowValue :undefined</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"unknowValue :%@"</span>,unknowValue);</div></pre></td></tr></table></figure>
+<p>上例中的 numberStr 之所以还是保持为 123 是因为，这个属性不在协议中，JS 对其修改不起作用，同样如果 JS 中调用 model 不在协议中的方法，也不起作用，如果用 JSValue 去接收这个值，其值为 undefined。<br>没有任何响应，如果用一个 JSValue 去接收上面代码的值，得到的是 undifine</p>
+<h5 id="对象对应关系"><a href="#对象对应关系" class="headerlink" title="对象对应关系"></a>对象对应关系</h5><table>
+<thead>
+<tr>
+<th>Objective-C type</th>
+<th>JavaScript type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>         nil</td>
+<td>undefined</td>
+</tr>
+<tr>
+<td>        NSNull</td>
+<td>null</td>
+</tr>
+<tr>
+<td>       NSString</td>
+<td>string</td>
+</tr>
+<tr>
+<td>       NSNumber</td>
+<td>number, boolean</td>
+</tr>
+<tr>
+<td>     NSDictionary</td>
+<td>Object object</td>
+</tr>
+<tr>
+<td>       NSArray</td>
+<td>Array object</td>
+</tr>
+<tr>
+<td>        NSDate</td>
+<td>Date object</td>
+</tr>
+<tr>
+<td>       NSBlock</td>
+<td>Function object </td>
+</tr>
+<tr>
+<td>          id</td>
+<td>Wrapper object </td>
+</tr>
+<tr>
+<td>        Class</td>
+<td>Constructor object</td>
+</tr>
+</tbody>
+</table>
+<h4 id="UIWebView-与-JavaScriptCore-的交互"><a href="#UIWebView-与-JavaScriptCore-的交互" class="headerlink" title="UIWebView 与 JavaScriptCore 的交互"></a>UIWebView 与 JavaScriptCore 的交互</h4><p>UIWebview 也有一个 JSContext 实例，但是没有暴露在 API 中，但是我们可以通过 KVC 或者在 NSObject 分类去拿到这个实例，然后来进行自定义的一些操作。关于 NSObject 分类实现可以参考<a href="http://stackoverflow.com/questions/18920536/why-use-javascriptcore-in-ios7-if-it-cant-access-a-uiwebviews-runtime" target="_blank" rel="external">这里</a>。但是这两种方法都有可能被拒。</p>
+<p>其实WebView 与 JS 的交互和上述的 TestModel 与 JS 交互区别不大。只不过上例都是自己创建的 context，而在webView 中则是我们通过 KVC 来拿到这个 context 而不是自己创建。来看一个例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">            <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span></span></div><div class="line"><span class="undefined">            &#123;</span></div><div class="line"><span class="undefined">                objcObject.testDemo();</span></div><div class="line"><span class="undefined">                alert(objcObject);</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>JavaScriptCore Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onclick</span>=<span class="string">"test()"</span>&gt;</span>测试<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上述 html 简单创建了一个 button，然后绑定一个事件。<br>接下来看看 ViewController 里面做了什么。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// .h</span></div><div class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">TestJSDelegate</span> &lt;<span class="title">JSExport</span>&gt;</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)testDemo;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">WebViewController</span> : <span class="title">UIViewController</span> &lt;<span class="title">TestJSDelegate</span>,<span class="title">UIWebViewDelegate</span>&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">// .m</span></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">    <span class="built_in">NSURL</span> *path = [[<span class="built_in">NSBundle</span> mainBundle] URLForResource:<span class="string">@"test"</span> withExtension:<span class="string">@"html"</span>];</div><div class="line">    <span class="built_in">NSString</span> *html = [<span class="built_in">NSString</span> stringWithContentsOfURL:path encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</div><div class="line">    [<span class="keyword">self</span>.webView loadHTMLString:html baseURL:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)webViewDidFinishLoad:(<span class="built_in">UIWebView</span> *)webView</div><div class="line">&#123;</div><div class="line">	JSContext *context = [webView valueForKeyPath:<span class="string">@"documentView.webView.mainFrame.javaScriptContext"</span>];</div><div class="line">    context[<span class="string">@"objcObject"</span>] = <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)testDemo</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"test!!!"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行效果:<br><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evw1vs00ktj20af0j5t92.jpg" alt=""><br><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evw1xpangwj20bz01b74b.jpg" alt=""></p>
+<p>如果协议方法中有多个参数该怎么调用呢？举个例子</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ObjC 中的某个协议方法</span></div><div class="line">- (<span class="keyword">void</span>)testWithName:(<span class="built_in">NSString</span> *)name age:(<span class="built_in">NSNumber</span> *)age</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"name:%@,age:%@"</span>,name,age);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 在上述 html 的 js 中添加一行代码</div><div class="line">objcObject.testWithNameAge("Tracy",20);</div></pre></td></tr></table></figure>
+<p>那么在按钮点击后，协议方法将会被执行，然后打印出 <code>name:Tracy,age:20</code>。</p>
+<h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><p>OC 中是用的是 ARC，JavaScriptCore 中用的是垃圾回收机制（garbage collection）,JavaScriptCore 中所有引用都为强引用。在大部分情况下，JavaScriptCore 能做到在这两种内存管理机制之间无缝切换，但是在以下两种情况下需要特别注意：</p>
+<ul>
+<li>在 OC 对象中存储 JavaScript 值</li>
+<li>在 OC 对象中添加 JavaScript 域</li>
+</ul>
+<p>如下例就会造成循环引用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ClickHandler 构造器，button 为 OC 对象，callback 是按钮点击事件回调</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ClickHandler</span>(<span class="params">button, callback</span>) </span>&#123;     <span class="keyword">this</span>.button = button;     <span class="keyword">this</span>.button.onClickHandler = <span class="keyword">this</span>;     <span class="keyword">this</span>.handleEvent = callback;&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyButton</span></span>- (<span class="keyword">void</span>)setOnClickHandler:(JSValue *)handler&#123;     _onClickHandler = handler; <span class="comment">// Retain cycle</span>&#125;<span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>上例中 ClickHandler 对 button 进行了强引用，而 MyButton 中又对 _onClickHandler 这个 JSValue 进行了强引用，最终导致循环引用，如下图所示：</p>
+<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1ew0u1lmnsgj21kw0q3wj0.jpg" alt=""><br>如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。</p>
+<p>举个栗子，在某个方法中有一个临时的 OC 对象，然后通过 JSContext 被 JS 中的变量引用，但是该 OC 方法调用结束后，这个临时对象将被释放，因此 JS 会造成错误访问。</p>
+<p>同样的，如果用 JSContext 创建了对象，然后在 OC 中用 JSValue 去接收，即使把 JSValue 变量在 OC 中被 retain，但可能因为 JS 中因为变量没有了引用而被释放内存，那么对应的JSValue也没有用了。</p>
+<p>所以苹果引入了另一个类来解决这种循环引用的问题。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyButton</span></span>- (<span class="keyword">void</span>)setOnClickHandler:(JSValue *)handler&#123;</div><div class="line">	<span class="comment">//正确的姿势</span>     _onClickHandler = [JSManagedValue managedValueWithValue:handler];     [_context.virtualMachine addManagedReference:_onClickHandler                                        withOwner:<span class="keyword">self</span>]&#125; </div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p><code>addManagedReference</code>做的事情主要如下：它创建了一个 garbage collected reference，这种引用既不是强引用也不是弱引用。</p>
+<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1ew0uh69rcxj21kw0s9gqr.jpg" alt=""></p>
+<p>JSManagedValue 本身是一个对 JavaScript Value 的弱引用，而 JSValue 是强引用。addManagedReference 将 JSManagedValue 转换为 garbage collected reference。如果 JS 在垃圾回收过程中能够找到 managed reference 的所有者，那么这个引用将不会被释放，否则将被释放。JSManagedValue 需要调用其addManagedReference:withOwner: 方法把它添加到JSVirtualMachine 中，确保使用过程中 JSValue 不会被释放。</p>
+<h4 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h4><p>如前面所说，每一个 JSVirtualMachine 都可以有多个 JScontext，在每个进程中又可以有多个  JSVirtualMachine。JSValue 可以在同一个 JSVirtualMachine 中的不同  JSContext 之间传递，但是不能跨 JSVirtualMachine 来传递。因为每个 JSVirtualMachine 都有自己的内存堆以及垃圾回收器，如果  JSValue 跨 JSVirtualMachine 传递，那么垃圾回收器将不知如何处理来自不同内存堆的 JSvalue。</p>
+<ul>
+<li>JavaScriptCore 的 API 是线程安全的</li>
+<li>同步锁粒度：JSVirtualMachine，即我们可以在 JSVirtualMachine 不同线程中调用 JS，但是如果有线程正在执行 JS，那么其它线程将不能执行 JS 操作。所以要想进行并发操作，那么需要为每个操作创建一个单独的 JSVirtualMachine 来实现并发。</li>
+</ul>
+<h3 id="WKWebView-iOS8-and-later"><a href="#WKWebView-iOS8-and-later" class="headerlink" title="WKWebView (iOS8 and later)"></a>WKWebView (iOS8 and later)</h3><h4 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h4><ul>
+<li>在性能、稳定性、功能方面有很大提升（最直观的体现就是加载网页是占用的内存）；</li>
+<li>允许JavaScript的Nitro库加载并使用（UIWebView中限制）；</li>
+<li>支持了更多的HTML5特性以及 native 和 web 的高效交互；</li>
+<li>高达60fps的滚动刷新率以及内置手势；</li>
+<li>将UIWebViewDelegate与UIWebView重构成了14类与3个协议</li>
+</ul>
+<p>WebKit 为非线程安全的，所以要确保该 framework 的所有方法在主线程上调用。</p>
+<p>更多内容请参考<a href="http://nshipster.cn/wkwebkit/" target="_blank" rel="external">Nshipster</a>。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总得来说两种方式都可以实现二者的交互，JavaScriptBridge 相对而言复杂一些，但是安全且不需要做版本适配，APP 上架不会被拒，但是 JavaScriptCore 更加简洁，不需要写繁琐的代码，但是有被拒的风险，同时这个框架是在 iOS7 之后才有，所以如果要适配 iOS6的话还是选择 JavaScriptBridge。</p>
+<p>本文 <a href="https://github.com/wang9262/WebViewJSDemo" target="_blank" rel="external">Demo</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/原创/" rel="tag"># 原创</a>
+          
+            <a href="/tags/WebView/" rel="tag"># WebView</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/" rel="next" title="如何创建一个翻书动画(Part2)[译]">
+                <i class="fa fa-chevron-left"></i> 如何创建一个翻书动画(Part2)[译]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/27/Note-for-iOS-Animations-by-Tutorials/" rel="prev" title="iOS Animations by Tutorials 2.0 笔记">
+                iOS Animations by Tutorials 2.0 笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcwqme7gbj20cs0cs74n.jpg"
+               alt="Vong" />
+          <p class="site-author-name" itemprop="name">Vong</p>
+           
+              <p class="site-description motion-element" itemprop="description">Learning and Sharing.iOS 开发进阶中~</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wang9262" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/Vong_HUST" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/VongLo" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://shixiong.name/" title="Daemon" target="_blank">Daemon</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://colin1994.github.io/" title="Colin丶" target="_blank">Colin丶</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.linhere.com/" title="东风路倒垃圾的" target="_blank">东风路倒垃圾的</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIWebView-调-JS-方法"><span class="nav-number">1.</span> <span class="nav-text">UIWebView 调 JS 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-调原生方法"><span class="nav-number">2.</span> <span class="nav-text">JS 调原生方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1"><span class="nav-number">2.1.</span> <span class="nav-text">方法1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法2"><span class="nav-number">2.2.</span> <span class="nav-text">方法2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebViewJavaScriptBridge"><span class="nav-number">3.</span> <span class="nav-text">WebViewJavaScriptBridge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理"><span class="nav-number">3.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流程（Native端）"><span class="nav-number">3.2.</span> <span class="nav-text">流程（Native端）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Public-Interface"><span class="nav-number">3.2.1.</span> <span class="nav-text">Public Interface</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化一个-bridge"><span class="nav-number">3.2.2.</span> <span class="nav-text">初始化一个 bridge</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网页加载过程"><span class="nav-number">3.2.3.</span> <span class="nav-text">网页加载过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JS-端流程"><span class="nav-number">3.3.</span> <span class="nav-text">JS 端流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Public-Interface-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">Public Interface</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化"><span class="nav-number">3.3.2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#发送消息"><span class="nav-number">3.3.3.</span> <span class="nav-text">发送消息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#消息处理机制"><span class="nav-number">3.3.4.</span> <span class="nav-text">消息处理机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注册及调用-handler"><span class="nav-number">3.3.5.</span> <span class="nav-text">注册及调用 handler</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取消息队列-供-OC-端调用"><span class="nav-number">3.3.6.</span> <span class="nav-text">获取消息队列(供 OC 端调用)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部注入的-JS"><span class="nav-number">3.3.7.</span> <span class="nav-text">内部注入的 JS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#外部-html-或-js-需要处理的事"><span class="nav-number">3.3.8.</span> <span class="nav-text">外部 html 或 js 需要处理的事</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScriptCore-iOS7-amp-OS-X-10-9-later"><span class="nav-number">4.</span> <span class="nav-text">JavaScriptCore(iOS7 & OS X 10.9 later)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要的类"><span class="nav-number">4.1.</span> <span class="nav-text">主要的类:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OC-调用-JS"><span class="nav-number">4.2.</span> <span class="nav-text">OC 调用 JS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JS-调用-OC"><span class="nav-number">4.3.</span> <span class="nav-text">JS 调用 OC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Block"><span class="nav-number">4.3.1.</span> <span class="nav-text">Block</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JSExport-协议"><span class="nav-number">4.3.2.</span> <span class="nav-text">JSExport 协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对象对应关系"><span class="nav-number">4.3.3.</span> <span class="nav-text">对象对应关系</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIWebView-与-JavaScriptCore-的交互"><span class="nav-number">4.4.</span> <span class="nav-text">UIWebView 与 JavaScriptCore 的交互</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存管理"><span class="nav-number">4.5.</span> <span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程"><span class="nav-number">4.6.</span> <span class="nav-text">多线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WKWebView-iOS8-and-later"><span class="nav-number">5.</span> <span class="nav-text">WKWebView (iOS8 and later)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新特性"><span class="nav-number">5.1.</span> <span class="nav-text">新特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vong</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://disqus_KFNEnZt0uI.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/';
+          this.page.identifier = '2015/10/19/Communication-Between-WebView-and-JS/';
+          this.page.title = 'WebView 与 JS 的交互';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://disqus_KFNEnZt0uI.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yoeEE8mEwSubmHRkUpWIMKzO-gzGzoHsz", "p79IVHIdevP5Ft8IKt40rOed");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

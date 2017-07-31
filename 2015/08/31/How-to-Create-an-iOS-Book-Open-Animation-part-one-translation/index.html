@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="UICollectionView,翻译," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Vong" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于Paper by FiftyThree：">
+<meta name="keywords" content="UICollectionView,翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何创建一个翻书动画(Part 1)[译]">
+<meta property="og:url" content="http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/index.html">
+<meta property="og:site_name" content="Vong">
+<meta property="og:description" content="在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于Paper by FiftyThree：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/BookOpening.gif">
+<meta property="og:image" content="http://cdn5.raywenderlich.com/wp-content/uploads/2015/02/VN_paperAnimation2.gif">
+<meta property="og:image" content="http://cdn4.raywenderlich.com/wp-content/uploads/2015/02/VN_AnimationBooksScrolling.gif">
+<meta property="og:image" content="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/VN_BooksLayoutStoryboard.png">
+<meta property="og:image" content="http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/VN_NotSnappy.gif">
+<meta property="og:image" content="http://cdn4.raywenderlich.com/wp-content/uploads/2015/02/VN_PageFlipping.gif">
+<meta property="og:image" content="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/VN_BookLayoutStoryboard.png">
+<meta property="og:image" content="http://cdn2.raywenderlich.com/wp-content/uploads/2015/02/VN_PaperRatioDiagram.png">
+<meta property="og:image" content="http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/misc-jackie-chan.png">
+<meta property="og:image" content="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/VN_Anchor1.png">
+<meta property="og:image" content="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/VN_CorrectRatio.png">
+<meta property="og:image" content="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/VN_CompletePart1.gif">
+<meta property="og:updated_time" content="2015-09-05T16:27:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何创建一个翻书动画(Part 1)[译]">
+<meta name="twitter:description" content="在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于Paper by FiftyThree：">
+<meta name="twitter:image" content="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/BookOpening.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/"/>
+
+
+
+
+
+  <title>如何创建一个翻书动画(Part 1)[译] | Vong</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d71967fb1ab9069e28b091ea724fa86c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vong</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Vong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://ww1.sinaimg.cn/large/ba81ca29gw1evcwqme7gbj20cs0cs74n.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何创建一个翻书动画(Part 1)[译]</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-31T23:21:41+08:00">
+                2015-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/" class="leancloud_visitors" data-flag-title="如何创建一个翻书动画(Part 1)[译]">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于<a href="https://www.fiftythree.com/paper" target="_blank" rel="external">Paper by FiftyThree</a>：</p>
+<a id="more"></a>
+<ul>
+<li>第一部分，你将学习如何自定义 UICollectionViewLayout，然后使用景深和阴影来让 app 看起来更加真实。</li>
+<li><a href="http://www.raywenderlich.com/?p=97690" target="_blank" rel="external">第二部分</a>(<a href="http://t.cn/Ry2rYj5" target="_blank" rel="external">译文</a>)，你将学习创建自定义的转场动画，然后集成手势来创建自然、简洁的 view 之间的转场。</li>
+</ul>
+<p>原文：<a href="http://www.raywenderlich.com/94565/how-to-create-an-ios-book-open-animation-part-1" target="_blank" rel="external">How to Create an iOS Book Open Animation: Part 1</a></p>
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/BookOpening.gif" alt=""></p>
+<p>本教程主要针对于进阶中的开发者，讲解一些自定义转场以及自定义 collectionView Layout 相关的知识。<br>如果你之前没有用过 collectionView，那么建议你先看看其他关于 collectionView 的<a href="http://www.raywenderlich.com/tutorials" target="_blank" rel="external">教程</a>。</p>
+<blockquote>
+<p>感谢<a href="https://twitter.com/hegedus90" target="_blank" rel="external">Attila Hegedüs</a>创建了这个棒棒哒示例工程。</p>
+</blockquote>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2015/05/Starter-Paper1.zip" target="_blank" rel="external">模板</a>，解压，在 Xcode 中打开。使用模拟器运行程序，将得到如下画面：</p>
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2015/02/VN_paperAnimation2.gif" alt=""></p>
+<p>这个应用已经初具其功能，你可以滑动书库然后选中你喜欢的书来翻阅。上一次你一页一页翻看书籍是什么时候？在现有对 collectionView 了解的基础上，你可以美化页面视图。</p>
+<h2 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h2><p>下面是快速对初始工程重要方面的一个简要描述：<br>Data Model 文件夹包含三个文件：</p>
+<ul>
+<li>Books.plist：包含样书数据。每本书都含有一个图片封面以及一系列的书页图片</li>
+<li>BookStore.swift：单例，主要工作就是从 Books.plist 中加载数据然后创建 Book 对象。</li>
+<li>Book.swift：存储书本相关信息的类</li>
+</ul>
+<p>Books 文件夹包含两个文件：</p>
+<ul>
+<li>BooksViewController.swift：UICollectionViewController的子类，主要负责展示书单</li>
+<li>BookCoverCell.swift：展示所有书的封面，在BooksViewController使用。</li>
+</ul>
+<p>Book 文件夹包含下面几个文件：</p>
+<ul>
+<li>BookViewController.swift：也是UICollectionViewController的子类，用来展示BooksViewController中选中的某一本书的内容页面</li>
+<li>BookPageCell.swift：用来展示书的所有页面，在BookViewController中使用。</li>
+</ul>
+<p>最后一个文件夹 Helper 中包含：</p>
+<ul>
+<li>UIImage+Helpers.swift：是 UIImage 的一个扩展。里面有两个工具方法，一个用来圆角化图片，另一个用来缩放图片到指定大小。</li>
+</ul>
+<p>以上就是整个工程的目录结构。现在让我们开始撸代码吧！</p>
+<h2 id="自定义-Book-布局"><a href="#自定义-Book-布局" class="headerlink" title="自定义 Book 布局"></a>自定义 Book 布局</h2><p>首先你需要为BooksViewController的 collectionView复写默认的布局，默认布局显示3个大的书本封面，它们几乎占据整个屏幕。你需要缩小它们来让它看起来更舒服，像这样：</p>
+<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/02/VN_AnimationBooksScrolling.gif" alt=""></p>
+<p>在你滑动的过程中，最接近屏幕中心的封面将会变大一些来表示它当前被选中。继续滑动，封面将会变小，这意味着你将它移到一边即远离屏幕中心。<br>在 App\Books 下创建一个名为 Layout 的分组，然后右击 Layout 文件夹选择新建文件，然后创建一个继承自UICollectionViewFlowLayout的子类，取名为BooksLayout，语言为 Swift。<br>接下来你需要告诉BooksViewController的 collectionView 使用你新建的 Layout。<br>打开Main.storyboard，选中BooksViewController的Collection View然后在右侧的Attributes Inspector将 layout 设置为 Custom，Class 设置为 BooksLayout，如下图所示：</p>
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/VN_BooksLayoutStoryboard.png" alt=""></p>
+<p>打开BooksLayout.swift，在BooksLayout类声明上面添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> <span class="type">PageWidth</span>: <span class="type">CGFloat</span> = <span class="number">362</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> <span class="type">PageHeight</span>: <span class="type">CGFloat</span> = <span class="number">568</span></div></pre></td></tr></table></figure>
+<p>这两个常量将被用来设置 cell 的 size。<br>接着添加下面初始化方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">required</span> <span class="keyword">init</span>(coder aDecoder: <span class="type">NSCoder</span>) &#123;</div><div class="line">  <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)</div><div class="line"> </div><div class="line">  scrollDirection = <span class="type">UICollectionViewScrollDirection</span>.<span class="type">Horizontal</span> <span class="comment">//1</span></div><div class="line">  itemSize = <span class="type">CGSizeMake</span>(<span class="type">PageWidth</span>, <span class="type">PageHeight</span>) <span class="comment">//2</span></div><div class="line">  minimumInteritemSpacing = <span class="number">10</span> <span class="comment">//3</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面是关于1，2，3的解释：</p>
+<ul>
+<li>1.设置滑动方向为水平</li>
+<li>2.设置 cell 的页面宽度为362，高度为568</li>
+<li>3.设置 cell 减最小间距为10</li>
+</ul>
+<p>接下来，在<code>init(coder:)</code>后面添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepareLayout</span><span class="params">()</span></span> &#123;</div><div class="line">  <span class="keyword">super</span>.prepareLayout()</div><div class="line"> </div><div class="line">  <span class="comment">//The rate at which we scroll the collection view.</span></div><div class="line">  <span class="comment">//1</span></div><div class="line">  collectionView?.decelerationRate = <span class="type">UIScrollViewDecelerationRateFast</span></div><div class="line"> </div><div class="line">  <span class="comment">//2</span></div><div class="line">  collectionView?.contentInset = <span class="type">UIEdgeInsets</span>(</div><div class="line">    top: <span class="number">0</span>,</div><div class="line">    <span class="keyword">left</span>: collectionView!.bounds.width / <span class="number">2</span> - <span class="type">PageWidth</span> / <span class="number">2</span>,</div><div class="line">    bottom: <span class="number">0</span>,</div><div class="line">    <span class="keyword">right</span>: collectionView!.bounds.width / <span class="number">2</span> - <span class="type">PageWidth</span> / <span class="number">2</span></div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>prepareLayout()</code>让你有机会在获取布局信息前进行一系列运算。下面是对每个数字注释的解释：</p>
+<ul>
+<li>1.设置用户手指移开后collectionView 的减速速率。通过设置其值为UIScrollViewDecelerationRateFast，colletionView 将会更快速的停止滑动。也可以尝试以下Normal来查看以下对比。</li>
+<li>2.设置 contentInset，让第一本书的封面一直居中。</li>
+</ul>
+<p>现在你需要位没一个 cell 处理布局信息。<br>在<code>prepareLayout()</code>方法下面添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForElementsInRect</span><span class="params">(rect: CGRect)</span></span> -&gt; [<span class="type">AnyObject</span>]? &#123;</div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">var</span> array = <span class="keyword">super</span>.layoutAttributesForElementsInRect(rect) <span class="keyword">as</span>! [<span class="type">UICollectionViewLayoutAttributes</span>]</div><div class="line"> </div><div class="line">  <span class="comment">//2</span></div><div class="line">  <span class="keyword">for</span> attributes <span class="keyword">in</span> array &#123;</div><div class="line">    <span class="comment">//3</span></div><div class="line">    <span class="keyword">var</span> frame = attributes.frame</div><div class="line">    <span class="comment">//4</span></div><div class="line">    <span class="keyword">var</span> <span class="built_in">distance</span> = <span class="built_in">abs</span>(collectionView!.contentOffset.x + collectionView!.contentInset.<span class="keyword">left</span> - frame.origin.x)</div><div class="line">    <span class="comment">//5</span></div><div class="line">    <span class="keyword">var</span> scale = <span class="number">0.7</span> * <span class="built_in">min</span>(<span class="built_in">max</span>(<span class="number">1</span> - <span class="built_in">distance</span> / (collectionView!.bounds.width), <span class="number">0.75</span>), <span class="number">1</span>)</div><div class="line">    <span class="comment">//6</span></div><div class="line">    attributes.transform = <span class="type">CGAffineTransformMakeScale</span>(scale, scale)</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="keyword">return</span> array</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>layoutAttributesForElementsInRect(_:)返回一个包含了多个UICollectionViewLayoutAttributes对象的数组，这些对象为每个 cell 提供布局属性。下面是对代码的拆分：</p>
+<ul>
+<li>1.调用父类的layoutAttributesForElementsInRect方法来获取每个 cell 默认的布局属性</li>
+<li>2.遍历数组中的每个属性</li>
+<li>3.获取当前 cell 布局属性的 frame</li>
+<li>4.计算封面与屏幕中心的距离</li>
+<li>5.根据4中的距离来改变封面的 scale，使其在0.75到1之间，最后在乘以一个系数0.7让它看起来更舒服</li>
+<li>6.最后让封面使用设置后的 scale</li>
+</ul>
+<p>紧接着在<code>layoutAttributesForElementsInRect(_:)</code>之后添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">shouldInvalidateLayoutForBoundsChange</span><span class="params">(newBounds: CGRect)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>返回 true 表示在每一次 collectionView bounds 发生改变时强制让 layout 去重新计它的布局属性。collectionView 在滑动过程中 bounds 会发生改变，这使得重计算 cell 的布局属性变得很方便。</p>
+<p>运行程序，将会发现中间的封面会比其他的大。</p>
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/VN_NotSnappy.gif" alt=""></p>
+<p>滑动来查看每个封面是如何放大和缩小的。但是如果书籍吸附在相应位置是不是更好呢？接下来我们就来实现这个。</p>
+<h2 id="书本吸附"><a href="#书本吸附" class="headerlink" title="书本吸附"></a>书本吸附</h2><p><code>targetContentOffsetForProposedContentOffset(_:withScrollingVelocity:)</code>决定<code>collectionView</code>停在什么位置，然后返回一个<code>offset</code>来设置 <code>collectionView</code> 的 <code>contentOffset</code>。如果不复写这个方法，则返回默认的 offset。在<code>shouldInvalidateLayoutForBoundsChange(_:)</code>后面添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">targetContentOffsetForProposedContentOffset</span><span class="params">(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint)</span></span> -&gt; <span class="type">CGPoint</span> &#123;</div><div class="line">  <span class="comment">// Snap cells to centre</span></div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">var</span> newOffset = <span class="type">CGPoint</span>()</div><div class="line">  <span class="comment">//2</span></div><div class="line">  <span class="keyword">var</span> layout = collectionView!.collectionViewLayout <span class="keyword">as</span>! <span class="type">UICollectionViewFlowLayout</span></div><div class="line">  <span class="comment">//3</span></div><div class="line">  <span class="keyword">var</span> width = layout.itemSize.width + layout.minimumLineSpacing</div><div class="line">  <span class="comment">//4</span></div><div class="line">  <span class="keyword">var</span> offset = proposedContentOffset.x + collectionView!.contentInset.<span class="keyword">left</span></div><div class="line"> </div><div class="line">  <span class="comment">//5</span></div><div class="line">  <span class="keyword">if</span> velocity.x &gt; <span class="number">0</span> &#123;</div><div class="line">    <span class="comment">//ceil returns next biggest number</span></div><div class="line">    offset = width * ceil(offset / width)</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> velocity.x == <span class="number">0</span> &#123; <span class="comment">//6</span></div><div class="line">    <span class="comment">//rounds the argument</span></div><div class="line">    offset = width * round(offset / width)</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> velocity.x &lt; <span class="number">0</span> &#123; <span class="comment">//7</span></div><div class="line">    <span class="comment">//removes decimal part of argument</span></div><div class="line">    offset = width * floor(offset / width)</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//8</span></div><div class="line">  newOffset.x = offset - collectionView!.contentInset.<span class="keyword">left</span></div><div class="line">  newOffset.y = proposedContentOffset.y <span class="comment">//y will always be the same...</span></div><div class="line">  <span class="keyword">return</span> newOffset</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在用户手指离开屏幕时，该方法将会计算书本封面的 offset。</p>
+<ul>
+<li>1.创建一个名为 newOffset 的 CGPoint</li>
+<li>2.获取当前 collectionView 的 layout</li>
+<li>3.获取 cell 的宽度</li>
+<li>4.计算当前offset</li>
+<li>5.如果 velocity.x &gt; 0,用户是在向右滑。把 offset/width 理解成书本的 index，滑至对应的 index</li>
+<li>6.如果 velocity.x = 0,用户滑动距离不够，保持上衣吃选中的书不变</li>
+<li>7.如果 velocity.x &lt; 0,用户向左滑</li>
+<li>8.更新 x 的 offset，然后返回。保证书的封面居中显示</li>
+</ul>
+<p>运行程序，滑动一下，你会发现滑动过程中书本，吸附效果更明显了。<br>你需要建立一种机制来使得用户只能点击居中的书本，然而现在不管书本在哪，你都可以点击。<br>打开BooksViewController.swift，将下面代码加到<code>// MARK: Helpers</code>注释下方：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">selectedCell</span><span class="params">()</span></span> -&gt; <span class="type">BookCoverCell</span>? &#123;</div><div class="line">  <span class="keyword">if</span> <span class="keyword">let</span> indexPath = collectionView?.indexPathForItemAtPoint(<span class="type">CGPointMake</span>(collectionView!.contentOffset.x + collectionView!.bounds.width / <span class="number">2</span>, collectionView!.bounds.height / <span class="number">2</span>)) &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> cell = collectionView?.cellForItemAtIndexPath(indexPath) <span class="keyword">as</span>? <span class="type">BookCoverCell</span> &#123;</div><div class="line">      <span class="keyword">return</span> cell</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法返回居中的 cell。<br>接下来用下面代码来替换<code>openBook(_:)</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">openBook</span><span class="params">()</span></span> &#123;</div><div class="line">  <span class="keyword">let</span> vc = storyboard?.instantiateViewControllerWithIdentifier(<span class="string">"BookViewController"</span>) <span class="keyword">as</span>! <span class="type">BookViewController</span></div><div class="line">  vc.book = selectedCell()?.book</div><div class="line">  <span class="comment">// UICollectionView loads it's cells on a background thread, so make sure it's loaded before passing it to the animation handler</span></div><div class="line">  dispatch_async(dispatch_get_main_queue(), &#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    <span class="keyword">self</span>.navigationController?.pushViewController(vc, animated: <span class="literal">true</span>)</div><div class="line">    <span class="keyword">return</span></div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法简单使用了上面写的<code>selectedCell</code>方法来获取当前选中的书本。<br>然后用下面代码替换<code>collectionView(_:didSelectItemAtIndexPath:)</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)</span></span> &#123;</div><div class="line">  openBook()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法使得你的点击打开的书本一直是居中的 cell 对应的书本，而不是之前 indexPath 对应的书本。</p>
+<p>至此，我们已经完成了 BooksLayout。是时候展示真正的技术了–让屏幕上的书本看起来更自然真实，同时支持翻页。</p>
+<h2 id="翻页布局"><a href="#翻页布局" class="headerlink" title="翻页布局"></a>翻页布局</h2><p>下图是我们要达成的最终效果：</p>
+<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/02/VN_PageFlipping.gif" alt=""></p>
+<p>使其看起来更像一本书！:]</p>
+<p>在 Book 分组下新建 Layout 分组，右键新建一个继承自UICollectionViewFlowLayout名为BookLayout的子类，语言设置为 Swift。</p>
+<p>和之前一样，bookCollectionView 需要设置其 Layout 为刚才新建的 Layout 类，如下图所示：</p>
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/VN_BookLayoutStoryboard.png" alt=""></p>
+<p>打开 BookLayout.swift，在 BookLayout 类声明上面加入如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> <span class="type">PageWidth</span>: <span class="type">CGFloat</span> = <span class="number">362</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> <span class="type">PageHeight</span>: <span class="type">CGFloat</span> = <span class="number">568</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">var</span> numberOfItems = <span class="number">0</span></div></pre></td></tr></table></figure>
+<p>我们将使用这些常量来设置每个 cell 的大小，同样我们需要记录一本书的页数。<br>接下来在类声明中添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepareLayout</span><span class="params">()</span></span> &#123;</div><div class="line">  <span class="keyword">super</span>.prepareLayout()</div><div class="line">  collectionView?.decelerationRate = <span class="type">UIScrollViewDecelerationRateFast</span></div><div class="line">  numberOfItems = collectionView!.numberOfItemsInSection(<span class="number">0</span>)</div><div class="line">  collectionView?.pagingEnabled = <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和你在BooksLayout中所做的类似，不同的是：</p>
+<ul>
+<li>1.设置减速速率为UIScrollViewDecelerationRateFast来增加减速速率，进而使得 scrollView 快速停止</li>
+<li>2.获取当前书本的页数</li>
+<li>3.启用翻页；让每次滑动都是一个页面的距离</li>
+</ul>
+<p>继续在BookLayout.swift添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">shouldInvalidateLayoutForBoundsChange</span><span class="params">(newBounds: CGRect)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和上面一样，在 bounds 发生改变时使布局失效，进而调用 prepareLayout 来计算新的布局。<br>接下来复写collectionViewContentSize()来设置 collecyionView 的 contentSize：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionViewContentSize</span><span class="params">()</span></span> -&gt; <span class="type">CGSize</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="type">CGSizeMake</span>((<span class="type">CGFloat</span>(numberOfItems / <span class="number">2</span>)) * collectionView!.bounds.width, collectionView!.bounds.height)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法返回整个内容视图大小，高度不变，宽度随着 item 及书的页数发生改变。之所以要除以2，是因为每一页有两面，每一面上都有内容。<br>和你在BooksLayout中做的一样，需要复写layoutAttributesForElementsInRect(_:)方法，在这个方法中可以添加为每一页添加翻页效果。<br>在collectionViewContentSize()方法后面添加下面代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForElementsInRect</span><span class="params">(rect: CGRect)</span></span> -&gt; [<span class="type">AnyObject</span>]? &#123;</div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">var</span> array: [<span class="type">UICollectionViewLayoutAttributes</span>] = []</div><div class="line"> </div><div class="line">  <span class="comment">//2</span></div><div class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> ... <span class="built_in">max</span>(<span class="number">0</span>, numberOfItems - <span class="number">1</span>) &#123;</div><div class="line">    <span class="comment">//3</span></div><div class="line">    <span class="keyword">var</span> indexPath = <span class="type">NSIndexPath</span>(forItem: i, inSection: <span class="number">0</span>)</div><div class="line">    <span class="comment">//4</span></div><div class="line">    <span class="keyword">var</span> attributes = layoutAttributesForItemAtIndexPath(indexPath)</div><div class="line">    <span class="keyword">if</span> attributes != <span class="literal">nil</span> &#123;</div><div class="line">      <span class="comment">//5</span></div><div class="line">      array += [attributes]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//6</span></div><div class="line">  <span class="keyword">return</span> array</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和 BooksLayout 不同的是，因为所有 cell 都在可见区域中，所以我们在 layoutAttributesForItemAtIndexPath(_:) 方法中来计算布局属性。<br>下面是每一行的解释：</p>
+<ul>
+<li>1.创建一个新的数组来持有所有 cell 的布局属性</li>
+<li>2.遍历所有 item</li>
+<li>3.为每个 item 创建一个 indexPath</li>
+<li>4.获取 indexPath 对应的布局属性。你马上就要复写  layoutAttributesForItemAtIndexPath(_:) 方法</li>
+<li>5.将布局属性添加到数组当中</li>
+<li>6.返回所有 cell 的布局属性</li>
+</ul>
+<h2 id="页面的几何运算"><a href="#页面的几何运算" class="headerlink" title="页面的几何运算"></a>页面的几何运算</h2><p>在你实现  layoutAttributesForItemAtIndexPath(_:) 之前，花点时间来考虑布局，想想它该如何工作，我们是否能写一些工具方法来使得所有事情简单化、模块化。:]</p>
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/02/VN_PaperRatioDiagram.png" alt=""></p>
+<p>上图显示书页的翻动是以书脊作为旋转轴。上图中的比例从-1.0到1.0变化。为什么？想象一下将一本书放在桌子上，书脊表示0.0，当你从左至右翻页时，翻转比率从-1.0（最左端）变到1.0（最右端）。<br>因此，你可以用如下比率来表示你的翻页过程：</p>
+<ul>
+<li>0.5表示页面成90度状态，与桌面垂直</li>
+<li>+/- 0.5表示与桌面成45度</li>
+<li>+/- 1.0表示与桌面平行</li>
+</ul>
+<p>因为旋转是逆时针的，角度符号与比率符号相反。（即正负符号相反）<br>首先将下面工具方法添加在 layoutAttributesForElementsInRect(_:) 之后：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//MARK: - Attribute Logic Helpers</span></div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">getFrame</span><span class="params">(collectionView: UICollectionView)</span></span> -&gt; <span class="type">CGRect</span> &#123;</div><div class="line">  <span class="keyword">var</span> frame = <span class="type">CGRect</span>()</div><div class="line"> </div><div class="line">  frame.origin.x = (collectionView.bounds.width / <span class="number">2</span>) - (<span class="type">PageWidth</span> / <span class="number">2</span>) + collectionView.contentOffset.x</div><div class="line">  frame.origin.y = (collectionViewContentSize().height - <span class="type">PageHeight</span>) / <span class="number">2</span></div><div class="line">  frame.size.width = <span class="type">PageWidth</span></div><div class="line">  frame.size.height = <span class="type">PageHeight</span></div><div class="line"> </div><div class="line">  <span class="keyword">return</span> frame</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>根据 collectionView 的中心为每一个页面计算其 frame。getFrame(_:) 方法会将每个页面边缘与书脊对其。改变的唯一变量是collectionView的内容在x方向偏移。<br>接下来，添加如下方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">getRatio</span><span class="params">(collectionView: UICollectionView, indexPath: NSIndexPath)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">let</span> page = <span class="type">CGFloat</span>(indexPath.item - indexPath.item % <span class="number">2</span>) * <span class="number">0.5</span></div><div class="line"> </div><div class="line">  <span class="comment">//2</span></div><div class="line">  <span class="keyword">var</span> ratio: <span class="type">CGFloat</span> = -<span class="number">0.5</span> + page - (collectionView.contentOffset.x / collectionView.bounds.width)</div><div class="line"> </div><div class="line">  <span class="comment">//3</span></div><div class="line">  <span class="keyword">if</span> ratio &gt; <span class="number">0.5</span> &#123;</div><div class="line">    ratio = <span class="number">0.5</span> + <span class="number">0.1</span> * (ratio - <span class="number">0.5</span>)</div><div class="line"> </div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> ratio &lt; -<span class="number">0.5</span> &#123;</div><div class="line">    ratio = -<span class="number">0.5</span> + <span class="number">0.1</span> * (ratio + <span class="number">0.5</span>)</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="keyword">return</span> ratio</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面方法计算页面的比率。下面是对每个注释的解释：</p>
+<ul>
+<li>1.计算页面在书本当中的编号，记住书页是双面的。乘以0.5可以得到你当前所在的页面。</li>
+<li>2.根据你翻动的权重计算比率</li>
+<li>3.需要将比率范围限制在-0.5到0.5之间。乘以0.1是用来给页面之间添加一个间距使得它们看起来是被遮盖一样。</li>
+</ul>
+<p>在你计算好比率之后，就可以用它来计算当前翻动的角度了。在上面代码后添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">getAngle</span><span class="params">(indexPath: NSIndexPath, ratio: CGFloat)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</div><div class="line">  <span class="comment">// Set rotation</span></div><div class="line">  <span class="keyword">var</span> angle: <span class="type">CGFloat</span> = <span class="number">0</span></div><div class="line"> </div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">if</span> indexPath.item % <span class="number">2</span> == <span class="number">0</span> &#123;</div><div class="line">    <span class="comment">// The book's spine is on the left of the page</span></div><div class="line">    angle = (<span class="number">1</span>-ratio) * <span class="type">CGFloat</span>(-<span class="type">M_PI_2</span>)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">//2</span></div><div class="line">    <span class="comment">// The book's spine is on the right of the page</span></div><div class="line">    angle = (<span class="number">1</span> + ratio) * <span class="type">CGFloat</span>(<span class="type">M_PI_2</span>)</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//3</span></div><div class="line">  <span class="comment">// Make sure the odd and even page don't have the exact same angle</span></div><div class="line">  angle += <span class="type">CGFloat</span>(indexPath.row % <span class="number">2</span>) / <span class="number">1000</span></div><div class="line">  <span class="comment">//4</span></div><div class="line">  <span class="keyword">return</span> angle</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里进行了一些数学计算，但是拆开来看也不是很难：</p>
+<ul>
+<li>1.判断当前页面是否为双书面，即序号是否为2的倍数，也就是说它处在书脊的右边。向左翻动是逆时针，在书脊右侧的页面的角度是负的。回想一下之前定义的在-0.5到0.5变化的比率。</li>
+<li>2.如果当前面是奇数，那么它就在书脊的左侧，向右翻动是顺时针，所以书脊左侧的页面角度为正。</li>
+<li>3.为每个页面添加一个偏移角度</li>
+<li>4.返回旋转角</li>
+</ul>
+<p>现在我们有了旋转角，我们需要转换每一个页面，添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">makePerspectiveTransform</span><span class="params">()</span></span> -&gt; <span class="type">CATransform3D</span> &#123;</div><div class="line">  <span class="keyword">var</span> transform = <span class="type">CATransform3DIdentity</span></div><div class="line">  transform.m34 = <span class="number">1.0</span> / -<span class="number">2000</span></div><div class="line">  <span class="keyword">return</span> transform</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>修改 transform 中的<code>m34</code>来为每个页面增加透视。<br>现在是时候加上旋转效果了。加入如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">getRotation</span><span class="params">(indexPath: NSIndexPath, ratio: CGFloat)</span></span> -&gt; <span class="type">CATransform3D</span> &#123;</div><div class="line">  <span class="keyword">var</span> transform = makePerspectiveTransform()</div><div class="line">  <span class="keyword">var</span> angle = getAngle(indexPath, ratio: ratio)</div><div class="line">  transform = <span class="type">CATransform3DRotate</span>(transform, angle, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>)</div><div class="line">  <span class="keyword">return</span> transform</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法使用上面提到的两个工具方法来计算 transform 和 angle，然后创建了一个 CATransform3D并将其使用到页面的 y 轴上。<br>现在所有工具方法已准备就是，是时候为每个 cell撸一下布局属性了。在 layoutAttributesForElementsInRect(_:) 后面加入下面代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForItemAtIndexPath</span><span class="params">(indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UICollectionViewLayoutAttributes</span>! &#123;</div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">var</span> layoutAttributes = <span class="type">UICollectionViewLayoutAttributes</span>(forCellWithIndexPath: indexPath)</div><div class="line"> </div><div class="line">  <span class="comment">//2</span></div><div class="line">  <span class="keyword">var</span> frame = getFrame(collectionView!)</div><div class="line">  layoutAttributes.frame = frame</div><div class="line"> </div><div class="line">  <span class="comment">//3</span></div><div class="line">  <span class="keyword">var</span> ratio = getRatio(collectionView!, indexPath: indexPath)</div><div class="line"> </div><div class="line">  <span class="comment">//4</span></div><div class="line">  <span class="keyword">if</span> ratio &gt; <span class="number">0</span> &amp;&amp; indexPath.item % <span class="number">2</span> == <span class="number">1</span></div><div class="line">     || ratio &lt; <span class="number">0</span> &amp;&amp; indexPath.item % <span class="number">2</span> == <span class="number">0</span> &#123;</div><div class="line">    <span class="comment">// Make sure the cover is always visible</span></div><div class="line">    <span class="keyword">if</span> indexPath.row != <span class="number">0</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">    &#125;</div><div class="line">  &#125;	</div><div class="line">  <span class="comment">//5</span></div><div class="line">  <span class="keyword">var</span> rotation = getRotation(indexPath, ratio: <span class="built_in">min</span>(<span class="built_in">max</span>(ratio, -<span class="number">1</span>), <span class="number">1</span>))</div><div class="line">  layoutAttributes.transform3D = rotation</div><div class="line"> </div><div class="line">  <span class="comment">//6</span></div><div class="line">  <span class="keyword">if</span> indexPath.row == <span class="number">0</span> &#123;</div><div class="line">    layoutAttributes.zIndex = <span class="type">Int</span>.<span class="built_in">max</span></div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="keyword">return</span> layoutAttributes</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>每个 cell 都会调用这个方法：</p>
+<ul>
+<li>1.为给定的 indexPath 创建一个 UICollectionViewLayoutAttributes</li>
+<li>2.使用 getFrame 方法给布局属性设置 frame，来保证它会与书脊对齐</li>
+<li>3.用之前的 getRatio 方法来设置布局属性的比率</li>
+<li>4.判断当前页的比率是否在限制范围内，如果不在就不展示这个 cell。为了优化，通常不显示背面，只展示正面。当然如果是书的封面则需要一直展示。</li>
+<li>5.根据计算得到比率来获取 rotation 和 transform</li>
+<li>6.判断 indexPath 是否为第一页，如果是第一页则设置其 zIndex 让它显示在所有页面之上，避免闪现情况发生。</li>
+</ul>
+<p>运行程序，打开书本，翻动以下。。。what the f**k!!</p>
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/misc-jackie-chan.png" alt=""></p>
+<p>页面的锚点貌似是 center 而不是边缘！</p>
+<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/VN_Anchor1.png" alt=""></p>
+<p>如图所示，每个页面锚点坐标为（0.5,0.5）。你知道怎么解决这个问题吗？</p>
+<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/VN_CorrectRatio.png" alt=""></p>
+<p>很明显，你需要改变锚点位置，使其位于边缘。如果页面在书脊的右侧，锚点应该为(0,0.5),反之锚点为(1,0.5)。</p>
+<p>打开 BookPageCell.swift 添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">applyLayoutAttributes</span><span class="params">(layoutAttributes: UICollectionViewLayoutAttributes!)</span></span> &#123;</div><div class="line">  <span class="keyword">super</span>.applyLayoutAttributes(layoutAttributes)</div><div class="line">  <span class="comment">//1</span></div><div class="line">  <span class="keyword">if</span> layoutAttributes.indexPath.item % <span class="number">2</span> == <span class="number">0</span> &#123;</div><div class="line">    <span class="comment">//2</span></div><div class="line">    layer.anchorPoint = <span class="type">CGPointMake</span>(<span class="number">0</span>, <span class="number">0.5</span>)</div><div class="line">    isRightPage = <span class="literal">true</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">//3</span></div><div class="line">      <span class="comment">//4</span></div><div class="line">      layer.anchorPoint = <span class="type">CGPointMake</span>(<span class="number">1</span>, <span class="number">0.5</span>)</div><div class="line">      isRightPage = <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//5</span></div><div class="line">    <span class="keyword">self</span>.updateShadowLayer()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面复写了 applyLayoutAttributes(_:) 方法，它使用了 BookLayout 中的布局属性。这看起来非常言简意赅。</p>
+<ul>
+<li>1.判读当前页面是否为双数，也就是当前页面在书脊右侧。</li>
+<li>2.将锚点设置成左边缘，然后设置<code>isRightPage</code>为 true。这个变量可以帮你确定圆角的位置。</li>
+<li>3。如果当前页面为奇数，那么它就处于书脊左侧</li>
+<li>4.设置奇数页面的锚点为其右测边缘，然后设置<code>isRightPage</code>为 false</li>
+<li>5.最后更新当前页的阴影 layer</li>
+</ul>
+<p>运行一下，翻动页面，看起来比之前好多了。</p>
+<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/VN_CompletePart1.gif" alt=""></p>
+<p>到此为止，该教程的第一部分已经结束。花点时间休息一下，想想这个过程是不是很屌？！</p>
+<h2 id="何去何从"><a href="#何去何从" class="headerlink" title="何去何从"></a>何去何从</h2><p>你可以<a href="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/Part-1-Paper-Completed.zip" target="_blank" rel="external">在此</a>下载第一部分的完整代码。<br>你从默认的 layout 开始，然后学习了如何自定义一个新的 layout 然后创建了一个比较屌的效果！用这个 app 的人会觉得他们像在翻实体书一样。正是这样一个细节使得一个普通的阅读类软件变得深受用户欢迎。<br>然而，一切还没有结束。在<a href="http://t.cn/Ry2rYj5" target="_blank" rel="external">第二部分</a>中你可以让这个 app 变得更好更简洁。<br>你是否也有很炫的布局想法？如果你有任何疑问、评论以及对这篇教程的其他想法，欢迎在下面讨论。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UICollectionView/" rel="tag"># UICollectionView</a>
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/31/A-Spinning-Wheel-Layout/" rel="next" title="UICollectionView自定义布局之风火轮[译]">
+                <i class="fa fa-chevron-left"></i> UICollectionView自定义布局之风火轮[译]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/" rel="prev" title="如何创建一个翻书动画(Part2)[译]">
+                如何创建一个翻书动画(Part2)[译] <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcwqme7gbj20cs0cs74n.jpg"
+               alt="Vong" />
+          <p class="site-author-name" itemprop="name">Vong</p>
+           
+              <p class="site-description motion-element" itemprop="description">Learning and Sharing.iOS 开发进阶中~</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wang9262" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/Vong_HUST" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/VongLo" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://shixiong.name/" title="Daemon" target="_blank">Daemon</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://colin1994.github.io/" title="Colin丶" target="_blank">Colin丶</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.linhere.com/" title="东风路倒垃圾的" target="_blank">东风路倒垃圾的</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工程结构"><span class="nav-number">2.</span> <span class="nav-text">工程结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义-Book-布局"><span class="nav-number">3.</span> <span class="nav-text">自定义 Book 布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#书本吸附"><span class="nav-number">4.</span> <span class="nav-text">书本吸附</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#翻页布局"><span class="nav-number">5.</span> <span class="nav-text">翻页布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面的几何运算"><span class="nav-number">6.</span> <span class="nav-text">页面的几何运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何去何从"><span class="nav-number">7.</span> <span class="nav-text">何去何从</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vong</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://disqus_KFNEnZt0uI.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/';
+          this.page.identifier = '2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/';
+          this.page.title = '如何创建一个翻书动画(Part 1)[译]';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://disqus_KFNEnZt0uI.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yoeEE8mEwSubmHRkUpWIMKzO-gzGzoHsz", "p79IVHIdevP5Ft8IKt40rOed");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -647,6 +647,21 @@
     <div>
       
         
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Vong
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/" title="如何创建一个翻书动画(Part 1)[译]">http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
 
       
     </div>
@@ -731,6 +746,41 @@
           
   <div class="comments" id="comments">
     
+          
+            <div onclick="showGitment()" id="gitment_title" class="gitment_title">显示 Gitment 评论</div>
+            <div id="container" style="display:none"></div>
+            <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+            <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+            <script>
+            const myTheme = {
+              render(state, instance) {
+                const container = document.createElement('div');
+                container.lang = "en-US";
+                container.className = 'gitment-container gitment-root-container';
+                container.appendChild(instance.renderHeader(state, instance));
+                container.appendChild(instance.renderEditor(state, instance));
+                container.appendChild(instance.renderComments(state, instance));
+                container.appendChild(instance.renderFooter(state, instance));
+                return container;
+              }
+            }
+            function showGitment() {
+              $("#gitment_title").attr("style", "display:none");
+              $("#container").attr("style", "").addClass("gitment_container");
+              var gitment = new Gitment({
+                id: window.location.pathname,
+                theme: myTheme,
+                owner: 'wang9262',
+                repo: 'Blog-Comments',
+                oauth: {
+                  client_id: 'b56f11f2c9cf1bbc87ac',
+                  client_secret: 'b299c7b6ec9502ed2ec8f5a1ce7360f249d31473'
+                }
+              });
+              gitment.render('container');
+            }
+            </script>
+          
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the

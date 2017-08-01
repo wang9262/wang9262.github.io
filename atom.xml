@@ -614,9 +614,9 @@
       <category term="框架学习" scheme="http://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
-    
       <category term="WebView" scheme="http://vongloo.me/tags/WebView/"/>
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
@@ -1465,11 +1465,11 @@
       <category term="框架学习" scheme="http://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
     
     
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+    
       <category term="AVFoundation" scheme="http://vongloo.me/tags/AVFoundation/"/>
     
       <category term="GPUImage" scheme="http://vongloo.me/tags/GPUImage/"/>
-    
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   

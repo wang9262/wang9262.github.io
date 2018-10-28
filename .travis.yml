@@ -33,10 +33,5 @@ after_script:
   - git config user.name "Vong"
   - git config user.email "Vong9262@gmail.com"
   # 替换同目录下的_config.yml文件中gh_token字符串为travis后台刚才配置的变量，注意此处sed命令用了双引号。单引号无效！
-  - sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
+  - sed -i'' "/^ *repo/s~github\.com~${BlogCI}@github.com~" _config.yml
   - hexo deploy
-
-env:
-  global:
-    secure: INK41wenkx4CNg22FLZ/GXp/H5nOt0eFH1x4uLVmKvivm4l2u4ghx2KGL/WeT5yBgey9CDCanqQWYVLp/bsCgHIZheIVSu2pQmOQaSBXgfEMrXRBXglpQ8yIKxWSYpBZq44x3Zw4sYko71jtwhQGerQCZsAYuBBSWtjE+dBuVkRNw/Omoa6GG1C6kVkPxcCt5N/2b/UZ/2IbPX/jTOz93VYlKwJJDNbvePu+SYOwmex5GWdL68iiyabLYddfrbawimsEmjTlPKoZMiLR8I+EpCnPAYZ8oClpNnvHIVPvy61xLYsmox3EMsFmkXsQfmUjkBuN77fiNC9vKOzPTJOY+cYBPjcPnWcqWNcw57Vns5nNK9e6wrWPkGGV7pUcNXhDLUgXlRIQkNL/k4uhWCVp0lB/iiAM3Gu/PluxTTTopg4g0IGTYF0fu154UwvDBs4o609YqSM8XRg9FnbPC8HrIqvwUkONb6UFL+tWTfLpceppQREKhQj+60FY0T5NJkTZK7FQPYAPDL2uOtGycvwI1pGw4s1CPYP9eXwzIsK0oE8OZ7lVJXTeUbj91QivfpSeu5RSN88VIzgI5yBceAK+xD9eCJhGl/FaDnfXW6DT85fVmzaQTLcNKt8tP41pMSHfeFaGM71poVE7nk1FYKGwpuK9jprIEevZ1HaBJXorabk=
-# End: Build LifeCycle

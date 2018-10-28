@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vongloo.me/"/>
-  <updated>2018-10-28T05:33:43.945Z</updated>
+  <updated>2018-10-28T05:40:05.554Z</updated>
   <id>http://vongloo.me/</id>
   
   <author>
@@ -20,11 +20,9 @@
     <link href="http://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/"/>
     <id>http://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/</id>
     <published>2018-10-28T05:27:58.000Z</published>
-    <updated>2018-10-28T05:33:43.945Z</updated>
+    <updated>2018-10-28T05:40:05.554Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。</p>
-</blockquote>
+    <content type="html"><![CDATA[<p>上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。</p>
 <a id="more"></a>
 <p>大会在 6.21~6.22 进行，由于时间问题，我只去了两个自己感兴趣的专题：性能优化专场以及 iOS 新技术专场。<br>性能优化专场在21号下午进行，当天早上 <code>Flutter Release Preview 1</code> 放出，更多关于 Flutter 的文章，可以在我们公众号<code>知识小集</code>上获取。</p>
 <h3 id="性能优化专场"><a href="#性能优化专场" class="headerlink" title="性能优化专场"></a>性能优化专场</h3><p>当天下午提前一小时从公司出发，1：30 到现场时，会场已经满座，只能坐地下，第二场一些人走了之后才空出一些座位。</p>
@@ -34,7 +32,7 @@
 <p>这里有一点很疑问，理论上性能优化是肯定能改善用户体验的，这里对性能优化做 AB 实验是不是有点多此一举？</p>
 <p>分享者的回答：<br><img src="http://img.cdn.punmy.cn/15407047702510.jpg" alt=""></p>
 </blockquote>
-<p>剩下的 3 场主要是前端和安卓上的性能优化，由于自己对于安卓和前端技术一无所知，所以只是大概听了一下。<br>印象比较深的是阿里的监控体系，还原用户“事发现场”，大致原理就是记录首屏时的所有数据，用户操作导致的增量数据页实时记录，进而实现用户操作现场的还原。<br>爱奇艺的“极致”性能优化，对于功耗的测量，使用 <code>PowerMonitor</code> 来检测分析，同时使用 AI 来做自动化测试。同时开源了 <code>􏰈􏰏􏰆􏰎􏰄􏰂􏰂􏰈􏰏􏰆􏰎􏰄􏰂􏰂LiteAPP</code>，感兴趣的可以自行在 <code>GitHub</code> 上搜索。</p>
+<p>剩下的 3 场主要是前端和安卓上的性能优化，由于自己对于安卓和前端技术一无所知，所以只是大概听了一下。<br>印象比较深的是阿里的监控体系，还原用户“事发现场”，大致原理就是记录首屏时的所有数据，用户操作导致的增量数据页实时记录，进而实现用户操作现场的还原。<br>爱奇艺的“极致”性能优化，对于功耗的测量，使用 <code>PowerMonitor</code> 来检测分析，同时使用 AI 来做自动化测试。同时开源了 <code>LiteApp</code>，感兴趣的可以自行在 <code>GitHub</code> 上搜索。</p>
 <h3 id="iOS-新技术专场"><a href="#iOS-新技术专场" class="headerlink" title="iOS 新技术专场"></a>iOS 新技术专场</h3><p>这一场在22号早上9点半开始，9点到达会场，人没有昨天那么多，空位很多。这个专题出品人是嘀嘀出行的戴铭老师。这个专场有三个主题，讲师分别来自 Instagram、美团、美甲帮。</p>
 <p>来自 Instagram 的工程师主要分享了复杂列表的解决方案、对照实验、以及加快编译速度。<br>复杂列表使用他们自己开源的 <code>IGListKit</code> 以及 <code>MVVM</code> 架构来实现代码复用，各自业务团队代码集中在 <code>SectionController</code> 来达到解耦，各个业务团队只需专注于自己的业务逻辑。同样 Instagram 也通过 AB 实验来抉择出一些较好的产品需求，同时通过 AB 实验来保持产品的快速迭代。同时随着 AB 实验的增多，难免会遇到一些互斥实验或者互相影响的实验，所以在设计一些实验时，也需要尽量避免这种情况。对于可能互相干扰的实验，作者举了一个例子以及可能的几个解决方案，思路也是很不多的，具体内容大家可以去官网上找到对应的 PPT 链接，下载查看。<br>最后一个分享点，也是目前大部分 iOS 开发者的槽点，就是 <code>Xcode</code> 的编译速度。随着工程及代码量的增大，编译速度也随之变慢，从原来的十几秒到几分钟到半小时（真正的“带薪编译”），编译时的心情也依次改变：😀-&gt;🙂-&gt;😰-&gt;😡-&gt;💀。Facebook 内部使用 <code>Buck+Focus</code> 来加快编译速度，<a href="https://github.com/facebook/buck" target="_blank" rel="external">Buck</a> 目前已开源，据作者说，使用 <code>Buck+Focus</code> 后，编译速度又能到十几秒，感兴趣的可以尝试一下。</p>
 <p>来自美团的臧成威老师分享了他们即将开源的面向对象的响应式架构：<code>EasyReact</code> 以及 <code>EasyMVVM</code>，相信用过 <code>ReactiveCocoa</code> 的同学都很清楚，每次调试时，调用栈非常深，而且中间的调用栈内容几乎没啥用处，调试起来比较费劲，作者表示 <code>EasyReact</code> 相对于 <code>ReactiveCocoa</code>，同样的5次变换操作，前者调用栈只有10层，而 <code>ReactiveCocoa</code> 有50层。关于其它的对比，可以参考一下作者放出的 <code>benchmark</code> 对比图</p>
@@ -50,9 +48,7 @@
     
     <summary type="html">
     
-      &lt;blockquote&gt;
-&lt;p&gt;上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。&lt;/p&gt;
-&lt;/blockquote&gt;
+      &lt;p&gt;上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。&lt;/p&gt;
     
     </summary>
     

@@ -90,3 +90,4 @@ search:
 deploy:
 - type: git
   repo: git@github.com:wang9262/wang9262.github.io.git
+  branch: master

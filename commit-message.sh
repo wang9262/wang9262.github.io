@@ -19,4 +19,4 @@ git add .
 git commit -m "Travis CI Auto Update at `date +"%Y-%m-%d %H:%M"`"
 
 # Github Pages
-git push --force --quiet "https://${BlogCI}@${GH_REF}" master:master
+git push --force --quiet "https://${BlogToken}@${GH_REF}" master:master

@@ -1,42 +1,33 @@
-# 指定语言环境
 language: node_js
-# 指定需要sudo权限
 sudo: required
-# 指定node_js版本
-node_js: 
-  - 8.2.1
-# 指定缓存模块，可选。缓存可加快编译速度。
+node_js:
+- 8.2.1
 cache:
   directories:
-    - node_modules
-  
-notifications:
+  - node_modules
+notifications: 
 email:
-    recipients:
-        - Vong9262@gmail.com
-    on_success: change
-    on_failure: always
-
-# 指定博客源码分支，因人而异。hexo博客源码托管在独立repo则不用设置此项
+  recipients:
+  - Vong9262@gmail.com
+  on_success: change
+  on_failure: always
 branches:
   only:
-    - hexo 
-
+  - hexo
 before_install:
-    - export TZ='Asia/Shanghai'
-    - npm install hexo-cli -g
-    - chmod +x ./commit-message.sh
-
-# Start: Build Lifecycle
+- export TZ='Asia/Shanghai'
+- npm install hexo-cli -g
+- chmod +x ./commit-message.sh
 install:
-  - npm install
-  - npm install hexo-deployer-git --save
-
-# 执行清缓存，生成网页操作
+- npm install
+- npm install hexo-deployer-git --save
 script:
-  - hexo clean
-  - hexo generate
-
-# 设置git提交名，邮箱；替换真实token到_config.yml文件，最后depoy部署
+- hexo clean
+- hexo generate
 after_script:
-    - ./commit-message.sh
+- "./commit-message.sh"
+
+env:
+  global:
+    - secure: bJY//ty5y7GvNBMr7n+XFbrUGTM0kIrnEJPtV3pRZVbhrabw43zVrVO0jl7tjbfcWIU3neyK99kh6T58wdzXnLxeO1vw5k6YDLScQQK6N2l/Q1GTvDIKdACgB8EYcNAYb6zXwsnxY5/nosKx2O9FJWlZCNx3fcnZCnOjYF0qXXYJ8NAbxH7Ct5hAufwQuEVtIK/oCL9oZU3xfbUkw0wKWOyXTJh8YH03BIU0W/E9AS4dBge60qJf6CoqBwgfnZNtrJjjs69zglMSIT8xijPCwhOdFyL7PTdiDEGEe2HfLIwvIDv3IyRFaPsznrD4X3yQYZyRO6nFWpMnBM1tJD2EcI6xkw08fvAl9PPgD/sOWjNckxe2fqEm8cNTVYLcSwtrJcbRh2nEif1+iQ8PZEZUlQZiGntjXpec8ONiC3FVWzIh/yMjNF0R+zeenUoC14st0O+lQnwWN1UHmLhnkH3UVx49wVAmSfrGX894FrHZlbVS+pv9s2dJkk750PvWtgoZvnR+PRFszha+MbVGVqjhh1wSopjF8DE9fnpmhFN4s1TpIS+lCDHYvMyK4diLsknExqcSlrxz1Fpt5p37pWwm5Har33PcjCuFQdHLCC6AGZb8ThhW7CXsmCZMZ/tWhfDO2rJsfFPUtBkGWaDoXFqMMmXiTlOJknRyKBmHq8UEW2s=
+    - GH_REF: github.com/wang9262/wang9262.github.io.git

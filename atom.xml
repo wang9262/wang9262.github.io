@@ -64,11 +64,12 @@
     <link href="http://vongloo.me/2018/06/03/Replace-System-Volume-View/"/>
     <id>http://vongloo.me/2018/06/03/Replace-System-Volume-View/</id>
     <published>2018-06-03T09:47:58.000Z</published>
-    <updated>2018-10-28T05:25:46.461Z</updated>
+    <updated>2018-10-28T06:00:27.251Z</updated>
     
-    <content type="html"><![CDATA[<p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻</p>
-<p><img src="http://img.cdn.punmy.cn/15247541167324.jpg" alt=""></p>
+    <content type="html"><![CDATA[<p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p>
 <a id="more"></a>
+<p>比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻</p>
+<p><img src="http://img.cdn.punmy.cn/15247541167324.jpg" alt=""></p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>这里主要记录一下在项目中如何替换系统音量提示视图的过程。通过 <code>Google</code> 和 <code>stackoverflow</code>，可以查到，如果要自定义音量提示，需要做到以下几步：</p>
 <ol>
 <li>激活 <code>AudioSession</code></li>
@@ -107,8 +108,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://img.cdn.punmy.cn/15247541167324.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。&lt;/p&gt;
     
     </summary>
     

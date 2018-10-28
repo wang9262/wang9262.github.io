@@ -39,4 +39,4 @@ script:
 
 # 设置git提交名，邮箱；替换真实token到_config.yml文件，最后depoy部署
 after_script:
-    - ./publish-to-gh-pages.sh
+    - ./commit-message.sh

@@ -103,15 +103,15 @@
 <meta property="og:site_name" content="Vong">
 <meta property="og:description" content="有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/content_1__1_.gif">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/content_2__1_.gif">
+<meta property="og:image" content="http://img.cdn.punmy.cn/content_1__1_.gif">
+<meta property="og:image" content="http://img.cdn.punmy.cn/content_2__1_.gif">
 <meta property="og:image" content="https://yalantis.com/media/content/ckeditor/2015/07/02/img_2556_HD6OoTz.jpg">
 <meta property="og:image" content="https://yalantis.com/media/content/ckeditor/2015/07/02/cards_blueprint.jpg">
-<meta property="og:updated_time" content="2016-08-27T03:25:20.000Z">
+<meta property="og:updated_time" content="2018-10-28T05:20:05.739Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何创建一个类似 Tinder 的交互动画[译]">
 <meta name="twitter:description" content="有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。">
-<meta name="twitter:image" content="http://o9sih3398.bkt.clouddn.com/content_1__1_.gif">
+<meta name="twitter:image" content="http://img.cdn.punmy.cn/content_1__1_.gif">
 
 
 
@@ -409,11 +409,6 @@
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
 
           
 
@@ -431,7 +426,7 @@
       
         <p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。<br><a id="more"></a><br>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">How We Built Tinder-Like Koloda Animation in Swift</a></p>
 <p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about" target="_blank" rel="external">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。<br>还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/" target="_blank" rel="external">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p>
-<p><img src="http://o9sih3398.bkt.clouddn.com/content_1__1_.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/content_1__1_.gif" alt=""></p>
 <p>我们把卡片式布局以及基于滑动的交互作为今年的交互设计趋势，我们的<a href="https://yalantis.com/blog/7-up-to-date-mobile-app-design-trends-2015/" target="_blank" rel="external">这篇文章</a>有相关介绍。之后我们的设计师Dmitry Goncharov创建了一个类似 Tinder 交互的动画，实际上他是故意这么做的。<br>我们把我们的这种类似 Tinder 基于卡片式的动画命名为<code>Koloda</code>，在乌克兰语中它的意思是甲板（卡片），听起来非常有趣。这个组件能够被不同 app 使用，如果加上约会（pao）地点的话，甚至在 Tinder 中也很实用。Dmitriy提出了这个概念，我们的iOS工程师实现了这个想法。详见<a href="https://github.com/Yalantis/Koloda" target="_blank" rel="external">GitHub</a>。（译者注：Objective-C 版详见<a href="https://github.com/wang9262/Koloda-ObjC" target="_blank" rel="external">这里</a>）。</p>
 <h2 id="我们如何实现-Koloda-动画"><a href="#我们如何实现-Koloda-动画" class="headerlink" title="我们如何实现 Koloda 动画"></a>我们如何实现 Koloda 动画</h2><blockquote>
 <ul>
@@ -444,7 +439,7 @@
 </li>
 <li><p>OverlayView：遮罩视图，根据用户手势方向（左、右）来动态改变</p>
 </li>
-<li>KolodaView：用来控制加载和卡片之间的交互的视图<br><img src="http://o9sih3398.bkt.clouddn.com/content_2__1_.gif" alt=""></li>
+<li>KolodaView：用来控制加载和卡片之间的交互的视图<br><img src="http://img.cdn.punmy.cn/content_2__1_.gif" alt=""></li>
 </ul>
 <h2 id="DraggableCardView的实现"><a href="#DraggableCardView的实现" class="headerlink" title="DraggableCardView的实现"></a>DraggableCardView的实现</h2><p>正如我前面提到的那样，<code>DraggableCardView</code>是用来展示内容的卡片视图。网上有很多教程阐述了 Tinder 滑动动画的原理，我选择了其中一种解决方案，做了一些改动，然后利用<code>UIPanGestureRecognizer</code> 和 <code>CGAffineTransform</code>实现了 <code>DraggableCardView</code>。部分代码如下：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//译者注：原文是用 swift 写的，我索性翻译成了 OC，下同</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)panGestureRecognized:(<span class="built_in">UIPanGestureRecognizer</span> *)pan</div><div class="line">&#123;</div><div class="line">    <span class="keyword">self</span>.xDistanceFromCenter = [pan translationInView:<span class="keyword">self</span>].x;</div><div class="line">    <span class="keyword">self</span>.yDistanceFromCenter = [pan translationInView:<span class="keyword">self</span>].y;</div><div class="line">    <span class="built_in">CGPoint</span> location = [pan locationInView:<span class="keyword">self</span>];</div><div class="line">    <span class="keyword">switch</span> (pan.state) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateBegan</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">self</span>.originalLocation = <span class="keyword">self</span>.center;</div><div class="line">            <span class="keyword">self</span>.dragBegin = <span class="literal">YES</span>;</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.animationDirection = location.y &gt;= <span class="keyword">self</span>.frame.size.height / <span class="number">2</span> ? <span class="number">-1.0</span> : <span class="number">1.0</span>;</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.layer.shouldRasterize = <span class="literal">YES</span>;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateChanged</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">CGFloat</span> rotationStrength = MIN(<span class="keyword">self</span>.xDistanceFromCenter / <span class="keyword">self</span>.frame.size.width, kRotationMax);</div><div class="line">            <span class="built_in">CGFloat</span> rotationAngle = <span class="keyword">self</span>.animationDirection * kDefaultRotationAngle * rotationStrength;</div><div class="line">            <span class="built_in">CGFloat</span> scaleStrength = <span class="number">1</span> - ((<span class="number">1</span> - kScaleMin) * fabs(rotationStrength));</div><div class="line">            <span class="built_in">CGFloat</span> scale = MAX(scaleStrength, kScaleMin);</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.layer.rasterizationScale = scale * [<span class="built_in">UIScreen</span> mainScreen].scale;</div><div class="line">            </div><div class="line">            <span class="built_in">CGAffineTransform</span> transform = <span class="built_in">CGAffineTransformMakeRotation</span>(rotationAngle);</div><div class="line">            <span class="built_in">CGAffineTransform</span> scaleTransform = <span class="built_in">CGAffineTransformScale</span>(transform, scale, scale);</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.transform = scaleTransform;</div><div class="line">            <span class="keyword">self</span>.center = <span class="built_in">CGPointMake</span>(<span class="keyword">self</span>.originalLocation.x + <span class="keyword">self</span>.xDistanceFromCenter,</div><div class="line">                                      <span class="keyword">self</span>.originalLocation.y + <span class="keyword">self</span>.yDistanceFromCenter);</div><div class="line">            [<span class="keyword">self</span> updateOverlayWithFinishPercent:<span class="keyword">self</span>.xDistanceFromCenter / <span class="keyword">self</span>.frame.size.width];</div><div class="line">            <span class="keyword">if</span> ([<span class="keyword">self</span>.delegate respondsToSelector:<span class="keyword">@selector</span>(cardView:draggedWithFinishPercent:)]) &#123;</div><div class="line">                [<span class="keyword">self</span>.delegate cardView:<span class="keyword">self</span> draggedWithFinishPercent:MIN(fabs(<span class="keyword">self</span>.xDistanceFromCenter * <span class="number">100</span> / <span class="keyword">self</span>.frame.size.width), <span class="number">100</span>)];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateEnded</span>:</div><div class="line">        &#123;</div><div class="line">            [<span class="keyword">self</span> swipeMadeAction];</div><div class="line">            <span class="keyword">self</span>.layer.shouldRasterize = <span class="literal">NO</span>;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -483,7 +478,7 @@
       
         
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <div>Buy Me A Cup Of Coffee!</div>
     <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
       <span>赏</span>
     </button>
@@ -696,7 +691,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -707,7 +702,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -718,7 +713,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -834,7 +829,7 @@
         <div class="copyright" >
   
   &copy;  2013 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -855,26 +850,6 @@
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
         
       </div>

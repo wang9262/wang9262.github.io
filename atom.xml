@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vongloo.me/"/>
-  <updated>2017-04-21T15:00:06.000Z</updated>
+  <updated>2018-10-28T05:18:07.648Z</updated>
   <id>http://vongloo.me/</id>
   
   <author>
@@ -16,11 +16,244 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>替换系统音量提示的实现和遇到的坑</title>
+    <link href="http://vongloo.me/2018/06/03/Replace-System-Volume-View/"/>
+    <id>http://vongloo.me/2018/06/03/Replace-System-Volume-View/</id>
+    <published>2018-06-03T09:47:58.000Z</published>
+    <updated>2018-10-28T05:18:07.648Z</updated>
+    
+    <content type="html"><![CDATA[<p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻</p>
+<p><img src="http://img.cdn.punmy.cn/15247541167324.jpg" alt=""></p>
+<a id="more"></a>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>这里主要记录一下在项目中如何替换系统音量提示视图的过程。通过 <code>Google</code> 和 <code>stackoverflow</code>，可以查到，如果要自定义音量提示，需要做到以下几步：</p>
+<ol>
+<li>激活 <code>AudioSession</code></li>
+<li>创建一个 <code>MPVolumeView</code>，并将其添加到当前可见的视图层级当中，同时将其 frame 设置到不可见区域</li>
+<li>监听音量按钮触发事件，改变音量提示</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>然后为了调用统一且音量视图层级永远在最上方（即不被 <code>Alert</code> 等挡住），首先想到使用一个 <code>UIWindow</code>，然后自定义视图和系统的视图加到这个视图层级上，初始化时 <code>frame</code> 为 <code>CGRectZero</code>，<code>hidden</code> 属性为 <code>NO</code>（注意这里必须为 <code>NO</code>，不然系统音量提示仍会出现，上面说到的第2点）；要显示时设置其 <code>frame</code> 设置成 <code>mainScreen</code> 的 <code>bounds</code>，然后展示即可。</p>
+<blockquote>
+<p>由于自己创建的 <code>UIWindow</code> 的 <code>hidden</code> 属性默认是 <code>YES</code>，所以需要手动将其设成 <code>NO</code>。<br>音量按钮每触发一次，变化量都是 6.25%，连续按16次，即可调节至最大或最小</p>
+</blockquote>
+<p>上述的第3步有两种方式可以做到，各有优劣，下面来做一个简单介绍。</p>
+<h4 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h4><p>通过 <code>KVO</code> 监听 <code>[AVAudioSession sharedInstance]</code> 的 <code>outputVolume</code> 属性，然后来显示自定义的 UI 控件。这种方式有一个不好的地方就是，在音量调节至最大/最小时，这个时候再调大/调小音量，由于 <code>outputVolume</code> 的值不变，所以不会触发 <code>KVO</code>，也就无法展示自定义音量视图。代码大概长下面这样</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line">    [[<span class="built_in">AVAudioSession</span> sharedInstance] removeObserver:<span class="keyword">self</span></div><div class="line">                                         forKeyPath:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(outputVolume))];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)addObserver &#123;</div><div class="line">    [[<span class="built_in">AVAudioSession</span> sharedInstance] addObserver:<span class="keyword">self</span></div><div class="line">                                      forKeyPath:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(outputVolume))</div><div class="line">                                         options:<span class="built_in">NSKeyValueObservingOptionNew</span></div><div class="line">                                         context:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath</div><div class="line">                      ofObject:(<span class="keyword">id</span>)object</div><div class="line">                        change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSKeyValueChangeKey</span>,<span class="keyword">id</span>&gt; *)change</div><div class="line">                       context:(<span class="keyword">void</span> *)context &#123;</div><div class="line">    <span class="keyword">if</span> ([change isKindOfClass:[<span class="built_in">NSDictionary</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        <span class="built_in">NSNumber</span> *volumeNum = change[<span class="string">@"new"</span>];</div><div class="line">        <span class="keyword">if</span> (volumeNum) &#123;</div><div class="line">            [<span class="keyword">self</span> volumeDidChange:[volumeNum floatValue]];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)volumeDidChange:(<span class="built_in">CGFloat</span>)volume &#123;</div><div class="line">    <span class="comment">// 显示自定义音量提示</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h4><p>这种方式通过监听系统私有（未公开的）通知，名字是 <code>AVSystemController_SystemVolumeDidChangeNotification</code>，这个监听不会受到最大/最小音量时，调大/调小音量的影响，只要音量键按下，始终都会触发。但是这个通知由于是私有的，可能存在被拒风险，而且将来系统版本该通知名字发生改变，由于是硬编码而不像其它系统通知使用的是常量，会导致监听不到的问题。</p>
+<p>代码大概长这样</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="built_in">NSNotificationName</span> <span class="keyword">const</span> kSystemVolumeDidChangeNotification = <span class="string">@"AVSystemController_SystemVolumeDidChangeNotification"</span>;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)addObserver &#123;</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span></div><div class="line">                                             selector:<span class="keyword">@selector</span>(volumeDidChange:)</div><div class="line">                                                 name:kSystemVolumeDidChangeNotification</div><div class="line">                                               object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)volumeDidChange:(<span class="built_in">NSNotification</span> *)notification &#123;</div><div class="line">    <span class="built_in">NSString</span> *category = notification.userInfo[<span class="string">@"AVSystemController_AudioCategoryNotificationParameter"</span>];</div><div class="line">    <span class="built_in">NSString</span> *changeReason = notification.userInfo[<span class="string">@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"</span>];</div><div class="line">    <span class="keyword">if</span> (![category isEqualToString:<span class="string">@"Audio/Video"</span>] || ![changeReason isEqualToString:<span class="string">@"ExplicitVolumeChange"</span>]) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">CGFloat</span> volume = [[notification userInfo][<span class="string">@"AVSystemController_AudioVolumeNotificationParameter"</span>] floatValue];</div><div class="line">    <span class="comment">// 显示自定义音量提示</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上两种方式各自优劣势都已经列出来了，上面说到的三个应用，<code>Instagram</code> 使用的是通知的方式，即刻和哔哩哔哩都是用 <code>KVO</code> 的方式。具体要选那种方式，就看具体需求了，如果在最大或最小时，调节音量可以接受不展示音量视图的话，个人推荐使用 <code>KVO</code> 的形式。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>上面阐明了原理和实现方式，接下来就是接入到项目中真正使用了，接入项目后发现问题还不少。</p>
+<h4 id="坑0x0001"><a href="#坑0x0001" class="headerlink" title="坑0x0001"></a>坑0x0001</h4><p>由于我们使用了 <code>window</code> 来显示自定义音量提示，所以 <code>window</code> 需要提前创建好，有一个需要注意的是 <code>UIWindow</code> 的 <code>hidden</code> 默认是 <code>YES</code>，由于上面说到系统的音量视图必须在可见视图层级内，所以创建的这个 <code>window</code> 必须要可见，然后尽量不影响交互，将其 <code>userInteractionEnabled</code> 置为 <code>NO</code>，且要让其不可见时层级最低，<code>windowLevel</code> 设置为 <code>UIWindowLevelNormal</code>。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.window = [[<span class="built_in">UIWindow</span> alloc] initWithFrame:[<span class="built_in">UIScreen</span> mainScreen].bounds];</div><div class="line"><span class="keyword">self</span>.window.hidden = <span class="literal">NO</span>;</div><div class="line"><span class="keyword">self</span>.window.windowLevel = <span class="built_in">UIWindowLevelNormal</span> - <span class="number">1</span>;</div><div class="line"><span class="keyword">self</span>.window.rootViewController = [[<span class="built_in">UIViewController</span> alloc] init];</div><div class="line"><span class="keyword">self</span>.window.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line"><span class="keyword">self</span>.window.userInteractionEnabled = <span class="literal">NO</span>;</div></pre></td></tr></table></figure>
+<h4 id="坑0x0010"><a href="#坑0x0010" class="headerlink" title="坑0x0010"></a>坑0x0010</h4><p>这样一切看起来很正常，但是有一个问题就是有一些地方通过 <code>[[UIApplication sharedApplication].windows firstObject]</code> 来进行一些操作，比如展示 <code>toast</code> 或者收起键盘的 <code>UIControl</code>，所以会导致其不可见或者无法响应交互。<br>所以上面代码改成</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.window = [[<span class="built_in">UIWindow</span> alloc] initWithFrame:<span class="built_in">CGRectZero</span>];</div><div class="line"><span class="keyword">self</span>.window.clipsToBounds = <span class="literal">YES</span>;</div><div class="line"><span class="keyword">self</span>.window.windowLevel = <span class="built_in">UIWindowLevelNormal</span>;</div></pre></td></tr></table></figure>
+<p>嗯，运行起来，那些寻找 <code>firstObject</code> 的地方都正常了，但是…由于存在开屏广告，而且开屏广告用的也是 <code>window</code>，而且他会在自己要显示时，调用 <code>makeKeyAndVisible</code> 方法，消失的时候直接将其置为 <code>nil</code>，导致系统会自己寻找其它的 <code>window</code> 当做 <code>keyWindow</code>，这个时候不知道为什么会找到我们音量提示的 <code>window</code>？难道是因为 <code>[UIApplication sharedApplication].delegate.window</code> 层级是 <code>Normal</code>，音量提示 <code>window</code> 层级也是 <code>Normal</code>，然后会将后加入的  层级为 <code>Normal</code> 的 <code>window</code> 设置为 <code>key window</code>？暂时还不懂，有知道的大神麻烦指点一下。<br>这样看来，这种修改方式也不太行，会导致其它地方取 <code>keyWindow</code> 的时候，取错掉。</p>
+<h4 id="坑0x0011"><a href="#坑0x0011" class="headerlink" title="坑0x0011"></a>坑0x0011</h4><p>嗯，那索性直接用 <code>[UIApplication sharedApplication].delegate.window</code> 这个来显示音量提示，最多也就出现 <code>Alert</code> 或键盘的时候，音量提示会被遮罩挡住，概率也比较小还好。于是改成下面代码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.window = [<span class="built_in">UIApplication</span> sharedApplication].delegate.window;</div></pre></td></tr></table></figure>
+<p>但是这个时候会发现，iPhoneX 下音量提示会被状态栏挡住，wtf！！！那么好吧，在音量显示的时候隐藏一下状态栏，音量消失的时候回复一下之前记住的状态栏状态，但是如果存在两个页面状态栏显隐不一致的情况，就会出现问题。同时在某些 <code>present</code> 起来的页面，音量提示死活不显示，但是用 <code>Xcode</code> 自带视图层级调试工具看，音量提示视图的 <code>frame</code>、<code>alpha</code>、<code>hidden</code> 属性都是正常的，但就是没有显示出来。后面将提示视图 <code>layer</code> 的 <code>zPosition</code> 提高之后，就可以显示出来了，真的很神奇。</p>
+<p>一步步下来，填完一个坑，又来一个，感觉是个无底洞，永远填不满。搞了一晚上，一筹莫展。</p>
+<h5 id="完美填坑"><a href="#完美填坑" class="headerlink" title="完美填坑"></a>完美填坑</h5><p>最后灵光一闪，如果自定义一个 <code>Window</code>，继承自 <code>UIWindow</code>，然后复写 <code>becomeKeyWindow</code> 方法，在这个方法里让自身不成为 <code>keyWindow</code> 同时将 <code>[UIApplication sharedApplication].delegate.window</code> 设置为 <code>keyWindow</code>，大致代码长这样：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">VolumeWindow</span> : <span class="title">UIWindow</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">VolumeWindow</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)becomeKeyWindow &#123;</div><div class="line">    [<span class="keyword">self</span> resignKeyWindow];</div><div class="line">    [[<span class="built_in">UIApplication</span> sharedApplication].delegate.window makeKeyWindow];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<h4 id="坑0x0100"><a href="#坑0x0100" class="headerlink" title="坑0x0100"></a>坑0x0100</h4><p>拍摄页拍摄之前系统音量提示是可以被替换的，但是拍摄一段之后，莫名其妙音量按钮按下后自定义提示不见了，出现了系统的铃声提示。一脸懵逼，后面发现是由于设置了 <code>AVCaptureSession</code> 的 <code>usesApplicationAudioSession</code> 为 <code>NO</code>，会导致在拍摄之后会变成铃声，这个和是否替换系统音量提示无关。这个属性是由于项目中很久之前需要兼容 <code>iOS6</code>，然后一直遗留着这个属性设置没有删除。由于 <code>iOS7</code> 之后，<code>AVCaptureSession</code> 和应用使用的是同一个 <code>AudioSession</code>，支持同时播放和录制且不会受到影响和打断，所以不需要再去设置这个属性。</p>
+<h4 id="坑0x0101"><a href="#坑0x0101" class="headerlink" title="坑0x0101"></a>坑0x0101</h4><p>做了以上操作，在 iPhoneX 下，当拉起控制中心，并上下滑调整音量后，再回到应用，会发现自定义音量视图会出现在状态栏下面，猜测虽然在应用内自定义音量视图 <code>window</code> 层级高于状态栏 <code>window</code> 层级，但是由于状态栏是全局的，在重新进入到应用时会出现状态栏层级高于音量视图。所以就索性仅在应用为 <code>active</code> 的情况下才处理 <code>KVO</code>。</p>
+<p>最后一个需要注意的点是在语音电话（或者其它使用系统音量的场景下）时，去自己应用内调节音量是无效，因为这个时候音量其实代表的是系统在占用，系统优先级高于应用，所以在这些场景下，即使在应用内调节音量，也无法触发出自己的音量视图。</p>
+<p>然后上面所有问题都迎刃而解了。</p>
+<p>最后推荐一个开源库：<a href="https://github.com/gizmosachin/VolumeBar" target="_blank" rel="external">VolumeBar</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://img.cdn.punmy.cn/15247541167324.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Tips" scheme="http://vongloo.me/categories/Tips/"/>
+    
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pod 中资源引入方式对比</title>
+    <link href="http://vongloo.me/2018/03/17/Pod-Resource/"/>
+    <id>http://vongloo.me/2018/03/17/Pod-Resource/</id>
+    <published>2018-03-17T05:18:38.000Z</published>
+    <updated>2018-10-28T05:20:05.739Z</updated>
+    
+    <content type="html"><![CDATA[<p>写这篇博客起因是由于周四在知识小集发了一个 <a href="https://weibo.com/3129068073/G7rJx4Pag" target="_blank" rel="external">Tip</a>，讲 <code>Pod</code> 里面使用了 <code>.xcassets</code> 会导致 <code>Xcode 9</code> 打出来的包没有 <code>icon</code> 的解决方案。然后和 <a href="https://weibo.com/damonone" target="_blank" rel="external">@Damonwong</a> 展开了一下讨论。当然这条 Tip 讲得不全对，而且表达得不是很清晰，所以这里专门开一篇文章来讲一下那个 Tip 想要表达的意思，最后也会附上对应的 Demo。也当做之后要写的模块化系列的文章开篇吧。</p>
+<a id="more"></a>
+<p>首先我们先来给出结论：</p>
+<ul>
+<li><strong><code>podspec</code> 里面写资源时，最好用 <code>s.resource_bundle</code> 而不是 <code>s.resource</code></strong></li>
+<li><strong>只有 <code>podspec</code> 使用 <code>resource</code> 且明确写了 <code>.xcassets</code> 的情况下才会导致 <code>Xcode 9</code> 打出来的包没有 <code>icon</code></strong></li>
+</ul>
+<blockquote>
+<p>环境配置：Xcode 9.2 、Cocoapods 1.4.0<br>本文所涉及到的资源主要是指 <code>png</code> 格式的图片</p>
+</blockquote>
+<p>下面我们先来了解一下这两种方式的具体情况，以及各自的优劣势，最后通过一个 <code>Demo</code> 来验证我们上面给的结论。</p>
+<h2 id="resource-和-resource-bundle"><a href="#resource-和-resource-bundle" class="headerlink" title="resource 和 resource_bundle"></a>resource 和 resource_bundle</h2><h3 id="resource"><a href="#resource" class="headerlink" title="resource"></a>resource</h3><p>通过<a href="https://guides.cocoapods.org/syntax/podspec.html#resources" target="_blank" rel="external">官方文档</a>描述</p>
+<blockquote>
+<p>A list of resources that should be copied into the target bundle.</p>
+</blockquote>
+<p>这种方式会引用的文件夹下的所有资源拷贝到 <code>target</code> 的 <code>bundle</code> 中去，可以简单的理解为 <code>.app</code> 目录下或者 <code>.app</code> 的 <code>Assets.car</code> 文件中（<strong>如果是 <code>.xcassets</code> 的资源</strong>）。</p>
+<blockquote>
+<p>Tips: 注意一下上面加粗的部分。</p>
+</blockquote>
+<p>这里抄一下官网上给的几个示例写法</p>
+<blockquote>
+<p>#单个路径<br>spec.resource = ‘Resources/HockeySDK.bundle’<br>#多个路径<br>spec.resources = [‘Images/*.png’, ‘Sounds/*‘]</p>
+</blockquote>
+<h3 id="resource-bundle"><a href="#resource-bundle" class="headerlink" title="resource_bundle"></a>resource_bundle</h3><p>还是一样，我们来看一下 <code>Cocoapods</code> <a href="https://guides.cocoapods.org/syntax/podspec.html#resource_bundles" target="_blank" rel="external">官方文档</a>上的描述</p>
+<blockquote>
+<p>This attribute allows to define the name and the file of the resource bundles which should be built for the Pod. They are specified as a hash where the keys represent the name of the bundles and the values the file patterns that they should include.</p>
+</blockquote>
+<p>这种方式可以将指定路径下的资源打包打 <code>=&gt;</code> 之前的 <code>key</code> 命名的 bundle 中，这个 <code>bundle</code> 最终会被拷贝到 <code>target</code> 也就是 <code>.app</code> 根目录下。<strong>如果有指定 <code>.xcassets</code> 资源，会被打包到以 <code>key</code> 命名的 <code>bundle</code> 里的 <code>Assets.car</code> 文件中。</strong></p>
+<blockquote>
+<p>Tips: 注意一下上面加粗的部分。</p>
+</blockquote>
+<p>官方示例写法</p>
+<blockquote>
+<p>#单个路径<br>spec.ios.resource_bundle = { ‘MapBox’ =&gt; ‘MapView/Map/Resources/*.png’ }<br>#多个路径，生成多个 bundle<br>spec.resource_bundles = {<br>    ‘MapBox’ =&gt; [‘MapView/Map/Resources/*.png’],<br>    ‘OtherResources’ =&gt; [‘MapView/Map/OtherResources/*.png’]<br>  }</p>
+</blockquote>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p>其实上面官网上的描述我故意漏附了后面的几段话，文档上在两种方式下都<strong>强烈(strongly)</strong>推荐使用 <code>resource_bundle</code> 的方式。</p>
+<blockquote>
+<p><strong>resource</strong> 下的描述<br>We <strong>strongly</strong> recommend library developers to adopt resource bundles as there can be name collisions using the resources attribute. Moreover, resources specified with this attribute are copied directly to the client target and therefore they are not optimised by Xcode.</p>
+<p><strong>resource_bundle</strong> 下的描述<br>We <strong>strongly</strong> recommend library developers to adopt resource bundles as there can be name collisions using the resources attribute.<br>The names of the bundles should at least include the name of the Pod to minimise the chance of name collisions.</p>
+</blockquote>
+<p>综合上述所说，就是使用 resource_bundle 主要有以下两点好处：</p>
+<ul>
+<li>避免命名冲突（<code>bundle</code> 命名时最好包含 Pod 的名字来尽可能避免掉命名冲突）</li>
+<li>Xcode 会对资源做优化，比如 <code>.xcassets</code> 里的图片压缩、Slicing、以及 @2x/@3x 图片资源分离</li>
+</ul>
+<p>我们来对比下两种方式下最终打包出来的应用目录结构：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方式</th>
+<th style="text-align:center">生成的 <code>.app</code> 目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="http://img.cdn.punmy.cn/15213450850565.jpg" alt=""></td>
+<td style="text-align:center"><img src="http://img.cdn.punmy.cn/15213516588016.jpg" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://img.cdn.punmy.cn/15213484478130.jpg" alt=""></td>
+<td style="text-align:center"><img src="http://img.cdn.punmy.cn/15213515637040.jpg" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>可以看出 <code>resource_bundle</code> 的形式会生成对应的 <code>bundle</code>(上图中的 <code>Pod1.bundle</code>)，并且 <code>.xcassets</code> 最终会被打包到对应 <code>bundle</code> 下的 <code>Assets.car</code> 文件下（该文件可用这个工具打开：<a href="https://github.com/devcxm/iOS-Images-Extractor" target="_blank" rel="external">iOS-Images-Extractor</a>）。<br>而 <code>resource</code> 的形式，会把 <code>.xcassets</code> 打包到应用根目录下的 <code>Assets.car</code> 中。</p>
+<p>而要读取对应的图片时，<code>resource</code> 对应的代码长下面这样：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIImage</span> *image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"your-image-name"</span></div><div class="line">                            inBundle:[<span class="built_in">NSBundle</span> bundleForClass:[<span class="keyword">self</span> <span class="keyword">class</span>]]</div><div class="line">       compatibleWithTraitCollection:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
+<p>而 <code>resource_bundle</code> 对应的读取代码如下面所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSBundle</span> *bundle = [<span class="built_in">NSBundle</span> bundleForClass:[<span class="keyword">self</span> <span class="keyword">class</span>]];</div><div class="line"><span class="built_in">NSURL</span> *url = [bundle URLForResource:<span class="string">@"your-bundle-name"</span> withExtension:<span class="string">@"bundle"</span>];</div><div class="line"><span class="built_in">NSBundle</span> *targetBundle = [<span class="built_in">NSBundle</span> bundleWithURL:url];</div><div class="line"><span class="built_in">UIImage</span> *image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"your-image-name"</span></div><div class="line">                            inBundle:targetBundle</div><div class="line">       compatibleWithTraitCollection:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
+<p>通过以上两个代码片段，相信各位已经知道代码片段1、2都可能存在图片命名冲突的问题，但是一般情况下片段2的冲突概率远小于片段1的。因为一般情况下，模块内的图片命名肯定是不会冲突的，而模块间的图片的命名就不好说了。当然如果团队里有明确的命名规范，片段1和片段2都不会有问题。<br>虽然片段2代码较片段1稍复杂一些，但是如果我们将其封装成一个 <code>NSBundle</code> 的分类，就免去了冗长的写法，对于 <code>Storyboard/Xib</code> 同样适用。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 具体代码可以在 Demo 中找到</span></div><div class="line"><span class="comment">//.h</span></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSBundle</span> (<span class="title">Pod1Bundle</span>)</span></div><div class="line"></div><div class="line">+ (<span class="built_in">NSBundle</span> *)pod1_bundle;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">//.m</span></div><div class="line"><span class="comment">// FakeClass 仅作占位符用，即只为分类中的 `bundleForClass:` 方法服务</span></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Pod1FakeClass</span> : <span class="title">NSObject</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Pod1FakeClass</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSBundle</span> (<span class="title">Pod1Bundle</span>)</span></div><div class="line"></div><div class="line">+ (<span class="built_in">NSBundle</span> *)pod1_bundle &#123;</div><div class="line">    <span class="built_in">NSBundle</span> *bundle = [<span class="keyword">self</span> bundleForClass:[Pod1FakeClass <span class="keyword">class</span>]];</div><div class="line">    <span class="built_in">NSURL</span> *url = [bundle URLForResource:<span class="string">@"Pod1"</span> withExtension:<span class="string">@"bundle"</span>];</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> bundleWithURL:url];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">// 片段2可以简写为：</span></div><div class="line"><span class="built_in">UIImage</span> *image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"your-image-name"</span></div><div class="line">                            inBundle:[<span class="built_in">NSBundle</span> pod1_bundle]</div><div class="line">       compatibleWithTraitCollection:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a><a href="https://github.com/wang9262/PodResourceDemo" target="_blank" rel="external">Demo</a></h2><p>第一个 <a href="https://github.com/wang9262/PodResourceDemo/commit/c397c6d15ee1f54e99d333ad9e85a6600fdf34bf" target="_blank" rel="external"><code>commit</code></a> 写好了两个 <code>podspec</code>，一个用 <code>resource_bundle</code>(Pod1)，一个用 <code>resource</code>(Pod2)，然后都引用 <code>.xassets</code> 资源，里面都有一个名为<code>Pod</code>的图片，主工程也有。区别在于 <code>Pod</code> 中的图片顶部会有该 <code>Pod</code> 名称的水印。然后页面上有3个 <code>ImageView</code>，目前只设置了中间那个 <code>ImageView</code> 的图片为主工程的图片。运行起来，一切表现正常，展示出来的图片也确实是主工程的图片。</p>
+<p>第二个 <a href="https://github.com/wang9262/PodResourceDemo/commit/f2f7cfc979e13fc42e4dc2dd51631c4ce94e9861" target="_blank" rel="external"><code>commit</code></a> 在主工程内分别读取 <code>Pod1</code> 和 <code>Pod2</code> 的名为 <code>Pod</code> 的图片，然后分别塞到上下两个 <code>ImageView</code> 中，运行起来，最下面那个 <code>ImageView</code> 的图片变成主工程的图片了，而最上面的 <code>ImageView</code> 的图片是正常的！！！这就是我们上面说到的那个问题，由于 <code>Pod2</code> 使用 <code>resource</code> 的方式，<code>.xcassets</code> 中图片是直接和主工程的 <code>.xcassets</code> 中图片一样是打包到 <code>.app</code> 根目录下的 <code>Assets.car</code> 中，命名一致，导致被主工程的图片给覆盖掉了（可以使用上面说到的解压工具解压，查看根目录 <code>.car</code> 下的文件内容，只有主工程的图片）。</p>
+<p>第三个 <a href="https://github.com/wang9262/PodResourceDemo/commit/c6a1c9bd15dd24e1ef165edce948989306df6ad9" target="_blank" rel="external"><code>commit</code></a> 及 <a href="https://github.com/wang9262/PodResourceDemo/tree/ruby-shell" target="_blank" rel="external"><code>ruby-shell</code></a> 分支主要解决应用 icon 为空的问题。当我们 Home 键回到桌面时，回发现 Demo 的 icon 是空的，但是我们是有设置 icon 的。所以我们有两种解决方案来解决这个问题。</p>
+<h3 id="方案一：不使用-xcassets"><a href="#方案一：不使用-xcassets" class="headerlink" title="方案一：不使用 .xcassets"></a>方案一：不使用 <code>.xcassets</code></h3><p>把图片放到 <code>Pod2</code> 目录下，不再放到 <code>.xcassets</code> 里面，然后 <code>podspec</code> 里的写法改成：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">s.resources = [<span class="string">'Pod2/**/*.png'</span>]</div></pre></td></tr></table></figure>
+<p><code>pod install</code> 之后再跑一下，发现 <code>icon</code> 回来了，但是图片还是被主工程覆盖了，查看 <code>.app</code> 文件，我们发现根目录下多了两张图片，他们来自于 <code>Pod2</code> 目录下。</p>
+<p><img src="http://img.cdn.punmy.cn/15213565093908.jpg" alt=""></p>
+<p>相应的我们的读取代码就需要改成下面这种形式，还需要区分 <code>@2x</code> 和 <code>@3x</code>，非常麻烦，但是这个时候确实能读到对应的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// @2x 读取</div><div class="line">_podImage = [UIImage imageNamed:@&quot;Pod@2x&quot;</div><div class="line">                       inBundle:[NSBundle bundleForClass:[self class]]</div><div class="line">  compatibleWithTraitCollection:nil];</div><div class="line">// @3x</div><div class="line">_podImage = [UIImage imageNamed:@&quot;Pod@3x&quot;</div><div class="line">                       inBundle:[NSBundle bundleForClass:[self class]]</div><div class="line">  compatibleWithTraitCollection:nil];</div></pre></td></tr></table></figure>
+<h3 id="方案二：脚本"><a href="#方案二：脚本" class="headerlink" title="方案二：脚本"></a>方案二：脚本</h3><p>在 podfile 中加入下面这一段脚本</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">post_install <span class="keyword">do</span> <span class="params">|installer|</span></div><div class="line">copy_pods_resources_path = <span class="string">"Pods/Target Support Files/Pods-ResourceDemo_Example/Pods-ResourceDemo_Example-resources.sh"</span></div><div class="line">string_to_replace = <span class="string">'--compile "$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;UNLOCALIZED_RESOURCES_FOLDER_PATH&#125;"'</span></div><div class="line">assets_compile_with_app_icon_arguments = <span class="string">'--compile "$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;UNLOCALIZED_RESOURCES_FOLDER_PATH&#125;" --app-icon "$&#123;ASSETCATALOG_COMPILER_APPICON_NAME&#125;" --output-partial-info-plist "$&#123;BUILD_DIR&#125;/assetcatalog_generated_info.plist"'</span></div><div class="line">text = File.read(copy_pods_resources_path)</div><div class="line">new_contents = text.gsub(string_to_replace, assets_compile_with_app_icon_arguments)</div><div class="line">File.open(copy_pods_resources_path, <span class="string">"w"</span>) &#123;<span class="params">|file|</span> file.puts new_contents &#125;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p>然后 <code>pod install</code> 之后，运行即可。</p>
+<blockquote>
+<p>以上两种方式执行之前最好 <code>clean</code> 一下，防止 <code>Xcode</code> 缓存，导致以上方法执行后也会出现 <code>icon</code> 消失的情况。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>综合以上，我们再总结一下 <code>resource_bundle</code> 的优势：</p>
+<ul>
+<li>绝大多数(99.999%)情况下不会有资源命名冲突问题</li>
+<li>如果图片资源放到 <code>.xcasset</code> 里面 <code>Xcode</code> 会帮我们自动优化、可以使用 Slicing 等（这里不仅仅指的是 <code>resource_bundle</code> 下的 <code>xcassets</code>，只不过 <code>s.resource</code> 中如果引用会导致 <code>icon</code> 消失的问题）。</li>
+</ul>
+<p>至于劣势，我觉得根本就没有，上面那个硬编码问题，完全可以通过我说的分类或者你自定义宏的方式把这个硬编码问题 Cover 掉。</p>
+<p>如果认为文章中的观点或结论有问题，欢迎指出，一起沟通探讨。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a href="https://github.com/CocoaPods/CocoaPods/issues/7003" target="_blank" rel="external">App Icons not included in build from Xcode 9</a><br><a href="http://zhoulingyu.com/2018/02/02/pod-resource-reference/" target="_blank" rel="external">关于 Pod 库的资源引用 resource_bundles or resources</a></p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;写这篇博客起因是由于周四在知识小集发了一个 &lt;a href=&quot;https://weibo.com/3129068073/G7rJx4Pag&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Tip&lt;/a&gt;，讲 &lt;code&gt;Pod&lt;/code&gt; 里面使用了 &lt;code&gt;.xcassets&lt;/code&gt; 会导致 &lt;code&gt;Xcode 9&lt;/code&gt; 打出来的包没有 &lt;code&gt;icon&lt;/code&gt; 的解决方案。然后和 &lt;a href=&quot;https://weibo.com/damonone&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Damonwong&lt;/a&gt; 展开了一下讨论。当然这条 Tip 讲得不全对，而且表达得不是很清晰，所以这里专门开一篇文章来讲一下那个 Tip 想要表达的意思，最后也会附上对应的 Demo。也当做之后要写的模块化系列的文章开篇吧。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="模块化" scheme="http://vongloo.me/categories/%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
+    
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+    
+      <category term="Xcode" scheme="http://vongloo.me/tags/Xcode/"/>
+    
+      <category term="Pod" scheme="http://vongloo.me/tags/Pod/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>亦无岁月可回头</title>
+    <link href="http://vongloo.me/2018/02/16/2017-Summary/"/>
+    <id>http://vongloo.me/2018/02/16/2017-Summary/</id>
+    <published>2018-02-15T16:13:46.000Z</published>
+    <updated>2018-10-28T05:24:04.294Z</updated>
+    
+    <content type="html"><![CDATA[<p>2018 即将来到(哈哈哈哈哈哈，我说的是农历年)，这篇文章纯当一篇水文，做个2017的年终总结。</p>
+<a id="more"></a>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p><img src="http://img.cdn.punmy.cn/15187013079738.jpg" alt=""></p>
+<p>来美图工作已经快4年了（算上实习的话），从一个 CollectionView 都不会用的人，到现在慢慢得能够比较轻松应对现在的工作。</p>
+<p>去年工作上最有成就感的两件事情：</p>
+<ul>
+<li>在业界的几种模块化方式上结合美拍实际情况进行了简单的实践。年后写篇文章分享一下这个过程和思路。</li>
+<li>配合架构同学让美拍直播实现了真正的秒开。</li>
+</ul>
+<blockquote>
+<p>讲真陌陌直播秒开真的很牛逼，现在美拍也能达到这个水平了！</p>
+</blockquote>
+<p>年中的时候，买了几本书，目前只看了其中三本，年后再继续吧。<br>12月的时候美拍开始996，说真的有点累，每天晚上10点多到家，洗完澡差不多到睡觉时间，希望年后不要再继续了😂还是比较怀念之前有双休的日子。<br>对于学习的方式也发生了一点变化，以前总是想着要学很多，列了很多待学习项，但是最后都是不了了之，现在慢慢开始往某一个方向去深入了解，其他的做个基本了解就 ok。</p>
+<h3 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h3><p>随着毕业季到来，和公司的两个小鲜肉合租，周末偶尔自己做做饭，刚开始兴趣比较大，后面由于996，基本上也就没怎么用过厨房了。<br>今年夏天在小鲜肉们的带领下，学会了一项求生技能—-游泳。现在还不会换气，一口气只能游10m，姿势是狗刨试。<br>基本上每个月至少会和他们一起看一部电影，烂片除外。<br>国庆和小伙伴们去了一趟台湾，本来去年就计划好的，但是又去通行证时间来不及坑了熊哥，所以原计划就推到了今年。台湾旅程感觉最有意思的地方非绿岛莫属了，环岛骑了半天机车，傍晚时分一起去潜水。第一次比较紧张，到十几米水下的时候感觉不舒服，然后手脚错乱，还好教练在身边，马上浮了上来，差点 GG。后面再下去就比较顺利了，如果后面有机会，值得再去一次。</p>
+<h3 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h3><p>周末一般会和同学玩一玩英雄联盟，S7世界赛和同事们在家里一起投屏看比赛，只是很可惜零封 SSG 的 RNG 没有赢下对 SKT 的比赛。当然 EDG 是被喷的最惨的，不过 iBoy 这个小朋友很皮，S8可以期待一下。</p>
+<p>996之后英雄联盟就玩的比较少了，一般就中午的时候吃一吃鸡。</p>
+<p>不过不管玩什么游戏，都很菜，而且有时候反应很慢，可能不是玩游戏的料，纯属娱乐😂。哈哈哈哈哈，只能用这个来安慰自己了，感谢队友的不杀之恩！！！</p>
+<h3 id="技能"><a href="#技能" class="headerlink" title="技能"></a>技能</h3><h4 id="技术方面"><a href="#技术方面" class="headerlink" title="技术方面"></a>技术方面</h4><ul>
+<li><strong>初识逆向</strong> 发现逆向还是蛮好玩的，但是基础知识不够，还没有深入玩下去，只是做了个简单的了解。改善了一下平时写正向代码的思路。</li>
+<li><strong>RAC 实践</strong> 之前组内同事一直在推广，但是自己没有真正实践过，都是停留在他的分享上。今年接手美拍直播这一块之后，慢慢开始使用，很多值得注意的地方，也踩了一些坑，目前只是算对 RAC 有一个基本的了解，以及初步实践，后面还需要继续实践，以及完整读一遍源码。</li>
+</ul>
+<h4 id="生活方面"><a href="#生活方面" class="headerlink" title="生活方面"></a>生活方面</h4><ul>
+<li><strong>做菜</strong> 上面说到合租后有自己做过一段时间饭，有照着食谱做，也有回忆着老爸做菜时候的一些操作和步骤。从难吃到慢慢变成勉强能吃，到后面每次大家都能把菜吃光，也算是一种进步了吧。</li>
+<li><strong>游泳</strong> 之前对游泳是抗拒的，主要是不会游，觉得去了很尴尬，后面看了几集视频教程以及实践，开始学会了一丁点，能有一点点距离了，但还是不会换气。</li>
+</ul>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><p>躺在床上，敲着这些流水账，听着外面鞭炮声，这真的是一篇写了“一年”的文章。</p>
+<p>2017已经过去，希望2018自己能够继续成长。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;2018 即将来到(哈哈哈哈哈哈，我说的是农历年)，这篇文章纯当一篇水文，做个2017的年终总结。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
+    
+    
+      <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Modern Objective-C</title>
     <link href="http://vongloo.me/2017/04/21/Modern-Objective-C/"/>
     <id>http://vongloo.me/2017/04/21/Modern-Objective-C/</id>
     <published>2017-04-21T12:51:41.000Z</published>
-    <updated>2017-04-21T15:00:06.000Z</updated>
+    <updated>2018-10-28T05:20:05.747Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要介绍一些 Objective-C 的一些新特性。<br><a id="more"></a></p>
 <h3 id="从一个-Bug-来说说-Objective-C-中的指定构造器"><a href="#从一个-Bug-来说说-Objective-C-中的指定构造器" class="headerlink" title="从一个 Bug 来说说 Objective-C 中的指定构造器"></a>从一个 Bug 来说说 Objective-C 中的指定构造器</h3><p>某天测试反馈，iOS8 点击按钮时弹出一个列表视图出现必现崩溃，看了下崩溃日志，是野指针导致导出乱崩，具体是 <code>[xxx collectionView:numberOfItemsInSection:] unrecognized selector send to instance xxxxx</code>。<br>连上设备调试，发现 <code>setupDataSource</code> 走了两次，由于调用栈非常类似，一开始没注意它调了两次，一直没找到问题所在。后面各种断点上去，发现 <code>setupDataSource</code> 方法被调用了两次，进一步 <code>commonInit</code> 被调用了两次。最后查看初始化代码，才发现调用 <code>convenience init method</code> 时，没有调 <code>designed init method</code>，并且调完之后又再调了一次 <code>commonInit</code>。具体看下代码：</p>
@@ -34,7 +267,7 @@
 <li>指定构造器必须要用 <code>NS_DESIGNATED_INITIALIZER</code> 标示</li>
 </ol>
 <p>可参考下图</p>
-<p><img src="http://o9sih3398.bkt.clouddn.com/14912017895530.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/14912017895530.jpg" alt=""></p>
 <blockquote>
 <p>图片出自 《The Swift Programming Language (Swift 3.0.1)》 Initialization - Syntax for Designated and Convenience Initializers 小节</p>
 </blockquote>
@@ -134,16 +367,16 @@
     <link href="http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/"/>
     <id>http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</id>
     <published>2016-09-17T12:29:00.000Z</published>
-    <updated>2016-09-17T13:02:55.000Z</updated>
+    <updated>2018-10-28T05:20:05.739Z</updated>
     
     <content type="html"><![CDATA[<p>工欲善其事，必先利其器。随着 Xcode 的一步步变得强(yong)大(zhong)，许多功能已经被集成到 Xcode 中，但是日常开发还是会遇到很多小问题，影响效率，于是 Xcode plugins 便派上用场了。下面介绍一下自己在开发中常用的插件，排名不分先后，仅按字母排序。</p>
 <a id="more"></a>
 <blockquote>
 <p>关于 Xcode8 不能使用插件的问题，可以在我上一篇文章<a href="http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/">让你的 Xcode8 继续使用插件</a>找到解决方案。</p>
 </blockquote>
-<h3 id="Alcatraz"><a href="#Alcatraz" class="headerlink" title="Alcatraz"></a><a href="https://github.com/alcatraz/Alcatraz/" target="_blank" rel="external">Alcatraz</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740910538405.jpg" alt=""></p>
+<h3 id="Alcatraz"><a href="#Alcatraz" class="headerlink" title="Alcatraz"></a><a href="https://github.com/alcatraz/Alcatraz/" target="_blank" rel="external">Alcatraz</a></h3><p><img src="http://img.cdn.punmy.cn/14740910538405.jpg" alt=""></p>
 <p>这个就不用多说了吧，所有插件包管理器，快捷键 <code>cmd + shift + 9</code>。</p>
-<h3 id="ATProperty"><a href="#ATProperty" class="headerlink" title="ATProperty"></a><a href="https://github.com/Draveness/ATProperty" target="_blank" rel="external">ATProperty</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740919509236.gif" alt=""><br>平时在属性声明时，总要写一堆的诸如 <code>@property (strong, nonatomic) UIWindow *window;</code>之类的，前面那一长串在属性一多时，写起来挺累的。这个插件正是为了解决这个痛点而存在，快捷键如下：</p>
+<h3 id="ATProperty"><a href="#ATProperty" class="headerlink" title="ATProperty"></a><a href="https://github.com/Draveness/ATProperty" target="_blank" rel="external">ATProperty</a></h3><p><img src="http://img.cdn.punmy.cn/14740919509236.gif" alt=""><br>平时在属性声明时，总要写一堆的诸如 <code>@property (strong, nonatomic) UIWindow *window;</code>之类的，前面那一长串在属性一多时，写起来挺累的。这个插件正是为了解决这个痛点而存在，快捷键如下：</p>
 <table>
 <thead>
 <tr>
@@ -171,25 +404,25 @@
 </tbody>
 </table>
 <p><code>readonly</code> 只需在 <code>@</code> 后插入 <code>r</code> 即可，比如 <code>@rt</code>，就是 <code>@property (nonatomic, strong, readonly)</code></p>
-<h3 id="Auto-Importer"><a href="#Auto-Importer" class="headerlink" title="Auto-Importer"></a><a href="https://github.com/citrusbyte/Auto-Importer-for-Xcode" target="_blank" rel="external">Auto-Importer</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740927781208.gif" alt=""></p>
+<h3 id="Auto-Importer"><a href="#Auto-Importer" class="headerlink" title="Auto-Importer"></a><a href="https://github.com/citrusbyte/Auto-Importer-for-Xcode" target="_blank" rel="external">Auto-Importer</a></h3><p><img src="http://img.cdn.punmy.cn/14740927781208.gif" alt=""></p>
 <p>在写代码过程中，比如处在 line500 的时候要引入一个新的类，这个时候不得不滑到顶部，去写一次 <code>#import&quot;xxxx.h&quot;</code>，然后又滑回来继续写代码，严重影响效率。此时你需要这个插件来解决这个苦恼，随便一个地方，使用快捷键 <code>cmd + ctrl + h</code> 来呼出弹窗，在搜索框中输入想要导入的头文件即可，无需在滑到文件顶部，参考上图。</p>
-<h3 id="CATweakerSense"><a href="#CATweakerSense" class="headerlink" title="CATweakerSense"></a><a href="https://github.com/keefo/CATweaker" target="_blank" rel="external">CATweakerSense</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740930409569.png" alt=""><br>用的不是很多，主要是在做动画比较有用，时间缓冲函数，将时间曲线可视化。</p>
-<h3 id="ColorSenseRainbow"><a href="#ColorSenseRainbow" class="headerlink" title="ColorSenseRainbow"></a><a href="https://github.com/NorthernRealities/ColorSenseRainbow" target="_blank" rel="external">ColorSenseRainbow</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740932923044.png" alt=""><br>一目了然，颜色可视化。</p>
-<h3 id="DBSmartPanels"><a href="#DBSmartPanels" class="headerlink" title="DBSmartPanels"></a><a href="https://github.com/chaingarden/DBSmartPanels/" target="_blank" rel="external">DBSmartPanels</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740934576865.jpg" alt=""><br>智能化的区域隐藏插件，在输入时自动隐藏底部 <code>debug</code>、右侧 <code>inspector</code> 区域，具体可以自定义。</p>
+<h3 id="CATweakerSense"><a href="#CATweakerSense" class="headerlink" title="CATweakerSense"></a><a href="https://github.com/keefo/CATweaker" target="_blank" rel="external">CATweakerSense</a></h3><p><img src="http://img.cdn.punmy.cn/14740930409569.png" alt=""><br>用的不是很多，主要是在做动画比较有用，时间缓冲函数，将时间曲线可视化。</p>
+<h3 id="ColorSenseRainbow"><a href="#ColorSenseRainbow" class="headerlink" title="ColorSenseRainbow"></a><a href="https://github.com/NorthernRealities/ColorSenseRainbow" target="_blank" rel="external">ColorSenseRainbow</a></h3><p><img src="http://img.cdn.punmy.cn/14740932923044.png" alt=""><br>一目了然，颜色可视化。</p>
+<h3 id="DBSmartPanels"><a href="#DBSmartPanels" class="headerlink" title="DBSmartPanels"></a><a href="https://github.com/chaingarden/DBSmartPanels/" target="_blank" rel="external">DBSmartPanels</a></h3><p><img src="http://img.cdn.punmy.cn/14740934576865.jpg" alt=""><br>智能化的区域隐藏插件，在输入时自动隐藏底部 <code>debug</code>、右侧 <code>inspector</code> 区域，具体可以自定义。</p>
 <h3 id="DXXcodeConsoleUnicodePlugin"><a href="#DXXcodeConsoleUnicodePlugin" class="headerlink" title="DXXcodeConsoleUnicodePlugin"></a><a href="https://github.com/dhcdht/DXXcodeConsoleUnicodePlugin" target="_blank" rel="external">DXXcodeConsoleUnicodePlugin</a></h3><p>有时候在调试时，服务端返回的中文字符在 <code>debug console</code> 中总是显示成 <code>unicode</code>，这个插件可以将其自动转成中文字符。具体可到其 GitHub 主页查看用法。</p>
-<h3 id="FastStub"><a href="#FastStub" class="headerlink" title="FastStub"></a><a href="https://github.com/music4kid/FastStub-Xcode" target="_blank" rel="external">FastStub</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740940467700.gif" alt=""></p>
+<h3 id="FastStub"><a href="#FastStub" class="headerlink" title="FastStub"></a><a href="https://github.com/music4kid/FastStub-Xcode" target="_blank" rel="external">FastStub</a></h3><p><img src="http://img.cdn.punmy.cn/14740940467700.gif" alt=""></p>
 <p>检测头文件、父类、协议等中的方法，然后自动在 <code>.m</code> 文件插入。快捷键 <code>cmd + ctrl + k</code></p>
-<h3 id="FuzzyAutocomplete"><a href="#FuzzyAutocomplete" class="headerlink" title="FuzzyAutocomplete"></a><a href="https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin" target="_blank" rel="external">FuzzyAutocomplete</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740942597943.gif" alt=""><br>快速补全。</p>
-<h3 id="GitDiff"><a href="#GitDiff" class="headerlink" title="GitDiff"></a><a href="https://github.com/johnno1962/GitDiff" target="_blank" rel="external">GitDiff</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14740943628859.jpg" alt=""><br>检测文件中的 git 状态。</p>
+<h3 id="FuzzyAutocomplete"><a href="#FuzzyAutocomplete" class="headerlink" title="FuzzyAutocomplete"></a><a href="https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin" target="_blank" rel="external">FuzzyAutocomplete</a></h3><p><img src="http://img.cdn.punmy.cn/14740942597943.gif" alt=""><br>快速补全。</p>
+<h3 id="GitDiff"><a href="#GitDiff" class="headerlink" title="GitDiff"></a><a href="https://github.com/johnno1962/GitDiff" target="_blank" rel="external">GitDiff</a></h3><p><img src="http://img.cdn.punmy.cn/14740943628859.jpg" alt=""><br>检测文件中的 git 状态。</p>
 <h3 id="RRConstraintsPlugin"><a href="#RRConstraintsPlugin" class="headerlink" title="RRConstraintsPlugin"></a><a href="https://github.com/RolandasRazma/RRConstraintsPlugin" target="_blank" rel="external">RRConstraintsPlugin</a></h3><p>对系统 Auto Layout 的一些补充。</p>
-<h3 id="SCXcodeSwitchExpander"><a href="#SCXcodeSwitchExpander" class="headerlink" title="SCXcodeSwitchExpander"></a><a href="https://github.com/stefanceriu/SCXcodeSwitchExpander" target="_blank" rel="external">SCXcodeSwitchExpander</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14741022908523.gif" alt=""></p>
+<h3 id="SCXcodeSwitchExpander"><a href="#SCXcodeSwitchExpander" class="headerlink" title="SCXcodeSwitchExpander"></a><a href="https://github.com/stefanceriu/SCXcodeSwitchExpander" target="_blank" rel="external">SCXcodeSwitchExpander</a></h3><p><img src="http://img.cdn.punmy.cn/14741022908523.gif" alt=""></p>
 <p><code>switch</code> 时根据枚举类型，自动补全所有枚举</p>
-<h3 id="SCXcodeTabSwitcher"><a href="#SCXcodeTabSwitcher" class="headerlink" title="SCXcodeTabSwitcher"></a><a href="https://github.com/stefanceriu/SCXcodeTabSwitcher" target="_blank" rel="external">SCXcodeTabSwitcher</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14741091449161.gif" alt=""></p>
+<h3 id="SCXcodeTabSwitcher"><a href="#SCXcodeTabSwitcher" class="headerlink" title="SCXcodeTabSwitcher"></a><a href="https://github.com/stefanceriu/SCXcodeTabSwitcher" target="_blank" rel="external">SCXcodeTabSwitcher</a></h3><p><img src="http://img.cdn.punmy.cn/14741091449161.gif" alt=""></p>
 <p>此插件用于存在多个 <code>tab</code> 时在 <code>tab</code> 间快速切换，类似 Chrome。快捷键 <code>Cmd + 1...9</code> 切换。</p>
 <h3 id="VVDocumenter-Xcode"><a href="#VVDocumenter-Xcode" class="headerlink" title="VVDocumenter-Xcode"></a><a href="https://github.com/onevcat/VVDocumenter-Xcode" target="_blank" rel="external">VVDocumenter-Xcode</a></h3><p>这个不用多说了吧。快速注释，现已集成到 Xcode8。</p>
-<h3 id="XAlign"><a href="#XAlign" class="headerlink" title="XAlign"></a><a href="https://github.com/qfish/XAlign" target="_blank" rel="external">XAlign</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14741140642718.gif" alt=""><br>对齐插件，可自定义对齐方式。</p>
-<h3 id="XQuit"><a href="#XQuit" class="headerlink" title="XQuit"></a><a href="https://github.com/StefanLage/XQuit" target="_blank" rel="external">XQuit</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14741141444896.png" alt=""><br>完全退出(cmd + q) Xcode 之前，弹出一个确认框，防止误操作。</p>
-<h3 id="XToDo"><a href="#XToDo" class="headerlink" title="XToDo"></a><a href="https://github.com/trawor/XToDo" target="_blank" rel="external">XToDo</a></h3><p><img src="http://o9sih3398.bkt.clouddn.com/14741143739724.png" alt=""><br><img src="http://o9sih3398.bkt.clouddn.com/14741143787410.png" alt=""><br>用于工程中的一些标注，及快速查找这些标注的插件。</p>
+<h3 id="XAlign"><a href="#XAlign" class="headerlink" title="XAlign"></a><a href="https://github.com/qfish/XAlign" target="_blank" rel="external">XAlign</a></h3><p><img src="http://img.cdn.punmy.cn/14741140642718.gif" alt=""><br>对齐插件，可自定义对齐方式。</p>
+<h3 id="XQuit"><a href="#XQuit" class="headerlink" title="XQuit"></a><a href="https://github.com/StefanLage/XQuit" target="_blank" rel="external">XQuit</a></h3><p><img src="http://img.cdn.punmy.cn/14741141444896.png" alt=""><br>完全退出(cmd + q) Xcode 之前，弹出一个确认框，防止误操作。</p>
+<h3 id="XToDo"><a href="#XToDo" class="headerlink" title="XToDo"></a><a href="https://github.com/trawor/XToDo" target="_blank" rel="external">XToDo</a></h3><p><img src="http://img.cdn.punmy.cn/14741143739724.png" alt=""><br><img src="http://img.cdn.punmy.cn/14741143787410.png" alt=""><br>用于工程中的一些标注，及快速查找这些标注的插件。</p>
 <h3 id="XVim"><a href="#XVim" class="headerlink" title="XVim"></a><a href="https://github.com/XVimProject/XVim" target="_blank" rel="external">XVim</a></h3><p>Vim 控必备。</p>
 <p>以上便是个人常用的 Xcode 插件，欢迎推荐。</p>
 ]]></content>
@@ -216,7 +449,7 @@
     <link href="http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/"/>
     <id>http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/</id>
     <published>2016-09-10T12:08:39.000Z</published>
-    <updated>2017-04-09T12:18:37.000Z</updated>
+    <updated>2018-10-28T05:20:05.738Z</updated>
     
     <content type="html"><![CDATA[<p>随着 iOS10 的正式版即将发布，Xcode8 GM 也在发布会后放出，本文不会涉及到 Xcode8 有哪些更新，而是记录了如何让 Xcode8 继续支持 Plugin。</p>
 <a id="more"></a>
@@ -227,7 +460,7 @@
 </blockquote>
 <p>详情参考这个 <a href="https://github.com/XVimProject/XVim/issues/1058#issuecomment-289703908" target="_blank" rel="external">issue: Build failure with Xcode 8.3</a></p>
 <p><strong>2016.10.8</strong><br>如果你的 XcodeGr8 时不时就转菊花卡死，可以试下这种方式：打开<code>系统偏好设置-&gt;安全性与隐私-&gt;通讯录-&gt;将 Xcode 前面的勾去掉</code>，如下图所示，解决方案来自 <code>Xvim</code> 的这个 <a href="https://github.com/XVimProject/XVim/issues/966#issuecomment-247276024" target="_blank" rel="external">issue</a>。</p>
-<p><img src="http://o9sih3398.bkt.clouddn.com/14759295440293.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/14759295440293.jpg" alt=""></p>
 <p><strong>2016.9.16</strong><br>看到 GitHub 上有一个 repo 可以一句命令即可解决本文提到的所有问题 <a href="https://github.com/inket/update_xcode_plugins" target="_blank" rel="external">update_xcode_plugins</a>，没有亲测，如果觉得本文方法比较麻烦，可以一试。</p>
 <p>我个人常用的 Xcode 插件可以参见这篇文章<a href="http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/">Xcode 常用插件</a>。</p>
 <hr>
@@ -282,7 +515,7 @@
     <link href="http://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/"/>
     <id>http://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</id>
     <published>2016-08-26T16:08:21.000Z</published>
-    <updated>2016-08-26T16:26:27.000Z</updated>
+    <updated>2018-10-28T05:24:02.983Z</updated>
     
     <content type="html"><![CDATA[<p>这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（<a href="https://github.com/icanzilb/EasyAnimation" target="_blank" rel="external">Easy Animation</a>、<a href="https://github.com/facebook/pop" target="_blank" rel="external">pop</a>）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。</p>
 <a id="more"></a>
@@ -325,26 +558,21 @@
 <p>简单来说就是在 UIView 满足需求的时候尽量使用 UIView，当追求更好的性能及灵活性时可以考虑使用 Core Animation.当然，两者也可以混合使用。</p>
 <h3 id="fillMode"><a href="#fillMode" class="headerlink" title="fillMode"></a>fillMode</h3><p>这里借用书中的几张图来阐明一下各种模式</p>
 <ul>
-<li><p><strong>kCAFillModeRemoved</strong></p>
-<p>  默认模式：动画执行完毕后恢复原样</p>
-</li>
+<li><strong>kCAFillModeRemoved</strong><br>img.cdn.punmy.cn<br>  默认模式：动画执行完毕后恢复原样</li>
 </ul>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-0@2x.png" alt="QQ20160826-0@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-0@2x.png" alt="QQ20160826-0@2x"></p>
 <ul>
-<li><p><strong>kCAFillModeBackwards</strong></p>
-<p>  动画开始前展示第一帧<br><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-1@2x.png" alt="QQ20160826-1@2x"></p>
+<li><p><strong>kCAFillModeBackwards</strong>img.cdn.punmy.cn</p>
+<p>  动画开始前展示第一帧<br><img src="http://img.cdn.punmy.cn/QQ20160826-1@2x.png" alt="QQ20160826-1@2x"></p>
 </li>
-<li><p><strong>kCAFillModeForwards</strong></p>
-<p>  动画结束后 layer 维持最后一帧的状态</p>
+<li><p><strong>kCAFillModeForwards</strong><br>img.cdn.punmy.cn<br>  动画结束后 layer 维持最后一帧的状态</p>
 </li>
 </ul>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-2@2x.png" alt="QQ20160826-2@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-2@2x.png" alt="QQ20160826-2@2x"></p>
 <ul>
-<li><p><strong>kCAFillModeBoth</strong></p>
-<p>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</p>
-</li>
+<li><strong>kCAFillModeBoth</strong><br>img.cdn.punmy.cn<br>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</li>
 </ul>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-3@2x.png" alt="QQ20160826-3@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-3@2x.png" alt="QQ20160826-3@2x"></p>
 <h3 id="Layer-弹性动画"><a href="#Layer-弹性动画" class="headerlink" title="Layer 弹性动画"></a>Layer 弹性动画</h3><p>这一节以钟摆举例，来解释弹性阻尼动画的相关属性。</p>
 <ul>
 <li><p><strong>damping</strong></p>
@@ -357,11 +585,10 @@
 <p>  重力加速度（G）</p>
 </li>
 <li><p><strong>initial velocity</strong></p>
-<p>  初始速度，开始运动前，外界的推（拉力）产生的速度</p>
+<p>  初始速度，开始运动前，外界的推（拉力）产生的速度<br>img.cdn.punmy.cn<br>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
 </li>
 </ul>
-<p>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-4@2x.png" alt="QQ20160826-4@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-4@2x.png" alt="QQ20160826-4@2x"></p>
 <p>如果 <code>duration</code> 为0.25，此时本应该还有振荡，但是动画时间已到，只能强制停止振荡，进而使动画看起来略微生硬。所以 <code>CASpringAnimation</code> 里面有一个属性叫做 <code>settlingDuration</code>,该属性表示所有动画参数设定好之后，振荡完成是所需时间，如果将 <code>duration</code> 设置成这样，那么动画看起来就会很自然。</p>
 <blockquote>
 <p>友情提示：请在设置好所有弹性振荡参数之后再设置 <code>duration</code>.</p>
@@ -1339,11 +1566,11 @@
     <link href="http://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/"/>
     <id>http://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</id>
     <published>2015-08-20T16:09:54.000Z</published>
-    <updated>2016-08-27T03:25:20.000Z</updated>
+    <updated>2018-10-28T05:20:05.739Z</updated>
     
     <content type="html"><![CDATA[<p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。<br><a id="more"></a><br>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">How We Built Tinder-Like Koloda Animation in Swift</a></p>
 <p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about" target="_blank" rel="external">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。<br>还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/" target="_blank" rel="external">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p>
-<p><img src="http://o9sih3398.bkt.clouddn.com/content_1__1_.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/content_1__1_.gif" alt=""></p>
 <p>我们把卡片式布局以及基于滑动的交互作为今年的交互设计趋势，我们的<a href="https://yalantis.com/blog/7-up-to-date-mobile-app-design-trends-2015/" target="_blank" rel="external">这篇文章</a>有相关介绍。之后我们的设计师Dmitry Goncharov创建了一个类似 Tinder 交互的动画，实际上他是故意这么做的。<br>我们把我们的这种类似 Tinder 基于卡片式的动画命名为<code>Koloda</code>，在乌克兰语中它的意思是甲板（卡片），听起来非常有趣。这个组件能够被不同 app 使用，如果加上约会（pao）地点的话，甚至在 Tinder 中也很实用。Dmitriy提出了这个概念，我们的iOS工程师实现了这个想法。详见<a href="https://github.com/Yalantis/Koloda" target="_blank" rel="external">GitHub</a>。（译者注：Objective-C 版详见<a href="https://github.com/wang9262/Koloda-ObjC" target="_blank" rel="external">这里</a>）。</p>
 <h2 id="我们如何实现-Koloda-动画"><a href="#我们如何实现-Koloda-动画" class="headerlink" title="我们如何实现 Koloda 动画"></a>我们如何实现 Koloda 动画</h2><blockquote>
 <ul>
@@ -1356,7 +1583,7 @@
 </li>
 <li><p>OverlayView：遮罩视图，根据用户手势方向（左、右）来动态改变</p>
 </li>
-<li>KolodaView：用来控制加载和卡片之间的交互的视图<br><img src="http://o9sih3398.bkt.clouddn.com/content_2__1_.gif" alt=""></li>
+<li>KolodaView：用来控制加载和卡片之间的交互的视图<br><img src="http://img.cdn.punmy.cn/content_2__1_.gif" alt=""></li>
 </ul>
 <h2 id="DraggableCardView的实现"><a href="#DraggableCardView的实现" class="headerlink" title="DraggableCardView的实现"></a>DraggableCardView的实现</h2><p>正如我前面提到的那样，<code>DraggableCardView</code>是用来展示内容的卡片视图。网上有很多教程阐述了 Tinder 滑动动画的原理，我选择了其中一种解决方案，做了一些改动，然后利用<code>UIPanGestureRecognizer</code> 和 <code>CGAffineTransform</code>实现了 <code>DraggableCardView</code>。部分代码如下：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//译者注：原文是用 swift 写的，我索性翻译成了 OC，下同</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)panGestureRecognized:(<span class="built_in">UIPanGestureRecognizer</span> *)pan</div><div class="line">&#123;</div><div class="line">    <span class="keyword">self</span>.xDistanceFromCenter = [pan translationInView:<span class="keyword">self</span>].x;</div><div class="line">    <span class="keyword">self</span>.yDistanceFromCenter = [pan translationInView:<span class="keyword">self</span>].y;</div><div class="line">    <span class="built_in">CGPoint</span> location = [pan locationInView:<span class="keyword">self</span>];</div><div class="line">    <span class="keyword">switch</span> (pan.state) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateBegan</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">self</span>.originalLocation = <span class="keyword">self</span>.center;</div><div class="line">            <span class="keyword">self</span>.dragBegin = <span class="literal">YES</span>;</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.animationDirection = location.y &gt;= <span class="keyword">self</span>.frame.size.height / <span class="number">2</span> ? <span class="number">-1.0</span> : <span class="number">1.0</span>;</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.layer.shouldRasterize = <span class="literal">YES</span>;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateChanged</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">CGFloat</span> rotationStrength = MIN(<span class="keyword">self</span>.xDistanceFromCenter / <span class="keyword">self</span>.frame.size.width, kRotationMax);</div><div class="line">            <span class="built_in">CGFloat</span> rotationAngle = <span class="keyword">self</span>.animationDirection * kDefaultRotationAngle * rotationStrength;</div><div class="line">            <span class="built_in">CGFloat</span> scaleStrength = <span class="number">1</span> - ((<span class="number">1</span> - kScaleMin) * fabs(rotationStrength));</div><div class="line">            <span class="built_in">CGFloat</span> scale = MAX(scaleStrength, kScaleMin);</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.layer.rasterizationScale = scale * [<span class="built_in">UIScreen</span> mainScreen].scale;</div><div class="line">            </div><div class="line">            <span class="built_in">CGAffineTransform</span> transform = <span class="built_in">CGAffineTransformMakeRotation</span>(rotationAngle);</div><div class="line">            <span class="built_in">CGAffineTransform</span> scaleTransform = <span class="built_in">CGAffineTransformScale</span>(transform, scale, scale);</div><div class="line">            </div><div class="line">            <span class="keyword">self</span>.transform = scaleTransform;</div><div class="line">            <span class="keyword">self</span>.center = <span class="built_in">CGPointMake</span>(<span class="keyword">self</span>.originalLocation.x + <span class="keyword">self</span>.xDistanceFromCenter,</div><div class="line">                                      <span class="keyword">self</span>.originalLocation.y + <span class="keyword">self</span>.yDistanceFromCenter);</div><div class="line">            [<span class="keyword">self</span> updateOverlayWithFinishPercent:<span class="keyword">self</span>.xDistanceFromCenter / <span class="keyword">self</span>.frame.size.width];</div><div class="line">            <span class="keyword">if</span> ([<span class="keyword">self</span>.delegate respondsToSelector:<span class="keyword">@selector</span>(cardView:draggedWithFinishPercent:)]) &#123;</div><div class="line">                [<span class="keyword">self</span>.delegate cardView:<span class="keyword">self</span> draggedWithFinishPercent:MIN(fabs(<span class="keyword">self</span>.xDistanceFromCenter * <span class="number">100</span> / <span class="keyword">self</span>.frame.size.width), <span class="number">100</span>)];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateEnded</span>:</div><div class="line">        &#123;</div><div class="line">            [<span class="keyword">self</span> swipeMadeAction];</div><div class="line">            <span class="keyword">self</span>.layer.shouldRasterize = <span class="literal">NO</span>;</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -1465,11 +1692,11 @@
       <category term="框架学习" scheme="http://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
     
     
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+    
       <category term="AVFoundation" scheme="http://vongloo.me/tags/AVFoundation/"/>
     
       <category term="GPUImage" scheme="http://vongloo.me/tags/GPUImage/"/>
-    
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
@@ -1731,9 +1958,9 @@
       <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
-    
       <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
@@ -1774,9 +2001,9 @@ A    B             NOT   NOT
       <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
-    
       <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   

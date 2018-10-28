@@ -103,16 +103,16 @@
 <meta property="og:site_name" content="Vong">
 <meta property="og:description" content="这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（Easy Animation、pop）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/QQ20160826-0@2x.png">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/QQ20160826-1@2x.png">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/QQ20160826-2@2x.png">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/QQ20160826-3@2x.png">
-<meta property="og:image" content="http://o9sih3398.bkt.clouddn.com/QQ20160826-4@2x.png">
-<meta property="og:updated_time" content="2016-08-26T16:26:27.000Z">
+<meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-0@2x.png">
+<meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-1@2x.png">
+<meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-2@2x.png">
+<meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-3@2x.png">
+<meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-4@2x.png">
+<meta property="og:updated_time" content="2018-10-28T05:24:02.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS Animations by Tutorials 2.0 笔记">
 <meta name="twitter:description" content="这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（Easy Animation、pop）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。">
-<meta name="twitter:image" content="http://o9sih3398.bkt.clouddn.com/QQ20160826-0@2x.png">
+<meta name="twitter:image" content="http://img.cdn.punmy.cn/QQ20160826-0@2x.png">
 
 
 
@@ -410,11 +410,6 @@
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
 
           
 
@@ -471,26 +466,21 @@
 <p>简单来说就是在 UIView 满足需求的时候尽量使用 UIView，当追求更好的性能及灵活性时可以考虑使用 Core Animation.当然，两者也可以混合使用。</p>
 <h3 id="fillMode"><a href="#fillMode" class="headerlink" title="fillMode"></a>fillMode</h3><p>这里借用书中的几张图来阐明一下各种模式</p>
 <ul>
-<li><p><strong>kCAFillModeRemoved</strong></p>
-<p>  默认模式：动画执行完毕后恢复原样</p>
-</li>
+<li><strong>kCAFillModeRemoved</strong><br>img.cdn.punmy.cn<br>  默认模式：动画执行完毕后恢复原样</li>
 </ul>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-0@2x.png" alt="QQ20160826-0@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-0@2x.png" alt="QQ20160826-0@2x"></p>
 <ul>
-<li><p><strong>kCAFillModeBackwards</strong></p>
-<p>  动画开始前展示第一帧<br><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-1@2x.png" alt="QQ20160826-1@2x"></p>
+<li><p><strong>kCAFillModeBackwards</strong>img.cdn.punmy.cn</p>
+<p>  动画开始前展示第一帧<br><img src="http://img.cdn.punmy.cn/QQ20160826-1@2x.png" alt="QQ20160826-1@2x"></p>
 </li>
-<li><p><strong>kCAFillModeForwards</strong></p>
-<p>  动画结束后 layer 维持最后一帧的状态</p>
+<li><p><strong>kCAFillModeForwards</strong><br>img.cdn.punmy.cn<br>  动画结束后 layer 维持最后一帧的状态</p>
 </li>
 </ul>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-2@2x.png" alt="QQ20160826-2@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-2@2x.png" alt="QQ20160826-2@2x"></p>
 <ul>
-<li><p><strong>kCAFillModeBoth</strong></p>
-<p>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</p>
-</li>
+<li><strong>kCAFillModeBoth</strong><br>img.cdn.punmy.cn<br>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</li>
 </ul>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-3@2x.png" alt="QQ20160826-3@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-3@2x.png" alt="QQ20160826-3@2x"></p>
 <h3 id="Layer-弹性动画"><a href="#Layer-弹性动画" class="headerlink" title="Layer 弹性动画"></a>Layer 弹性动画</h3><p>这一节以钟摆举例，来解释弹性阻尼动画的相关属性。</p>
 <ul>
 <li><p><strong>damping</strong></p>
@@ -503,11 +493,10 @@
 <p>  重力加速度（G）</p>
 </li>
 <li><p><strong>initial velocity</strong></p>
-<p>  初始速度，开始运动前，外界的推（拉力）产生的速度</p>
+<p>  初始速度，开始运动前，外界的推（拉力）产生的速度<br>img.cdn.punmy.cn<br>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
 </li>
 </ul>
-<p>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
-<p><img src="http://o9sih3398.bkt.clouddn.com/QQ20160826-4@2x.png" alt="QQ20160826-4@2x"></p>
+<p><img src="http://img.cdn.punmy.cn/QQ20160826-4@2x.png" alt="QQ20160826-4@2x"></p>
 <p>如果 <code>duration</code> 为0.25，此时本应该还有振荡，但是动画时间已到，只能强制停止振荡，进而使动画看起来略微生硬。所以 <code>CASpringAnimation</code> 里面有一个属性叫做 <code>settlingDuration</code>,该属性表示所有动画参数设定好之后，振荡完成是所需时间，如果将 <code>duration</code> 设置成这样，那么动画看起来就会很自然。</p>
 <blockquote>
 <p>友情提示：请在设置好所有弹性振荡参数之后再设置 <code>duration</code>.</p>
@@ -554,7 +543,7 @@
       
         
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <div>Buy Me A Cup Of Coffee!</div>
     <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
       <span>赏</span>
     </button>
@@ -767,7 +756,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -778,7 +767,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -789,7 +778,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -905,7 +894,7 @@
         <div class="copyright" >
   
   &copy;  2013 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -926,26 +915,6 @@
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
         
       </div>

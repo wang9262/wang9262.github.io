@@ -1,7 +1,7 @@
 ---
 title: GMTC 之旅
 date: 2018-10-28 13:27:58
-tags: [原创]
+tags: [原创,杂谈]
 category: 扯淡集
 ---
 

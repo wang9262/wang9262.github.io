@@ -1,5 +1,5 @@
 ---
-title: Hexo 博客自动化部署
+title: 使用 Travis CI 实现 Hexo 博客自动部署
 date: 2018-10-28 23:18:46
 tags: [笔记,原创]
 category: 备忘记录

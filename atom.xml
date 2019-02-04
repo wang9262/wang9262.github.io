@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vongloo.me/"/>
-  <updated>2019-02-03T23:45:50.413Z</updated>
+  <updated>2019-02-04T01:30:19.810Z</updated>
   <id>http://vongloo.me/</id>
   
   <author>
@@ -16,11 +16,68 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>时光的河如海流</title>
+    <link href="http://vongloo.me/2019/02/03/2018-Summary/"/>
+    <id>http://vongloo.me/2019/02/03/2018-Summary/</id>
+    <published>2019-02-03T14:13:46.000Z</published>
+    <updated>2019-02-04T01:30:19.810Z</updated>
+    
+    <content type="html"><![CDATA[<p>老规矩，这次又是2018年的最后一天，是时候更新一下年终总结了，水一下，纯当一个记录~</p>
+<a id="more"></a>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>今年工作上的变动还是蛮大的，从年初的直播 SDK 拆分完成之后的交付，到4月份的时候去到美拍北京分部，再到12月底的离职，结束了在美图将近5年的时光，感谢在美图待的这几年，自己从一个无从下手的菜鸟慢慢变成一个得心应手的老菜鸟。由于自身原因（老婆在广州，后面生活部分也有提到），在年底的时候裸辞，然后去到广州，开启一段找工作之旅，希望年后有好消息😃。</p>
+<p><img src="http://img.cdn.punmy.cn/wow.png!wm" alt="wo"></p>
+<p>这一年来主要是在北京，自己的角色也发生了一些变化，稍微了解了一点点的“管理”的皮毛，也感谢这个机会，让自己在非技术层面上也有一定的收获。<br>到北京后主要是负责美拍 iOS 社区的相关开发，其中大部分都是日常迭代，乏善可陈。比较有成就感的两件事：</p>
+<ul>
+<li>总算实现了一套基于 YYModel 和 IGListKit 的方案来替代现有美拍基于 ResetKit(CoreData) 的方案，最终在新 App (<a href="https://itunes.apple.com/cn/app/vcus-%E7%94%A8%E9%9F%B3%E4%B9%90%E6%8B%8Dvlog/id1445969821?mt=8" target="_blank" rel="external">VCUS</a>)中实践上线，不知道最终会不会在美拍中上线。后面也会更新一个系列，名字大概叫做《CoreData 从入门到放弃》，应该不会断更，可以期待一下~</li>
+<li>优化 Feed 滚动，滚动过程中只加载最终停下的区域的 cell，并且将其解耦成通用逻辑，无明显侵入。</li>
+</ul>
+<h3 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h3><p><img src="http://img.cdn.punmy.cn/IMG_3390.png!wm" alt="IMG_3390"></p>
+<p>生活应该从微信的免“单”惊喜开始，不知道是不是预兆，去年年底的时候微信支付在情人节那天，被免单了。然后在这一年，自己真的脱单了，顺便还结了婚，感恩。</p>
+<p>4月份的时候确定了要去北京，碰巧大学好哥们研究生毕业要去北京爱奇艺，所以一起和他的两个研究生同学合租了，住在北五环上，4个人大概每个月1.2w的房租（可怕😂）。得亏大学老哥的一首好厨艺，几乎每个周末都会开荤，自己下厨，也偶尔周末一起出去健身，打球。</p>
+<p>中间清明放假回了一趟家，然后在老家贷款买了一套房，也跻身泱泱房奴大军。。。</p>
+<p>12月底离职来到老婆在的城市–广州，直接从冬天进入夏天，舒服。由于裸辞，没有工作，所以每天除了接老婆上下班，基本上就是提升厨艺和准备面试，以及上面提到的那个系列博客的撰写。</p>
+<h3 id="旅游"><a href="#旅游" class="headerlink" title="旅游"></a>旅游</h3><p>在北京其实比较少出去，也就刚来的时候去了一下南锣鼓巷以及后海酒吧一条街，喝了杯酒感受了一下。再就是团建一起自驾去了内蒙古乌兰布统大草原，挺美的，尤其是日落时候在一望无际的草原马路上开车，真的太棒了。</p>
+<p><img src="http://img.cdn.punmy.cn/LRG_DSC00538.jpg!wm" alt="LRG_DSC00538"></p>
+<p>8月份的时候和老婆去了长城、天安门、圆明园，本打算去故宫，只可惜时间太赶，过去的时候已经关门了，后面自己和同事去了一次😂。<br>国庆和中秋那段时间，休了一波婚假（算上中秋国庆，22天长假），带老婆和家人一起自驾去了桂林，只待了两天，后续有机会再去。<br>11月底的时候和老婆去了一趟成都和重庆，成都主要是春熙路和宽窄巷子那边打卡，然后吃了一些川大神推荐的成都名小吃。晚上吃蜀大侠火锅，排队排了3个多小时（尴尬），辛苦川大神下班跑这么远来请我吃火锅。本来想按川大神的建议自驾去四姑娘山，但是由于自己自驾经验少，而且川西路线都非常险，而且可能伴随高原反应，所以退而求其次，去了毕棚沟，事后也证明确实有高反，幸好没自驾。毕棚沟，5星推荐，一“图”以蔽之。</p>
+<p><img src="http://img.cdn.punmy.cn/15492369881565.jpg!wm" alt="-w912"></p>
+<p>然后由于裸辞，自己之前没买电脑，所以需要买一台 MBP，刚好小潘说他的工牌买 MBP 可以9.4折，所以元旦后去了一趟香港，买了台 MBP。</p>
+<blockquote>
+<p>这里需要吐槽一下，由于TimeMachine 恢复一直失败，然后我就格盘重装，结果因为家里网络问题，一直连接不上苹果的服务器，所以系统安装文件一直无法下载，然后预约天才吧，客服说帮我预约了当天晚上7.30的，然后还说如果你提前去的话可以先去周围的授权店让他们帮忙安装新系统。结果大老远跑到天河区，真是被气死，跑到其中一家客服推荐的授权店，我还没说完情况，那位店员就说装系统要收费300（？？？），然后就想着在周边吃个饭，然后等到7.30再去让天才装，结果去了之后，天才说我没有预约。呵呵，我去年买了个登山包，超耐磨。第一次预约天才吧，就遇到这种客服？？？后面自己回去倒腾半天，最后用手机热点总算下载好了安装镜像，🌶🐔🍎💊</p>
+</blockquote>
+<h3 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h3><p>这一年，手游占比90%，基本上集中在吃鸡和农药。刚到北京的时候，主要是和同学打王者，他是王者段位，然后经常用小号带我，反正我负责坑就完事了。由于当时和老婆异地，每天都会视频，所以当时为了避免无聊，就把她也拉入坑，和我一起玩吃鸡。<br>英雄联盟玩的次数屈指可数，主要是不想去网吧，自己由于换电脑，没有装双系统，IG 夺冠后同学一直约，所以就装了双系统，偶尔周末玩一下午，反正我也是负责坑，有人 carry 就行。</p>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><p>这一年不管是生活还是工作，都变化蛮大的。从单身变成两个人一起生活，从朝十晚七变成失业在家做“家庭煮夫”，用浩文和小潘的话来说就是“软饭硬吃”。总得来说2018算是比较惊喜的一年，感恩~</p>
+<p>2019年（农历，嘿嘿）也即将来临，希望自己在工作和生活中都能稳步前进，订几个小目标：</p>
+<ul>
+<li style="list-style: none"><input type="checkbox"> 多一些产出（开源项目和博客）</li>
+<li style="list-style: none"><input type="checkbox"> 学会 JS 以及 Python，最好能用在实际应用中</li>
+<li style="list-style: none"><input type="checkbox"> 刷 leetcode，重新学一下数据结构个算法</li>
+<li style="list-style: none"><input type="checkbox"> 把之前买的纸质书和电子书看完</li>
+<li style="list-style: none"><input type="checkbox"> 买车</li>
+<li style="list-style: none"><input type="checkbox"> 带老婆吃遍广州的米其林店</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;老规矩，这次又是2018年的最后一天，是时候更新一下年终总结了，水一下，纯当一个记录~&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
+    
+    
+      <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+    
+      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>使用 Travis CI 实现 Hexo 博客自动部署</title>
     <link href="http://vongloo.me/2018/10/28/Blog-Automation/"/>
     <id>http://vongloo.me/2018/10/28/Blog-Automation/</id>
     <published>2018-10-28T15:18:46.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>现在使用的博客系统是 Hexo+GitHub Pages，每次发布新的文章时流程甚是繁琐，是否有好的方式来提高效率，专注于【写】这件事上呢？</p>
 <a id="more"></a>
@@ -94,7 +151,7 @@
     <link href="http://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/"/>
     <id>http://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/</id>
     <published>2018-10-28T05:27:58.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。</p>
 <a id="more"></a>
@@ -140,7 +197,7 @@
     <link href="http://vongloo.me/2018/06/03/Replace-System-Volume-View/"/>
     <id>http://vongloo.me/2018/06/03/Replace-System-Volume-View/</id>
     <published>2018-06-03T09:47:58.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p>
 <a id="more"></a>
@@ -200,7 +257,7 @@
     <link href="http://vongloo.me/2018/03/17/Pod-Resource/"/>
     <id>http://vongloo.me/2018/03/17/Pod-Resource/</id>
     <published>2018-03-17T05:18:38.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>写这篇博客起因是由于周四在知识小集发了一个 <a href="https://weibo.com/3129068073/G7rJx4Pag" target="_blank" rel="external">Tip</a>，讲 <code>Pod</code> 里面使用了 <code>.xcassets</code> 会导致 <code>Xcode 9</code> 打出来的包没有 <code>icon</code> 的解决方案。然后和 <a href="https://weibo.com/damonone" target="_blank" rel="external">@Damonwong</a> 展开了一下讨论。当然这条 Tip 讲得不全对，而且表达得不是很清晰，所以这里专门开一篇文章来讲一下那个 Tip 想要表达的意思，最后也会附上对应的 Demo。也当做之后要写的模块化系列的文章开篇吧。</p>
 <a id="more"></a>
@@ -318,68 +375,11 @@
   </entry>
   
   <entry>
-    <title>时光的河如海流</title>
-    <link href="http://vongloo.me/2018/02/16/2018-Summary/"/>
-    <id>http://vongloo.me/2018/02/16/2018-Summary/</id>
-    <published>2018-02-15T16:13:46.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
-    
-    <content type="html"><![CDATA[<p>老规矩，这次又是2018年的最后一天，是时候更新一下年终总结了，水一下，纯当一个记录~</p>
-<a id="more"></a>
-<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>今年工作上的变动还是蛮大的，从年初的直播 SDK 拆分完成之后的交付，到4月份的时候去到美拍北京分部，再到12月底的离职，结束了在美图将近5年的时光，感谢在美图待的这几年，自己从一个无从下手的菜鸟慢慢变成一个得心应手的老菜鸟。由于自身原因（老婆在广州，后面生活部分也有提到），在年底的时候裸辞，然后去到广州，开启一段找工作之旅，希望年后有好消息😃。</p>
-<p><img src="http://img.cdn.punmy.cn/wow.png!wm" alt="wo"></p>
-<p>这一年来主要是在北京，自己的角色也发生了一些变化，稍微了解了一点点的“管理”的皮毛，也感谢这个机会，让自己在非技术层面上也有一定的收获。<br>到北京后主要是负责美拍 iOS 社区的相关开发，其中大部分都是日常迭代，乏善可陈。比较有成就感的两件事：</p>
-<ul>
-<li>总算实现了一套基于 YYModel 和 IGListKit 的方案来替代现有美拍基于 ResetKit(CoreData) 的方案，最终在新 App (<a href="https://itunes.apple.com/cn/app/vcus-%E7%94%A8%E9%9F%B3%E4%B9%90%E6%8B%8Dvlog/id1445969821?mt=8" target="_blank" rel="external">VCUS</a>)中实践上线，不知道最终会不会在美拍中上线。后面也会更新一个系列，名字大概叫做《CoreData 从入门到放弃》，应该不会断更，可以期待一下~</li>
-<li>优化 Feed 滚动，滚动过程中只加载最终停下的区域的 cell，并且将其解耦成通用逻辑，无明显侵入。</li>
-</ul>
-<h3 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h3><p><img src="http://img.cdn.punmy.cn/IMG_3390.png!wm" alt="IMG_3390"></p>
-<p>生活应该从微信的免“单”惊喜开始，不知道是不是预兆，去年年底的时候微信支付在情人节那天，被免单了。然后在这一年，自己真的脱单了，顺便还结了婚，感恩。</p>
-<p>4月份的时候确定了要去北京，碰巧大学好哥们研究生毕业要去北京爱奇艺，所以一起和他的两个研究生同学合租了，住在北五环上，4个人大概每个月1.2w的房租（可怕😂）。得亏大学老哥的一首好厨艺，几乎每个周末都会开荤，自己下厨，也偶尔周末一起出去健身，打球。</p>
-<p>中间清明放假回了一趟家，然后在老家贷款买了一套房，也跻身泱泱房奴大军。。。</p>
-<p>12月底离职来到老婆在的城市–广州，直接从冬天进入夏天，舒服。由于裸辞，没有工作，所以每天除了接老婆上下班，基本上就是提升厨艺和准备面试，以及上面提到的那个系列博客的撰写。</p>
-<h3 id="旅游"><a href="#旅游" class="headerlink" title="旅游"></a>旅游</h3><p>在北京其实比较少出去，也就刚来的时候去了一下南锣鼓巷以及后海酒吧一条街，喝了杯酒感受了一下。再就是团建一起自驾去了内蒙古乌兰布统大草原，挺美的，尤其是日落时候在一望无际的草原马路上开车，真的太棒了。</p>
-<p><img src="http://img.cdn.punmy.cn/LRG_DSC00538.jpg!wm" alt="LRG_DSC00538"></p>
-<p>8月份的时候和老婆去了长城、天安门、圆明园，本打算去故宫，只可惜时间太赶，过去的时候已经关门了，后面自己和同事去了一次😂。<br>国庆和中秋那段时间，休了一波婚假（算上中秋国庆，22天长假），带老婆和家人一起自驾去了桂林，只待了两天，后续有机会再去。<br>11月底的时候和老婆去了一趟成都和重庆，成都主要是春熙路和宽窄巷子那边打卡，然后吃了一些川大神推荐的成都名小吃。晚上吃蜀大侠火锅，排队排了3个多小时（尴尬），辛苦川大神下班跑这么远来请我吃火锅。本来想按川大神的建议自驾去四姑娘山，但是由于自己自驾经验少，而且川西路线都非常险，而且可能伴随高原反应，所以退而求其次，去了毕棚沟，事后也证明确实有高反，幸好没自驾。毕棚沟，5星推荐，一“图”以蔽之。</p>
-<p><img src="http://img.cdn.punmy.cn/15492369881565.jpg!wm" alt="-w912"></p>
-<p>然后由于裸辞，自己之前没买电脑，所以需要买一台 MBP，刚好小潘说他的工牌买 MBP 可以9.4折，所以元旦后去了一趟香港，买了台 MBP。</p>
-<blockquote>
-<p>这里需要吐槽一下，由于TimeMachine 恢复一直失败，然后我就格盘重装，结果因为家里网络问题，一直连接不上苹果的服务器，所以系统安装文件一直无法下载，然后预约天才吧，客服说帮我预约了当天晚上7.30的，然后还说如果你提前去的话可以先去周围的授权店让他们帮忙安装新系统。结果大老远跑到天河区，真是被气死，跑到其中一家客服推荐的授权店，我还没说完情况，那位店员就说装系统要收费300（？？？），然后就想着在周边吃个饭，然后等到7.30再去让天才装，结果去了之后，天才说我没有预约。呵呵，我去年买了个登山包，超耐磨。第一次预约天才吧，就遇到这种客服？？？后面自己回去倒腾半天，最后用手机热点总算下载好了安装镜像，🌶🐔🍎💊</p>
-</blockquote>
-<h3 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h3><p>这一年，手游占比90%，基本上集中在吃鸡和农药。刚到北京的时候，主要是和同学打王者，他是王者段位，然后经常用小号带我，反正我负责坑就完事了。由于当时和老婆异地，每天都会视频，所以当时为了避免无聊，就把她也拉入坑，和我一起玩吃鸡。<br>英雄联盟玩的次数屈指可数，主要是不想去网吧，自己由于换电脑，没有装双系统，IG 夺冠后同学一直约，所以就装了双系统，偶尔周末玩一下午，反正我也是负责坑，有人 carry 就行。</p>
-<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><p>这一年不管是生活还是工作，都变化蛮大的。从单身变成两个人一起生活，从朝十晚七变成失业在家做“家庭煮夫”，用浩文和小潘的话来说就是“软饭硬吃”。总得来说2018算是比较惊喜的一年，感恩~</p>
-<p>2019年（农历，嘿嘿）也即将来临，希望自己在工作和生活中都能稳步前进，订几个小目标：</p>
-<ul>
-<li style="list-style: none"><input type="checkbox"> 多一些产出（开源项目和博客）</li>
-<li style="list-style: none"><input type="checkbox"> 学会 JS 以及 Python，最好能用在实际应用中</li>
-<li style="list-style: none"><input type="checkbox"> 刷 leetcode，重新学一下数据结构个算法</li>
-<li style="list-style: none"><input type="checkbox"> 把之前买的纸质书和电子书看完</li>
-<li style="list-style: none"><input type="checkbox"> 买车</li>
-<li style="list-style: none"><input type="checkbox"> 带老婆吃遍广州的米其林店</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;老规矩，这次又是2018年的最后一天，是时候更新一下年终总结了，水一下，纯当一个记录~&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
-    
-    
-      <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
-    
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
-    
-  </entry>
-  
-  <entry>
     <title>亦无岁月可回头</title>
     <link href="http://vongloo.me/2018/02/16/2017-Summary/"/>
     <id>http://vongloo.me/2018/02/16/2017-Summary/</id>
     <published>2018-02-15T16:13:46.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>2018 即将来到(哈哈哈哈哈哈，我说的是农历年)，这篇文章纯当一篇水文，做个2017的年终总结。</p>
 <a id="more"></a>
@@ -430,7 +430,7 @@
     <link href="http://vongloo.me/2017/04/21/Modern-Objective-C/"/>
     <id>http://vongloo.me/2017/04/21/Modern-Objective-C/</id>
     <published>2017-04-21T12:51:41.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要介绍一些 Objective-C 的一些新特性。<br><a id="more"></a></p>
 <h3 id="从一个-Bug-来说说-Objective-C-中的指定构造器"><a href="#从一个-Bug-来说说-Objective-C-中的指定构造器" class="headerlink" title="从一个 Bug 来说说 Objective-C 中的指定构造器"></a>从一个 Bug 来说说 Objective-C 中的指定构造器</h3><p>某天测试反馈，iOS8 点击按钮时弹出一个列表视图出现必现崩溃，看了下崩溃日志，是野指针导致导出乱崩，具体是 <code>[xxx collectionView:numberOfItemsInSection:] unrecognized selector send to instance xxxxx</code>。<br>连上设备调试，发现 <code>setupDataSource</code> 走了两次，由于调用栈非常类似，一开始没注意它调了两次，一直没找到问题所在。后面各种断点上去，发现 <code>setupDataSource</code> 方法被调用了两次，进一步 <code>commonInit</code> 被调用了两次。最后查看初始化代码，才发现调用 <code>convenience init method</code> 时，没有调 <code>designed init method</code>，并且调完之后又再调了一次 <code>commonInit</code>。具体看下代码：</p>
@@ -544,7 +544,7 @@
     <link href="http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/"/>
     <id>http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</id>
     <published>2016-09-17T12:29:00.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>工欲善其事，必先利其器。随着 Xcode 的一步步变得强(yong)大(zhong)，许多功能已经被集成到 Xcode 中，但是日常开发还是会遇到很多小问题，影响效率，于是 Xcode plugins 便派上用场了。下面介绍一下自己在开发中常用的插件，排名不分先后，仅按字母排序。</p>
 <a id="more"></a>
@@ -626,7 +626,7 @@
     <link href="http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/"/>
     <id>http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/</id>
     <published>2016-09-10T12:08:39.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>随着 iOS10 的正式版即将发布，Xcode8 GM 也在发布会后放出，本文不会涉及到 Xcode8 有哪些更新，而是记录了如何让 Xcode8 继续支持 Plugin。</p>
 <a id="more"></a>
@@ -692,7 +692,7 @@
     <link href="http://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/"/>
     <id>http://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</id>
     <published>2016-08-26T16:08:21.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（<a href="https://github.com/icanzilb/EasyAnimation" target="_blank" rel="external">Easy Animation</a>、<a href="https://github.com/facebook/pop" target="_blank" rel="external">pop</a>）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。</p>
 <a id="more"></a>
@@ -817,7 +817,7 @@
     <link href="http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/"/>
     <id>http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/</id>
     <published>2015-10-18T16:14:41.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p>
 <a id="more"></a>
@@ -1029,7 +1029,7 @@
     <link href="http://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/"/>
     <id>http://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/</id>
     <published>2015-09-01T15:11:46.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>欢迎回到 iOS 翻书动画教程系列！在该系列的<a href="http://www.raywenderlich.com/94565/how-to-create-an-ios-book-open-animation-part-1" target="_blank" rel="external">第一部分</a>(<a href="http://t.cn/Ry2rWGG" target="_blank" rel="external">译文</a>)，你已经知道如何创建自定义的 layout 以及如何在 app 中使用阴影效果来创建景深和模拟现实。在这篇教程中，你将学到如何创建一个自定义的转场以及如何使用 pinch 手势来打开书本。</p>
 <a id="more"></a>
@@ -1281,7 +1281,7 @@
     <link href="http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/"/>
     <id>http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/</id>
     <published>2015-08-31T15:21:41.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于<a href="https://www.fiftythree.com/paper" target="_blank" rel="external">Paper by FiftyThree</a>：</p>
 <a id="more"></a>
@@ -1494,7 +1494,7 @@
     <link href="http://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/"/>
     <id>http://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/</id>
     <published>2015-08-31T12:19:46.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>现在有许多极具创造力的网站，几周前我碰巧浏览到一个名为<a href="http://fff.cmiscm.com/" target="_blank" rel="external">Form Follows Function</a>的网站，上面有各种交互动画。其中最吸引我的是网站上的导航转轮，转轮由各种交互体验海报组成。</p>
 <a id="more"></a>
@@ -1659,7 +1659,7 @@
     <link href="http://vongloo.me/2015/08/23/Koloda-Second-Version/"/>
     <id>http://vongloo.me/2015/08/23/Koloda-Second-Version/</id>
     <published>2015-08-23T09:31:04.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>一个月前，我们发布了<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">how we developed Tinder-like Koloda in Swift</a>(<a href="http://0.0.0.0:4000/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/" target="_blank" rel="external">如何创建一个类似 Tinder 的交互动画[译]</a>)。在开发者与设计师社区这个动画都受到强烈的欢迎，所以我们决定继续改善它。<br><a id="more"></a></p>
 <p>原文：<a href="https://yalantis.com/blog/koloda-tinder-like-animation-version-2-prototyping-in-pixate-and-development-in-swift/" target="_blank" rel="external">Koloda Tinder-Like Animation Version 2.</a></p>
@@ -1743,7 +1743,7 @@
     <link href="http://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/"/>
     <id>http://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</id>
     <published>2015-08-20T16:09:54.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。<br><a id="more"></a><br>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">How We Built Tinder-Like Koloda Animation in Swift</a></p>
 <p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about" target="_blank" rel="external">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。<br>还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/" target="_blank" rel="external">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p>
@@ -1804,7 +1804,7 @@
     <link href="http://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/"/>
     <id>http://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/</id>
     <published>2014-08-23T16:41:08.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.810Z</updated>
     
     <content type="html"><![CDATA[<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
 <a id="more"></a>
@@ -1882,7 +1882,7 @@
     <link href="http://vongloo.me/2014/07/23/Using-Xcode-Efficiently/"/>
     <id>http://vongloo.me/2014/07/23/Using-Xcode-Efficiently/</id>
     <published>2014-07-23T15:37:48.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>好莱坞电影里经常看到黑客们手指在键盘上飞速跳跃,同时终端上的代码也随着飞舞。如果你也想像电影里那样,那么你来对地方了。这篇教程将会教你在Xcode编程中更像程序员,你可以称之为魔法、疯狂的技术、好运当头或者黑客。毫无疑问,在学习完本教程之后,不管你怎么认为,都会感觉很酷,同时能更高效地运用Xcode,甚至可以通过这些新发现使你的代码免于毁灭。</p>
 <a id="more"></a>
@@ -2111,7 +2111,7 @@
     <link href="http://vongloo.me/2014/06/21/Recent-Thoughts/"/>
     <id>http://vongloo.me/2014/06/21/Recent-Thoughts/</id>
     <published>2014-06-20T17:25:54.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>今天6.21号，学校一年一届的毕业晚会——同歌同行如期进行，这也预示着我下一年也即将滚蛋,外面正进行着很High的泼水节,今年不像前两年那样去混进毕业游行队伍,觉得明年就到自己了,今年就不去凑热闹了.。昨天院里的毕业晚会，看了即将离开的学长学姐的各种有节操没节操的表演，觉得四年过的真的太快。回来的路上，jb说明年毕业晚会你也上去弹唱一首吧，感觉好伤感。</p>
 <a id="more"></a>
@@ -2146,7 +2146,7 @@
     <link href="http://vongloo.me/2014/03/19/Interview-In-NetEase/"/>
     <id>http://vongloo.me/2014/03/19/Interview-In-NetEase/</id>
     <published>2014-03-19T08:12:52.000Z</published>
-    <updated>2019-02-03T23:45:50.413Z</updated>
+    <updated>2019-02-04T01:30:19.814Z</updated>
     
     <content type="html"><![CDATA[<p>周三接到网易电话，说上次电话面试通过了，让我周末过去杭州总部面试，于是周末就去了趟杭州。这篇文章是关于网易这次面试的相关内容和自己面试后的感想，写出来和大家分享一下。</p>
 <a id="more"></a>

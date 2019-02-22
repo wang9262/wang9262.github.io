@@ -125,7 +125,7 @@
 <meta property="og:image" content="http://img.cdn.punmy.cn/15358949360440.jpg">
 <meta property="og:image" content="http://img.cdn.punmy.cn/15358949032555.jpg">
 <meta property="og:image" content="http://img.cdn.punmy.cn/15358951679891.jpg">
-<meta property="og:updated_time" content="2019-02-22T13:53:36.809Z">
+<meta property="og:updated_time" content="2019-02-22T14:09:24.049Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WWDC 2018：使用日志框架测量性能">
 <meta name="twitter:description" content="本文是 WWDC 2018 Session 405 的观后感，原视频和 pdf 可以在这里看到。首发于小专栏。  众所周知，应用交互的流畅度决定了用户对这款用户的喜爱度，所以对于每个 iOS 工程师而言，应用的流畅程度是非常重要的。而这里所说的流畅度在工程师层面来理解就是应用的性能是否处于一个比较优的状态。那我们在发现页面卡顿时，如何去检测卡顿是哪一段代码引起的呢？目前业界的卡顿检测已经非常多了">
@@ -435,6 +435,7 @@
 <p>本文是 WWDC 2018 Session 405 的观后感，原视频和 pdf 可以在<a href="https://developer.apple.com/videos/play/wwdc2018/405/" target="_blank" rel="external">这里</a>看到。<br>首发于<a href="https://xiaozhuanlan.com/topic/3789465012" target="_blank" rel="external">小专栏</a>。</p>
 </blockquote>
 <p>众所周知，应用交互的流畅度决定了用户对这款用户的喜爱度，所以对于每个 iOS 工程师而言，应用的流畅程度是非常重要的。而这里所说的流畅度在工程师层面来理解就是应用的性能是否处于一个比较优的状态。那我们在发现页面卡顿时，如何去检测卡顿是哪一段代码引起的呢？目前业界的卡顿检测已经非常多了，比如 Instrument 的 Time Profile，各种基于 <code>runloop</code> 的卡顿率检测开源库。但是今天主要来说一说 iOS12 苹果为我们带来的一个新的检测方案，也就是基于 <code>OSLog</code> 的一套新 API。</p>
+<a id="more"></a>
 <p>好了，题外话讲完，我们正式进入正题。该 Seesion 主要有下面几部分组成：</p>
 <ul>
 <li>集成 signposts<ul>

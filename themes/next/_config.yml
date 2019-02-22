@@ -352,10 +352,10 @@ changyan:
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
-#google_site_verification:
+google_site_verification: o7PmGUDQEFHmcZmAvZXheUHJN7pLXv1-75IQ8PYXWuk
 
 # Google Analytics
-#google_analytics:
+google_analytics: UA-56148425-1
 
 # Yandex Webmaster tools verification setting
 # See: https://webmaster.yandex.ru/

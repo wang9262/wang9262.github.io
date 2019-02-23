@@ -4,9 +4,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://vongloo.me/"/>
-  <updated>2019-02-22T15:36:46.201Z</updated>
-  <id>http://vongloo.me/</id>
+  <link href="https://vongloo.me/"/>
+  <updated>2019-02-23T03:20:26.899Z</updated>
+  <id>https://vongloo.me/</id>
   
   <author>
     <name>Vong</name>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>WWDC 2018：使用日志框架测量性能</title>
-    <link href="http://vongloo.me/2019/02/22/WWDC-2018-Signpost/"/>
-    <id>http://vongloo.me/2019/02/22/WWDC-2018-Signpost/</id>
+    <link href="https://vongloo.me/2019/02/22/WWDC-2018-Signpost/"/>
+    <id>https://vongloo.me/2019/02/22/WWDC-2018-Signpost/</id>
     <published>2019-02-22T14:17:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本文是 WWDC 2018 Session 405 的观后感，原视频和 pdf 可以在<a href="https://developer.apple.com/videos/play/wwdc2018/405/" target="_blank" rel="external">这里</a>看到。<br>首发于<a href="https://xiaozhuanlan.com/topic/3789465012" target="_blank" rel="external">小专栏</a>。</p>
@@ -121,19 +121,19 @@
     
     </summary>
     
-      <category term="原创" scheme="http://vongloo.me/categories/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/categories/%E5%8E%9F%E5%88%9B/"/>
     
     
-      <category term="WWDC" scheme="http://vongloo.me/tags/WWDC/"/>
+      <category term="WWDC" scheme="https://vongloo.me/tags/WWDC/"/>
     
   </entry>
   
   <entry>
     <title>WWDC 2018：理解崩溃以及崩溃日志</title>
-    <link href="http://vongloo.me/2019/02/22/Understanding-Crash/"/>
-    <id>http://vongloo.me/2019/02/22/Understanding-Crash/</id>
+    <link href="https://vongloo.me/2019/02/22/Understanding-Crash/"/>
+    <id>https://vongloo.me/2019/02/22/Understanding-Crash/</id>
     <published>2019-02-22T14:13:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本文首发于<a href="https://juejin.im/post/5b1e833ce51d450686186557" target="_blank" rel="external">掘金</a>。</p>
@@ -322,19 +322,19 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="原创" scheme="http://vongloo.me/categories/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/categories/%E5%8E%9F%E5%88%9B/"/>
     
     
-      <category term="WWDC" scheme="http://vongloo.me/tags/WWDC/"/>
+      <category term="WWDC" scheme="https://vongloo.me/tags/WWDC/"/>
     
   </entry>
   
   <entry>
     <title>时光的河如海流</title>
-    <link href="http://vongloo.me/2019/02/03/2018-Summary/"/>
-    <id>http://vongloo.me/2019/02/03/2018-Summary/</id>
+    <link href="https://vongloo.me/2019/02/03/2018-Summary/"/>
+    <id>https://vongloo.me/2019/02/03/2018-Summary/</id>
     <published>2019-02-03T14:13:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>老规矩，这次又是2018年的最后一天，是时候更新一下年终总结了，水一下，纯当一个记录~</p>
 <a id="more"></a>
@@ -377,21 +377,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
+      <category term="扯淡集" scheme="https://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
     
     
-      <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+      <category term="杂谈" scheme="https://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
   <entry>
     <title>使用 Travis CI 实现 Hexo 博客自动部署</title>
-    <link href="http://vongloo.me/2018/10/28/Blog-Automation/"/>
-    <id>http://vongloo.me/2018/10/28/Blog-Automation/</id>
+    <link href="https://vongloo.me/2018/10/28/Blog-Automation/"/>
+    <id>https://vongloo.me/2018/10/28/Blog-Automation/</id>
     <published>2018-10-28T15:18:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>现在使用的博客系统是 Hexo+GitHub Pages，每次发布新的文章时流程甚是繁琐，是否有好的方式来提高效率，专注于【写】这件事上呢？</p>
 <a id="more"></a>
@@ -451,21 +451,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="备忘记录" scheme="http://vongloo.me/categories/%E5%A4%87%E5%BF%98%E8%AE%B0%E5%BD%95/"/>
+      <category term="备忘记录" scheme="https://vongloo.me/categories/%E5%A4%87%E5%BF%98%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
-      <category term="笔记" scheme="http://vongloo.me/tags/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://vongloo.me/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>GMTC 之旅</title>
-    <link href="http://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/"/>
-    <id>http://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/</id>
+    <link href="https://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/"/>
+    <id>https://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/</id>
     <published>2018-10-28T05:27:58.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。</p>
 <a id="more"></a>
@@ -497,21 +497,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
+      <category term="扯淡集" scheme="https://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
     
     
-      <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+      <category term="杂谈" scheme="https://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
   <entry>
     <title>替换系统音量提示的实现和遇到的坑</title>
-    <link href="http://vongloo.me/2018/06/03/Replace-System-Volume-View/"/>
-    <id>http://vongloo.me/2018/06/03/Replace-System-Volume-View/</id>
+    <link href="https://vongloo.me/2018/06/03/Replace-System-Volume-View/"/>
+    <id>https://vongloo.me/2018/06/03/Replace-System-Volume-View/</id>
     <published>2018-06-03T09:47:58.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p>
 <a id="more"></a>
@@ -559,19 +559,19 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="Tips" scheme="http://vongloo.me/categories/Tips/"/>
+      <category term="Tips" scheme="https://vongloo.me/categories/Tips/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
   <entry>
     <title>Pod 中资源引入方式对比</title>
-    <link href="http://vongloo.me/2018/03/17/Pod-Resource/"/>
-    <id>http://vongloo.me/2018/03/17/Pod-Resource/</id>
+    <link href="https://vongloo.me/2018/03/17/Pod-Resource/"/>
+    <id>https://vongloo.me/2018/03/17/Pod-Resource/</id>
     <published>2018-03-17T05:18:38.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>写这篇博客起因是由于周四在知识小集发了一个 <a href="https://weibo.com/3129068073/G7rJx4Pag" target="_blank" rel="external">Tip</a>，讲 <code>Pod</code> 里面使用了 <code>.xcassets</code> 会导致 <code>Xcode 9</code> 打出来的包没有 <code>icon</code> 的解决方案。然后和 <a href="https://weibo.com/damonone" target="_blank" rel="external">@Damonwong</a> 展开了一下讨论。当然这条 Tip 讲得不全对，而且表达得不是很清晰，所以这里专门开一篇文章来讲一下那个 Tip 想要表达的意思，最后也会附上对应的 Demo。也当做之后要写的模块化系列的文章开篇吧。</p>
 <a id="more"></a>
@@ -677,23 +677,23 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="模块化" scheme="http://vongloo.me/categories/%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
+      <category term="模块化" scheme="https://vongloo.me/categories/%E6%A8%A1%E5%9D%97%E5%8C%96/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
-      <category term="Xcode" scheme="http://vongloo.me/tags/Xcode/"/>
+      <category term="Xcode" scheme="https://vongloo.me/tags/Xcode/"/>
     
-      <category term="Pod" scheme="http://vongloo.me/tags/Pod/"/>
+      <category term="Pod" scheme="https://vongloo.me/tags/Pod/"/>
     
   </entry>
   
   <entry>
     <title>亦无岁月可回头</title>
-    <link href="http://vongloo.me/2018/02/16/2017-Summary/"/>
-    <id>http://vongloo.me/2018/02/16/2017-Summary/</id>
+    <link href="https://vongloo.me/2018/02/16/2017-Summary/"/>
+    <id>https://vongloo.me/2018/02/16/2017-Summary/</id>
     <published>2018-02-15T16:13:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>2018 即将来到(哈哈哈哈哈哈，我说的是农历年)，这篇文章纯当一篇水文，做个2017的年终总结。</p>
 <a id="more"></a>
@@ -730,21 +730,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="扯淡集" scheme="http://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
+      <category term="扯淡集" scheme="https://vongloo.me/categories/%E6%89%AF%E6%B7%A1%E9%9B%86/"/>
     
     
-      <category term="杂谈" scheme="http://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
+      <category term="杂谈" scheme="https://vongloo.me/tags/%E6%9D%82%E8%B0%88/"/>
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
   </entry>
   
   <entry>
     <title>Modern Objective-C</title>
-    <link href="http://vongloo.me/2017/04/21/Modern-Objective-C/"/>
-    <id>http://vongloo.me/2017/04/21/Modern-Objective-C/</id>
+    <link href="https://vongloo.me/2017/04/21/Modern-Objective-C/"/>
+    <id>https://vongloo.me/2017/04/21/Modern-Objective-C/</id>
     <published>2017-04-21T12:51:41.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要介绍一些 Objective-C 的一些新特性。<br><a id="more"></a></p>
 <h3 id="从一个-Bug-来说说-Objective-C-中的指定构造器"><a href="#从一个-Bug-来说说-Objective-C-中的指定构造器" class="headerlink" title="从一个 Bug 来说说 Objective-C 中的指定构造器"></a>从一个 Bug 来说说 Objective-C 中的指定构造器</h3><p>某天测试反馈，iOS8 点击按钮时弹出一个列表视图出现必现崩溃，看了下崩溃日志，是野指针导致导出乱崩，具体是 <code>[xxx collectionView:numberOfItemsInSection:] unrecognized selector send to instance xxxxx</code>。<br>连上设备调试，发现 <code>setupDataSource</code> 走了两次，由于调用栈非常类似，一开始没注意它调了两次，一直没找到问题所在。后面各种断点上去，发现 <code>setupDataSource</code> 方法被调用了两次，进一步 <code>commonInit</code> 被调用了两次。最后查看初始化代码，才发现调用 <code>convenience init method</code> 时，没有调 <code>designed init method</code>，并且调完之后又再调了一次 <code>commonInit</code>。具体看下代码：</p>
@@ -846,19 +846,19 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="读书笔记" scheme="http://vongloo.me/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://vongloo.me/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="Objective-C" scheme="http://vongloo.me/tags/Objective-C/"/>
+      <category term="Objective-C" scheme="https://vongloo.me/tags/Objective-C/"/>
     
   </entry>
   
   <entry>
     <title>Xcode 常用插件</title>
-    <link href="http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/"/>
-    <id>http://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</id>
+    <link href="https://vongloo.me/2016/09/17/Useful-Xcode-Plugins/"/>
+    <id>https://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</id>
     <published>2016-09-17T12:29:00.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>工欲善其事，必先利其器。随着 Xcode 的一步步变得强(yong)大(zhong)，许多功能已经被集成到 Xcode 中，但是日常开发还是会遇到很多小问题，影响效率，于是 Xcode plugins 便派上用场了。下面介绍一下自己在开发中常用的插件，排名不分先后，仅按字母排序。</p>
 <a id="more"></a>
@@ -924,23 +924,23 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="Tips" scheme="http://vongloo.me/categories/Tips/"/>
+      <category term="Tips" scheme="https://vongloo.me/categories/Tips/"/>
     
     
-      <category term="Xcode" scheme="http://vongloo.me/tags/Xcode/"/>
+      <category term="Xcode" scheme="https://vongloo.me/tags/Xcode/"/>
     
-      <category term="插件" scheme="http://vongloo.me/tags/%E6%8F%92%E4%BB%B6/"/>
+      <category term="插件" scheme="https://vongloo.me/tags/%E6%8F%92%E4%BB%B6/"/>
     
-      <category term="Xcode8" scheme="http://vongloo.me/tags/Xcode8/"/>
+      <category term="Xcode8" scheme="https://vongloo.me/tags/Xcode8/"/>
     
   </entry>
   
   <entry>
     <title>让你的 Xcode8 继续使用插件</title>
-    <link href="http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/"/>
-    <id>http://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/</id>
+    <link href="https://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/"/>
+    <id>https://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/</id>
     <published>2016-09-10T12:08:39.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>随着 iOS10 的正式版即将发布，Xcode8 GM 也在发布会后放出，本文不会涉及到 Xcode8 有哪些更新，而是记录了如何让 Xcode8 继续支持 Plugin。</p>
 <a id="more"></a>
@@ -990,23 +990,23 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="Tips" scheme="http://vongloo.me/categories/Tips/"/>
+      <category term="Tips" scheme="https://vongloo.me/categories/Tips/"/>
     
     
-      <category term="Xcode" scheme="http://vongloo.me/tags/Xcode/"/>
+      <category term="Xcode" scheme="https://vongloo.me/tags/Xcode/"/>
     
-      <category term="插件" scheme="http://vongloo.me/tags/%E6%8F%92%E4%BB%B6/"/>
+      <category term="插件" scheme="https://vongloo.me/tags/%E6%8F%92%E4%BB%B6/"/>
     
-      <category term="Xcode8" scheme="http://vongloo.me/tags/Xcode8/"/>
+      <category term="Xcode8" scheme="https://vongloo.me/tags/Xcode8/"/>
     
   </entry>
   
   <entry>
     <title>iOS Animations by Tutorials 2.0 笔记</title>
-    <link href="http://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/"/>
-    <id>http://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</id>
+    <link href="https://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/"/>
+    <id>https://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</id>
     <published>2016-08-26T16:08:21.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（<a href="https://github.com/icanzilb/EasyAnimation" target="_blank" rel="external">Easy Animation</a>、<a href="https://github.com/facebook/pop" target="_blank" rel="external">pop</a>）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。</p>
 <a id="more"></a>
@@ -1119,19 +1119,19 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="读书笔记" scheme="http://vongloo.me/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://vongloo.me/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="笔记" scheme="http://vongloo.me/tags/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://vongloo.me/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>WebView 与 JS 的交互</title>
-    <link href="http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/"/>
-    <id>http://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/</id>
+    <link href="https://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/"/>
+    <id>https://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/</id>
     <published>2015-10-18T16:14:41.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p>
 <a id="more"></a>
@@ -1329,21 +1329,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="框架学习" scheme="http://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="框架学习" scheme="https://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
-      <category term="WebView" scheme="http://vongloo.me/tags/WebView/"/>
+      <category term="WebView" scheme="https://vongloo.me/tags/WebView/"/>
     
   </entry>
   
   <entry>
     <title>如何创建一个翻书动画(Part2)[译]</title>
-    <link href="http://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/"/>
-    <id>http://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/</id>
+    <link href="https://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/"/>
+    <id>https://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/</id>
     <published>2015-09-01T15:11:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>欢迎回到 iOS 翻书动画教程系列！在该系列的<a href="http://www.raywenderlich.com/94565/how-to-create-an-ios-book-open-animation-part-1" target="_blank" rel="external">第一部分</a>(<a href="http://t.cn/Ry2rWGG" target="_blank" rel="external">译文</a>)，你已经知道如何创建自定义的 layout 以及如何在 app 中使用阴影效果来创建景深和模拟现实。在这篇教程中，你将学到如何创建一个自定义的转场以及如何使用 pinch 手势来打开书本。</p>
 <a id="more"></a>
@@ -1581,21 +1581,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="翻译" scheme="http://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
     
     
-      <category term="UICollectionView" scheme="http://vongloo.me/tags/UICollectionView/"/>
+      <category term="UICollectionView" scheme="https://vongloo.me/tags/UICollectionView/"/>
     
-      <category term="翻译" scheme="http://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title>如何创建一个翻书动画(Part 1)[译]</title>
-    <link href="http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/"/>
-    <id>http://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/</id>
+    <link href="https://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/"/>
+    <id>https://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/</id>
     <published>2015-08-31T15:21:41.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于<a href="https://www.fiftythree.com/paper" target="_blank" rel="external">Paper by FiftyThree</a>：</p>
 <a id="more"></a>
@@ -1794,21 +1794,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="翻译" scheme="http://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
     
     
-      <category term="UICollectionView" scheme="http://vongloo.me/tags/UICollectionView/"/>
+      <category term="UICollectionView" scheme="https://vongloo.me/tags/UICollectionView/"/>
     
-      <category term="翻译" scheme="http://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title>UICollectionView自定义布局之风火轮[译]</title>
-    <link href="http://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/"/>
-    <id>http://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/</id>
+    <link href="https://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/"/>
+    <id>https://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/</id>
     <published>2015-08-31T12:19:46.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>现在有许多极具创造力的网站，几周前我碰巧浏览到一个名为<a href="http://fff.cmiscm.com/" target="_blank" rel="external">Form Follows Function</a>的网站，上面有各种交互动画。其中最吸引我的是网站上的导航转轮，转轮由各种交互体验海报组成。</p>
 <a id="more"></a>
@@ -1959,21 +1959,21 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="翻译" scheme="http://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
     
     
-      <category term="UICollectionView" scheme="http://vongloo.me/tags/UICollectionView/"/>
+      <category term="UICollectionView" scheme="https://vongloo.me/tags/UICollectionView/"/>
     
-      <category term="翻译" scheme="http://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title>Koloda动画第二版[译]</title>
-    <link href="http://vongloo.me/2015/08/23/Koloda-Second-Version/"/>
-    <id>http://vongloo.me/2015/08/23/Koloda-Second-Version/</id>
+    <link href="https://vongloo.me/2015/08/23/Koloda-Second-Version/"/>
+    <id>https://vongloo.me/2015/08/23/Koloda-Second-Version/</id>
     <published>2015-08-23T09:31:04.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>一个月前，我们发布了<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">how we developed Tinder-like Koloda in Swift</a>(<a href="http://0.0.0.0:4000/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/" target="_blank" rel="external">如何创建一个类似 Tinder 的交互动画[译]</a>)。在开发者与设计师社区这个动画都受到强烈的欢迎，所以我们决定继续改善它。<br><a id="more"></a></p>
 <p>原文：<a href="https://yalantis.com/blog/koloda-tinder-like-animation-version-2-prototyping-in-pixate-and-development-in-swift/" target="_blank" rel="external">Koloda Tinder-Like Animation Version 2.</a></p>
@@ -2045,19 +2045,19 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="翻译" scheme="http://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
     
     
-      <category term="翻译" scheme="http://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title>如何创建一个类似 Tinder 的交互动画[译]</title>
-    <link href="http://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/"/>
-    <id>http://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</id>
+    <link href="https://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/"/>
+    <id>https://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</id>
     <published>2015-08-20T16:09:54.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。<br><a id="more"></a><br>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">How We Built Tinder-Like Koloda Animation in Swift</a></p>
 <p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about" target="_blank" rel="external">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。<br>还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/" target="_blank" rel="external">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p>
@@ -2106,19 +2106,19 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="翻译" scheme="http://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
     
     
-      <category term="翻译" scheme="http://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title>AVFoundation和 GPUImage初探</title>
-    <link href="http://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/"/>
-    <id>http://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/</id>
+    <link href="https://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/"/>
+    <id>https://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/</id>
     <published>2014-08-23T16:41:08.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
 <a id="more"></a>
@@ -2180,23 +2180,23 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="框架学习" scheme="http://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="框架学习" scheme="https://vongloo.me/categories/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="原创" scheme="http://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
+      <category term="原创" scheme="https://vongloo.me/tags/%E5%8E%9F%E5%88%9B/"/>
     
-      <category term="AVFoundation" scheme="http://vongloo.me/tags/AVFoundation/"/>
+      <category term="AVFoundation" scheme="https://vongloo.me/tags/AVFoundation/"/>
     
-      <category term="GPUImage" scheme="http://vongloo.me/tags/GPUImage/"/>
+      <category term="GPUImage" scheme="https://vongloo.me/tags/GPUImage/"/>
     
   </entry>
   
   <entry>
     <title>高效利用你的Xcode[译]</title>
-    <link href="http://vongloo.me/2014/07/23/Using-Xcode-Efficiently/"/>
-    <id>http://vongloo.me/2014/07/23/Using-Xcode-Efficiently/</id>
+    <link href="https://vongloo.me/2014/07/23/Using-Xcode-Efficiently/"/>
+    <id>https://vongloo.me/2014/07/23/Using-Xcode-Efficiently/</id>
     <published>2014-07-23T15:37:48.000Z</published>
-    <updated>2019-02-22T15:36:46.201Z</updated>
+    <updated>2019-02-23T03:20:26.899Z</updated>
     
     <content type="html"><![CDATA[<p>好莱坞电影里经常看到黑客们手指在键盘上飞速跳跃,同时终端上的代码也随着飞舞。如果你也想像电影里那样,那么你来对地方了。这篇教程将会教你在Xcode编程中更像程序员,你可以称之为魔法、疯狂的技术、好运当头或者黑客。毫无疑问,在学习完本教程之后,不管你怎么认为,都会感觉很酷,同时能更高效地运用Xcode,甚至可以通过这些新发现使你的代码免于毁灭。</p>
 <a id="more"></a>
@@ -2411,12 +2411,12 @@ thread.name = <span class="string">"Networking Thread"</span>
     
     </summary>
     
-      <category term="翻译" scheme="http://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/categories/%E7%BF%BB%E8%AF%91/"/>
     
     
-      <category term="翻译" scheme="http://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="https://vongloo.me/tags/%E7%BF%BB%E8%AF%91/"/>
     
-      <category term="Xcode" scheme="http://vongloo.me/tags/Xcode/"/>
+      <category term="Xcode" scheme="https://vongloo.me/tags/Xcode/"/>
     
   </entry>
   

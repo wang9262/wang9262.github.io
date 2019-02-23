@@ -4,11 +4,11 @@ comments: false
 ---
 
 
-![cove](http://o9sih3398.bkt.clouddn.com/cover-1.png)
+![cover](http://img.cdn.punmy.cn/cover-1.png)
 
 
 I am Vong.
-毕业于华中科技大学，iOS 开发进阶中，在厦门工作。
+毕业于华中科技大学，iOS 开发进阶中。
 
 Find Me:
 

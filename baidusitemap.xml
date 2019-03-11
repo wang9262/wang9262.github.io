@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</loc>
+    <loc>https://vongloo.me/2018/10/28/Blog-Automation/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
-    <loc>https://vongloo.me/2019/02/22/WWDC-2018-Signpost/</loc>
+    <loc>https://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
-    <loc>https://vongloo.me/2014/07/23/Using-Xcode-Efficiently/</loc>
+    <loc>https://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
     <loc>https://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/</loc>
@@ -28,7 +28,7 @@
     <loc>https://vongloo.me/2017/04/21/Modern-Objective-C/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
-    <loc>https://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</loc>
+    <loc>https://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
     <loc>https://vongloo.me/2018/03/17/Pod-Resource/</loc>
@@ -46,19 +46,19 @@
     <loc>https://vongloo.me/2019/02/22/Understanding-Crash/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
-    <loc>https://vongloo.me/2019/02/03/2018-Summary/</loc>
+    <loc>https://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
-    <loc>https://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</loc>
+    <loc>https://vongloo.me/2014/07/23/Using-Xcode-Efficiently/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
-    <loc>https://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/</loc>
-    <lastmod>2019-03-11</lastmod>
-  </url>  <url>
-    <loc>https://vongloo.me/2018/10/28/Blog-Automation/</loc>
+    <loc>https://vongloo.me/2019/02/22/WWDC-2018-Signpost/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
     <loc>https://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/</loc>
+    <lastmod>2019-03-11</lastmod>
+  </url>  <url>
+    <loc>https://vongloo.me/2019/02/03/2018-Summary/</loc>
     <lastmod>2019-03-11</lastmod>
   </url>  <url>
     <loc>https://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/</loc>

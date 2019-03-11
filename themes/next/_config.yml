@@ -312,7 +312,7 @@ baidu_analytics: d71967fb1ab9069e28b091ea724fa86c
 disqus:
   enable: true
   shortname: vong
-  count: true
+  count: false
 
 gitment:
   enable: true

@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-2@2x.png">
 <meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-3@2x.png">
 <meta property="og:image" content="http://img.cdn.punmy.cn/QQ20160826-4@2x.png">
-<meta property="og:updated_time" content="2019-10-19T16:59:14.017Z">
+<meta property="og:updated_time" content="2019-11-21T15:12:10.995Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS Animations by Tutorials 2.0 笔记">
 <meta name="twitter:description" content="这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（Easy Animation、pop）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。">
@@ -417,7 +417,7 @@
         <p>这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（<a href="https://github.com/icanzilb/EasyAnimation" target="_blank" rel="external">Easy Animation</a>、<a href="https://github.com/facebook/pop" target="_blank" rel="external">pop</a>）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。</p>
 <a id="more"></a>
 <h2 id="Section-Ⅰ-View-Animation"><a href="#Section-Ⅰ-View-Animation" class="headerlink" title="Section Ⅰ View Animation"></a>Section Ⅰ View Animation</h2><p>这部分主要是关于 UIView 的动画，UIView 层次的动画是一些经过封装的上层 API，简单但是实用。基本都是日常用到的，比如位置、大小、透明度、旋转、关键帧动画等等，所以没啥好记录的。</p>
-<h3 id="View-之间的过渡转场"><a href="#View-之间的过渡转场" class="headerlink" title="View 之间的过渡转场"></a>View 之间的过渡转场</h3><p>主要是使用如下两个方法:</p>
+<h4 id="View-之间的过渡转场"><a href="#View-之间的过渡转场" class="headerlink" title="View 之间的过渡转场"></a>View 之间的过渡转场</h4><p>主要是使用如下两个方法:</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)transitionWithView:(<span class="built_in">UIView</span> *)view duration:(<span class="built_in">NSTimeInterval</span>)duration options:(<span class="built_in">UIViewAnimationOptions</span>)options animations:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))animations completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</div><div class="line"></div><div class="line"><span class="comment">// toView added to fromView.superview, fromView removed from its superview</span></div><div class="line">+ (<span class="keyword">void</span>)transitionFromView:(<span class="built_in">UIView</span> *)fromView toView:(<span class="built_in">UIView</span> *)toView duration:(<span class="built_in">NSTimeInterval</span>)duration options:(<span class="built_in">UIViewAnimationOptions</span>)options completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</div></pre></td></tr></table></figure>
 <h2 id="Section-Ⅱ-Auto-Layout"><a href="#Section-Ⅱ-Auto-Layout" class="headerlink" title="Section Ⅱ Auto Layout"></a>Section Ⅱ Auto Layout</h2><p>这部分主要是 Auto Layout 的相关动画，首先基本介绍了它的使用，然后通过同一个 Demo 层层递进。总得来说，不管是手写还是 IB,布局虽然看似静态的，但是它也是能做动画的。</p>
 <p>这一部分的动画，无非就是改了约束，然后把 <code>[view layoutIfNeeded]</code> 放到动画 block 里面。不过在这里学会了一招，就是在 IB 里面可以为约束设置标识（identifier）有点类似于 view 的 tag。</p>
@@ -453,24 +453,29 @@
 <p>choose view animations any time you can to do the job; you will know when you need more performance or flexibility and have to switch to layer animations instead.<br>Don’t stress yourself about it though, because you can mix and match view and layer animations freely.</p>
 </blockquote>
 <p>简单来说就是在 UIView 满足需求的时候尽量使用 UIView，当追求更好的性能及灵活性时可以考虑使用 Core Animation.当然，两者也可以混合使用。</p>
-<h3 id="fillMode"><a href="#fillMode" class="headerlink" title="fillMode"></a>fillMode</h3><p>这里借用书中的几张图来阐明一下各种模式</p>
+<h4 id="fillMode"><a href="#fillMode" class="headerlink" title="fillMode"></a>fillMode</h4><p>这里借用书中的几张图来阐明一下各种模式</p>
 <ul>
-<li><strong>kCAFillModeRemoved</strong><br>img.cdn.punmy.cn<br>  默认模式：动画执行完毕后恢复原样</li>
+<li><p><strong>kCAFillModeRemoved</strong></p>
+<p>  默认模式：动画执行完毕后恢复原样</p>
+</li>
 </ul>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-0@2x.png" alt="QQ20160826-0@2x"></p>
 <ul>
-<li><p><strong>kCAFillModeBackwards</strong>img.cdn.punmy.cn</p>
+<li><p><strong>kCAFillModeBackwards</strong></p>
 <p>  动画开始前展示第一帧<br><img src="http://img.cdn.punmy.cn/QQ20160826-1@2x.png" alt="QQ20160826-1@2x"></p>
 </li>
-<li><p><strong>kCAFillModeForwards</strong><br>img.cdn.punmy.cn<br>  动画结束后 layer 维持最后一帧的状态</p>
+<li><p><strong>kCAFillModeForwards</strong></p>
+<p>  动画结束后 layer 维持最后一帧的状态</p>
 </li>
 </ul>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-2@2x.png" alt="QQ20160826-2@2x"></p>
 <ul>
-<li><strong>kCAFillModeBoth</strong><br>img.cdn.punmy.cn<br>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</li>
+<li><p><strong>kCAFillModeBoth</strong></p>
+<p>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</p>
+</li>
 </ul>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-3@2x.png" alt="QQ20160826-3@2x"></p>
-<h3 id="Layer-弹性动画"><a href="#Layer-弹性动画" class="headerlink" title="Layer 弹性动画"></a>Layer 弹性动画</h3><p>这一节以钟摆举例，来解释弹性阻尼动画的相关属性。</p>
+<h4 id="Layer-弹性动画"><a href="#Layer-弹性动画" class="headerlink" title="Layer 弹性动画"></a>Layer 弹性动画</h4><p>这一节以钟摆举例，来解释弹性阻尼动画的相关属性。</p>
 <ul>
 <li><p><strong>damping</strong></p>
 <p>  阻尼？不知道是不是这么翻译，主要是由空气摩擦、机械摩擦以及其它外界阻力造成的。    </p>
@@ -482,15 +487,16 @@
 <p>  重力加速度（G）</p>
 </li>
 <li><p><strong>initial velocity</strong></p>
-<p>  初始速度，开始运动前，外界的推（拉力）产生的速度<br>img.cdn.punmy.cn<br>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
+<p>  初始速度，开始运动前，外界的推（拉力）产生的速度</p>
 </li>
 </ul>
+<p>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-4@2x.png" alt="QQ20160826-4@2x"></p>
 <p>如果 <code>duration</code> 为0.25，此时本应该还有振荡，但是动画时间已到，只能强制停止振荡，进而使动画看起来略微生硬。所以 <code>CASpringAnimation</code> 里面有一个属性叫做 <code>settlingDuration</code>,该属性表示所有动画参数设定好之后，振荡完成是所需时间，如果将 <code>duration</code> 设置成这样，那么动画看起来就会很自然。</p>
 <blockquote>
 <p>友情提示：请在设置好所有弹性振荡参数之后再设置 <code>duration</code>.</p>
 </blockquote>
-<h2 id="Section-Ⅳ-3D-Animations"><a href="#Section-Ⅳ-3D-Animations" class="headerlink" title="Section Ⅳ 3D Animations"></a>Section Ⅳ 3D Animations</h2><p>这部分主要通过一个侧拉菜单的 Demo 讲解了 3D 动画该如何实现。关键还是在于 CATransform3D 中的 m34 以及配合改变 anchor point,要想让视图看起来具有 3D 透视效果，可以将 m34 设置为 -1.0 / [camera distance], 分母代表相机离视图的距离。</p>
+<h2 id="Section-Ⅳ-3D-Animations"><a href="#Section-Ⅳ-3D-Animations" class="headerlink" title="Section Ⅳ 3D Animations"></a>Section Ⅳ 3D Animations</h2><p>这部分主要通过一个侧拉菜单的 Demo 讲解了 3D 动画该如何实现。关键还是在于 CATransform3D 中的 m34 以及配合改变 anchor point,要想让视图看起来具有 3D 透视效果，可以将 m34 设置为 -1.0 / [camera distance], 分母代表相机离视图的距离.</p>
 <p>关于距离选值与透视效果的明显程度可参见下表：</p>
 <table>
 <thead>
@@ -853,7 +859,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅰ-View-Animation"><span class="nav-number">1.</span> <span class="nav-text">Section Ⅰ View Animation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#View-之间的过渡转场"><span class="nav-number">1.1.</span> <span class="nav-text">View 之间的过渡转场</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅱ-Auto-Layout"><span class="nav-number">2.</span> <span class="nav-text">Section Ⅱ Auto Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅲ-Layer-Animation"><span class="nav-number">3.</span> <span class="nav-text">Section Ⅲ Layer Animation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fillMode"><span class="nav-number">3.1.</span> <span class="nav-text">fillMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layer-弹性动画"><span class="nav-number">3.2.</span> <span class="nav-text">Layer 弹性动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅳ-3D-Animations"><span class="nav-number">4.</span> <span class="nav-text">Section Ⅳ 3D Animations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅴ-Further-Types-of-Animations"><span class="nav-number">5.</span> <span class="nav-text">Section Ⅴ Further Types of Animations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅵ-View-Controller-Transitions"><span class="nav-number">6.</span> <span class="nav-text">Section Ⅵ View Controller Transitions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅶ-Third-Party-Animation-Libraries"><span class="nav-number">7.</span> <span class="nav-text">Section Ⅶ Third-Party Animation Libraries</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅰ-View-Animation"><span class="nav-number">1.</span> <span class="nav-text">Section Ⅰ View Animation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#View-之间的过渡转场"><span class="nav-number">1.0.1.</span> <span class="nav-text">View 之间的过渡转场</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅱ-Auto-Layout"><span class="nav-number">2.</span> <span class="nav-text">Section Ⅱ Auto Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅲ-Layer-Animation"><span class="nav-number">3.</span> <span class="nav-text">Section Ⅲ Layer Animation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fillMode"><span class="nav-number">3.0.1.</span> <span class="nav-text">fillMode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Layer-弹性动画"><span class="nav-number">3.0.2.</span> <span class="nav-text">Layer 弹性动画</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅳ-3D-Animations"><span class="nav-number">4.</span> <span class="nav-text">Section Ⅳ 3D Animations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅴ-Further-Types-of-Animations"><span class="nav-number">5.</span> <span class="nav-text">Section Ⅴ Further Types of Animations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅵ-View-Controller-Transitions"><span class="nav-number">6.</span> <span class="nav-text">Section Ⅵ View Controller Transitions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Section-Ⅶ-Third-Party-Animation-Libraries"><span class="nav-number">7.</span> <span class="nav-text">Section Ⅶ Third-Party Animation Libraries</span></a></li></ol></div>
             
 
           </div>

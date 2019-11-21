@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://vongloo.me/"/>
-  <updated>2019-10-19T16:59:14.017Z</updated>
+  <updated>2019-11-21T15:12:10.991Z</updated>
   <id>https://vongloo.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://vongloo.me/2019/10/20/BackgroundTask/"/>
     <id>https://vongloo.me/2019/10/20/BackgroundTask/</id>
     <published>2019-10-19T16:53:18.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.991Z</updated>
     
     <content type="html"><![CDATA[<p><img src="http://img.cdn.punmy.cn/mweb/15603537122161.jpg!wm" alt="-w1617"></p>
 <blockquote>
@@ -164,7 +164,7 @@
     <link href="https://vongloo.me/2019/02/22/WWDC-2018-Signpost/"/>
     <id>https://vongloo.me/2019/02/22/WWDC-2018-Signpost/</id>
     <published>2019-02-22T14:17:46.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本文是 WWDC 2018 Session 405 的观后感，原视频和 pdf 可以在<a href="https://developer.apple.com/videos/play/wwdc2018/405/" target="_blank" rel="external">这里</a>看到。<br>首发于<a href="https://xiaozhuanlan.com/topic/3789465012" target="_blank" rel="external">小专栏</a>。</p>
@@ -277,7 +277,7 @@
     <link href="https://vongloo.me/2019/02/22/Understanding-Crash/"/>
     <id>https://vongloo.me/2019/02/22/Understanding-Crash/</id>
     <published>2019-02-22T14:13:46.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本文首发于<a href="https://juejin.im/post/5b1e833ce51d450686186557" target="_blank" rel="external">掘金</a>。</p>
@@ -478,7 +478,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2019/02/03/2018-Summary/"/>
     <id>https://vongloo.me/2019/02/03/2018-Summary/</id>
     <published>2019-02-03T14:13:46.000Z</published>
-    <updated>2019-10-19T16:59:14.013Z</updated>
+    <updated>2019-11-21T15:12:10.991Z</updated>
     
     <content type="html"><![CDATA[<p>老规矩，这次又是2018年的最后一天，是时候更新一下年终总结了，水一下，纯当一个记录~</p>
 <a id="more"></a>
@@ -535,7 +535,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2018/10/28/Blog-Automation/"/>
     <id>https://vongloo.me/2018/10/28/Blog-Automation/</id>
     <published>2018-10-28T15:18:46.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.991Z</updated>
     
     <content type="html"><![CDATA[<p>现在使用的博客系统是 Hexo+GitHub Pages，每次发布新的文章时流程甚是繁琐，是否有好的方式来提高效率，专注于【写】这件事上呢？</p>
 <a id="more"></a>
@@ -609,7 +609,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/"/>
     <id>https://vongloo.me/2018/10/28/Some-thoughts-On-GMTC-2018/</id>
     <published>2018-10-28T05:27:58.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>上周凑巧有机会拿到 GMTC 的票，然后去现场体验了一下。这里主要记录第一次参加这种线下大会的一些感受。</p>
 <a id="more"></a>
@@ -655,7 +655,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2018/06/03/Replace-System-Volume-View/"/>
     <id>https://vongloo.me/2018/06/03/Replace-System-Volume-View/</id>
     <published>2018-06-03T09:47:58.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p>
 <a id="more"></a>
@@ -715,7 +715,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2018/03/17/Pod-Resource/"/>
     <id>https://vongloo.me/2018/03/17/Pod-Resource/</id>
     <published>2018-03-17T05:18:38.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>写这篇博客起因是由于周四在知识小集发了一个 <a href="https://weibo.com/3129068073/G7rJx4Pag" target="_blank" rel="external">Tip</a>，讲 <code>Pod</code> 里面使用了 <code>.xcassets</code> 会导致 <code>Xcode 9</code> 打出来的包没有 <code>icon</code> 的解决方案。然后和 <a href="https://weibo.com/damonone" target="_blank" rel="external">@Damonwong</a> 展开了一下讨论。当然这条 Tip 讲得不全对，而且表达得不是很清晰，所以这里专门开一篇文章来讲一下那个 Tip 想要表达的意思，最后也会附上对应的 Demo。也当做之后要写的模块化系列的文章开篇吧。</p>
 <a id="more"></a>
@@ -837,7 +837,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2018/02/16/2017-Summary/"/>
     <id>https://vongloo.me/2018/02/16/2017-Summary/</id>
     <published>2018-02-15T16:13:46.000Z</published>
-    <updated>2019-10-19T16:59:14.013Z</updated>
+    <updated>2019-11-21T15:12:10.991Z</updated>
     
     <content type="html"><![CDATA[<p>2018 即将来到(哈哈哈哈哈哈，我说的是农历年)，这篇文章纯当一篇水文，做个2017的年终总结。</p>
 <a id="more"></a>
@@ -888,7 +888,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2017/04/21/Modern-Objective-C/"/>
     <id>https://vongloo.me/2017/04/21/Modern-Objective-C/</id>
     <published>2017-04-21T12:51:41.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要介绍一些 Objective-C 的一些新特性。<br><a id="more"></a></p>
 <h3 id="从一个-Bug-来说说-Objective-C-中的指定构造器"><a href="#从一个-Bug-来说说-Objective-C-中的指定构造器" class="headerlink" title="从一个 Bug 来说说 Objective-C 中的指定构造器"></a>从一个 Bug 来说说 Objective-C 中的指定构造器</h3><p>某天测试反馈，iOS8 点击按钮时弹出一个列表视图出现必现崩溃，看了下崩溃日志，是野指针导致导出乱崩，具体是 <code>[xxx collectionView:numberOfItemsInSection:] unrecognized selector send to instance xxxxx</code>。<br>连上设备调试，发现 <code>setupDataSource</code> 走了两次，由于调用栈非常类似，一开始没注意它调了两次，一直没找到问题所在。后面各种断点上去，发现 <code>setupDataSource</code> 方法被调用了两次，进一步 <code>commonInit</code> 被调用了两次。最后查看初始化代码，才发现调用 <code>convenience init method</code> 时，没有调 <code>designed init method</code>，并且调完之后又再调了一次 <code>commonInit</code>。具体看下代码：</p>
@@ -1002,7 +1002,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2016/09/17/Useful-Xcode-Plugins/"/>
     <id>https://vongloo.me/2016/09/17/Useful-Xcode-Plugins/</id>
     <published>2016-09-17T12:29:00.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>工欲善其事，必先利其器。随着 Xcode 的一步步变得强(yong)大(zhong)，许多功能已经被集成到 Xcode 中，但是日常开发还是会遇到很多小问题，影响效率，于是 Xcode plugins 便派上用场了。下面介绍一下自己在开发中常用的插件，排名不分先后，仅按字母排序。</p>
 <a id="more"></a>
@@ -1084,7 +1084,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/"/>
     <id>https://vongloo.me/2016/09/10/Make-Your-Xcode8-Great-Again/</id>
     <published>2016-09-10T12:08:39.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>随着 iOS10 的正式版即将发布，Xcode8 GM 也在发布会后放出，本文不会涉及到 Xcode8 有哪些更新，而是记录了如何让 Xcode8 继续支持 Plugin。</p>
 <a id="more"></a>
@@ -1150,12 +1150,12 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/"/>
     <id>https://vongloo.me/2016/08/27/Note-for-iOS-Animations-by-Tutorials/</id>
     <published>2016-08-26T16:08:21.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>这本书主要分成七个部分，二十七个章节，涵盖了从底层的 Core Animation 到上层的 UIView 的动画封装，AutoLayout 动画以及 ViewController 之间的转场动画。最后选择了两个开源动画库（<a href="https://github.com/icanzilb/EasyAnimation" target="_blank" rel="external">Easy Animation</a>、<a href="https://github.com/facebook/pop" target="_blank" rel="external">pop</a>）进行实践。本篇文章主要是在阅读、学习过程中的一些笔记，留下记录，日后忘记可以再来翻看。</p>
 <a id="more"></a>
 <h2 id="Section-Ⅰ-View-Animation"><a href="#Section-Ⅰ-View-Animation" class="headerlink" title="Section Ⅰ View Animation"></a>Section Ⅰ View Animation</h2><p>这部分主要是关于 UIView 的动画，UIView 层次的动画是一些经过封装的上层 API，简单但是实用。基本都是日常用到的，比如位置、大小、透明度、旋转、关键帧动画等等，所以没啥好记录的。</p>
-<h3 id="View-之间的过渡转场"><a href="#View-之间的过渡转场" class="headerlink" title="View 之间的过渡转场"></a>View 之间的过渡转场</h3><p>主要是使用如下两个方法:</p>
+<h4 id="View-之间的过渡转场"><a href="#View-之间的过渡转场" class="headerlink" title="View 之间的过渡转场"></a>View 之间的过渡转场</h4><p>主要是使用如下两个方法:</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)transitionWithView:(<span class="built_in">UIView</span> *)view duration:(<span class="built_in">NSTimeInterval</span>)duration options:(<span class="built_in">UIViewAnimationOptions</span>)options animations:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))animations completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</div><div class="line"></div><div class="line"><span class="comment">// toView added to fromView.superview, fromView removed from its superview</span></div><div class="line">+ (<span class="keyword">void</span>)transitionFromView:(<span class="built_in">UIView</span> *)fromView toView:(<span class="built_in">UIView</span> *)toView duration:(<span class="built_in">NSTimeInterval</span>)duration options:(<span class="built_in">UIViewAnimationOptions</span>)options completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</div></pre></td></tr></table></figure>
 <h2 id="Section-Ⅱ-Auto-Layout"><a href="#Section-Ⅱ-Auto-Layout" class="headerlink" title="Section Ⅱ Auto Layout"></a>Section Ⅱ Auto Layout</h2><p>这部分主要是 Auto Layout 的相关动画，首先基本介绍了它的使用，然后通过同一个 Demo 层层递进。总得来说，不管是手写还是 IB,布局虽然看似静态的，但是它也是能做动画的。</p>
 <p>这一部分的动画，无非就是改了约束，然后把 <code>[view layoutIfNeeded]</code> 放到动画 block 里面。不过在这里学会了一招，就是在 IB 里面可以为约束设置标识（identifier）有点类似于 view 的 tag。</p>
@@ -1191,24 +1191,29 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p>choose view animations any time you can to do the job; you will know when you need more performance or flexibility and have to switch to layer animations instead.<br>Don’t stress yourself about it though, because you can mix and match view and layer animations freely.</p>
 </blockquote>
 <p>简单来说就是在 UIView 满足需求的时候尽量使用 UIView，当追求更好的性能及灵活性时可以考虑使用 Core Animation.当然，两者也可以混合使用。</p>
-<h3 id="fillMode"><a href="#fillMode" class="headerlink" title="fillMode"></a>fillMode</h3><p>这里借用书中的几张图来阐明一下各种模式</p>
+<h4 id="fillMode"><a href="#fillMode" class="headerlink" title="fillMode"></a>fillMode</h4><p>这里借用书中的几张图来阐明一下各种模式</p>
 <ul>
-<li><strong>kCAFillModeRemoved</strong><br>img.cdn.punmy.cn<br>  默认模式：动画执行完毕后恢复原样</li>
+<li><p><strong>kCAFillModeRemoved</strong></p>
+<p>  默认模式：动画执行完毕后恢复原样</p>
+</li>
 </ul>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-0@2x.png" alt="QQ20160826-0@2x"></p>
 <ul>
-<li><p><strong>kCAFillModeBackwards</strong>img.cdn.punmy.cn</p>
+<li><p><strong>kCAFillModeBackwards</strong></p>
 <p>  动画开始前展示第一帧<br><img src="http://img.cdn.punmy.cn/QQ20160826-1@2x.png" alt="QQ20160826-1@2x"></p>
 </li>
-<li><p><strong>kCAFillModeForwards</strong><br>img.cdn.punmy.cn<br>  动画结束后 layer 维持最后一帧的状态</p>
+<li><p><strong>kCAFillModeForwards</strong></p>
+<p>  动画结束后 layer 维持最后一帧的状态</p>
 </li>
 </ul>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-2@2x.png" alt="QQ20160826-2@2x"></p>
 <ul>
-<li><strong>kCAFillModeBoth</strong><br>img.cdn.punmy.cn<br>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</li>
+<li><p><strong>kCAFillModeBoth</strong></p>
+<p>  是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧</p>
+</li>
 </ul>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-3@2x.png" alt="QQ20160826-3@2x"></p>
-<h3 id="Layer-弹性动画"><a href="#Layer-弹性动画" class="headerlink" title="Layer 弹性动画"></a>Layer 弹性动画</h3><p>这一节以钟摆举例，来解释弹性阻尼动画的相关属性。</p>
+<h4 id="Layer-弹性动画"><a href="#Layer-弹性动画" class="headerlink" title="Layer 弹性动画"></a>Layer 弹性动画</h4><p>这一节以钟摆举例，来解释弹性阻尼动画的相关属性。</p>
 <ul>
 <li><p><strong>damping</strong></p>
 <p>  阻尼？不知道是不是这么翻译，主要是由空气摩擦、机械摩擦以及其它外界阻力造成的。    </p>
@@ -1220,15 +1225,16 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p>  重力加速度（G）</p>
 </li>
 <li><p><strong>initial velocity</strong></p>
-<p>  初始速度，开始运动前，外界的推（拉力）产生的速度<br>img.cdn.punmy.cn<br>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
+<p>  初始速度，开始运动前，外界的推（拉力）产生的速度</p>
 </li>
 </ul>
+<p>某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 <code>duration</code> 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：</p>
 <p><img src="http://img.cdn.punmy.cn/QQ20160826-4@2x.png" alt="QQ20160826-4@2x"></p>
 <p>如果 <code>duration</code> 为0.25，此时本应该还有振荡，但是动画时间已到，只能强制停止振荡，进而使动画看起来略微生硬。所以 <code>CASpringAnimation</code> 里面有一个属性叫做 <code>settlingDuration</code>,该属性表示所有动画参数设定好之后，振荡完成是所需时间，如果将 <code>duration</code> 设置成这样，那么动画看起来就会很自然。</p>
 <blockquote>
 <p>友情提示：请在设置好所有弹性振荡参数之后再设置 <code>duration</code>.</p>
 </blockquote>
-<h2 id="Section-Ⅳ-3D-Animations"><a href="#Section-Ⅳ-3D-Animations" class="headerlink" title="Section Ⅳ 3D Animations"></a>Section Ⅳ 3D Animations</h2><p>这部分主要通过一个侧拉菜单的 Demo 讲解了 3D 动画该如何实现。关键还是在于 CATransform3D 中的 m34 以及配合改变 anchor point,要想让视图看起来具有 3D 透视效果，可以将 m34 设置为 -1.0 / [camera distance], 分母代表相机离视图的距离。</p>
+<h2 id="Section-Ⅳ-3D-Animations"><a href="#Section-Ⅳ-3D-Animations" class="headerlink" title="Section Ⅳ 3D Animations"></a>Section Ⅳ 3D Animations</h2><p>这部分主要通过一个侧拉菜单的 Demo 讲解了 3D 动画该如何实现。关键还是在于 CATransform3D 中的 m34 以及配合改变 anchor point,要想让视图看起来具有 3D 透视效果，可以将 m34 设置为 -1.0 / [camera distance], 分母代表相机离视图的距离.</p>
 <p>关于距离选值与透视效果的明显程度可参见下表：</p>
 <table>
 <thead>
@@ -1275,7 +1281,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/"/>
     <id>https://vongloo.me/2015/10/19/Communication-Between-WebView-and-JS/</id>
     <published>2015-10-18T16:14:41.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p>
 <a id="more"></a>
@@ -1293,7 +1299,7 @@ thread.name = <span class="string">"Networking Thread"</span>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params">url</span>) </span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">  <span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">"IFRAME"</span>);</div><div class="line">  iframe.setAttribute(<span class="string">"src"</span>, url);</div><div class="line">  <span class="built_in">document</span>.documentElement.appendChild(iframe);</div><div class="line">  iframe.parentNode.removeChild(iframe);</div><div class="line">  iframe = <span class="literal">null</span>;</div><div class="line">&#125;</div><div class="line">execute(<span class="string">"schemename://nativemethodname:args"</span>);</div></pre></td></tr></table></figure>
 <p>上述的这一串<code>schemename://nativemethodname:args</code>由客户端和前端约定好即可。剩余的事就是截获这个<code>request</code>，然后解析得到相应的参数，传入要调用的原生函数即可。同时在回调方法中要<code>return NO</code>。<br>大致代码如下：</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)webView:(<span class="built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="built_in">NSURLRequest</span> *)request navigationType:(<span class="built_in">UIWebViewNavigationType</span>)navigationType</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSURL</span> *requestUrl = request.URL;</div><div class="line">    <span class="keyword">if</span> ([requestUrl.scheme isEqualToString:<span class="string">@"schemename"</span>]) &#123;</div><div class="line">            <span class="built_in">NSArray</span> *components = [requestUrl.absoluteString componentsSeparatedByString:<span class="string">@":"</span>];</div><div class="line">            <span class="built_in">NSString</span> *resultJSONString = [components[<span class="number">2</span>] stringByReplacingPercentEscapesUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            [<span class="keyword">self</span> customMethod:resultJsonString];</div><div class="line">            <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">        &#125;</div><div class="line">   <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="WebViewJavaScriptBridge"><a href="#WebViewJavaScriptBridge" class="headerlink" title="WebViewJavaScriptBridge"></a>WebViewJavaScriptBridge</h3><p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evpc6lvjkvj21ee0vqgry.jpg" alt=""></p>
+<h3 id="WebViewJavaScriptBridge"><a href="#WebViewJavaScriptBridge" class="headerlink" title="WebViewJavaScriptBridge"></a>WebViewJavaScriptBridge</h3><p><img src="http://img.cdn.punmy.cn/2019-11-21-15743466661142.jpg!wm" alt=""></p>
 <h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>大致原理与上面说的一致。只不过<code>WebViewJavaScriptBridge</code>进行了更完善的封装，使得 <code>JS</code>与<code>Native</code>之间的通信变得更为简便。</p>
 <p>一开始注入<code>WebViewJavaScriptBridge.js</code>,该文件中的<code>JS</code>方法主要做了以下几件事</p>
 <ul>
@@ -1323,7 +1329,7 @@ thread.name = <span class="string">"Networking Thread"</span>
 <li>如果 responseId 对应的 value 不存在，再看 callbackId 对应的 value 是否存在，存在则设置回调 responseCallback，这个 responseCallback 主要是创建一个消息，然后是消息入队，这个消息字典为 <code>@{ @&quot;responseId&quot;:callbackId, @&quot;responseData&quot;:responseData }</code>；反之 responseCallback 中什么也不执行；最后判断 handlerName 对应的 value 是否存在，存在则取 messageHandlers 中对应的回调 handler，不存在就是用默认的 handler，最后执行这个 WVJBHandler 型的 handler，参数为 data 对应的 value 以及 responseCallback。</li>
 </ul>
 <p>文字有点多，参考下下面这个流程图：</p>
-<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evpd3k7ax7j21iu0s0n5u.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743466818699.jpg!wm" alt=""></p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)webViewDidFinishLoad:(<span class="built_in">UIWebView</span> *)webView;</div></pre></td></tr></table></figure>
 <p>加载结束的回调中判断 js 是否初始化了 WebViewJavaScriptBridge实例，如果不存在，就注入本地的 js。然后检测到 bridge 调用自定义 scheme 后会分发整个消息队列即 startupMessageQueue，遍历消息队列然后取出每一个消息对象(NSDictionary) 然后将其序列化成 JSON，在主线程中调用 JS 的 WebViewJavaScriptBridge._handleMessageFromObjC 方法，参数就是序列化后的 JSON 数据。分发完成后，将 startupMessageQueue 队列置为 nil。</p>
 <p>至此 OC 端的整个流程完毕。</p>
@@ -1427,7 +1433,8 @@ thread.name = <span class="string">"Networking Thread"</span>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">            <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span></span></div><div class="line"><span class="undefined">            &#123;</span></div><div class="line"><span class="undefined">                objcObject.testDemo();</span></div><div class="line"><span class="undefined">                alert(objcObject);</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>JavaScriptCore Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onclick</span>=<span class="string">"test()"</span>&gt;</span>测试<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>上述 html 简单创建了一个 button，然后绑定一个事件。<br>接下来看看 ViewController 里面做了什么。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// .h</span></div><div class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">TestJSDelegate</span> &lt;<span class="title">JSExport</span>&gt;</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)testDemo;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">WebViewController</span> : <span class="title">UIViewController</span> &lt;<span class="title">TestJSDelegate</span>,<span class="title">UIWebViewDelegate</span>&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">// .m</span></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">    <span class="built_in">NSURL</span> *path = [[<span class="built_in">NSBundle</span> mainBundle] URLForResource:<span class="string">@"test"</span> withExtension:<span class="string">@"html"</span>];</div><div class="line">    <span class="built_in">NSString</span> *html = [<span class="built_in">NSString</span> stringWithContentsOfURL:path encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</div><div class="line">    [<span class="keyword">self</span>.webView loadHTMLString:html baseURL:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)webViewDidFinishLoad:(<span class="built_in">UIWebView</span> *)webView</div><div class="line">&#123;</div><div class="line">	JSContext *context = [webView valueForKeyPath:<span class="string">@"documentView.webView.mainFrame.javaScriptContext"</span>];</div><div class="line">    context[<span class="string">@"objcObject"</span>] = <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)testDemo</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"test!!!"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>运行效果:<br><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evw1vs00ktj20af0j5t92.jpg" alt=""><br><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evw1xpangwj20bz01b74b.jpg" alt=""></p>
+<p>运行效果:</p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743467085275.jpg!wm" alt=""><br><img src="http://img.cdn.punmy.cn/2019-11-21-15743467192938.jpg!wm" alt=""></p>
 <p>如果协议方法中有多个参数该怎么调用呢？举个例子</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ObjC 中的某个协议方法</span></div><div class="line">- (<span class="keyword">void</span>)testWithName:(<span class="built_in">NSString</span> *)name age:(<span class="built_in">NSNumber</span> *)age</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"name:%@,age:%@"</span>,name,age);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 在上述 html 的 js 中添加一行代码</div><div class="line">objcObject.testWithNameAge("Tracy",20);</div></pre></td></tr></table></figure>
@@ -1441,13 +1448,14 @@ thread.name = <span class="string">"Networking Thread"</span>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ClickHandler 构造器，button 为 OC 对象，callback 是按钮点击事件回调</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ClickHandler</span>(<span class="params">button, callback</span>) </span>&#123;     <span class="keyword">this</span>.button = button;     <span class="keyword">this</span>.button.onClickHandler = <span class="keyword">this</span>;     <span class="keyword">this</span>.handleEvent = callback;&#125;;</div></pre></td></tr></table></figure>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyButton</span></span>- (<span class="keyword">void</span>)setOnClickHandler:(JSValue *)handler&#123;     _onClickHandler = handler; <span class="comment">// Retain cycle</span>&#125;<span class="keyword">@end</span></div></pre></td></tr></table></figure>
 <p>上例中 ClickHandler 对 button 进行了强引用，而 MyButton 中又对 _onClickHandler 这个 JSValue 进行了强引用，最终导致循环引用，如下图所示：</p>
-<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1ew0u1lmnsgj21kw0q3wj0.jpg" alt=""><br>如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。</p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743467542111.jpg!wm" alt=""></p>
+<p>如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。</p>
 <p>举个栗子，在某个方法中有一个临时的 OC 对象，然后通过 JSContext 被 JS 中的变量引用，但是该 OC 方法调用结束后，这个临时对象将被释放，因此 JS 会造成错误访问。</p>
 <p>同样的，如果用 JSContext 创建了对象，然后在 OC 中用 JSValue 去接收，即使把 JSValue 变量在 OC 中被 retain，但可能因为 JS 中因为变量没有了引用而被释放内存，那么对应的JSValue也没有用了。</p>
 <p>所以苹果引入了另一个类来解决这种循环引用的问题。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyButton</span></span>- (<span class="keyword">void</span>)setOnClickHandler:(JSValue *)handler&#123;</div><div class="line">	<span class="comment">//正确的姿势</span>     _onClickHandler = [JSManagedValue managedValueWithValue:handler];     [_context.virtualMachine addManagedReference:_onClickHandler                                        withOwner:<span class="keyword">self</span>]&#125; </div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
 <p><code>addManagedReference</code>做的事情主要如下：它创建了一个 garbage collected reference，这种引用既不是强引用也不是弱引用。</p>
-<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1ew0uh69rcxj21kw0s9gqr.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743467654320.jpg!wm" alt=""></p>
 <p>JSManagedValue 本身是一个对 JavaScript Value 的弱引用，而 JSValue 是强引用。addManagedReference 将 JSManagedValue 转换为 garbage collected reference。如果 JS 在垃圾回收过程中能够找到 managed reference 的所有者，那么这个引用将不会被释放，否则将被释放。JSManagedValue 需要调用其addManagedReference:withOwner: 方法把它添加到JSVirtualMachine 中，确保使用过程中 JSValue 不会被释放。</p>
 <h4 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h4><p>如前面所说，每一个 JSVirtualMachine 都可以有多个 JScontext，在每个进程中又可以有多个  JSVirtualMachine。JSValue 可以在同一个 JSVirtualMachine 中的不同  JSContext 之间传递，但是不能跨 JSVirtualMachine 来传递。因为每个 JSVirtualMachine 都有自己的内存堆以及垃圾回收器，如果  JSValue 跨 JSVirtualMachine 传递，那么垃圾回收器将不知如何处理来自不同内存堆的 JSvalue。</p>
 <ul>
@@ -1487,12 +1495,12 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/"/>
     <id>https://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/</id>
     <published>2015-09-01T15:11:46.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>欢迎回到 iOS 翻书动画教程系列！在该系列的<a href="http://www.raywenderlich.com/94565/how-to-create-an-ios-book-open-animation-part-1" target="_blank" rel="external">第一部分</a>(<a href="http://t.cn/Ry2rWGG" target="_blank" rel="external">译文</a>)，你已经知道如何创建自定义的 layout 以及如何在 app 中使用阴影效果来创建景深和模拟现实。在这篇教程中，你将学到如何创建一个自定义的转场以及如何使用 pinch 手势来打开书本。</p>
 <a id="more"></a>
 <blockquote>
-<p>感谢<a href="https://twitter.com/hegedus90" target="_blank" rel="external">Attila Hegedüs</a>创建了这个棒棒哒示例工程。</p>
+<p>2019.11.21 update<br>本文中图片和资源相关链接可能已失效，如需查阅，请查看原文<br>感谢<a href="https://twitter.com/hegedus90" target="_blank" rel="external">Attila Hegedüs</a>创建了这个棒棒哒示例工程。</p>
 </blockquote>
 <p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/BookOpening.gif" alt=""></p>
 <p>原文：<a href="http://www.raywenderlich.com/?p=97690" target="_blank" rel="external">How to Create an iOS Book Open Animation: Part 2</a></p>
@@ -1739,10 +1747,13 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/"/>
     <id>https://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/</id>
     <published>2015-08-31T15:21:41.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>在这个分两部分的教程系列中，你将开发一个漂亮的 iOS 打开及翻书动画，类似于<a href="https://www.fiftythree.com/paper" target="_blank" rel="external">Paper by FiftyThree</a>：</p>
 <a id="more"></a>
+<blockquote>
+<p>2019.11.21 update<br>本文中图片和资源相关链接可能已失效，如需查阅，请查看原文</p>
+</blockquote>
 <ul>
 <li>第一部分，你将学习如何自定义 UICollectionViewLayout，然后使用景深和阴影来让 app 看起来更加真实。</li>
 <li><a href="http://www.raywenderlich.com/?p=97690" target="_blank" rel="external">第二部分</a>(<a href="http://t.cn/Ry2rYj5" target="_blank" rel="external">译文</a>)，你将学习创建自定义的转场动画，然后集成手势来创建自然、简洁的 view 之间的转场。</li>
@@ -1952,11 +1963,11 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/"/>
     <id>https://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/</id>
     <published>2015-08-31T12:19:46.000Z</published>
-    <updated>2019-10-19T16:59:14.013Z</updated>
+    <updated>2019-11-21T15:12:10.991Z</updated>
     
     <content type="html"><![CDATA[<p>现在有许多极具创造力的网站，几周前我碰巧浏览到一个名为<a href="http://fff.cmiscm.com/" target="_blank" rel="external">Form Follows Function</a>的网站，上面有各种交互动画。其中最吸引我的是网站上的导航转轮，转轮由各种交互体验海报组成。</p>
 <a id="more"></a>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-05-27-00.15.28-700x317.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742622027530.jpg!wm" alt=""></p>
 <p>原文：<a href="http://www.raywenderlich.com/107687/uicollectionview-custom-layout-tutorial-spinning-wheel" target="_blank" rel="external">UICollectionView Custom Layout Tutorial: A Spinning Wheel</a></p>
 <p>本教程将讲解如何使用自定义的 <code>UICollectionViewFlowLayout</code> 来再现那个导航风火轮。在开始之前，希望你有对 2D 转换、<code>UICollectionView</code> 及其自定义布局的基本知识。如果你对这些还不是很熟悉，推荐你先看看下面几篇教程。</p>
 <ul>
@@ -1972,10 +1983,10 @@ thread.name = <span class="string">"Networking Thread"</span>
 </ul>
 <p>那么现在，让我们开搞吧。</p>
 <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>首先下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/CircularCollectionView-Starter.zip" target="_blank" rel="external">模板</a>，在 Xcode 中打开，运行。你将看到一系列 cell，每个代表<a href="http://www.raywenderlich.com/store" target="_blank" rel="external">书城</a>中的一本书。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/05/Screenshot-2015-05-27-00.48.36-700x417.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742622193056.jpg!wm" alt=""></p>
 <p>下面我们来看看工程目录结构，有一个 CollectionViewController、一个自定义 Cell，cell 中有一个 imageView。然后 VC 被这些 Cell填充。我们的任务就是创建一个UICollectionViewLayout子类来将这些 Cell 按照圆弧排列。</p>
 <h2 id="理论知识"><a href="#理论知识" class="headerlink" title="理论知识"></a>理论知识</h2><p>下图是一个带有 cell 的风火轮。黄色区域是 iPhone 的屏幕，蓝色圆角矩形是 cell，红色虚线是你将要放置 cell 的圆弧。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-06-01-14.11.42.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742622298263.jpg!wm" alt=""></p>
 <p>你需要三个参数来创建这种排列：</p>
 <ul>
 <li>1.圆弧半径（radius）</li>
@@ -1986,10 +1997,10 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p>假设第0个 cell 的角度为 <code>x</code> 度，那么第1个 cell 的角位置为 <code>x + anglePerItem</code>,第二个为<code>x + anglePerItem * 2</code>，以此类推。第 n 个的角位置的计算公式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">angle_for_i = x + (i * anglePerItem)</div></pre></td></tr></table></figure>
 <p>下图展示的是角坐标系。0度代表中心，顺时针方向为正，逆时针方向为负。所以0度角的 cell 将处在正中央，完全垂直的方向。</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-06-01-14.41.07.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742622407382.jpg!wm" alt=""></p>
 <p>现在你对理论知识有了一个全面的理解，让我们开始撸代码吧。</p>
 <h2 id="Circular-Collection-View-Layout"><a href="#Circular-Collection-View-Layout" class="headerlink" title="Circular Collection View Layout"></a>Circular Collection View Layout</h2><p>新建一个 swift 文件，取名CircularCollectionViewLayout，继承自UICollectionViewLayout。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/07/Dialog.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742622925513.jpg!wm" alt=""></p>
 <p>点击下一步、创建。这个UICollectionViewLayout的子类将包含所有与位置相关的代码。<br>因为CircularCollectionViewLayout继承自UICollectionViewLayout而不是UICollectionViewFlowLayout，所以你需要处理所有布局过程而不是简单调用 super 中的实现。</p>
 <p>我发现 FlowLayout 非常适合网格视图而非圆形布局。<br>在CircularCollectionViewLayout中，新建两个属性<code>itemSize</code>和<code>radius</code>。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> itemSize = <span class="type">CGSize</span>(width: <span class="number">133</span>, height: <span class="number">173</span>)</div><div class="line"> </div><div class="line"><span class="keyword">var</span> radius: <span class="type">CGFloat</span> = <span class="number">500</span> &#123;</div><div class="line">  <span class="keyword">didSet</span> &#123;</div><div class="line">    invalidateLayout()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -1998,11 +2009,11 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p><code>anglePerItem</code>可以是你想要的任何值，但是公式要确保 cell 不要被分散的太开。<br>下一步，实现<code>collectionViewContentSize()</code>来声明你的 collectionView 的内容有多大：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionViewContentSize</span><span class="params">()</span></span> -&gt; <span class="type">CGSize</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="type">CGSize</span>(width: <span class="type">CGFloat</span>(collectionView!.numberOfItemsInSection(<span class="number">0</span>)) * itemSize.width,</div><div class="line">      height: <span class="type">CGRectGetHeight</span>(collectionView!.bounds))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>内容高度与 collectionView 高度一致，但是宽度是<code>itemSize.width * numberOfItems</code>。<br>现在打开<code>Main.storyboard</code>，选中视图大纲中的Collection View，如下图所示</p>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/07/Outline.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742625946308.jpg!wm" alt=""></p>
 <p>打开Attributes Inspector，将其 Layout 设置为自定义，将其 Class 设置为CircularCollectionViewLayout。</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/07/Attributes.png" alt=""></p>
-<p>运行程序，你将发现除了一个可滑动区域外，屏幕上没有任何东西。但是它就是你想要的，因为这确保你正确地将 collectionView 的 Layout 设置为你自定义的 Class 即CircularCollectionViewLayout。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/05/Screenshot-2015-06-01-03.07.31-700x421.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742626021736.jpg!wm" alt=""></p>
+<p>运行程序，你将发现除了一个可滑动区域外，屏幕上没有任何东西。但是它就是你想要的，因为这确保你正确地将 collectionView 的 Layout 设置为你自定义的 Class 即 CircularCollectionViewLayout。</p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742626135318.jpg!wm" alt=""></p>
 <h2 id="自定义布局属性"><a href="#自定义布局属性" class="headerlink" title="自定义布局属性"></a>自定义布局属性</h2><p>除了新建一个新的布局子类，你还要新建一个继承自UICollectionViewLayoutAttributes的类来存储角位置以及锚点（anchorPoint）。<br>把下面代码加到CircularCollectionViewLayout.swift这个文件中，将其放在CircularCollectionViewLayout类声明上面。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CircularCollectionViewLayoutAttributes</span>: <span class="title">UICollectionViewLayoutAttributes</span> </span>&#123;</div><div class="line">  <span class="comment">// 1</span></div><div class="line">  <span class="keyword">var</span> anchorPoint = <span class="type">CGPoint</span>(x: <span class="number">0.5</span>, y: <span class="number">0.5</span>)</div><div class="line">  <span class="keyword">var</span> angle: <span class="type">CGFloat</span> = <span class="number">0</span> &#123;</div><div class="line">    <span class="comment">// 2 </span></div><div class="line">    <span class="keyword">didSet</span> &#123;</div><div class="line">      zIndex = <span class="type">Int</span>(angle * <span class="number">1000000</span>)</div><div class="line">      transform = <span class="type">CGAffineTransformMakeRotation</span>(angle)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 3</span></div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">copyWithZone</span><span class="params">(zone: NSZone)</span></span> -&gt; <span class="type">AnyObject</span> &#123;</div><div class="line">    <span class="keyword">let</span> copiedAttributes: <span class="type">CircularCollectionViewLayoutAttributes</span> = </div><div class="line">        <span class="keyword">super</span>.copyWithZone(zone) <span class="keyword">as</span>! <span class="type">CircularCollectionViewLayoutAttributes</span></div><div class="line">    copiedAttributes.anchorPoint = <span class="keyword">self</span>.anchorPoint</div><div class="line">    copiedAttributes.angle = <span class="keyword">self</span>.angle</div><div class="line">    <span class="keyword">return</span> copiedAttributes</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
@@ -2029,12 +2040,12 @@ thread.name = <span class="string">"Networking Thread"</span>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForElementsInRect</span><span class="params">(rect: CGRect)</span></span> -&gt; [<span class="type">AnyObject</span>]? &#123;</div><div class="line">  <span class="keyword">return</span> attributesList</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForItemAtIndexPath</span><span class="params">(indexPath: NSIndexPath)</span></span> </div><div class="line">    -&gt; <span class="type">UICollectionViewLayoutAttributes</span>! &#123;</div><div class="line">  <span class="keyword">return</span> attributesList[indexPath.row]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>第一个方法简单返回了整个布局属性数组，第二个方法返回了指定的 indexpath 对应的布局属性。这个方法非常 OK 因为我们的 item 数目比较小，但是通常我们会遍历数组来判断布局属性的 frame 是否与给定的矩形区域相交，然后返回与给定区域相交的布局属性。这使得 collectionView 在屏幕上只绘制这些 item，或者将要出现在屏幕上的 item。</p>
 <p>运行，你会看到所有 cell 出现在屏幕上，但是它们是围绕自身来旋转而非外部的某个点。虽然它不是非常急需的效果，但是如果能做到确实挺酷的，你觉得呢？</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/05/Screenshot-2015-05-27-17.56.29-700x417.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742626594604.jpg!wm" alt=""></p>
 <p>你能猜到为什么会这样吗？</p>
 <h2 id="有人说是锚点吗？"><a href="#有人说是锚点吗？" class="headerlink" title="有人说是锚点吗？"></a>有人说是锚点吗？</h2><p>你还记得上面我们说的 cell 的锚点吗？你还没有设置过它，上面的旋转效果远没达到我们希望得到的效果。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/oh_yes_I_knew_that.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742626864285.jpg!wm" alt=""></p>
 <p>锚点是 CALayer 的一个属性，所有的旋转和缩放都是围绕着它而发生的。锚点的默认值是 center，就像上面的运行结果那样。<br>真正的锚点的 x 值应该为0.5，y 值应该为<code>radius + (itemSize.height / 2)</code>，因为锚点是在归一化坐标系中定义的，所以你要除以<code>itemSize.height</code>。</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-06-01-16.22.12-192x500.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742626990183.jpg!wm" alt=""></p>
 <p>回到<code>prepareLayout()</code>，然后再 <code>centerX</code> 的定义下面定义<code>anchorPointY</code>：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> anchorPointY = ((itemSize.height / <span class="number">2.0</span>) + radius) / itemSize.height</div></pre></td></tr></table></figure>
 <p>在<code>map(_:)</code>闭包中的 return 上方添加如下代码：</p>
@@ -2044,15 +2055,15 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p>这里你用父类实现来使用默认属性如 center 和 transform 但是因为锚点（anchorPoint）是一个自定义属性，我们需要手动使用它，同样我们也更新了 center.y 来补偿圆形布局中的anchorPoint.y变化。</p>
 <p>运行程序，你会看到所有的 cell 按照圆形来布局了，但是滑动的过程中…等一下，发生了什么？它们被移出了屏幕而不是旋转！？</p>
 <p>这使得找到想要的书变得非常困难。</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/05/scrolling-off.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742627247360.gif!wm" alt=""></p>
 <h2 id="改善滑动效果"><a href="#改善滑动效果" class="headerlink" title="改善滑动效果"></a>改善滑动效果</h2><p>最具挑战性的布局 item 任务已经完成了，可喜可贺！:]</p>
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2015/06/ragecomic.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742627484536.jpg!wm" alt=""></p>
 <p>现在需要做的就是改变角度值来实现滑动。</p>
 <p>回到CircularCollectionViewLayout，然后在底部添加下面代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">shouldInvalidateLayoutForBoundsChange</span><span class="params">(newBounds: CGRect)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>该方法返回 true 告知 collectionView 在滑动时布局失效，然后它会调用<code>prepareLayout()</code>，进而使用更新后的角位置重新计算 cell 的布局。angle被定义为第0个 item 的角位置。你将要通过把contentOffset.x转换成一个合适的角度值来实现滑动。</p>
 <p>滑动过程中，<code>contentOffset.x</code>从 0 到<code>collectionViewContentSize().width - CGRectGetWidth(collectionView!.bounds)</code>变化。将<code>contentOffset.x</code>的极值定义为<code>maxContentOffset</code>，当其为 0 时，让第 0 个item 处在中心，当其为极值时（即maxContentOffset），让最后一个 item 处在屏幕中心，这就意味着最后一个 item 的角位置会变为 0 。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/combined.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742627839952.jpg!wm" alt=""></p>
 <p>想象一下右边的场景，如果你是用<code>angle_for_last_item = 0</code>来解决下面等式你会得到：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">angle_for_last_item = angle_for_zero_item + (totalItems - 1) * anglePerItem</div><div class="line">0 = angle_for_zero_item + (totalItems - 1) * anglePerItem</div><div class="line">angle_for_zero_item = -(totalItems - 1) * anglePerItem</div></pre></td></tr></table></figure>
 <p>定义<code>-(totalItems - 1) * anglePerItem</code>为<code>angleAtExtreme</code>，如下所示：</p>
@@ -2066,9 +2077,9 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p>来替换<code>prepareLayout()</code>中的</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">attributes.angle = (<span class="keyword">self</span>.anglePerItem * <span class="type">CGFloat</span>(i))</div></pre></td></tr></table></figure>
 <p>这一步添加为每个 item 添加了角度值，这样 item 的角度值不在是一个常量，而是一个与<code>contentOffset.x</code>有着函数关系的值。<br>运行程序，在屏幕上滑动，你将发现所有 item 按照你想要的方式在滑动。干得漂亮！</p>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/final-scrolling.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742628030765.gif!wm" alt=""></p>
 <h2 id="加分环节-优化"><a href="#加分环节-优化" class="headerlink" title="加分环节:优化"></a>加分环节:优化</h2><p>你已经成功的重现了风火轮导航，现在可以在拍拍自己肩膀说一句干得漂亮，然后架着二郎腿享受这美好时光。但是在存在优化空间的情况（滑动丝滑般流畅）下你为什么要停下来呢？<br>在<code>prepareLayout()</code>中为每个 item 创建了一个CircularCollectionViewLayoutAttributes实例，但是不是所有的 item 都会立刻展示在屏幕上。那些离屏的 item，你可以完全跳过对它们的计算，也不必创建CircularCollectionViewLayoutAttributes实例。<br>但是有一个棘手的问题是：我们需要确定哪些 item 正在屏幕上显示，哪些是离屏的。如下图所示，在 (-θ, θ)范围之外的所有 item 都是离屏的。</p>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-06-01-17.46.48.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742628334079.jpg!wm" alt=""></p>
 <p>举个栗子，为了计算三角形 ABC 中的 θ 角，可以使用下面公式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tanθ = (collectionView.width / 2) / (radius + (itemSize.height / 2) - (collectionView.height / 2))</div></pre></td></tr></table></figure>
 <p>在<code>prepareLayout()</code>中的<code>anchorPointY</code>下一行加入如下代码：</p>
@@ -2082,16 +2093,16 @@ thread.name = <span class="string">"Networking Thread"</span>
 <li>5.最后做了一个容错处理，防止在快速滑动时所有 cell 都离屏时导致 <code>endIndex</code>小于 <code>startIndex</code>的情况</li>
 </ul>
 <p>下图把上面的计算过程可视化：</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-06-01-18.23.05.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742628443820.jpg!wm" alt=""></p>
 <p>既然我们知道了哪些正在显示，哪些是离屏的，我们需要更新用来计算布局属性的起始和结束的 index。使用</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">attributesList = (startIndex...endIndex).<span class="built_in">map</span> &#123; (i) </div><div class="line">    -&gt; <span class="type">CircularCollectionViewLayoutAttributes</span> <span class="keyword">in</span></div></pre></td></tr></table></figure>
 <p>来替换<code>prepareLayout()</code>中的：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">attributesList = (<span class="number">0</span>..&lt;collectionView!.numberOfItemsInSection(<span class="number">0</span>)).<span class="built_in">map</span> &#123; (i) </div><div class="line">    -&gt; <span class="type">CircularCollectionViewLayoutAttributes</span> <span class="keyword">in</span></div></pre></td></tr></table></figure>
 <p>运行程序，你会发现视觉上没有明显变化，因为所有的改变仅仅影响离屏的 item。我们可以打开 Xcode <a href="http://www.raywenderlich.com/98356/view-debugging-in-xcode-6" target="_blank" rel="external">内置的视图层级查看器</a></p>
 <p>因为创建了更少的变量，你应该可以看到性能的提升。</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/Screenshot-2015-05-27-23.33.45-619x500.png" alt=""></p>
-<h2 id="何去何从"><a href="#何去何从" class="headerlink" title="何去何从"></a>何去何从</h2><p>你可以<a href="http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/CircularCollectionView-Final.zip" target="_blank" rel="external">在此</a>下载完整代码。</p>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/Screenshot-2015-06-01-03.03.33-700x421.png" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742628535614.jpg!wm" alt=""></p>
+<h2 id="何去何从"><a href="#何去何从" class="headerlink" title="何去何从"></a>何去何从</h2><p>你可以<a href="https://koenig-media.raywenderlich.com/uploads/2015/06/CircularCollectionView-Final.zip" target="_blank" rel="external">在此</a>下载完整代码。</p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15742628626003.jpg!wm" alt=""></p>
 <p>恭喜，你已经成功使用了自定义的 Layout 来实现一个导航风火轮。在这篇教程中你应该学到不少东西，包括如何旋转 view、改变锚点、从头创建自定义的 Layout 以及如何优化让它变得更好。<br>你可以更改<code>radius</code>和<code>anglePerItem</code>来进一步了解它们是如何来改变最终的圆形布局排列的。这篇教程主要是改变2D 的 transform，你也可以使用3D transform 来创建更有趣的效果。<br>同样你也可以通过复写<code>argetContentOffsetForProposedContentOffset(_:withScrollingVelocity:)</code>方法来实现snapping行为。<br>我相信你已经开始跃跃欲试了吧？如果你遇到问题，可以参考下面的代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">targetContentOffsetForProposedContentOffset</span><span class="params">(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint)</span></span> -&gt; <span class="type">CGPoint</span> &#123;</div><div class="line">  <span class="keyword">var</span> finalContentOffset = proposedContentOffset</div><div class="line">  <span class="keyword">let</span> factor = -angleAtExtreme/(collectionViewContentSize().width - </div><div class="line">      <span class="type">CGRectGetWidth</span>(collectionView!.bounds))</div><div class="line">  <span class="keyword">let</span> proposedAngle = proposedContentOffset.x*factor</div><div class="line">  <span class="keyword">let</span> ratio = proposedAngle/anglePerItem</div><div class="line">  <span class="keyword">var</span> multiplier: <span class="type">CGFloat</span></div><div class="line">  <span class="keyword">if</span> (velocity.x &gt; <span class="number">0</span>) &#123;</div><div class="line">    multiplier = ceil(ratio)</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (velocity.x &lt; <span class="number">0</span>) &#123;</div><div class="line">    multiplier = floor(ratio)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    multiplier = round(ratio)</div><div class="line">  &#125;</div><div class="line">  finalContentOffset.x = multiplier*anglePerItem/factor</div><div class="line">  <span class="keyword">return</span> finalContentOffset</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如果你有任何疑问、评论或者炫技，请加入下面的讨论。</p>
@@ -2117,7 +2128,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2015/08/23/Koloda-Second-Version/"/>
     <id>https://vongloo.me/2015/08/23/Koloda-Second-Version/</id>
     <published>2015-08-23T09:31:04.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>一个月前，我们发布了<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">how we developed Tinder-like Koloda in Swift</a>(<a href="http://0.0.0.0:4000/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/" target="_blank" rel="external">如何创建一个类似 Tinder 的交互动画[译]</a>)。在开发者与设计师社区这个动画都受到强烈的欢迎，所以我们决定继续改善它。<br><a id="more"></a></p>
 <p>原文：<a href="https://yalantis.com/blog/koloda-tinder-like-animation-version-2-prototyping-in-pixate-and-development-in-swift/" target="_blank" rel="external">Koloda Tinder-Like Animation Version 2.</a></p>
@@ -2128,7 +2139,7 @@ thread.name = <span class="string">"Networking Thread"</span>
 </ul>
 </blockquote>
 <p>我被 Tinder-like 这个概念所鼓舞，决定详细阐述把 Koloda 转变为不同寻常动画的最原始的想法。可喜的是，几个小时后我有了一个新的想法。我的想法是去除底部层级，从背景中来加载下一个卡片。我在 PS 中设计了一个实物模型，然后在<a href="http://www.pixate.com/" target="_blank" rel="external">Pixate</a>中制作了原型。Pixate 是一个类似 InVisio、Marver、Origami 的设计工具。尽管在 Pixate 中设计原型比在 InVisio 中花了更多时间，但是Pixate做出的原型更加像一个原生应用。这个原型重造了我想要的卡片行为。</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/08/11/pixate.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-content_pixate.gif!wm" alt="content_pixate"></p>
 <p>现在让我们来讲一下其中的过程。Pixate 工具栏中包含了layers、action kit、以及animations。在资源加载完成出现在 artboard 上后，你就可以在layer上开始工作了，然后继续创建交互。一开始我需要让卡片水平移动然后当他们跨越临界点时从屏幕当中飞出。在简单的动画帮助下，我实现了这个过程。同样我也让卡片改变它的透明度和在交互过程中进行旋转。</p>
 <p>然后我要让一个新的卡片按照就像它从背景中加载一样出现，所以我需要对其进行拉伸和缩放。我设置了缩放比为3.5倍到1倍，3.5倍是卡片在背景中的大小。</p>
 <p><a href="https://yalantis.com/media/content/ckeditor/2015/08/11/tips.png" target="_blank" rel="external"></a></p>
@@ -2151,19 +2162,16 @@ thread.name = <span class="string">"Networking Thread"</span>
 </ul>
 <p>尽管有这么些缺点，但是 Pixate 是一个强大的工具，它能够设计师设计原生可点击的原型，创建导航模式以及屏幕间的交互。最重要的是，它能够让整个团队明白工程开发的整体方向。你可以观看<a href="https://www.youtube.com/channel/UCi0aGwdVsX6O4yw5JxpNGgQ" target="_blank" rel="external">Jared Lodwick</a>的视频教程来了解更多。</p>
 <p>现在你已经知道一些关于 Koloda 的原型设计过程，是时候来谈谈我们如何开发出第二版动画的。</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/08/11/component.gif" alt=""></p>
 <h2 id="我们如何开发-Koloda-v-2"><a href="#我们如何开发-Koloda-v-2" class="headerlink" title="我们如何开发 Koloda v.2"></a>我们如何开发 Koloda v.2</h2><blockquote>
-<ul>
-<li>by Eugene Andreyev</li>
-</ul>
+<p>by Eugene Andreyev</p>
 </blockquote>
 <p>第一版和第二版动画的最主要的区别就是卡片的布局。新版动画中最前的卡片被放置在屏幕中间，下面的卡片在背景中拉伸。底部卡片不会随顶部卡片移动而做出响应，而是在顶层卡片被滑出时出现在屏幕中，出现过程中有一个弹性特效。<br>得益于 Dima 的原型，第二版更加容易开发。首先，Pixate 允许查看原型的所有交互，其次我可以通过 Pixate 来查看所有应用到的变化，以及它们的顺序。然后简单地讲它们写进代码中，不需要人为调整。<br>最后，第二版 Koloda 是一个旅行 app 的一部分，不像第一版那样全是摇滚。</p>
 <p>第一版：</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/08/11/koloda_v1.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-content_koloda_v1.gif!wm" alt="content_koloda_v1"></p>
 <h2 id="Koloda-v-2的实现"><a href="#Koloda-v-2的实现" class="headerlink" title="Koloda v.2的实现"></a>Koloda v.2的实现</h2><p>为了实现 Dima 设计的动画，我需要用不同的方式来放置卡片，所以我将<a href="http://vonglo.me/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/" target="_blank" rel="external">上一篇文章</a>(KolodaView实现那一段)中的<code>frameForCardAtIndex</code>暴露在头文件中。在 KolodaView 的子类中我复写了这个方法，然后按如下方式来放置卡片：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">frameForCardAtIndex</span><span class="params">(index: UInt)</span></span> -&gt; <span class="type">CGRect</span> &#123;</div><div class="line"></div><div class="line">       <span class="keyword">if</span> index == <span class="number">0</span> &#123;</div><div class="line"></div><div class="line">           <span class="keyword">let</span> bottomOffset:<span class="type">CGFloat</span> = defaultBottomOffset</div><div class="line"></div><div class="line">           <span class="keyword">let</span> topOffset:<span class="type">CGFloat</span> = defaultTopOffset</div><div class="line"></div><div class="line">           <span class="keyword">let</span> xOffset:<span class="type">CGFloat</span> = defaultHorizontalOffset</div><div class="line"></div><div class="line">           <span class="keyword">let</span> width = <span class="type">CGRectGetWidth</span>(<span class="keyword">self</span>.frame ) - <span class="number">2</span> * defaultHorizontalOffset</div><div class="line"></div><div class="line">           <span class="keyword">let</span> height = width * defaultHeightRatio</div><div class="line"></div><div class="line">           <span class="keyword">let</span> yOffset:<span class="type">CGFloat</span> = topOffset</div><div class="line"></div><div class="line">           <span class="keyword">let</span> frame = <span class="type">CGRect</span>(x: xOffset, y: yOffset, width: width, height: height)</div><div class="line"></div><div class="line">           <span class="keyword">return</span> frame</div><div class="line"></div><div class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> index == <span class="number">1</span> &#123;</div><div class="line"></div><div class="line">           <span class="keyword">let</span> horizontalMargin = -<span class="keyword">self</span>.bounds.width * backgroundCardHorizontalMarginMultiplier</div><div class="line"></div><div class="line">           <span class="keyword">let</span> width = <span class="keyword">self</span>.bounds.width * backgroundCardScalePercent</div><div class="line"></div><div class="line">           <span class="keyword">let</span> height = width * defaultHeightRatio</div><div class="line"></div><div class="line">           <span class="keyword">return</span> <span class="type">CGRect</span>(x: horizontalMargin, y: <span class="number">0</span>, width: width, height: height)</div><div class="line"></div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> <span class="type">CGRectZero</span></div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
 <p>发生了什么？我将 frontCard放置在KolodaView中间，然后拉伸背景卡片为其原始大小的1.5倍。</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/08/11/states.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743481476006.jpg!wm" alt=""></p>
 <h2 id="背景卡片的弹性动画"><a href="#背景卡片的弹性动画" class="headerlink" title="背景卡片的弹性动画"></a>背景卡片的弹性动画</h2><p>因为背景卡片以弹性动画的方式出现，以及在移动过程中改变透明度，我写了一个新的代理方法：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="type">KolodaView</span> - <span class="function"><span class="keyword">func</span> <span class="title">kolodaBackgroundCardAnimation</span><span class="params">(koloda: KolodaView)</span></span> -&gt; <span class="type">POPPropertyAnimation</span>?</div></pre></td></tr></table></figure>
 <p>在这个方法中，POPAnimation 被创建用来传给 Koloda。然后当用户滑动卡片时， Koloda 用它来给 frame 的改变做动画。如果代理方法返回 nil，意味着 Koloda 使用默认的动画。</p>
@@ -2173,9 +2181,9 @@ thread.name = <span class="string">"Networking Thread"</span>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">kolodaShouldMoveBackgroundCard</span><span class="params">(koloda: KolodaView)</span></span> -&gt; <span class="type">Bool</span></div></pre></td></tr></table></figure>
 <p>如果返回 false就意味着交互动画被禁用，背景卡片不会随着顶层卡片移动而移动。</p>
 <p>下面就是返回 false 时的动画效果：</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/08/11/static_bg.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-content_static_bg.gif!wm" alt="content_static_bg"></p>
 <p>这是返回 true 的动画效果</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/08/11/v2.gif" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-content_v2.gif!wm" alt="content_v2"></p>
 <p>希望你能喜欢第二版的 Koloda，尽情使用它吧！</p>
 <ul>
 <li><a href="https://dribbble.com/shots/2189960-Koloda-Tinder-Like-component-for-IOS-Available-on-GitHub" target="_blank" rel="external">Dribbble</a></li>
@@ -2201,7 +2209,7 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/"/>
     <id>https://vongloo.me/2015/08/21/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation/</id>
     <published>2015-08-20T16:09:54.000Z</published>
-    <updated>2019-10-19T16:59:14.017Z</updated>
+    <updated>2019-11-21T15:12:10.995Z</updated>
     
     <content type="html"><![CDATA[<p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。<br><a id="more"></a><br>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" target="_blank" rel="external">How We Built Tinder-Like Koloda Animation in Swift</a></p>
 <p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about" target="_blank" rel="external">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。<br>还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/" target="_blank" rel="external">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p>
@@ -2231,9 +2239,9 @@ thread.name = <span class="string">"Networking Thread"</span>
 <p>我们使用了代理方法而不是回调(block)的方式来获取相关数据。</p>
 <h2 id="几何解释"><a href="#几何解释" class="headerlink" title="几何解释"></a>几何解释</h2><p>还记得我们关于开发安卓<code>Guillotine</code>菜单动画的<a href="https://yalantis.com/blog/how-we-developed-the-guillotine-menu-animation-for-android/" target="_blank" rel="external">故事</a>吗？在那个故事中我们的安卓工程师Dmytro Denysenko采用高中数学知识来计算一个自定义的差值。几何知识在我的 iOS 开发生涯中也发挥了很大的作用！</p>
 <p>动画过程中最有趣的一件事就是当用户在拖拽顶部卡片时，下面的卡片也会跟着移动。我想让<code>Koloda</code>动画更加灵活，所以我简单地指定了想要在屏幕上展示的卡片数，然后我就拿出纸就开始计算。</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/07/02/img_2556_HD6OoTz.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743471268387.jpg" alt=""></p>
 <p><code>KolodaView</code>需要展示位于顶层卡片之下的卡片正确的数量，然后让它们在动画开始的时候占据正确的位置。为了实现它，我需要计算所有卡片的<code>frame</code>，这个是通过给其中每个元素添加对应的序号来实现的。举个例子，第一个卡片视图的序号是[i]，那么第二个就是[i+1],第三个就是[i+2],以此类推。<br>如下图所示，你可以清晰的看到第一张卡片的<code>frame</code>和<code>size</code>的计算过程。</p>
-<p><img src="https://yalantis.com/media/content/ckeditor/2015/07/02/cards_blueprint.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743471496282.jpg" alt=""></p>
 <p>代码如下：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">CGRect</span>)frameForCardAtIndex:(<span class="built_in">NSUInteger</span>)index</div><div class="line">&#123;</div><div class="line">    <span class="built_in">CGFloat</span> bottomOffset = <span class="number">0</span>;</div><div class="line">    <span class="built_in">CGFloat</span> topOffset = kBackgroundCardsTopMargin * (<span class="keyword">self</span>.visibleCardsCount - <span class="number">1</span>);</div><div class="line">    <span class="built_in">CGFloat</span> xOffset = kBackgroundCardsLeftMargin * index;</div><div class="line">    <span class="built_in">CGFloat</span> scalePercent = kBackgroundCardsScalePercent;</div><div class="line">    <span class="built_in">CGFloat</span> width = <span class="built_in">CGRectGetWidth</span>(<span class="keyword">self</span>.frame) * pow(scalePercent, index);</div><div class="line">    <span class="built_in">CGFloat</span> height = (<span class="built_in">CGRectGetHeight</span>(<span class="keyword">self</span>.frame) - bottomOffset - topOffset) * pow(scalePercent, index);</div><div class="line">    <span class="built_in">CGFloat</span> multiplier = index &gt; <span class="number">0</span> ? <span class="number">1.0</span> : <span class="number">0.0</span>;</div><div class="line">    <span class="built_in">CGRect</span> previousCardFrame = index &gt; <span class="number">0</span> ? [<span class="keyword">self</span> frameForCardAtIndex:MAX(index - <span class="number">1</span>, <span class="number">0</span>)] : <span class="built_in">CGRectZero</span>;</div><div class="line">    <span class="built_in">CGFloat</span> yOffset = (<span class="built_in">CGRectGetHeight</span>(previousCardFrame) - height + previousCardFrame.origin.y</div><div class="line">                       + kBackgroundCardsTopMargin) * multiplier;</div><div class="line">    <span class="built_in">CGRect</span> frame = <span class="built_in">CGRectMake</span>(xOffset, yOffset, width, height);</div><div class="line">    <span class="keyword">return</span> frame;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>现在我们知道了序号、卡片<code>frame</code>以及动画结束的百分比，我们就可以很轻松的计算出当上一个卡片被滑出屏幕时下一个卡片应该出现的位置。之后，我们也可以实现一个百分比驱动动画（PercentDrivenAnimation）。<br>最后我给这个简单易用的组件取了个有趣的名字–Koloda。任何开发者都可以自定义它，通过设置其内容视图以及遮罩视图。过些时候，我想实现自定义动画以及<code>frame</code>的计算方式，这样开发者们就可以使用他们自己别具一格的组件。<br>KolodaView 的代码详见<a href="https://github.com/Yalantis/Koloda" target="_blank" rel="external">GitHub</a>。</p>
@@ -2262,12 +2270,12 @@ thread.name = <span class="string">"Networking Thread"</span>
     <link href="https://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/"/>
     <id>https://vongloo.me/2014/08/24/AVFoundation-And-GPUImage/</id>
     <published>2014-08-23T16:41:08.000Z</published>
-    <updated>2019-10-19T16:59:14.013Z</updated>
+    <updated>2019-11-21T15:12:10.991Z</updated>
     
     <content type="html"><![CDATA[<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
 <a id="more"></a>
 <h3 id="AVFoundation的一些基本概念"><a href="#AVFoundation的一些基本概念" class="headerlink" title="AVFoundation的一些基本概念"></a>AVFoundation的一些基本概念</h3><p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
-<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbinsawmj20qj0go0tt.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743465315046.jpg" alt=""></p>
 <h4 id="相关类"><a href="#相关类" class="headerlink" title="相关类"></a>相关类</h4><ul>
 <li><code>AVAsset</code></li>
 <li><code>AVAssetTrack</code></li>
@@ -2280,11 +2288,11 @@ thread.name = <span class="string">"Networking Thread"</span>
 </ul>
 <p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录<br>制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
 <p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
-<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evcbjm927vj20jm0hsmzv.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743465478505.jpg" alt=""></p>
 <p>这里又一个重要的东西就是CMTime,它是一个结构体，定义如下:</p>
 <p>typedef struct<br>{<br>    CMTimeValue    value;<br>    CMTimeScale    timescale;<br>    CMTimeFlags    flags;<br>    CMTimeEpoch    epoch;<br>} CMTime;<br>通常时间是等于value/timescale的，所以两个有相同时间的CMTime它们的timescale并不一定相同。关于更多CMTime的内容可以看<a href="https://developer.apple.com/library/ios/documentation/CoreMedia/Reference/CMTime/Reference/reference.html#//apple_ref/doc/uid/TP40009748" target="_blank" rel="external">这里</a>。</p>
 <h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><h4 id="视频的录制"><a href="#视频的录制" class="headerlink" title="视频的录制"></a>视频的录制</h4><p>这里用的是系统原生录制,关于录制通常用到的几个类就是AVCaptureDevice、<br>AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张图。</p>
-<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evcbk17v07j20kw0hxach.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743465626129.jpg" alt=""></p>
 <p>一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *array = [output.metadta mutableCopy];</div><div class="line"><span class="built_in">AVMutableMetadataItem</span> *item = [[<span class="built_in">AVMutableMetadataItem</span> alloc] init];</div><div class="line">item.keyspace = ...;</div><div class="line">item.key = ...;</div><div class="line">item.value = ...;</div><div class="line">[array addObject:item];</div><div class="line">output.metadata = array;</div></pre></td></tr></table></figure>
 <p>如果录制时候想要得到指定的视频size必须先指定分辨率，像这样</p>
@@ -2299,7 +2307,7 @@ thread.name = <span class="string">"Networking Thread"</span>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];</div><div class="line">NSURL *fileURL = ...;    //存放位置</div><div class="line">//指定代理</div><div class="line">[aMovieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:delete];</div><div class="line">//也可以为其指定outputSettings</div><div class="line">同样代理必须实现协议方法captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:,</div></pre></td></tr></table></figure>
 <p>当然还有其他各种具体的设置，如对焦、曝光、闪光灯以及白平衡等等均可以通过KVO来设置，每次设置前都加一个判断，是否支持指定模式,在这里不做详细叙述了,这里你可以看到<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW14" target="_blank" rel="external">更多</a>。</p>
 <h4 id="视频的剪辑"><a href="#视频的剪辑" class="headerlink" title="视频的剪辑"></a>视频的剪辑</h4><p>视频的剪辑包括但不限于:裁剪、旋转(改变transform)、添加水印、添加字幕、合并等。关于剪辑，无非就是取出视频中的轨道(视频和音频),然后对轨道进行一系列的操作变可以得到各种想要的效果。首先我们先来看下面一张图</p>
-<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evcblhcl2ej20p50eyjvj.jpg" alt=""></p>
+<p><img src="http://img.cdn.punmy.cn/2019-11-21-15743465991142.jpg" alt=""></p>
 <p>AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重讲解这个类。AVMutableComposition和AVAsset一样含有多个视/音频轨道，但是更重要的是，它可以将多个AVAssetTrack合并到一起，比如在视频合并时，可以直接将多段视频拼接到一个轨道(AVMutableCompositonTrcak)，音频也一样。通过借助AVMutableVideoComposition和AVMutableAudioMix来设置每一段的视/音频的属性，从而达到想要的视听效果，比如视频切换处的淡入淡出，声音的渐变，字幕等等。<br>关于上图的解释:首先通过将asset里面的轨道加载到composition的各轨道，然后通过audioMix和videoComposition对某个轨道进行对应操作,设置其相关属性。其中要用到的具体方法可以参见<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1" target="_blank" rel="external">这里</a>。</p>
 <p>其中图中1，2，3用到的方法为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[1]</div><div class="line">[mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid]</div><div class="line">[2]</div><div class="line">[AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:mutableCompositionAudioTrack];`</div><div class="line">[3]</div><div class="line">[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:mutableCompositionVideoTrack]</div></pre></td></tr></table></figure>

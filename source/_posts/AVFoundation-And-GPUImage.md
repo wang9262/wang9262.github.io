@@ -9,9 +9,10 @@ category: 框架学习
 <!--more-->
 
 ### AVFoundation的一些基本概念
+
 根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。
 
-![](http://ww2.sinaimg.cn/large/ba81ca29gw1evcbinsawmj20qj0go0tt.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743465315046.jpg)
 
 #### 相关类
 
@@ -29,7 +30,7 @@ category: 框架学习
 
 在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。
 
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1evcbjm927vj20jm0hsmzv.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743465478505.jpg)
 
 这里又一个重要的东西就是CMTime,它是一个结构体，定义如下:
 
@@ -44,10 +45,11 @@ typedef struct
 
 ### 进阶
 #### 视频的录制
+
 这里用的是系统原生录制,关于录制通常用到的几个类就是AVCaptureDevice、
 AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张图。
 
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1evcbk17v07j20kw0hxach.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743465626129.jpg)
 
 一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:
 
@@ -173,10 +175,12 @@ NSURL *fileURL = ...;    //存放位置
 ```
 
 当然还有其他各种具体的设置，如对焦、曝光、闪光灯以及白平衡等等均可以通过KVO来设置，每次设置前都加一个判断，是否支持指定模式,在这里不做详细叙述了,这里你可以看到[更多](https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW14)。
+
 #### 视频的剪辑
+
 视频的剪辑包括但不限于:裁剪、旋转(改变transform)、添加水印、添加字幕、合并等。关于剪辑，无非就是取出视频中的轨道(视频和音频),然后对轨道进行一系列的操作变可以得到各种想要的效果。首先我们先来看下面一张图
 
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1evcblhcl2ej20p50eyjvj.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743465991142.jpg)
 
 AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重讲解这个类。AVMutableComposition和AVAsset一样含有多个视/音频轨道，但是更重要的是，它可以将多个AVAssetTrack合并到一起，比如在视频合并时，可以直接将多段视频拼接到一个轨道(AVMutableCompositonTrcak)，音频也一样。通过借助AVMutableVideoComposition和AVMutableAudioMix来设置每一段的视/音频的属性，从而达到想要的视听效果，比如视频切换处的淡入淡出，声音的渐变，字幕等等。
 关于上图的解释:首先通过将asset里面的轨道加载到composition的各轨道，然后通过audioMix和videoComposition对某个轨道进行对应操作,设置其相关属性。其中要用到的具体方法可以参见[这里](https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1)。
@@ -215,6 +219,7 @@ AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重
 注释的大意是:录制的时候添加声音,添加输入源和输出源会暂时会使录制暂时卡住,所以在要使用声音的情况下要先调用该方法来防止录制被卡住。这不刚好就解决了上面的这个问题吗？所以问题就迎刃而解了,因为没看到这个,走了不少弯路,浪费了好长时间。
 
 关于分段录制,可能有这么一个需求就是所有片段都是存于一个文件中而不是录制完成后将各段合并到一个视频文件中。这两个东西或许会帮到你[分段录制的实现](http://blog.csdn.net/whf727/article/details/18702643),[GPUImageExtend](https://github.com/leanlyne/GPUImageExtend)。前者是基于系统的分段录制的实现,后者是GPUImageMoiveWriter的一个子类。
+
 #### 所见即所得
 
 在录制的时候,使用GPUImageView来显示,因为给GPUImageView设置的大小是320*320的,如果不设置它的填充模式(fillMode)它是默认使用kGPUImageFillModePreserveAspectRatio即保持长宽比,其余空白处使用背景色填充,如果要设置成方形就得使用kGPUImageFillModePreserveAspectRatioAndFill,但是这个时候问题又来了假设你是用的录制分辨率是960x540,显示的画面则只会显示中间的540x540的画面,这个时候如果movieWriter的size设置为540x540,则最后保存的视频是失真的因为960被压到了540，整个画面变扁了。这个时候有两种解决方案
@@ -226,5 +231,5 @@ AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重
 关于GPUImage的实时滤镜添加或给已存在的视频添加滤镜,Demo都给出了详细过程,依葫芦画瓢即可。有一点要注意的是,在一些操作完成的时候注意removeTarget,还有就是在使用movieFile来播放已存在视频并添加滤镜的时候是没有声音的,这是这个库的一个缺陷,Github上有人提了这个[issue](https://github.com/BradLarson/GPUImage/issues/458)和[一些解决办法](https://gist.github.com/pgodino/3819907)。同时在用movieFile处理视频的时候在切换滤镜的时候最好先cancelProcessing不然会有黑屏或卡顿现象出现。同样如果你是用老版本的GPUImage的时候,可能会遇到第一帧是红色的现象,有人提出这个issue后,作者修复了这个bug,切换到最新版的时候就不会有这种情况发生。发生这种情况的原因是视频掉帧,导致音频和视频不同步。
 
 ### 总结
-AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。
 
+AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。

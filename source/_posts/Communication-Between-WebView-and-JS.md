@@ -77,7 +77,7 @@ execute("schemename://nativemethodname:args");
  
 ### WebViewJavaScriptBridge
 
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1evpc6lvjkvj21ee0vqgry.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743466661142.jpg!wm)
 
 #### 实现原理
 大致原理与上面说的一致。只不过`WebViewJavaScriptBridge`进行了更完善的封装，使得 `JS`与`Native`之间的通信变得更为简便。
@@ -141,7 +141,7 @@ execute("schemename://nativemethodname:args");
 
 文字有点多，参考下下面这个流程图：
 
-![](http://ww4.sinaimg.cn/large/ba81ca29gw1evpd3k7ax7j21iu0s0n5u.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743466818699.jpg!wm)
 
 ```ObjectiveC
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
@@ -419,8 +419,9 @@ UIWebview 也有一个 JSContext 实例，但是没有暴露在 API 中，但是
 ```
 
 运行效果:
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1evw1vs00ktj20af0j5t92.jpg)
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1evw1xpangwj20bz01b74b.jpg)
+
+![](http://img.cdn.punmy.cn/2019-11-21-15743467085275.jpg!wm)
+![](http://img.cdn.punmy.cn/2019-11-21-15743467192938.jpg!wm)
 
 如果协议方法中有多个参数该怎么调用呢？举个例子
 
@@ -457,7 +458,8 @@ function ClickHandler(button, callback) {     this.button = button;     this.b
 ```
 上例中 ClickHandler 对 button 进行了强引用，而 MyButton 中又对 _onClickHandler 这个 JSValue 进行了强引用，最终导致循环引用，如下图所示：
 
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1ew0u1lmnsgj21kw0q3wj0.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743467542111.jpg!wm)
+
 如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。
 
 举个栗子，在某个方法中有一个临时的 OC 对象，然后通过 JSContext 被 JS 中的变量引用，但是该 OC 方法调用结束后，这个临时对象将被释放，因此 JS 会造成错误访问。
@@ -473,7 +475,7 @@ function ClickHandler(button, callback) {     this.button = button;     this.b
 ```
 `addManagedReference`做的事情主要如下：它创建了一个 garbage collected reference，这种引用既不是强引用也不是弱引用。
 
-![](http://ww3.sinaimg.cn/large/ba81ca29gw1ew0uh69rcxj21kw0s9gqr.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743467654320.jpg!wm)
 
 JSManagedValue 本身是一个对 JavaScript Value 的弱引用，而 JSValue 是强引用。addManagedReference 将 JSManagedValue 转换为 garbage collected reference。如果 JS 在垃圾回收过程中能够找到 managed reference 的所有者，那么这个引用将不会被释放，否则将被释放。JSManagedValue 需要调用其addManagedReference:withOwner: 方法把它添加到JSVirtualMachine 中，确保使用过程中 JSValue 不会被释放。
 
@@ -498,13 +500,8 @@ WebKit 为非线程安全的，所以要确保该 framework 的所有方法在�
 
 更多内容请参考[Nshipster](http://nshipster.cn/wkwebkit/)。
 
-
-
 ### 总结
 
 总得来说两种方式都可以实现二者的交互，JavaScriptBridge 相对而言复杂一些，但是安全且不需要做版本适配，APP 上架不会被拒，但是 JavaScriptCore 更加简洁，不需要写繁琐的代码，但是有被拒的风险，同时这个框架是在 iOS7 之后才有，所以如果要适配 iOS6的话还是选择 JavaScriptBridge。
 
 本文 [Demo](https://github.com/wang9262/WebViewJSDemo)
-
-
-

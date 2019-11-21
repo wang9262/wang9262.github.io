@@ -9,6 +9,8 @@ category: 翻译
 
 <!-- more -->
 
+> 2019.11.21 update
+> 本文中图片和资源相关链接可能已失效，如需查阅，请查看原文
 > 感谢[Attila Hegedüs](https://twitter.com/hegedus90)创建了这个棒棒哒示例工程。
 
 ![](http://cdn1.raywenderlich.com/wp-content/uploads/2015/05/BookOpening.gif)

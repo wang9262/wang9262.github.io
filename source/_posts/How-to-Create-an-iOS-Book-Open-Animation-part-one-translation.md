@@ -9,6 +9,9 @@ category: 翻译
 
 <!-- more -->
 
+> 2019.11.21 update
+> 本文中图片和资源相关链接可能已失效，如需查阅，请查看原文
+
 - 第一部分，你将学习如何自定义 UICollectionViewLayout，然后使用景深和阴影来让 app 看起来更加真实。
 - [第二部分](http://www.raywenderlich.com/?p=97690)([译文](http://t.cn/Ry2rYj5))，你将学习创建自定义的转场动画，然后集成手势来创建自然、简洁的 view 之间的转场。
 

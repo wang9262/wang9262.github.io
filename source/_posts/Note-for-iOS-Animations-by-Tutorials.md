@@ -11,7 +11,7 @@ category: 读书笔记
 ## Section Ⅰ View Animation
 这部分主要是关于 UIView 的动画，UIView 层次的动画是一些经过封装的上层 API，简单但是实用。基本都是日常用到的，比如位置、大小、透明度、旋转、关键帧动画等等，所以没啥好记录的。
 
-### View 之间的过渡转场
+#### View 之间的过渡转场
 
 主要是使用如下两个方法:
 
@@ -46,39 +46,36 @@ category: 读书笔记
 
 这里作者给出了选择 UIView 还是 Core Animation 来做动画的一些建议：
 
-> choose view animations any time you can to do the job; you will know when you need more performance or flexibility and have to switch to layer animations instead.
-Don’t stress yourself about it though, because you can mix and match view and layer animations freely.
+> choose view animations any time you can to do the job; you will know when you need more performance or flexibility and have to switch to layer animations instead.Don’t stress yourself about it though, because you can mix and match view and layer animations freely.简单来说就是在 UIView 满足需求的时候尽量使用 UIView，当追求更好的性能及灵活性时可以考虑使用 Core Animation.当然，两者也可以混合使用。
 
-简单来说就是在 UIView 满足需求的时候尽量使用 UIView，当追求更好的性能及灵活性时可以考虑使用 Core Animation.当然，两者也可以混合使用。
-
-### fillMode 
+#### fillMode 
 
 这里借用书中的几张图来阐明一下各种模式
 
 - **kCAFillModeRemoved**
-img.cdn.punmy.cn
+
     默认模式：动画执行完毕后恢复原样
 
 ![QQ20160826-0@2x](http://img.cdn.punmy.cn/QQ20160826-0@2x.png)
 
-- **kCAFillModeBackwards**img.cdn.punmy.cn
+- **kCAFillModeBackwards**
 
     动画开始前展示第一帧
 ![QQ20160826-1@2x](http://img.cdn.punmy.cn/QQ20160826-1@2x.png)
 
 - **kCAFillModeForwards**
-img.cdn.punmy.cn
+
     动画结束后 layer 维持最后一帧的状态
 
 ![QQ20160826-2@2x](http://img.cdn.punmy.cn/QQ20160826-2@2x.png)
 
 - **kCAFillModeBoth**
-img.cdn.punmy.cn
+
     是上面两种模式的结合，动画开始前维持第一帧，动画结束后维持最后一帧
 
 ![QQ20160826-3@2x](http://img.cdn.punmy.cn/QQ20160826-3@2x.png)
 
-### Layer 弹性动画
+#### Layer 弹性动画
 这一节以钟摆举例，来解释弹性阻尼动画的相关属性。
 
 - **damping**
@@ -93,17 +90,18 @@ img.cdn.punmy.cn
 - **initial velocity**
 
     初始速度，开始运动前，外界的推（拉力）产生的速度
-img.cdn.punmy.cn
+
 某些情况下，UIView 的弹性阻尼动画看起来胡比较生硬，因为在指定的 `duration` 内无法停下来，而被系统强制停下来，所以看起来很生硬。就如下图：
 
 ![QQ20160826-4@2x](http://img.cdn.punmy.cn/QQ20160826-4@2x.png)
+
 
 如果 `duration` 为0.25，此时本应该还有振荡，但是动画时间已到，只能强制停止振荡，进而使动画看起来略微生硬。所以 `CASpringAnimation` 里面有一个属性叫做 `settlingDuration`,该属性表示所有动画参数设定好之后，振荡完成是所需时间，如果将 `duration` 设置成这样，那么动画看起来就会很自然。
 
 > 友情提示：请在设置好所有弹性振荡参数之后再设置 `duration`.
 
 ## Section Ⅳ 3D Animations
-这部分主要通过一个侧拉菜单的 Demo 讲解了 3D 动画该如何实现。关键还是在于 CATransform3D 中的 m34 以及配合改变 anchor point,要想让视图看起来具有 3D 透视效果，可以将 m34 设置为 -1.0 / [camera distance], 分母代表相机离视图的距离。
+这部分主要通过一个侧拉菜单的 Demo 讲解了 3D 动画该如何实现。关键还是在于 CATransform3D 中的 m34 以及配合改变 anchor point,要想让视图看起来具有 3D 透视效果，可以将 m34 设置为 -1.0 / [camera distance], 分母代表相机离视图的距离.
 
 关于距离选值与透视效果的明显程度可参见下表：
 
@@ -124,5 +122,4 @@ img.cdn.punmy.cn
 
 ## Section Ⅶ Third-Party Animation Libraries
 这部分主要是两个开源动画库的使用，找个时间读一读源码，另外再写一篇文章。
-
 

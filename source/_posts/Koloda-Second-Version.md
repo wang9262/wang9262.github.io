@@ -18,7 +18,7 @@ category: 翻译
 
 我被 Tinder-like 这个概念所鼓舞，决定详细阐述把 Koloda 转变为不同寻常动画的最原始的想法。可喜的是，几个小时后我有了一个新的想法。我的想法是去除底部层级，从背景中来加载下一个卡片。我在 PS 中设计了一个实物模型，然后在[Pixate](http://www.pixate.com/)中制作了原型。Pixate 是一个类似 InVisio、Marver、Origami 的设计工具。尽管在 Pixate 中设计原型比在 InVisio 中花了更多时间，但是Pixate做出的原型更加像一个原生应用。这个原型重造了我想要的卡片行为。
 
-![](https://yalantis.com/media/content/ckeditor/2015/08/11/pixate.gif)
+![content_pixate](http://img.cdn.punmy.cn/2019-11-21-content_pixate.gif!wm)
 
 现在让我们来讲一下其中的过程。Pixate 工具栏中包含了layers、action kit、以及animations。在资源加载完成出现在 artboard 上后，你就可以在layer上开始工作了，然后继续创建交互。一开始我需要让卡片水平移动然后当他们跨越临界点时从屏幕当中飞出。在简单的动画帮助下，我实现了这个过程。同样我也让卡片改变它的透明度和在交互过程中进行旋转。
 
@@ -48,11 +48,10 @@ category: 翻译
 
 现在你已经知道一些关于 Koloda 的原型设计过程，是时候来谈谈我们如何开发出第二版动画的。
 
-![](https://yalantis.com/media/content/ckeditor/2015/08/11/component.gif)
 
 ## 我们如何开发 Koloda v.2
 
->- by Eugene Andreyev
+> by Eugene Andreyev
 
 第一版和第二版动画的最主要的区别就是卡片的布局。新版动画中最前的卡片被放置在屏幕中间，下面的卡片在背景中拉伸。底部卡片不会随顶部卡片移动而做出响应，而是在顶层卡片被滑出时出现在屏幕中，出现过程中有一个弹性特效。
 得益于 Dima 的原型，第二版更加容易开发。首先，Pixate 允许查看原型的所有交互，其次我可以通过 Pixate 来查看所有应用到的变化，以及它们的顺序。然后简单地讲它们写进代码中，不需要人为调整。
@@ -60,7 +59,7 @@ category: 翻译
 
 第一版：
 
-![](https://yalantis.com/media/content/ckeditor/2015/08/11/koloda_v1.gif)
+![content_koloda_v1](http://img.cdn.punmy.cn/2019-11-21-content_koloda_v1.gif!wm)
 
 ## Koloda v.2的实现
 为了实现 Dima 设计的动画，我需要用不同的方式来放置卡片，所以我将[上一篇文章](http://vonglo.me/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/)(KolodaView实现那一段)中的`frameForCardAtIndex`暴露在头文件中。在 KolodaView 的子类中我复写了这个方法，然后按如下方式来放置卡片：
@@ -106,7 +105,8 @@ override func frameForCardAtIndex(index: UInt) -> CGRect {
 
 发生了什么？我将 frontCard放置在KolodaView中间，然后拉伸背景卡片为其原始大小的1.5倍。
 
-![](https://yalantis.com/media/content/ckeditor/2015/08/11/states.jpg)
+![](http://img.cdn.punmy.cn/2019-11-21-15743481476006.jpg!wm)
+
 
 ## 背景卡片的弹性动画
 因为背景卡片以弹性动画的方式出现，以及在移动过程中改变透明度，我写了一个新的代理方法：
@@ -146,15 +146,13 @@ func kolodaShouldMoveBackgroundCard(koloda: KolodaView) -> Bool
 
 下面就是返回 false 时的动画效果：
 
-![](https://yalantis.com/media/content/ckeditor/2015/08/11/static_bg.gif)
+![content_static_bg](http://img.cdn.punmy.cn/2019-11-21-content_static_bg.gif!wm)
 
 这是返回 true 的动画效果
 
-![](https://yalantis.com/media/content/ckeditor/2015/08/11/v2.gif)
+![content_v2](http://img.cdn.punmy.cn/2019-11-21-content_v2.gif!wm)
 
 希望你能喜欢第二版的 Koloda，尽情使用它吧！
 
 - [Dribbble](https://dribbble.com/shots/2189960-Koloda-Tinder-Like-component-for-IOS-Available-on-GitHub)
 - [GitHub](https://github.com/Yalantis/Koloda)
-
-

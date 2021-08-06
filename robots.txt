@@ -1,4 +1,0 @@
-# http://www.arao.me/2015/hexo-next-theme-optimize-seo/
-
-Sitemap: http://www.vongloo.me/sitemap.xml
-Sitemap: http://www.vongloo.me/baidusitemap.xml

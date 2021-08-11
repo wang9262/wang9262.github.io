@@ -1,156 +1,155 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/BackgroundTask"/><meta name="twitter:url" content="https://wang9262.github.io/posts/BackgroundTask"/><meta name="og:url" content="https://wang9262.github.io/posts/BackgroundTask"/><title>全新后台任务框架及最佳实践 | Vong</title><meta name="twitter:title" content="全新后台任务框架及最佳实践 | Vong"/><meta name="og:title" content="全新后台任务框架及最佳实践 | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><img src="/oldimages/15603537122161.jpg" alt="-w1617"/><blockquote><p><a href="https://xiaozhuanlan.com/topic/8362954017">WWDC 19 专栏文章目录</a> WWDC 2019 Session 707: <a href="https://developer.apple.com/videos/play/wwdc2019/707/">Advances in App Background Execution</a></p></blockquote><p>2010年 iOS4 时代，iOS 的多任务系统面世，至今已经9个年头，期间后台模式及场景也逐渐增多，这为开发者和用户带来了很多可能性。随着 iOS 版本的迭代，慢慢的越来越多的后台运行场景被苹果所支持。与此同时为了改善用户体验以及延长电池寿命，苹果对于应用后台任务有着比较严苛的限制及审核规则，只有特定使用场景，应用才可能在后台持续运行，比如导航、音乐播放，VoIP 等。如果我们的应用恰好符合后台模式的场景，那么应该怎样利用好这一点来给用户好的体验呢？相信通过这一集 Session，你心中应该会有一个比较明确的答案~</p><!-- more --><h2>概览</h2><p>目前苹果支持9种后台模式，具体类型可使用 Xcode 的 Capabilities 来查看，如下图所示</p><img src="/oldimages/15603558945067.jpg" alt="-w1018"/><p>通过上图对比可以看到 Xcode11 将 <code>Newsstand downloads</code> 这种后台模式移除，并新增了一个 <code>Background processing</code>(后面会具体说)。这些后台模式都有 API 与之对应，苹果在设计后台任务相关 API 时，将以下3点作为主要考虑因素来确保流畅的用户体验。</p><ul><li><strong>电池</strong></li></ul><p>电量几乎时刻都在被消耗，那么如何保证后台任务尽可能的减小电量的消耗呢？答案就是在后台任务完成时及时调用对应的 <code>completion</code> 通知系统任务已结束，以此来减小电量的消耗。</p><ul><li><strong>性能</strong></li></ul><p>在日常使用情况下，手机上通常同时运行着多个应用，某个应用在前台时，其它的应用在后台。在资源有限的情况下，为了保证设备尽可能的流畅，系统会为每个应用智能分配 CPU 及内存的阈值，一旦应用超过对应阈值，将会被系统终止。 我们日常开发中发生的 <code>OOM(Out Of Memory)</code> 以及主线程长时间未响应而触发系统的“看门狗”，都是由于应用耗尽了系统分配的资源而被系统终止。</p><blockquote><p><strong>延展阅读</strong> 触发“看门狗”通常会生成一份 <code>Crash</code> 日志，日志内容类似下面这样，经典的 <code>0x8badf00d</code> Exception Type: EXC_CRASH (SIGKILL)Exception Codes: 0x0000000000000000, 0x0000000000000000Exception Note: EXC<em>CORPSE</em>NOTIFYTermination Reason: Namespace SPRINGBOARD, Code 0x8badf00dTermination Description: SPRINGBOARD, process-launch watchdog transgression: com.xxxx exhausted real (wall clock) time allowance of 20.00 seconds | | ProcessVisibility: Unknown | ProcessState: Running | WatchdogEvent: process-launch | WatchdogVisibility: Foreground | WatchdogCPUStatistics: ( | "Elapsed total CPU time (seconds): 2.910 (user 2.910, system 0.000), 7% CPU", | "Elapsed application CPU time (seconds): 0.000, 0% CPU" | )Triggered by Thread: 0 如果对系统 Crash 日志感兴趣，可以看看我去年写的这篇文章 <a href="https://vongloo.me/2019/02/22/Understanding-Crash/"><strong>WWDC 2018：理解崩溃以及崩溃日志</strong></a></p></blockquote><blockquote><p>大部分 OOM 的情况下一般会生成一份 <code>JetsamEvent</code> 开头的日志文件，可在设备的 <strong>设置-&gt;隐私-&gt;分析</strong> 中查看到，里面的内容会有崩溃现场的一些进程信息以及内存分配情况。更多关于 <code>JetsamEvent</code> 的介绍，可以查看这篇文章 <a href="https://satanwoo.github.io/2017/10/18/abort/"><strong>iOS内存abort(Jetsam) 原理探究</strong></a>。</p></blockquote><ul><li><strong>隐私</strong></li></ul><p>由于应用在执行后台任务时，用户是无感的，但是用户对于自己的隐私信息是敏感的，所以在相关 API 的设计时会告知用户，哪些数据会被使用。 从今年的 WWDC 的动作来看，苹果对用户的隐私越来越重视，这点非常值得称赞，比如今年推出的 <code>Sign In With Apple</code>、地理位置权限的变更、后台地理位置访问的弹窗等。当然，这不是开始也不是结束，为苹果爸爸点赞👍。</p><h2>最佳实践</h2><p>了解了后台任务相关 API 的设计初衷，是时候来看看如何实践才能保证流畅的用户体验以及延长电池寿命。</p><p>想象一下一个类似微信的即时通讯软件拥有的一些功能：即时消息、勿扰模式、VoIP、历史记录下载等，对于这些功能，结合系统提供的各种后台任务应用场景，该以何种姿势使用这些 API 呢？且往下看~</p><img src="/oldimages/15601807272586.jpg" alt="-w1045"/><h3>即时消息</h3><p>即时消息肯定需要确保时效性，尽可能快的触达对方才能保证良好的用户体验。但是某些情况下（比如较差网络环境），不一定能马上将消息发送到对方，此时用户可能切回到桌面或者其它应用，那么如何才能保证发送消息这个操作完成呢？答案就是使用 Background Task Completion 相关 API。</p><pre><code class="language-Swift">// Guarding Important Tasks While App is Still in the Foreground
-func send(_ message: Message) {
-    let sendOperation = SendOperation(message: message)
-    var identifier: UIBackgroundTaskIdentifier!
-    // 1
-    identifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-        // 2
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/BackgroundTask"/><meta name="twitter:url" content="https://wang9262.github.io/posts/BackgroundTask"/><meta name="og:url" content="https://wang9262.github.io/posts/BackgroundTask"/><title>全新后台任务框架及最佳实践 | Vong</title><meta name="twitter:title" content="全新后台任务框架及最佳实践 | Vong"/><meta name="og:title" content="全新后台任务框架及最佳实践 | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><img src="/oldimages/15603537122161.jpg" alt="-w1617"/><blockquote><p><a href="https://xiaozhuanlan.com/topic/8362954017">WWDC 19 专栏文章目录</a> WWDC 2019 Session 707: <a href="https://developer.apple.com/videos/play/wwdc2019/707/">Advances in App Background Execution</a></p></blockquote><p>2010年 iOS4 时代，iOS 的多任务系统面世，至今已经9个年头，期间后台模式及场景也逐渐增多，这为开发者和用户带来了很多可能性。随着 iOS 版本的迭代，慢慢的越来越多的后台运行场景被苹果所支持。与此同时为了改善用户体验以及延长电池寿命，苹果对于应用后台任务有着比较严苛的限制及审核规则，只有特定使用场景，应用才可能在后台持续运行，比如导航、音乐播放，VoIP 等。如果我们的应用恰好符合后台模式的场景，那么应该怎样利用好这一点来给用户好的体验呢？相信通过这一集 Session，你心中应该会有一个比较明确的答案~</p><!-- more --><h2>概览</h2><p>目前苹果支持9种后台模式，具体类型可使用 Xcode 的 Capabilities 来查看，如下图所示</p><img src="/oldimages/15603558945067.jpg" alt="-w1018"/><p>通过上图对比可以看到 Xcode11 将 <code>Newsstand downloads</code> 这种后台模式移除，并新增了一个 <code>Background processing</code>(后面会具体说)。这些后台模式都有 API 与之对应，苹果在设计后台任务相关 API 时，将以下3点作为主要考虑因素来确保流畅的用户体验。</p><ul><li><strong>电池</strong></li></ul><p>电量几乎时刻都在被消耗，那么如何保证后台任务尽可能的减小电量的消耗呢？答案就是在后台任务完成时及时调用对应的 <code>completion</code> 通知系统任务已结束，以此来减小电量的消耗。</p><ul><li><strong>性能</strong></li></ul><p>在日常使用情况下，手机上通常同时运行着多个应用，某个应用在前台时，其它的应用在后台。在资源有限的情况下，为了保证设备尽可能的流畅，系统会为每个应用智能分配 CPU 及内存的阈值，一旦应用超过对应阈值，将会被系统终止。 我们日常开发中发生的 <code>OOM(Out Of Memory)</code> 以及主线程长时间未响应而触发系统的“看门狗”，都是由于应用耗尽了系统分配的资源而被系统终止。</p><blockquote><p><strong>延展阅读</strong> 触发“看门狗”通常会生成一份 <code>Crash</code> 日志，日志内容类似下面这样，经典的 <code>0x8badf00d</code> Exception Type: EXC_CRASH (SIGKILL)Exception Codes: 0x0000000000000000, 0x0000000000000000Exception Note: EXC<em>CORPSE</em>NOTIFYTermination Reason: Namespace SPRINGBOARD, Code 0x8badf00dTermination Description: SPRINGBOARD, process-launch watchdog transgression: com.xxxx exhausted real (wall clock) time allowance of 20.00 seconds | | ProcessVisibility: Unknown | ProcessState: Running | WatchdogEvent: process-launch | WatchdogVisibility: Foreground | WatchdogCPUStatistics: ( | "Elapsed total CPU time (seconds): 2.910 (user 2.910, system 0.000), 7% CPU", | "Elapsed application CPU time (seconds): 0.000, 0% CPU" | )Triggered by Thread: 0 如果对系统 Crash 日志感兴趣，可以看看我去年写的这篇文章 <a href="https://vongloo.me/2019/02/22/Understanding-Crash/"><strong>WWDC 2018：理解崩溃以及崩溃日志</strong></a></p></blockquote><blockquote><p>大部分 OOM 的情况下一般会生成一份 <code>JetsamEvent</code> 开头的日志文件，可在设备的 <strong>设置-&gt;隐私-&gt;分析</strong> 中查看到，里面的内容会有崩溃现场的一些进程信息以及内存分配情况。更多关于 <code>JetsamEvent</code> 的介绍，可以查看这篇文章 <a href="https://satanwoo.github.io/2017/10/18/abort/"><strong>iOS内存abort(Jetsam) 原理探究</strong></a>。</p></blockquote><ul><li><strong>隐私</strong></li></ul><p>由于应用在执行后台任务时，用户是无感的，但是用户对于自己的隐私信息是敏感的，所以在相关 API 的设计时会告知用户，哪些数据会被使用。 从今年的 WWDC 的动作来看，苹果对用户的隐私越来越重视，这点非常值得称赞，比如今年推出的 <code>Sign In With Apple</code>、地理位置权限的变更、后台地理位置访问的弹窗等。当然，这不是开始也不是结束，为苹果爸爸点赞👍。</p><h2>最佳实践</h2><p>了解了后台任务相关 API 的设计初衷，是时候来看看如何实践才能保证流畅的用户体验以及延长电池寿命。</p><p>想象一下一个类似微信的即时通讯软件拥有的一些功能：即时消息、勿扰模式、VoIP、历史记录下载等，对于这些功能，结合系统提供的各种后台任务应用场景，该以何种姿势使用这些 API 呢？且往下看~</p><img src="/oldimages/15601807272586.jpg" alt="-w1045"/><h3>即时消息</h3><p>即时消息肯定需要确保时效性，尽可能快的触达对方才能保证良好的用户体验。但是某些情况下（比如较差网络环境），不一定能马上将消息发送到对方，此时用户可能切回到桌面或者其它应用，那么如何才能保证发送消息这个操作完成呢？答案就是使用 Background Task Completion 相关 API。</p><pre data-language="Swift"><code><span class="hljs-comment">// Guarding Important Tasks While App is Still in the Foreground</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">send</span><span class="hljs-params">(<span class="hljs-number">_</span> message: Message)</span></span> {
+    <span class="hljs-keyword">let</span> sendOperation = <span class="hljs-type">SendOperation</span>(message: message)
+    <span class="hljs-keyword">var</span> identifier: <span class="hljs-type">UIBackgroundTaskIdentifier!</span>
+    <span class="hljs-comment">// 1</span>
+    identifier = <span class="hljs-type">UIApplication</span>.shared.beginBackgroundTask(expirationHandler: {
+        <span class="hljs-comment">// 2</span>
         sendOperation.cancel()
-        postUserNotification("Message not sent, please resend")
-        // Background task will be ended in the operation's completion block below
+        postUserNotification(<span class="hljs-string">"Message not sent, please resend"</span>)
+        <span class="hljs-comment">// Background task will be ended in the operation's completion block below</span>
     })
     sendOperation.completionBlock = {
-        // 3
-        UIApplication.shared.endBackgroundTask(identifier)
+        <span class="hljs-comment">// 3</span>
+        <span class="hljs-type">UIApplication</span>.shared.endBackgroundTask(identifier)
     }
     operationQueue.addOperation(sendOperation)
 }
-</code></pre><p>让我们依次看看上面标注的步骤：</p><ol><li>应用在前台时通过对应 API 创建一个后台任务，此时即使 app 进入后台，也会获得一定的时间来处理消息发送。</li><li>在系统给出的时间内还没有处理完，应用即将被挂起，则取消发送，同时本地 push 通知用户。</li><li>如果发送成功，则通知系统该任务已结束，以此降低对电量的消耗。</li></ol><blockquote><p>如果是 <code>Extension</code>，可以使用 <code>ProcessInfo.performExpiringActivity(withReason:using:)</code>。</p></blockquote><p>相信这种方式大家或多或少都用过，有些应用甚至用这个接口去做所谓的“保活”。但是这里要提醒大家注意一个点（说多了都是泪），<strong>就是 task 的 begin 和 end 的调用要对应</strong>，你会踩到我踩过的坑：没有成对调用的 <code>task</code> 会触发 <code>0x8badf00d</code> 看门狗。但是这里的 <code>Crash</code> 堆栈和上面说的的主线程卡太久而被强杀的堆栈是不一样的，具体可以看看这篇文章的分析：<a href="http://mrpeak.cn/blog/ios-background-task/"><strong>iOS App 后台任务的坑</strong></a>。</p><h3>电话</h3><p>有些时候会觉得打字麻烦而直接打电话，系统同样也提供了对应的 API————VoIP 通知。它是一种特殊的通知类型，可以唤起应用，提醒用户有电话呼入，代码实现起来也比较简单</p><pre><code class="language-Swift">func registerForVoIPPushes() {
-    self.voipRegistry = PKPushRegistry(queue: nil)
-    self.voipRegistry.delegate = self
-    self.voipRegistry.desiredPushTypes = [.voIP]
+</code></pre><p>让我们依次看看上面标注的步骤：</p><ol><li>应用在前台时通过对应 API 创建一个后台任务，此时即使 app 进入后台，也会获得一定的时间来处理消息发送。</li><li>在系统给出的时间内还没有处理完，应用即将被挂起，则取消发送，同时本地 push 通知用户。</li><li>如果发送成功，则通知系统该任务已结束，以此降低对电量的消耗。</li></ol><blockquote><p>如果是 <code>Extension</code>，可以使用 <code>ProcessInfo.performExpiringActivity(withReason:using:)</code>。</p></blockquote><p>相信这种方式大家或多或少都用过，有些应用甚至用这个接口去做所谓的“保活”。但是这里要提醒大家注意一个点（说多了都是泪），<strong>就是 task 的 begin 和 end 的调用要对应</strong>，你会踩到我踩过的坑：没有成对调用的 <code>task</code> 会触发 <code>0x8badf00d</code> 看门狗。但是这里的 <code>Crash</code> 堆栈和上面说的的主线程卡太久而被强杀的堆栈是不一样的，具体可以看看这篇文章的分析：<a href="http://mrpeak.cn/blog/ios-background-task/"><strong>iOS App 后台任务的坑</strong></a>。</p><h3>电话</h3><p>有些时候会觉得打字麻烦而直接打电话，系统同样也提供了对应的 API————VoIP 通知。它是一种特殊的通知类型，可以唤起应用，提醒用户有电话呼入，代码实现起来也比较简单</p><pre data-language="Swift"><code><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">registerForVoIPPushes</span><span class="hljs-params">()</span></span> {
+    <span class="hljs-keyword">self</span>.voipRegistry = <span class="hljs-type">PKPushRegistry</span>(queue: <span class="hljs-literal">nil</span>)
+    <span class="hljs-keyword">self</span>.voipRegistry.delegate = <span class="hljs-keyword">self</span>
+    <span class="hljs-keyword">self</span>.voipRegistry.desiredPushTypes = [.voIP]
 }
-</code></pre><p>同时必须在 <code>didReceiveIncomingPush</code> 回调中使用 CallKit 来处理 VoIP push 通知，否则系统会“杀”掉应用，并且系统可能在收到 VoIP 通知时不再唤起应用，示例代码如下：</p><pre><code class="language-Swift">let provider = CXProvider(configuration: providerConfiguration)
+</code></pre><p>同时必须在 <code>didReceiveIncomingPush</code> 回调中使用 CallKit 来处理 VoIP push 通知，否则系统会“杀”掉应用，并且系统可能在收到 VoIP 通知时不再唤起应用，示例代码如下：</p><pre data-language="Swift"><code><span class="hljs-keyword">let</span> provider = <span class="hljs-type">CXProvider</span>(configuration: providerConfiguration)
 
-func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload:
-PKPushPayload, for type: PKPushType, completion: @escaping () -&gt; Void) {
-    if type == .voIP {
-        if let handle = payload.dictionaryPayload["handle"] as? String {
-            let callUpdate = CXCallUpdate()
-            callUpdate.remoteHandle = CXHandle(type: .phoneNumber, value: handle)
-            let callUUID = UUID()
-            provider.reportNewIncomingCall(with: callUUID, update: callUpdate) { _ in
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">pushRegistry</span><span class="hljs-params">(<span class="hljs-number">_</span> registry: PKPushRegistry, didReceiveIncomingPushWith payload:
+PKPushPayload, <span class="hljs-keyword">for</span> type: PKPushType, completion: @escaping <span class="hljs-params">()</span></span></span> -&gt; <span class="hljs-type">Void</span>) {
+    <span class="hljs-keyword">if</span> type == .voIP {
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> handle = payload.dictionaryPayload[<span class="hljs-string">"handle"</span>] <span class="hljs-keyword">as</span>? <span class="hljs-type">String</span> {
+            <span class="hljs-keyword">let</span> callUpdate = <span class="hljs-type">CXCallUpdate</span>()
+            callUpdate.remoteHandle = <span class="hljs-type">CXHandle</span>(type: .phoneNumber, value: handle)
+            <span class="hljs-keyword">let</span> callUUID = <span class="hljs-type">UUID</span>()
+            provider.reportNewIncomingCall(with: callUUID, update: callUpdate) { <span class="hljs-number">_</span> <span class="hljs-keyword">in</span>
                 completion()
             }
-            establishConnection(for: callUUID)
+            establishConnection(<span class="hljs-keyword">for</span>: callUUID)
         }
     }
 }
-</code></pre><p>同时以下几点也可以关注一下：</p><ul><li><code>payload</code> 中填充尽可能多的信息，以便展示更加完善的 UI（当然不能超过其限制）。</li><li>因为电话的实时性很高，<code>payload</code> 中的 <code>apns-expiration</code> 的值尽可能小或者为0，以便通知能立即触发。</li><li>如果不想要类似系统电话的全屏 UI，也可以使用标准的推送 API 来触发 banner 样式。</li><li>如果想要自定义 push 内容，则可以使用 <code>Notification Service Extension</code>，比如想要做一些加密操作。</li></ul><blockquote><p>由于笔者没有实际使用过 <code>VoIP</code> 相关技术，所以这里推荐大家看看苹果的官方文档 <a href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/OptimizeVoIP.html">VoIP 最佳实践</a> 以及闲鱼技术团队写的这篇文章<a href="https://juejin.im/post/5ae194adf265da0b9d77eb87">iOS VoIP电话：CallKit与PushKit的应用</a></p></blockquote><h3>勿扰模式</h3><p>聊完 VoIP，我们紧接着看看勿扰模式的最佳实践。微信中通常聊天列表里躺着几十个甚至上百个会话，有些活跃的群可能一天有上千条信息，如果一直收到 push，肯定会不胜其烦。所以一般都会对这个群开启消息免打扰模式，但是又不想错过重要信息（比如被别人@）。那么这种勿扰模式，在后台模式下该如何实现呢？使用静默推送！~<br><br>静默推送可以在用户无感知的情况下，将数据推送到设备上。只需要将 push payload 里的 <code>content-available</code> 的值设置为 <code>1</code>，同时 <code>payload</code> 中不要包含 <code>alert</code>、<code>sound</code>、<code>badge</code> 字段，示例如下：</p><blockquote><p>示例摘抄自 <a href="https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CreatingtheNotificationPayload.html">Creating the Remote Notification Payload</a> Listing 7-1</p></blockquote><pre><code class="language-JSON">{
-    "aps" : {
-        "content-available" : 1
+</code></pre><p>同时以下几点也可以关注一下：</p><ul><li><code>payload</code> 中填充尽可能多的信息，以便展示更加完善的 UI（当然不能超过其限制）。</li><li>因为电话的实时性很高，<code>payload</code> 中的 <code>apns-expiration</code> 的值尽可能小或者为0，以便通知能立即触发。</li><li>如果不想要类似系统电话的全屏 UI，也可以使用标准的推送 API 来触发 banner 样式。</li><li>如果想要自定义 push 内容，则可以使用 <code>Notification Service Extension</code>，比如想要做一些加密操作。</li></ul><blockquote><p>由于笔者没有实际使用过 <code>VoIP</code> 相关技术，所以这里推荐大家看看苹果的官方文档 <a href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/OptimizeVoIP.html">VoIP 最佳实践</a> 以及闲鱼技术团队写的这篇文章<a href="https://juejin.im/post/5ae194adf265da0b9d77eb87">iOS VoIP电话：CallKit与PushKit的应用</a></p></blockquote><h3>勿扰模式</h3><p>聊完 VoIP，我们紧接着看看勿扰模式的最佳实践。微信中通常聊天列表里躺着几十个甚至上百个会话，有些活跃的群可能一天有上千条信息，如果一直收到 push，肯定会不胜其烦。所以一般都会对这个群开启消息免打扰模式，但是又不想错过重要信息（比如被别人@）。那么这种勿扰模式，在后台模式下该如何实现呢？使用静默推送！~<br><br>静默推送可以在用户无感知的情况下，将数据推送到设备上。只需要将 push payload 里的 <code>content-available</code> 的值设置为 <code>1</code>，同时 <code>payload</code> 中不要包含 <code>alert</code>、<code>sound</code>、<code>badge</code> 字段，示例如下：</p><blockquote><p>示例摘抄自 <a href="https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CreatingtheNotificationPayload.html">Creating the Remote Notification Payload</a> Listing 7-1</p></blockquote><pre data-language="JSON"><code>{
+    <span class="hljs-attr">"aps"</span> : {
+        <span class="hljs-attr">"content-available"</span> : <span class="hljs-number">1</span>
     },
-    "acme1" : "bar",
-    "acme2" : 42
+    <span class="hljs-attr">"acme1"</span> : <span class="hljs-string">"bar"</span>,
+    <span class="hljs-attr">"acme2"</span> : <span class="hljs-number">42</span>
 }
-</code></pre><p>当收到静默推送后，系统出于对电池寿命和性能的保证，会智能地在后台唤起应用去下载相关内容。</p><p>下图还是以消息免打扰为例，用户在前台对某个会话开启了消息免打扰，然后回到后台，一段时间后该会话有新的内容，但是用户开了勿扰模式，所以我们需要“偷偷地”更新会话内容，但是用户却无感知。这里“偷偷地”就是系统在收到静默推送时，会在合适的时机在后台唤起应用去加载该会话的新内容（该后台任务可以持续30秒）。等用户回到前台，会发现免打扰的会话里的内容也有了更新，极大提高了用户体验。</p><img src="/oldimages/15602632236407.jpg" alt="-w1164"/><p>关于静默推送的其它几点 tips：</p><ul><li>必须将 <code>apns-priority</code> 设置为 <code>5</code>，否则系统不会唤起应用。</li><li><code>watchOS</code> 应用必须（其它平台则强烈推荐）将 <code>apns-push-type</code> 设置为 <code>background</code>。</li></ul><blockquote><p>以上涉及到 <code>payload</code> 里的相关字段的设置，其实是在向 APNs 服务器发起请求时，请求体里的相关字段，更多内容可参考<a href="https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns?language=objc">Sending Notification Requests to APNs</a> 关于最后一点需要稍微吐槽一下，这集 Session Keynote 上是说 <code>watchOS</code> 必须设置，其它平台强烈推荐设置。但是官方文档却说从 iOS13 和 watchOS6 起，这个 <code>key</code> 必须设置，建议还是以文档为准。 <img src="/oldimages/15602654307840.jpg" alt="-w782"/></p></blockquote><blockquote><p>关于推送测试，推荐一下这个工具 <a href="https://github.com/KnuffApp/Knuff">Knuff</a></p></blockquote><h3>历史记录下载</h3><p>当我们在新设备上登录时，会同步历史聊天列表，对于一些比较久远的会话记录，我们可以使用后台下载任务（Background URL Session）将其延迟下载。其实不仅仅是会话列表可以延迟放到后台任务去同步，其他的一些任务也是可以的，比如数据统计、照片备份等。不过是否放在后台任务去执行，还是需要结合时效性以及性能稳定性来决定。</p><p>后台下载任务示例代码如下：</p><pre><code class="language-Swift">// 配置任务
-let config = URLSessionConfiguration.background(withIdentifier: "com.app.attachments") 
-let session = URLSession(configuration: config, delegate: ..., delegateQueue: ...)
+</code></pre><p>当收到静默推送后，系统出于对电池寿命和性能的保证，会智能地在后台唤起应用去下载相关内容。</p><p>下图还是以消息免打扰为例，用户在前台对某个会话开启了消息免打扰，然后回到后台，一段时间后该会话有新的内容，但是用户开了勿扰模式，所以我们需要“偷偷地”更新会话内容，但是用户却无感知。这里“偷偷地”就是系统在收到静默推送时，会在合适的时机在后台唤起应用去加载该会话的新内容（该后台任务可以持续30秒）。等用户回到前台，会发现免打扰的会话里的内容也有了更新，极大提高了用户体验。</p><img src="/oldimages/15602632236407.jpg" alt="-w1164"/><p>关于静默推送的其它几点 tips：</p><ul><li>必须将 <code>apns-priority</code> 设置为 <code>5</code>，否则系统不会唤起应用。</li><li><code>watchOS</code> 应用必须（其它平台则强烈推荐）将 <code>apns-push-type</code> 设置为 <code>background</code>。</li></ul><blockquote><p>以上涉及到 <code>payload</code> 里的相关字段的设置，其实是在向 APNs 服务器发起请求时，请求体里的相关字段，更多内容可参考<a href="https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns?language=objc">Sending Notification Requests to APNs</a> 关于最后一点需要稍微吐槽一下，这集 Session Keynote 上是说 <code>watchOS</code> 必须设置，其它平台强烈推荐设置。但是官方文档却说从 iOS13 和 watchOS6 起，这个 <code>key</code> 必须设置，建议还是以文档为准。 <img src="/oldimages/15602654307840.jpg" alt="-w782"/></p></blockquote><blockquote><p>关于推送测试，推荐一下这个工具 <a href="https://github.com/KnuffApp/Knuff">Knuff</a></p></blockquote><h3>历史记录下载</h3><p>当我们在新设备上登录时，会同步历史聊天列表，对于一些比较久远的会话记录，我们可以使用后台下载任务（Background URL Session）将其延迟下载。其实不仅仅是会话列表可以延迟放到后台任务去同步，其他的一些任务也是可以的，比如数据统计、照片备份等。不过是否放在后台任务去执行，还是需要结合时效性以及性能稳定性来决定。</p><p>后台下载任务示例代码如下：</p><pre data-language="Swift"><code><span class="hljs-comment">// 配置任务</span>
+<span class="hljs-keyword">let</span> config = <span class="hljs-type">URLSessionConfiguration</span>.background(withIdentifier: <span class="hljs-string">"com.app.attachments"</span>) 
+<span class="hljs-keyword">let</span> session = <span class="hljs-type">URLSession</span>(configuration: config, delegate: ..., delegateQueue: ...)
  
-// 设置这个值为 true，告诉系统在合适的时机触发相应任务来保证良好的性能
-// 如果任务比较耗时，建议将这个值设为 true
-config.discretionary = true
-// 设置超时时间
-config.timeoutIntervalForResource = 24 * 60 * 60
-config.timeoutIntervalForRequest = 60
-// 创建请求
-var request = URLRequest(url: url)
-request.addValue("...", forHTTPHeaderField: "...")
-let task = session.downloadTask(with: request)
-// 设置最早触发时间
-task.earliestBeginDate = Date(timeIntervalSinceNow: 2 * 60 * 60)
-// 设置期望的发送和接收的数据包大小
-task.countOfBytesClientExpectsToSend = 160
-task.countOfBytesClientExpectsToReceive = 4096
+<span class="hljs-comment">// 设置这个值为 true，告诉系统在合适的时机触发相应任务来保证良好的性能</span>
+<span class="hljs-comment">// 如果任务比较耗时，建议将这个值设为 true</span>
+config.discretionary = <span class="hljs-literal">true</span>
+<span class="hljs-comment">// 设置超时时间</span>
+config.timeoutIntervalForResource = <span class="hljs-number">24</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span>
+config.timeoutIntervalForRequest = <span class="hljs-number">60</span>
+<span class="hljs-comment">// 创建请求</span>
+<span class="hljs-keyword">var</span> request = <span class="hljs-type">URLRequest</span>(url: url)
+request.addValue(<span class="hljs-string">"..."</span>, forHTTPHeaderField: <span class="hljs-string">"..."</span>)
+<span class="hljs-keyword">let</span> task = session.downloadTask(with: request)
+<span class="hljs-comment">// 设置最早触发时间</span>
+task.earliestBeginDate = <span class="hljs-type">Date</span>(timeIntervalSinceNow: <span class="hljs-number">2</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span>)
+<span class="hljs-comment">// 设置期望的发送和接收的数据包大小</span>
+task.countOfBytesClientExpectsToSend = <span class="hljs-number">160</span>
+task.countOfBytesClientExpectsToReceive = <span class="hljs-number">4096</span>
 task.resume()
-</code></pre><blockquote><p>更多信息可以查看<a href="https://developer.apple.com/documentation/foundation/url_loading_system/downloading_files_in_the_background?language=objc">Downloading Files in the Background</a>。这里值得注意的是，如果在后台任务下载过程中应用被系统终止，再次启动时，使用相同 <code>identifier</code> 创建的 <code>session</code> 系统将会从上一次终止的地方继续下载对应内容。但是如果用户手动通过多任务将应用终止的话，系统会取消所有后台下载任务，同时系统也不会自动在后台唤起应用。</p></blockquote><p>通过上面的四种场景分析，系统分别为我们提供了不同场景下该使用的 API，以及对应的最佳实践。当然还有一些场景上面例子并没有涉及，比如 <code>Background Fetch</code>、<code>Background Processing</code>。某些特定的后台任务需要在 <code>Xcode</code> 的 <code>Signing &amp; Capabilities</code>（<code>Xcode 10</code> 为 <code>Capabilities</code>）中勾选才能生效，具体如下图所示。</p><img src="/oldimages/15602695626828.jpg" alt="-w1326"/><p>而我们上面提到的 VoIP 电话和静默推送需要将 <code>Voice over IP</code> 和 <code>Remote notifications</code> 选项勾起来。</p><h2>全新后台任务框架</h2><p>以上场景都有对应的 API 可用，但是对于其它场景呢？比如数据同步、照片备份、数据库清理等，有没有更便捷的方式呢？当然，且看 iOS13 推出的全新框架 <code>BackgroundTasks.framework</code>~</p><p>如本文题图那样，<code>BackgroundTasks.framework</code> 是一个全新的后台任务调度框架，同时对iOS、iPadOS、watchOS、tvOS 以及 Mac 上的 iPad 应用都支持。同样 iOS13 新增了一种后台模式 <code>Background processing</code>，同时对现有的后台刷新相关 API 进行了改善。</p><p>进到这个框架的类 API，会发现这个框架十分简洁，两种后台任务分别对应的类为 <code>BGProcessingTask</code> 和 <code>BGAppRefreshTask</code>，这两个类都是继承自一个抽象类 <code>BGTask</code>，然后再配合对应的<code>BGTaskRequest</code> 以及 <code>BGTaskScheduler</code>，就可以满足大部分后台任务的需求。</p><p>相关 API 一览：</p><pre><code class="language-Swift">// task
-@available(iOS 13.0, *)
-open class BGTask : NSObject {
-    open var identifier: String { get }
-    open var expirationHandler: (() -&gt; Void)?
-    open func setTaskCompleted(success: Bool)
+</code></pre><blockquote><p>更多信息可以查看<a href="https://developer.apple.com/documentation/foundation/url_loading_system/downloading_files_in_the_background?language=objc">Downloading Files in the Background</a>。这里值得注意的是，如果在后台任务下载过程中应用被系统终止，再次启动时，使用相同 <code>identifier</code> 创建的 <code>session</code> 系统将会从上一次终止的地方继续下载对应内容。但是如果用户手动通过多任务将应用终止的话，系统会取消所有后台下载任务，同时系统也不会自动在后台唤起应用。</p></blockquote><p>通过上面的四种场景分析，系统分别为我们提供了不同场景下该使用的 API，以及对应的最佳实践。当然还有一些场景上面例子并没有涉及，比如 <code>Background Fetch</code>、<code>Background Processing</code>。某些特定的后台任务需要在 <code>Xcode</code> 的 <code>Signing &amp; Capabilities</code>（<code>Xcode 10</code> 为 <code>Capabilities</code>）中勾选才能生效，具体如下图所示。</p><img src="/oldimages/15602695626828.jpg" alt="-w1326"/><p>而我们上面提到的 VoIP 电话和静默推送需要将 <code>Voice over IP</code> 和 <code>Remote notifications</code> 选项勾起来。</p><h2>全新后台任务框架</h2><p>以上场景都有对应的 API 可用，但是对于其它场景呢？比如数据同步、照片备份、数据库清理等，有没有更便捷的方式呢？当然，且看 iOS13 推出的全新框架 <code>BackgroundTasks.framework</code>~</p><p>如本文题图那样，<code>BackgroundTasks.framework</code> 是一个全新的后台任务调度框架，同时对iOS、iPadOS、watchOS、tvOS 以及 Mac 上的 iPad 应用都支持。同样 iOS13 新增了一种后台模式 <code>Background processing</code>，同时对现有的后台刷新相关 API 进行了改善。</p><p>进到这个框架的类 API，会发现这个框架十分简洁，两种后台任务分别对应的类为 <code>BGProcessingTask</code> 和 <code>BGAppRefreshTask</code>，这两个类都是继承自一个抽象类 <code>BGTask</code>，然后再配合对应的<code>BGTaskRequest</code> 以及 <code>BGTaskScheduler</code>，就可以满足大部分后台任务的需求。</p><p>相关 API 一览：</p><pre data-language="Swift"><code><span class="hljs-comment">// task</span>
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGTask</span> : <span class="hljs-title">NSObject</span> </span>{
+    <span class="hljs-keyword">open</span> <span class="hljs-keyword">var</span> identifier: <span class="hljs-type">String</span> { <span class="hljs-keyword">get</span> }
+    <span class="hljs-keyword">open</span> <span class="hljs-keyword">var</span> expirationHandler: (() -&gt; <span class="hljs-type">Void</span>)?
+    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">setTaskCompleted</span><span class="hljs-params">(success: Bool)</span></span>
 }
 
-@available(iOS 13.0, *)
-open class BGProcessingTask : BGTask {
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGProcessingTask</span> : <span class="hljs-title">BGTask</span> </span>{
 }
 
-@available(iOS 13.0, *)
-open class BGAppRefreshTask : BGTask {
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGAppRefreshTask</span> : <span class="hljs-title">BGTask</span> </span>{
 }
 
-// request
-@available(iOS 13.0, *)
-open class BGTaskRequest : NSObject, NSCopying {
-    open var identifier: String { get }
-    open var earliestBeginDate: Date?
+<span class="hljs-comment">// request</span>
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGTaskRequest</span> : <span class="hljs-title">NSObject</span>, <span class="hljs-title">NSCopying</span> </span>{
+    <span class="hljs-keyword">open</span> <span class="hljs-keyword">var</span> identifier: <span class="hljs-type">String</span> { <span class="hljs-keyword">get</span> }
+    <span class="hljs-keyword">open</span> <span class="hljs-keyword">var</span> earliestBeginDate: <span class="hljs-type">Date?</span>
 }
 
-@available(iOS 13.0, *)
-open class BGAppRefreshTaskRequest : BGTaskRequest {
-    public init(identifier: String)
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGAppRefreshTaskRequest</span> : <span class="hljs-title">BGTaskRequest</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(identifier: <span class="hljs-type">String</span>)
 }
 
-@available(iOS 13.0, *)
-open class BGProcessingTaskRequest : BGTaskRequest {
-    public init(identifier: String)
-    open var requiresNetworkConnectivity: Bool
-    open var requiresExternalPower: Bool
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGProcessingTaskRequest</span> : <span class="hljs-title">BGTaskRequest</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(identifier: <span class="hljs-type">String</span>)
+    <span class="hljs-keyword">open</span> <span class="hljs-keyword">var</span> requiresNetworkConnectivity: <span class="hljs-type">Bool</span>
+    <span class="hljs-keyword">open</span> <span class="hljs-keyword">var</span> requiresExternalPower: <span class="hljs-type">Bool</span>
 }
 
-// scheduler
-@available(iOS 13.0, *)
-open class BGTaskScheduler : NSObject {
-    open class var shared: BGTaskScheduler { get }
-    open func register(forTaskWithIdentifier identifier: String, using queue: DispatchQueue?, launchHandler: @escaping (BGTask) -&gt; Void) -&gt; Bool
-    open func submit(_ taskRequest: BGTaskRequest) throws
-    open func cancel(taskRequestWithIdentifier identifier: String)
-    open func cancelAllTaskRequests()
-    open func getPendingTaskRequests(completionHandler: @escaping ([BGTaskRequest]) -&gt; Void)
+<span class="hljs-comment">// scheduler</span>
+<span class="hljs-meta">@available</span>(iOS <span class="hljs-number">13.0</span>, *)
+<span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BGTaskScheduler</span> : <span class="hljs-title">NSObject</span> </span>{
+    <span class="hljs-keyword">open</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">var</span> <span class="hljs-title">shared</span>: <span class="hljs-title">BGTaskScheduler</span> </span>{ <span class="hljs-keyword">get</span> }
+    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">register</span><span class="hljs-params">(forTaskWithIdentifier identifier: String, using queue: DispatchQueue?, launchHandler: @escaping <span class="hljs-params">(BGTask)</span></span></span> -&gt; <span class="hljs-type">Void</span>) -&gt; <span class="hljs-type">Bool</span>
+    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">submit</span><span class="hljs-params">(<span class="hljs-number">_</span> taskRequest: BGTaskRequest)</span></span> <span class="hljs-keyword">throws</span>
+    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">cancel</span><span class="hljs-params">(taskRequestWithIdentifier identifier: String)</span></span>
+    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">cancelAllTaskRequests</span><span class="hljs-params">()</span></span>
+    <span class="hljs-keyword">open</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getPendingTaskRequests</span><span class="hljs-params">(completionHandler: @escaping <span class="hljs-params">([BGTaskRequest])</span></span></span> -&gt; <span class="hljs-type">Void</span>)
 }
-</code></pre><h3>BGProcessingTask</h3><p>首先来看看今年新提供的后台模式————Background Processing Task。</p><ul><li>这种后台模式会给应用几分钟的时间来处理相关任务，相比之前的几十秒有了比较大的提升。因此我们可以将一些可延迟到后台执行的任务放到这种模式下执行，也可以将一些 Core ML 的训练放到这种模式下执行。</li><li><strong>最重要的一点是，新框架允许我们关掉 CPU 的检测</strong>，因为之前系统出于对电池寿命的考虑，会将后台 CPU 占用较高的应用“杀死”，所以新框架的这个特性对于那些 CPU 占用较高的后台任务可以说是及时雨了，而要做到这个，仅仅只需要设置 <code>bgProcessingTaskRequest.requiresExternalPower = true</code> 即可。</li><li>同时我们只要需应用在前台时提交了对应请求，系统就会在适当的时机触发相应的任务。</li></ul><h3>BGAppRefreshTask</h3><p>了解完 <code>BGProcessingTask</code>，我们继续看一看 <code>BGAppRefreshTask</code>。</p><ul><li>虽然是新 API，但是规则和之前的 Background Fetch一样：有30秒的执行时间、让应用内容保持最新。</li><li>会根据用户使用应用的频次和时间段，来决定何时触发后台刷新任务。比如用户经常在早上 8 点和晚上 10 点会打开应用，系统则会在这两个时间点之前触发刷新任务，以保证用户总是看到最新的内容。这也就意味着如果应用使用的频次较低，系统触发的刷新任务的频次也就随之变低。同时下面两个 API 被废弃了，虽然在iOS、iPadOS、tvOS 任能使用，但是在 Mac 上将无法使用，所以尽快切到新的 API 吧~<ul></ul></li></ul><pre><code class="language-Swift">    - (void)setMinimumBackgroundFetchInterval:(NSTimeInterval)minimumBackgroundFetchInterval API_DEPRECATED("Use a BGAppRefreshTask in the BackgroundTasks framework instead", ios(7.0, 13.0), tvos(11.0, 13.0));
+</code></pre><h3>BGProcessingTask</h3><p>首先来看看今年新提供的后台模式————Background Processing Task。</p><ul><li>这种后台模式会给应用几分钟的时间来处理相关任务，相比之前的几十秒有了比较大的提升。因此我们可以将一些可延迟到后台执行的任务放到这种模式下执行，也可以将一些 Core ML 的训练放到这种模式下执行。</li><li><strong>最重要的一点是，新框架允许我们关掉 CPU 的检测</strong>，因为之前系统出于对电池寿命的考虑，会将后台 CPU 占用较高的应用“杀死”，所以新框架的这个特性对于那些 CPU 占用较高的后台任务可以说是及时雨了，而要做到这个，仅仅只需要设置 <code>bgProcessingTaskRequest.requiresExternalPower = true</code> 即可。</li><li>同时我们只要需应用在前台时提交了对应请求，系统就会在适当的时机触发相应的任务。</li></ul><h3>BGAppRefreshTask</h3><p>了解完 <code>BGProcessingTask</code>，我们继续看一看 <code>BGAppRefreshTask</code>。</p><ul><li>虽然是新 API，但是规则和之前的 Background Fetch一样：有30秒的执行时间、让应用内容保持最新。</li><li>会根据用户使用应用的频次和时间段，来决定何时触发后台刷新任务。比如用户经常在早上 8 点和晚上 10 点会打开应用，系统则会在这两个时间点之前触发刷新任务，以保证用户总是看到最新的内容。这也就意味着如果应用使用的频次较低，系统触发的刷新任务的频次也就随之变低。同时下面两个 API 被废弃了，虽然在iOS、iPadOS、tvOS 任能使用，但是在 Mac 上将无法使用，所以尽快切到新的 API 吧~<ul></ul></li></ul><pre data-language="Swift"><code>    - (void)setMinimumBackgroundFetchInterval:(<span class="hljs-type">NSTimeInterval</span>)minimumBackgroundFetchInterval <span class="hljs-type">API_DEPRECATED</span>(<span class="hljs-string">"Use a BGAppRefreshTask in the BackgroundTasks framework instead"</span>, ios(<span class="hljs-number">7.0</span>, <span class="hljs-number">13.0</span>), tvos(<span class="hljs-number">11.0</span>, <span class="hljs-number">13.0</span>));
     
-    - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler API_DEPRECATED("Use a BGAppRefreshTask in the BackgroundTasks framework instead", ios(7.0, 13.0), tvos(11.0, 13.0));
+    - (void)application:(<span class="hljs-type">UIApplication</span> *)application performFetchWithCompletionHandler:(void (^)(<span class="hljs-type">UIBackgroundFetchResult</span> result))completionHandler <span class="hljs-type">API_DEPRECATED</span>(<span class="hljs-string">"Use a BGAppRefreshTask in the BackgroundTasks framework instead"</span>, ios(<span class="hljs-number">7.0</span>, <span class="hljs-number">13.0</span>), tvos(<span class="hljs-number">11.0</span>, <span class="hljs-number">13.0</span>));
     ```
     
-在我们提交了相应后台任务后，系统会根据一些条件和规则（比如电量、应用使用频次、网络等）来适时地触发对应任务。我们和系统交互，主要是通过 `BGTaskScheduler` 这个类。
+在我们提交了相应后台任务后，系统会根据一些条件和规则（比如电量、应用使用频次、网络等）来适时地触发对应任务。我们和系统交互，主要是通过 `<span class="hljs-type">BGTaskScheduler</span>` 这个类。
 
-![-w1325](/oldimages/15603593455627.jpg)
+![-w1325](/oldimages/<span class="hljs-number">15603593455627</span>.jpg)
 
-如图所示，当应用或者 `Extension` 在前台通过 `BGTaskScheduler` 向系统提交后台任务请求（`BGRequest`）后（图中 1、2 所示），系统在条件满足的情况下会在后台唤起应用，然后将对应的后台任务（`BBGTask`）传给应用（上图步骤 3 所示）。值得一提的是，系统后台唤起应用后，可能同时将多个后台任务传给应用，系统会给这些任务一定的时间去执行，但这里分配的时间不是针对每个任务，而是针对每次后台唤起，所以必须保证在有限时间内能够同时处理所有任务。还有一点要注意的是，`Extension` 提交的任务请求，也会被分发到宿主应用，因为系统只会唤起宿主应用而不是 `Extension`。
+如图所示，当应用或者 `<span class="hljs-type">Extension</span>` 在前台通过 `<span class="hljs-type">BGTaskScheduler</span>` 向系统提交后台任务请求（`<span class="hljs-type">BGRequest</span>`）后（图中 <span class="hljs-number">1</span>、<span class="hljs-number">2</span> 所示），系统在条件满足的情况下会在后台唤起应用，然后将对应的后台任务（`<span class="hljs-type">BBGTask</span>`）传给应用（上图步骤 <span class="hljs-number">3</span> 所示）。值得一提的是，系统后台唤起应用后，可能同时将多个后台任务传给应用，系统会给这些任务一定的时间去执行，但这里分配的时间不是针对每个任务，而是针对每次后台唤起，所以必须保证在有限时间内能够同时处理所有任务。还有一点要注意的是，`<span class="hljs-type">Extension</span>` 提交的任务请求，也会被分发到宿主应用，因为系统只会唤起宿主应用而不是 `<span class="hljs-type">Extension</span>`。
 
-## Demo Time
+## <span class="hljs-type">Demo</span> <span class="hljs-type">Time</span>
 
-通过上面我们对新的框架有了一个宏观上的了解，苹果爸爸也十分贴心的为这集 Session 提供了 [Demo](https://developer.apple.com/documentation/backgroundtasks/refreshing_and_maintaining_your_app_using_background_tasks?language=objc)。这里就不再详细展开，只指出值得注意的地方，感兴趣的同学可以自行下载 Demo 感受一下。
+通过上面我们对新的框架有了一个宏观上的了解，苹果爸爸也十分贴心的为这集 <span class="hljs-type">Session</span> 提供了 [<span class="hljs-type">Demo</span>](https:<span class="hljs-comment">//developer.apple.com/documentation/backgroundtasks/refreshing_and_maintaining_your_app_using_background_tasks?language=objc)。这里就不再详细展开，只指出值得注意的地方，感兴趣的同学可以自行下载 Demo 感受一下。</span>
 
-* 想要新框架对应的特性，必须勾选对应的后台模式， `BGProcessingTask` 对应 `Background processing`，`BGAppRefreshTask` 对应 `Background fetch`。Xcode11 的开启步骤如图所示。
-    ![-w1119](/oldimages/15603641916974.jpg)
-* 代码中用到的任务标识符必须和 `Info.plist` 中的一致，否则任务不生效，如图所示。`Info.plist` 中对应的 key 为 `Permitted background task scheduler identifiers`，同时标识符要确保全局唯一，推荐使用反域名的方式。
-    ![-w1025](/oldimages/15603607054920.jpg)
-* 如果任务会占用较高 CPU，强烈推荐将 `requiresExternalPower` 设置为 `true`。
+* 想要新框架对应的特性，必须勾选对应的后台模式， `<span class="hljs-type">BGProcessingTask</span>` 对应 `<span class="hljs-type">Background</span> processing`，`<span class="hljs-type">BGAppRefreshTask</span>` 对应 `<span class="hljs-type">Background</span> fetch`。<span class="hljs-type">Xcode11</span> 的开启步骤如图所示。
+    ![-w1119](/oldimages/<span class="hljs-number">15603641916974</span>.jpg)
+* 代码中用到的任务标识符必须和 `<span class="hljs-type">Info</span>.plist` 中的一致，否则任务不生效，如图所示。`<span class="hljs-type">Info</span>.plist` 中对应的 key 为 `<span class="hljs-type">Permitted</span> background task scheduler identifiers`，同时标识符要确保全局唯一，推荐使用反域名的方式。
+    ![-w1025](/oldimages/<span class="hljs-number">15603607054920</span>.jpg)
+* 如果任务会占用较高 <span class="hljs-type">CPU</span>，强烈推荐将 `requiresExternalPower` 设置为 `<span class="hljs-literal">true</span>`。
 * 任务请求提交后，任意位置设置断点或者暂停应用进到断点模式，输入以下两条指令来模拟触发任务以及提前终止任务，输入完成后，点击继续，会发现任务被正常触发或终止。**仅真机有效**。
     
     ```objc
-    // 模拟触发任务，TASK_IDENTIFIER 替换为想要测试的任务对应的标识
-    e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"TASK_IDENTIFIER"]
+    <span class="hljs-comment">// 模拟触发任务，TASK_IDENTIFIER 替换为想要测试的任务对应的标识</span>
+    e -l objc -- (void)[[<span class="hljs-type">BGTaskScheduler</span> sharedScheduler] _simulateLaunchForTaskWithIdentifier:@<span class="hljs-string">"TASK_IDENTIFIER"</span>]
     
-    // 模拟终止任务，TASK_IDENTIFIER 替换为想要测试的任务对应的标识 
-    e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateExpirationForTaskWithIdentifier:@"TASK_IDENTIFIER"]
+    <span class="hljs-comment">// 模拟终止任务，TASK_IDENTIFIER 替换为想要测试的任务对应的标识 </span>
+    e -l objc -- (void)[[<span class="hljs-type">BGTaskScheduler</span> sharedScheduler] _simulateExpirationForTaskWithIdentifier:@<span class="hljs-string">"TASK_IDENTIFIER"</span>]
     ```
 * 不要把任务的最早开始日期(`earliestBeginDate`)设的太大，推荐在一周内。
-* 确保文件在锁屏下可访问，最好将文件访问等级设置成 `FileProtectionType.completeUntilFirstUserAuthentication 
+* 确保文件在锁屏下可访问，最好将文件访问等级设置成 `<span class="hljs-type">FileProtectionType</span>.completeUntilFirstUserAuthentication 
 `，当然这也是 iOS7 之后系统的默认行为，**设备重启到用户首次解锁的这段时间，后台任务不会被触发**。
-* 支持分屏的应用需要在合适的时机调用 `UIApplication.requestSceneSessionRefresh(_:)` 来告诉系统来更新多任务窗口下的应用截图。
-* 不要在主线程上提交任务请求，尽量放到后台线程，避免阻塞 UI
+* 支持分屏的应用需要在合适的时机调用 `<span class="hljs-type">UIApplication</span>.requestSceneSessionRefresh(<span class="hljs-number">_</span>:)` 来告诉系统来更新多任务窗口下的应用截图。
+* 不要在主线程上提交任务请求，尽量放到后台线程，避免阻塞 <span class="hljs-type">UI</span>
 
-到此整个新框架以及一些最佳实践都已经介绍完毕，各位是不是迫不及待想动手试试？心动不如行动，赶紧动手试试吧。Enjoy~
+到此整个新框架以及一些最佳实践都已经介绍完毕，各位是不是迫不及待想动手试试？心动不如行动，赶紧动手试试吧。<span class="hljs-type">Enjoy</span>~
 
-个人想到的一些新框架可能适用的点（`Keynote` 上提到的机器学习的模型训练之类的就不再说了）
+个人想到的一些新框架可能适用的点（`<span class="hljs-type">Keynote</span>` 上提到的机器学习的模型训练之类的就不再说了）
 
-* 使用 `BGAppRefreshTask` 提前拉取应用首屏需要的内容，减少用户启动后的等待时间（之前的 `background fetch` 也能实现）
+* 使用 `<span class="hljs-type">BGAppRefreshTask</span>` 提前拉取应用首屏需要的内容，减少用户启动后的等待时间（之前的 `background fetch` 也能实现）
 * 数据同步，尤其是大文件，像谷歌相册、各种云盘之类的软件
 * 日志上报，一些不需要那么实时的日志，可以考虑放到后台任务
 
-&gt; PS: 期待谷歌相册能适配一波，避免同步时一直得保持应用在前台😂
-
+&gt; <span class="hljs-type">PS</span>: 期待谷歌相册能适配一波，避免同步时一直得保持应用在前
 </code></pre></div><span>Tagged with: </span><ul class="tag-list"><li><a href="/tags/wwdc">WWDC</a></li><li><a href="/tags/原创">原创</a></li><li><a href="/tags/后台任务">后台任务</a></li></ul></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>

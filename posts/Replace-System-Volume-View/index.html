@@ -1,74 +1,73 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/Replace-System-Volume-View"/><meta name="twitter:url" content="https://wang9262.github.io/posts/Replace-System-Volume-View"/><meta name="og:url" content="https://wang9262.github.io/posts/Replace-System-Volume-View"/><title>替换系统音量提示的实现和遇到的坑 | Vong</title><meta name="twitter:title" content="替换系统音量提示的实现和遇到的坑 | Vong"/><meta name="og:title" content="替换系统音量提示的实现和遇到的坑 | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p><p>比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻</p><img src="/oldimages/15247541167324.jpg"/><h3>原理</h3><p>这里主要记录一下在项目中如何替换系统音量提示视图的过程。通过 <code>Google</code> 和 <code>stackoverflow</code>，可以查到，如果要自定义音量提示，需要做到以下几步：</p><ol><li>激活 <code>AudioSession</code></li><li>创建一个 <code>MPVolumeView</code>，并将其添加到当前可见的视图层级当中，同时将其 frame 设置到不可见区域</li><li>监听音量按钮触发事件，改变音量提示</li></ol><h3>实现</h3><p>然后为了调用统一且音量视图层级永远在最上方（即不被 <code>Alert</code> 等挡住），首先想到使用一个 <code>UIWindow</code>，然后自定义视图和系统的视图加到这个视图层级上，初始化时 <code>frame</code> 为 <code>CGRectZero</code>，<code>hidden</code> 属性为 <code>NO</code>（注意这里必须为 <code>NO</code>，不然系统音量提示仍会出现，上面说到的第2点）；要显示时设置其 <code>frame</code> 设置成 <code>mainScreen</code> 的 <code>bounds</code>，然后展示即可。</p><blockquote><p>由于自己创建的 <code>UIWindow</code> 的 <code>hidden</code> 属性默认是 <code>YES</code>，所以需要手动将其设成 <code>NO</code>。 音量按钮每触发一次，变化量都是 6.25%，连续按16次，即可调节至最大或最小</p></blockquote><p>上述的第3步有两种方式可以做到，各有优劣，下面来做一个简单介绍。</p><h4>KVO</h4><p>通过 <code>KVO</code> 监听 <code>[AVAudioSession sharedInstance]</code> 的 <code>outputVolume</code> 属性，然后来显示自定义的 UI 控件。这种方式有一个不好的地方就是，在音量调节至最大/最小时，这个时候再调大/调小音量，由于 <code>outputVolume</code> 的值不变，所以不会触发 <code>KVO</code>，也就无法展示自定义音量视图。代码大概长下面这样</p><pre><code class="language-objc">- (void)dealloc {
-    [[AVAudioSession sharedInstance] removeObserver:self
-                                         forKeyPath:NSStringFromSelector(@selector(outputVolume))];
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/Replace-System-Volume-View"/><meta name="twitter:url" content="https://wang9262.github.io/posts/Replace-System-Volume-View"/><meta name="og:url" content="https://wang9262.github.io/posts/Replace-System-Volume-View"/><title>替换系统音量提示的实现和遇到的坑 | Vong</title><meta name="twitter:title" content="替换系统音量提示的实现和遇到的坑 | Vong"/><meta name="og:title" content="替换系统音量提示的实现和遇到的坑 | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p><p>比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻</p><img src="/oldimages/15247541167324.jpg"/><h3>原理</h3><p>这里主要记录一下在项目中如何替换系统音量提示视图的过程。通过 <code>Google</code> 和 <code>stackoverflow</code>，可以查到，如果要自定义音量提示，需要做到以下几步：</p><ol><li>激活 <code>AudioSession</code></li><li>创建一个 <code>MPVolumeView</code>，并将其添加到当前可见的视图层级当中，同时将其 frame 设置到不可见区域</li><li>监听音量按钮触发事件，改变音量提示</li></ol><h3>实现</h3><p>然后为了调用统一且音量视图层级永远在最上方（即不被 <code>Alert</code> 等挡住），首先想到使用一个 <code>UIWindow</code>，然后自定义视图和系统的视图加到这个视图层级上，初始化时 <code>frame</code> 为 <code>CGRectZero</code>，<code>hidden</code> 属性为 <code>NO</code>（注意这里必须为 <code>NO</code>，不然系统音量提示仍会出现，上面说到的第2点）；要显示时设置其 <code>frame</code> 设置成 <code>mainScreen</code> 的 <code>bounds</code>，然后展示即可。</p><blockquote><p>由于自己创建的 <code>UIWindow</code> 的 <code>hidden</code> 属性默认是 <code>YES</code>，所以需要手动将其设成 <code>NO</code>。 音量按钮每触发一次，变化量都是 6.25%，连续按16次，即可调节至最大或最小</p></blockquote><p>上述的第3步有两种方式可以做到，各有优劣，下面来做一个简单介绍。</p><h4>KVO</h4><p>通过 <code>KVO</code> 监听 <code>[AVAudioSession sharedInstance]</code> 的 <code>outputVolume</code> 属性，然后来显示自定义的 UI 控件。这种方式有一个不好的地方就是，在音量调节至最大/最小时，这个时候再调大/调小音量，由于 <code>outputVolume</code> 的值不变，所以不会触发 <code>KVO</code>，也就无法展示自定义音量视图。代码大概长下面这样</p><pre data-language="objc"><code>- (<span class="hljs-keyword">void</span>)dealloc {
+    [[<span class="hljs-built_in">AVAudioSession</span> sharedInstance] removeObserver:<span class="hljs-keyword">self</span>
+                                         forKeyPath:<span class="hljs-built_in">NSStringFromSelector</span>(<span class="hljs-keyword">@selector</span>(outputVolume))];
 }
 
-- (void)addObserver {
-    [[AVAudioSession sharedInstance] addObserver:self
-                                      forKeyPath:NSStringFromSelector(@selector(outputVolume))
-                                         options:NSKeyValueObservingOptionNew
-                                         context:nil];
+- (<span class="hljs-keyword">void</span>)addObserver {
+    [[<span class="hljs-built_in">AVAudioSession</span> sharedInstance] addObserver:<span class="hljs-keyword">self</span>
+                                      forKeyPath:<span class="hljs-built_in">NSStringFromSelector</span>(<span class="hljs-keyword">@selector</span>(outputVolume))
+                                         options:<span class="hljs-built_in">NSKeyValueObservingOptionNew</span>
+                                         context:<span class="hljs-literal">nil</span>];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary&lt;NSKeyValueChangeKey,id&gt; *)change
-                       context:(void *)context {
-    if ([change isKindOfClass:[NSDictionary class]]) {
-        NSNumber *volumeNum = change[@"new"];
-        if (volumeNum) {
-            [self volumeDidChange:[volumeNum floatValue]];
+- (<span class="hljs-keyword">void</span>)observeValueForKeyPath:(<span class="hljs-built_in">NSString</span> *)keyPath
+                      ofObject:(<span class="hljs-keyword">id</span>)object
+                        change:(<span class="hljs-built_in">NSDictionary</span>&lt;<span class="hljs-built_in">NSKeyValueChangeKey</span>,<span class="hljs-keyword">id</span>&gt; *)change
+                       context:(<span class="hljs-keyword">void</span> *)context {
+    <span class="hljs-keyword">if</span> ([change isKindOfClass:[<span class="hljs-built_in">NSDictionary</span> <span class="hljs-keyword">class</span>]]) {
+        <span class="hljs-built_in">NSNumber</span> *volumeNum = change[<span class="hljs-string">@"new"</span>];
+        <span class="hljs-keyword">if</span> (volumeNum) {
+            [<span class="hljs-keyword">self</span> volumeDidChange:[volumeNum floatValue]];
         }
     }
 }
 
-- (void)volumeDidChange:(CGFloat)volume {
-    // 显示自定义音量提示
+- (<span class="hljs-keyword">void</span>)volumeDidChange:(<span class="hljs-built_in">CGFloat</span>)volume {
+    <span class="hljs-comment">// 显示自定义音量提示</span>
 }
-</code></pre><h4>通知</h4><p>这种方式通过监听系统私有（未公开的）通知，名字是 <code>AVSystemController_SystemVolumeDidChangeNotification</code>，这个监听不会受到最大/最小音量时，调大/调小音量的影响，只要音量键按下，始终都会触发。但是这个通知由于是私有的，可能存在被拒风险，而且将来系统版本该通知名字发生改变，由于是硬编码而不像其它系统通知使用的是常量，会导致监听不到的问题。</p><p>代码大概长这样</p><pre><code class="language-objc">static NSNotificationName const kSystemVolumeDidChangeNotification = @"AVSystemController_SystemVolumeDidChangeNotification";
+</code></pre><h4>通知</h4><p>这种方式通过监听系统私有（未公开的）通知，名字是 <code>AVSystemController_SystemVolumeDidChangeNotification</code>，这个监听不会受到最大/最小音量时，调大/调小音量的影响，只要音量键按下，始终都会触发。但是这个通知由于是私有的，可能存在被拒风险，而且将来系统版本该通知名字发生改变，由于是硬编码而不像其它系统通知使用的是常量，会导致监听不到的问题。</p><p>代码大概长这样</p><pre data-language="objc"><code><span class="hljs-keyword">static</span> <span class="hljs-built_in">NSNotificationName</span> <span class="hljs-keyword">const</span> kSystemVolumeDidChangeNotification = <span class="hljs-string">@"AVSystemController_SystemVolumeDidChangeNotification"</span>;
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (<span class="hljs-keyword">void</span>)dealloc {
+    [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="hljs-keyword">self</span>];
 }
 
-- (void)addObserver {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(volumeDidChange:)
+- (<span class="hljs-keyword">void</span>)addObserver {
+    [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="hljs-keyword">self</span>
+                                             selector:<span class="hljs-keyword">@selector</span>(volumeDidChange:)
                                                  name:kSystemVolumeDidChangeNotification
-                                               object:nil];
+                                               object:<span class="hljs-literal">nil</span>];
 }
 
-- (void)volumeDidChange:(NSNotification *)notification {
-    NSString *category = notification.userInfo[@"AVSystemController_AudioCategoryNotificationParameter"];
-    NSString *changeReason = notification.userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"];
-    if (![category isEqualToString:@"Audio/Video"] || ![changeReason isEqualToString:@"ExplicitVolumeChange"]) {
-        return;
+- (<span class="hljs-keyword">void</span>)volumeDidChange:(<span class="hljs-built_in">NSNotification</span> *)notification {
+    <span class="hljs-built_in">NSString</span> *category = notification.userInfo[<span class="hljs-string">@"AVSystemController_AudioCategoryNotificationParameter"</span>];
+    <span class="hljs-built_in">NSString</span> *changeReason = notification.userInfo[<span class="hljs-string">@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"</span>];
+    <span class="hljs-keyword">if</span> (![category isEqualToString:<span class="hljs-string">@"Audio/Video"</span>] || ![changeReason isEqualToString:<span class="hljs-string">@"ExplicitVolumeChange"</span>]) {
+        <span class="hljs-keyword">return</span>;
     }
 
-    CGFloat volume = [[notification userInfo][@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
-    // 显示自定义音量提示
+    <span class="hljs-built_in">CGFloat</span> volume = [[notification userInfo][<span class="hljs-string">@"AVSystemController_AudioVolumeNotificationParameter"</span>] floatValue];
+    <span class="hljs-comment">// 显示自定义音量提示</span>
+}
+</code></pre><p>以上两种方式各自优劣势都已经列出来了，上面说到的三个应用，<code>Instagram</code> 使用的是通知的方式，即刻和哔哩哔哩都是用 <code>KVO</code> 的方式。具体要选那种方式，就看具体需求了，如果在最大或最小时，调节音量可以接受不展示音量视图的话，个人推荐使用 <code>KVO</code> 的形式。</p><h3>遇到的问题</h3><p>上面阐明了原理和实现方式，接下来就是接入到项目中真正使用了，接入项目后发现问题还不少。</p><h4>坑0x0001</h4><p>由于我们使用了 <code>window</code> 来显示自定义音量提示，所以 <code>window</code> 需要提前创建好，有一个需要注意的是 <code>UIWindow</code> 的 <code>hidden</code> 默认是 <code>YES</code>，由于上面说到系统的音量视图必须在可见视图层级内，所以创建的这个 <code>window</code> 必须要可见，然后尽量不影响交互，将其 <code>userInteractionEnabled</code> 置为 <code>NO</code>，且要让其不可见时层级最低，<code>windowLevel</code> 设置为 <code>UIWindowLevelNormal</code>。</p><pre data-language="objc"><code><span class="hljs-keyword">self</span>.window = [[<span class="hljs-built_in">UIWindow</span> alloc] initWithFrame:[<span class="hljs-built_in">UIScreen</span> mainScreen].bounds];
+<span class="hljs-keyword">self</span>.window.hidden = <span class="hljs-literal">NO</span>;
+<span class="hljs-keyword">self</span>.window.windowLevel = <span class="hljs-built_in">UIWindowLevelNormal</span> - <span class="hljs-number">1</span>;
+<span class="hljs-keyword">self</span>.window.rootViewController = [[<span class="hljs-built_in">UIViewController</span> alloc] init];
+<span class="hljs-keyword">self</span>.window.backgroundColor = [<span class="hljs-built_in">UIColor</span> clearColor];
+<span class="hljs-keyword">self</span>.window.userInteractionEnabled = <span class="hljs-literal">NO</span>;
+</code></pre><h4>坑0x0010</h4><p>这样一切看起来很正常，但是有一个问题就是有一些地方通过 <code>[[UIApplication sharedApplication].windows firstObject]</code> 来进行一些操作，比如展示 <code>toast</code> 或者收起键盘的 <code>UIControl</code>，所以会导致其不可见或者无法响应交互。 所以上面代码改成</p><pre data-language="objc"><code><span class="hljs-keyword">self</span>.window = [[<span class="hljs-built_in">UIWindow</span> alloc] initWithFrame:<span class="hljs-built_in">CGRectZero</span>];
+<span class="hljs-keyword">self</span>.window.clipsToBounds = <span class="hljs-literal">YES</span>;
+<span class="hljs-keyword">self</span>.window.windowLevel = <span class="hljs-built_in">UIWindowLevelNormal</span>;
+</code></pre><p>嗯，运行起来，那些寻找 <code>firstObject</code> 的地方都正常了，但是...由于存在开屏广告，而且开屏广告用的也是 <code>window</code>，而且他会在自己要显示时，调用 <code>makeKeyAndVisible</code> 方法，消失的时候直接将其置为 <code>nil</code>，导致系统会自己寻找其它的 <code>window</code> 当做 <code>keyWindow</code>，这个时候不知道为什么会找到我们音量提示的 <code>window</code>？难道是因为 <code>[UIApplication sharedApplication].delegate.window</code> 层级是 <code>Normal</code>，音量提示 <code>window</code> 层级也是 <code>Normal</code>，然后会将后加入的 层级为 <code>Normal</code> 的 <code>window</code> 设置为 <code>key window</code>？暂时还不懂，有知道的大神麻烦指点一下。 这样看来，这种修改方式也不太行，会导致其它地方取 <code>keyWindow</code> 的时候，取错掉。</p><h4>坑0x0011</h4><p>嗯，那索性直接用 <code>[UIApplication sharedApplication].delegate.window</code> 这个来显示音量提示，最多也就出现 <code>Alert</code> 或键盘的时候，音量提示会被遮罩挡住，概率也比较小还好。于是改成下面代码</p><pre data-language="objc"><code><span class="hljs-keyword">self</span>.window = [<span class="hljs-built_in">UIApplication</span> sharedApplication].delegate.window;
+</code></pre><p>但是这个时候会发现，iPhoneX 下音量提示会被状态栏挡住，wtf！！！那么好吧，在音量显示的时候隐藏一下状态栏，音量消失的时候回复一下之前记住的状态栏状态，但是如果存在两个页面状态栏显隐不一致的情况，就会出现问题。同时在某些 <code>present</code> 起来的页面，音量提示死活不显示，但是用 <code>Xcode</code> 自带视图层级调试工具看，音量提示视图的 <code>frame</code>、<code>alpha</code>、<code>hidden</code> 属性都是正常的，但就是没有显示出来。后面将提示视图 <code>layer</code> 的 <code>zPosition</code> 提高之后，就可以显示出来了，真的很神奇。</p><p>一步步下来，填完一个坑，又来一个，感觉是个无底洞，永远填不满。搞了一晚上，一筹莫展。</p><h5>完美填坑</h5><p>最后灵光一闪，如果自定义一个 <code>Window</code>，继承自 <code>UIWindow</code>，然后复写 <code>becomeKeyWindow</code> 方法，在这个方法里让自身不成为 <code>keyWindow</code> 同时将 <code>[UIApplication sharedApplication].delegate.window</code> 设置为 <code>keyWindow</code>，大致代码长这样：</p><pre data-language="objc"><code><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">VolumeWindow</span> : <span class="hljs-title">UIWindow</span></span>
+
+<span class="hljs-keyword">@end</span>
+
+<span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">VolumeWindow</span></span>
+
+- (<span class="hljs-keyword">void</span>)becomeKeyWindow {
+    [<span class="hljs-keyword">self</span> resignKeyWindow];
+    [[<span class="hljs-built_in">UIApplication</span> sharedApplication].delegate.window makeKeyWindow];
 }
 
-</code></pre><p>以上两种方式各自优劣势都已经列出来了，上面说到的三个应用，<code>Instagram</code> 使用的是通知的方式，即刻和哔哩哔哩都是用 <code>KVO</code> 的方式。具体要选那种方式，就看具体需求了，如果在最大或最小时，调节音量可以接受不展示音量视图的话，个人推荐使用 <code>KVO</code> 的形式。</p><h3>遇到的问题</h3><p>上面阐明了原理和实现方式，接下来就是接入到项目中真正使用了，接入项目后发现问题还不少。</p><h4>坑0x0001</h4><p>由于我们使用了 <code>window</code> 来显示自定义音量提示，所以 <code>window</code> 需要提前创建好，有一个需要注意的是 <code>UIWindow</code> 的 <code>hidden</code> 默认是 <code>YES</code>，由于上面说到系统的音量视图必须在可见视图层级内，所以创建的这个 <code>window</code> 必须要可见，然后尽量不影响交互，将其 <code>userInteractionEnabled</code> 置为 <code>NO</code>，且要让其不可见时层级最低，<code>windowLevel</code> 设置为 <code>UIWindowLevelNormal</code>。</p><pre><code class="language-objc">self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-self.window.hidden = NO;
-self.window.windowLevel = UIWindowLevelNormal - 1;
-self.window.rootViewController = [[UIViewController alloc] init];
-self.window.backgroundColor = [UIColor clearColor];
-self.window.userInteractionEnabled = NO;
-</code></pre><h4>坑0x0010</h4><p>这样一切看起来很正常，但是有一个问题就是有一些地方通过 <code>[[UIApplication sharedApplication].windows firstObject]</code> 来进行一些操作，比如展示 <code>toast</code> 或者收起键盘的 <code>UIControl</code>，所以会导致其不可见或者无法响应交互。 所以上面代码改成</p><pre><code class="language-objc">self.window = [[UIWindow alloc] initWithFrame:CGRectZero];
-self.window.clipsToBounds = YES;
-self.window.windowLevel = UIWindowLevelNormal;
-</code></pre><p>嗯，运行起来，那些寻找 <code>firstObject</code> 的地方都正常了，但是...由于存在开屏广告，而且开屏广告用的也是 <code>window</code>，而且他会在自己要显示时，调用 <code>makeKeyAndVisible</code> 方法，消失的时候直接将其置为 <code>nil</code>，导致系统会自己寻找其它的 <code>window</code> 当做 <code>keyWindow</code>，这个时候不知道为什么会找到我们音量提示的 <code>window</code>？难道是因为 <code>[UIApplication sharedApplication].delegate.window</code> 层级是 <code>Normal</code>，音量提示 <code>window</code> 层级也是 <code>Normal</code>，然后会将后加入的 层级为 <code>Normal</code> 的 <code>window</code> 设置为 <code>key window</code>？暂时还不懂，有知道的大神麻烦指点一下。 这样看来，这种修改方式也不太行，会导致其它地方取 <code>keyWindow</code> 的时候，取错掉。</p><h4>坑0x0011</h4><p>嗯，那索性直接用 <code>[UIApplication sharedApplication].delegate.window</code> 这个来显示音量提示，最多也就出现 <code>Alert</code> 或键盘的时候，音量提示会被遮罩挡住，概率也比较小还好。于是改成下面代码</p><pre><code class="language-objc">self.window = [UIApplication sharedApplication].delegate.window;
-</code></pre><p>但是这个时候会发现，iPhoneX 下音量提示会被状态栏挡住，wtf！！！那么好吧，在音量显示的时候隐藏一下状态栏，音量消失的时候回复一下之前记住的状态栏状态，但是如果存在两个页面状态栏显隐不一致的情况，就会出现问题。同时在某些 <code>present</code> 起来的页面，音量提示死活不显示，但是用 <code>Xcode</code> 自带视图层级调试工具看，音量提示视图的 <code>frame</code>、<code>alpha</code>、<code>hidden</code> 属性都是正常的，但就是没有显示出来。后面将提示视图 <code>layer</code> 的 <code>zPosition</code> 提高之后，就可以显示出来了，真的很神奇。</p><p>一步步下来，填完一个坑，又来一个，感觉是个无底洞，永远填不满。搞了一晚上，一筹莫展。</p><h5>完美填坑</h5><p>最后灵光一闪，如果自定义一个 <code>Window</code>，继承自 <code>UIWindow</code>，然后复写 <code>becomeKeyWindow</code> 方法，在这个方法里让自身不成为 <code>keyWindow</code> 同时将 <code>[UIApplication sharedApplication].delegate.window</code> 设置为 <code>keyWindow</code>，大致代码长这样：</p><pre><code class="language-objc">@interface VolumeWindow : UIWindow
-
-@end
-
-@implementation VolumeWindow
-
-- (void)becomeKeyWindow {
-    [self resignKeyWindow];
-    [[UIApplication sharedApplication].delegate.window makeKeyWindow];
-}
-
-@end
+<span class="hljs-keyword">@end</span>
 </code></pre><h4>坑0x0100</h4><p>拍摄页拍摄之前系统音量提示是可以被替换的，但是拍摄一段之后，莫名其妙音量按钮按下后自定义提示不见了，出现了系统的铃声提示。一脸懵逼，后面发现是由于设置了 <code>AVCaptureSession</code> 的 <code>usesApplicationAudioSession</code> 为 <code>NO</code>，会导致在拍摄之后会变成铃声，这个和是否替换系统音量提示无关。这个属性是由于项目中很久之前需要兼容 <code>iOS6</code>，然后一直遗留着这个属性设置没有删除。由于 <code>iOS7</code> 之后，<code>AVCaptureSession</code> 和应用使用的是同一个 <code>AudioSession</code>，支持同时播放和录制且不会受到影响和打断，所以不需要再去设置这个属性。</p><h4>坑0x0101</h4><p>做了以上操作，在 iPhoneX 下，当拉起控制中心，并上下滑调整音量后，再回到应用，会发现自定义音量视图会出现在状态栏下面，猜测虽然在应用内自定义音量视图 <code>window</code> 层级高于状态栏 <code>window</code> 层级，但是由于状态栏是全局的，在重新进入到应用时会出现状态栏层级高于音量视图。所以就索性仅在应用为 <code>active</code> 的情况下才处理 <code>KVO</code>。</p><p>最后一个需要注意的点是在语音电话（或者其它使用系统音量的场景下）时，去自己应用内调节音量是无效，因为这个时候音量其实代表的是系统在占用，系统优先级高于应用，所以在这些场景下，即使在应用内调节音量，也无法触发出自己的音量视图。</p><p>然后上面所有问题都迎刃而解了。</p><p>最后推荐一个开源库：<a href="https://github.com/gizmosachin/VolumeBar">VolumeBar</a></p></div><span>Tagged with: </span><ul class="tag-list"><li><a href="/tags/原创">原创</a></li></ul></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>

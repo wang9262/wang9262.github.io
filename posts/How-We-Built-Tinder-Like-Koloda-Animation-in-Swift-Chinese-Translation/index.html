@@ -1,112 +1,111 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation"/><meta name="twitter:url" content="https://wang9262.github.io/posts/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation"/><meta name="og:url" content="https://wang9262.github.io/posts/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation"/><title>如何创建一个类似 Tinder 的交互动画[译] | Vong</title><meta name="twitter:title" content="如何创建一个类似 Tinder 的交互动画[译] | Vong"/><meta name="og:title" content="如何创建一个类似 Tinder 的交互动画[译] | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。</p><p>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/">How We Built Tinder-Like Koloda Animation in Swift</a></p><p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。 还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p><img src="/oldimages/content_1__1_.gif"/><p>我们把卡片式布局以及基于滑动的交互作为今年的交互设计趋势，我们的<a href="https://yalantis.com/blog/7-up-to-date-mobile-app-design-trends-2015/">这篇文章</a>有相关介绍。之后我们的设计师Dmitry Goncharov创建了一个类似 Tinder 交互的动画，实际上他是故意这么做的。 我们把我们的这种类似 Tinder 基于卡片式的动画命名为<code>Koloda</code>，在乌克兰语中它的意思是甲板（卡片），听起来非常有趣。这个组件能够被不同 app 使用，如果加上约会（pao）地点的话，甚至在 Tinder 中也很实用。Dmitriy提出了这个概念，我们的iOS工程师实现了这个想法。详见<a href="https://github.com/Yalantis/Koloda">GitHub</a>。（译者注：Objective-C 版详见<a href="https://github.com/wang9262/Koloda-ObjC">这里</a>）。</p><h2>我们如何实现 Koloda 动画</h2><p>&gt;- by Eugene Andreyev</p><p>Tinder的滑动喜欢界面被许多不同的 App 借鉴，也有一些现成的库来给开发者使用。首先，我看了<a href="https://github.com/modocache/MDCSwipeToChoose">MDCSwipeToChoose</a>以及<a href="https://github.com/cwRichardKim/TinderSimpleSwipeCards">TinderSimpleSwipeCards</a>，事实证明，它们并不能完美的实现我的需求。 我想要的动画要非常简单而且方便，就像UITableView 那样由数据源来驱动。因此，我创建了一个自定义组件来构建这个动画。主要分为如下三个部分：</p><ul><li>DraggableCardView：用来展示内容的卡片式图</li></ul><ul><li>OverlayView：遮罩视图，根据用户手势方向（左、右）来动态改变</li><li>KolodaView：用来控制加载和卡片之间的交互的视图 <img src="/oldimages/content_2__1_.gif"/></li></ul><h2>DraggableCardView的实现</h2><p>正如我前面提到的那样，<code>DraggableCardView</code>是用来展示内容的卡片视图。网上有很多教程阐述了 Tinder 滑动动画的原理，我选择了其中一种解决方案，做了一些改动，然后利用<code>UIPanGestureRecognizer</code> 和 <code>CGAffineTransform</code>实现了 <code>DraggableCardView</code>。部分代码如下：</p><pre><code class="language-objc">//译者注：原文是用 swift 写的，我索性翻译成了 OC，下同
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation"/><meta name="twitter:url" content="https://wang9262.github.io/posts/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation"/><meta name="og:url" content="https://wang9262.github.io/posts/How-We-Built-Tinder-Like-Koloda-Animation-in-Swift-Chinese-Translation"/><title>如何创建一个类似 Tinder 的交互动画[译] | Vong</title><meta name="twitter:title" content="如何创建一个类似 Tinder 的交互动画[译] | Vong"/><meta name="og:title" content="如何创建一个类似 Tinder 的交互动画[译] | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>有时候我认为 Tinder 不仅仅让人们遇见彼此，更多的是它引领了一种交互设计趋势。所以我们非常肯定地说 Tinder 已经完成了他的历史使命，可以安心等待着下一个 Tinder 出现。</p><p>原文:<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/">How We Built Tinder-Like Koloda Animation in Swift</a></p><p>Tinder 的右滑喜欢，左滑忽略不仅仅在约会（pao）应用中很流行，在购物 App 中也很流行，比如<a href="https://fancy.com/about">Fancy</a>，也是像 Tinder 一样是滑动喜欢的形式。他们之所以才用这种交互形式是因为这种卡片式的交互确实深得用户欢心。卡片上的内容吸引了用户的注意力促使他们去进行一系列操作，进而提高了用户参与度。 还有许多不同种类 App 也是用这种像 Tinder 一样的卡片式滑动交互的例子，比如<a href="https://liveuptop.com/">Uptop</a>，就连谷歌浏览器 iOS 客户端也是用这种卡片形式来管理书签。</p><img src="/oldimages/content_1__1_.gif"/><p>我们把卡片式布局以及基于滑动的交互作为今年的交互设计趋势，我们的<a href="https://yalantis.com/blog/7-up-to-date-mobile-app-design-trends-2015/">这篇文章</a>有相关介绍。之后我们的设计师Dmitry Goncharov创建了一个类似 Tinder 交互的动画，实际上他是故意这么做的。 我们把我们的这种类似 Tinder 基于卡片式的动画命名为<code>Koloda</code>，在乌克兰语中它的意思是甲板（卡片），听起来非常有趣。这个组件能够被不同 app 使用，如果加上约会（pao）地点的话，甚至在 Tinder 中也很实用。Dmitriy提出了这个概念，我们的iOS工程师实现了这个想法。详见<a href="https://github.com/Yalantis/Koloda">GitHub</a>。（译者注：Objective-C 版详见<a href="https://github.com/wang9262/Koloda-ObjC">这里</a>）。</p><h2>我们如何实现 Koloda 动画</h2><p>&gt;- by Eugene Andreyev</p><p>Tinder的滑动喜欢界面被许多不同的 App 借鉴，也有一些现成的库来给开发者使用。首先，我看了<a href="https://github.com/modocache/MDCSwipeToChoose">MDCSwipeToChoose</a>以及<a href="https://github.com/cwRichardKim/TinderSimpleSwipeCards">TinderSimpleSwipeCards</a>，事实证明，它们并不能完美的实现我的需求。 我想要的动画要非常简单而且方便，就像UITableView 那样由数据源来驱动。因此，我创建了一个自定义组件来构建这个动画。主要分为如下三个部分：</p><ul><li>DraggableCardView：用来展示内容的卡片式图</li></ul><ul><li>OverlayView：遮罩视图，根据用户手势方向（左、右）来动态改变</li><li>KolodaView：用来控制加载和卡片之间的交互的视图 <img src="/oldimages/content_2__1_.gif"/></li></ul><h2>DraggableCardView的实现</h2><p>正如我前面提到的那样，<code>DraggableCardView</code>是用来展示内容的卡片视图。网上有很多教程阐述了 Tinder 滑动动画的原理，我选择了其中一种解决方案，做了一些改动，然后利用<code>UIPanGestureRecognizer</code> 和 <code>CGAffineTransform</code>实现了 <code>DraggableCardView</code>。部分代码如下：</p><pre data-language="objc"><code><span class="hljs-comment">//译者注：原文是用 swift 写的，我索性翻译成了 OC，下同</span>
 
-- (void)panGestureRecognized:(UIPanGestureRecognizer *)pan
+- (<span class="hljs-keyword">void</span>)panGestureRecognized:(<span class="hljs-built_in">UIPanGestureRecognizer</span> *)pan
 {
-    self.xDistanceFromCenter = [pan translationInView:self].x;
-    self.yDistanceFromCenter = [pan translationInView:self].y;
-    CGPoint location = [pan locationInView:self];
-    switch (pan.state) {
-        case UIGestureRecognizerStateBegan:
+    <span class="hljs-keyword">self</span>.xDistanceFromCenter = [pan translationInView:<span class="hljs-keyword">self</span>].x;
+    <span class="hljs-keyword">self</span>.yDistanceFromCenter = [pan translationInView:<span class="hljs-keyword">self</span>].y;
+    <span class="hljs-built_in">CGPoint</span> location = [pan locationInView:<span class="hljs-keyword">self</span>];
+    <span class="hljs-keyword">switch</span> (pan.state) {
+        <span class="hljs-keyword">case</span> <span class="hljs-built_in">UIGestureRecognizerStateBegan</span>:
         {
-            self.originalLocation = self.center;
-            self.dragBegin = YES;
+            <span class="hljs-keyword">self</span>.originalLocation = <span class="hljs-keyword">self</span>.center;
+            <span class="hljs-keyword">self</span>.dragBegin = <span class="hljs-literal">YES</span>;
             
-            self.animationDirection = location.y &gt;= self.frame.size.height / 2 ? -1.0 : 1.0;
+            <span class="hljs-keyword">self</span>.animationDirection = location.y &gt;= <span class="hljs-keyword">self</span>.frame.size.height / <span class="hljs-number">2</span> ? <span class="hljs-number">-1.0</span> : <span class="hljs-number">1.0</span>;
             
-            self.layer.shouldRasterize = YES;
+            <span class="hljs-keyword">self</span>.layer.shouldRasterize = <span class="hljs-literal">YES</span>;
 
         }
-            break;
-        case UIGestureRecognizerStateChanged:
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-built_in">UIGestureRecognizerStateChanged</span>:
         {
-            CGFloat rotationStrength = MIN(self.xDistanceFromCenter / self.frame.size.width, kRotationMax);
-            CGFloat rotationAngle = self.animationDirection * kDefaultRotationAngle * rotationStrength;
-            CGFloat scaleStrength = 1 - ((1 - kScaleMin) * fabs(rotationStrength));
-            CGFloat scale = MAX(scaleStrength, kScaleMin);
+            <span class="hljs-built_in">CGFloat</span> rotationStrength = MIN(<span class="hljs-keyword">self</span>.xDistanceFromCenter / <span class="hljs-keyword">self</span>.frame.size.width, kRotationMax);
+            <span class="hljs-built_in">CGFloat</span> rotationAngle = <span class="hljs-keyword">self</span>.animationDirection * kDefaultRotationAngle * rotationStrength;
+            <span class="hljs-built_in">CGFloat</span> scaleStrength = <span class="hljs-number">1</span> - ((<span class="hljs-number">1</span> - kScaleMin) * fabs(rotationStrength));
+            <span class="hljs-built_in">CGFloat</span> scale = MAX(scaleStrength, kScaleMin);
             
-            self.layer.rasterizationScale = scale * [UIScreen mainScreen].scale;
+            <span class="hljs-keyword">self</span>.layer.rasterizationScale = scale * [<span class="hljs-built_in">UIScreen</span> mainScreen].scale;
             
-            CGAffineTransform transform = CGAffineTransformMakeRotation(rotationAngle);
-            CGAffineTransform scaleTransform = CGAffineTransformScale(transform, scale, scale);
+            <span class="hljs-built_in">CGAffineTransform</span> transform = <span class="hljs-built_in">CGAffineTransformMakeRotation</span>(rotationAngle);
+            <span class="hljs-built_in">CGAffineTransform</span> scaleTransform = <span class="hljs-built_in">CGAffineTransformScale</span>(transform, scale, scale);
             
-            self.transform = scaleTransform;
-            self.center = CGPointMake(self.originalLocation.x + self.xDistanceFromCenter,
-                                      self.originalLocation.y + self.yDistanceFromCenter);
-            [self updateOverlayWithFinishPercent:self.xDistanceFromCenter / self.frame.size.width];
-            if ([self.delegate respondsToSelector:@selector(cardView:draggedWithFinishPercent:)]) {
-                [self.delegate cardView:self draggedWithFinishPercent:MIN(fabs(self.xDistanceFromCenter * 100 / self.frame.size.width), 100)];
+            <span class="hljs-keyword">self</span>.transform = scaleTransform;
+            <span class="hljs-keyword">self</span>.center = <span class="hljs-built_in">CGPointMake</span>(<span class="hljs-keyword">self</span>.originalLocation.x + <span class="hljs-keyword">self</span>.xDistanceFromCenter,
+                                      <span class="hljs-keyword">self</span>.originalLocation.y + <span class="hljs-keyword">self</span>.yDistanceFromCenter);
+            [<span class="hljs-keyword">self</span> updateOverlayWithFinishPercent:<span class="hljs-keyword">self</span>.xDistanceFromCenter / <span class="hljs-keyword">self</span>.frame.size.width];
+            <span class="hljs-keyword">if</span> ([<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(cardView:draggedWithFinishPercent:)]) {
+                [<span class="hljs-keyword">self</span>.delegate cardView:<span class="hljs-keyword">self</span> draggedWithFinishPercent:MIN(fabs(<span class="hljs-keyword">self</span>.xDistanceFromCenter * <span class="hljs-number">100</span> / <span class="hljs-keyword">self</span>.frame.size.width), <span class="hljs-number">100</span>)];
             }
         }
-            break;
-        case UIGestureRecognizerStateEnded:
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-built_in">UIGestureRecognizerStateEnded</span>:
         {
-            [self swipeMadeAction];
-            self.layer.shouldRasterize = NO;
+            [<span class="hljs-keyword">self</span> swipeMadeAction];
+            <span class="hljs-keyword">self</span>.layer.shouldRasterize = <span class="hljs-literal">NO</span>;
         }
-            break;
-        default:
-            break;
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">break</span>;
     }
 }
-</code></pre><p>当用户拖拽最前面的卡片视图时,它就离事件触发边缘越来越近，当达到触发边缘时，它就从屏幕中消失了。到触发边缘的距离用百分比来表示。在顶部卡片视图被拖拽的过程中，底部的卡片也会有相应的动作，要么是放大要么是缩小。换而言之，顶层和底层的动画是同步的。 同样遮罩也会在移动的时候实时更新，在实时更新动画过程中，它的透明度从5%（几乎不可见）到100%（清晰可见）。</p><p>为了防止卡片边缘变得锯齿化，我使用了<code>layer</code>的<code>shouldRasterize</code>属性。同时我也要考虑到当卡片没有被拖拽到触发点时如何重置它的状态。我使用了 <code>Facebook</code> 的 <a href="https://github.com/facebook/pop">Pop</a>框架来设置其重置状态以及恢复上一步(undo)的动画。如果你有印象的话，所有<a href="https://www.facebook.com/paper">Paper</a>应用中的动画和过渡转换动画都是使用这个框架来完成的。它支持动态弹性动画，也允许创建任何物理现实中的交互动画，可喜的是它仅仅只需要很少的几行代码就可以实现。</p><h2>OverlayView的实现</h2><p><code>OverlayView</code>是在顶部卡片 View 进行动画时被添加上去的，它只有一个名为<code>overlayState</code>的属性，这个属性有两个可选值：当用户拖动卡片到左边，<code>overlayState</code>就添加一个红色的遮罩到卡片视图上，反之用户拖拽到右边，这个属性被设置为另一个可选值，使得卡片的遮罩变成绿色。（译者注：我在把代码翻译成 OC 时对变量名做了些许改动，<code>overlayState</code>改成了<code>type</code>，具体参见 GitHub，下同）。 为了实现遮罩的自定义行为，我们可以继承<code> OverlayView</code>，然后重载<code>overlayState</code>的<code> didSet</code>方法。大致代码如下：</p><pre><code class="language-objc">//.h
-#import &lt;UIKit/UIKit.h&gt;
-#import "OverlayView.h"
+</code></pre><p>当用户拖拽最前面的卡片视图时,它就离事件触发边缘越来越近，当达到触发边缘时，它就从屏幕中消失了。到触发边缘的距离用百分比来表示。在顶部卡片视图被拖拽的过程中，底部的卡片也会有相应的动作，要么是放大要么是缩小。换而言之，顶层和底层的动画是同步的。 同样遮罩也会在移动的时候实时更新，在实时更新动画过程中，它的透明度从5%（几乎不可见）到100%（清晰可见）。</p><p>为了防止卡片边缘变得锯齿化，我使用了<code>layer</code>的<code>shouldRasterize</code>属性。同时我也要考虑到当卡片没有被拖拽到触发点时如何重置它的状态。我使用了 <code>Facebook</code> 的 <a href="https://github.com/facebook/pop">Pop</a>框架来设置其重置状态以及恢复上一步(undo)的动画。如果你有印象的话，所有<a href="https://www.facebook.com/paper">Paper</a>应用中的动画和过渡转换动画都是使用这个框架来完成的。它支持动态弹性动画，也允许创建任何物理现实中的交互动画，可喜的是它仅仅只需要很少的几行代码就可以实现。</p><h2>OverlayView的实现</h2><p><code>OverlayView</code>是在顶部卡片 View 进行动画时被添加上去的，它只有一个名为<code>overlayState</code>的属性，这个属性有两个可选值：当用户拖动卡片到左边，<code>overlayState</code>就添加一个红色的遮罩到卡片视图上，反之用户拖拽到右边，这个属性被设置为另一个可选值，使得卡片的遮罩变成绿色。（译者注：我在把代码翻译成 OC 时对变量名做了些许改动，<code>overlayState</code>改成了<code>type</code>，具体参见 GitHub，下同）。 为了实现遮罩的自定义行为，我们可以继承<code> OverlayView</code>，然后重载<code>overlayState</code>的<code> didSet</code>方法。大致代码如下：</p><pre data-language="objc"><code><span class="hljs-comment">//.h</span>
+<span class="hljs-meta">#import <span class="hljs-meta-string">&lt;UIKit/UIKit.h&gt;</span></span>
+<span class="hljs-meta">#import <span class="hljs-meta-string">"OverlayView.h"</span></span>
 
-@interface CustomOverlayView : OverlayView
+<span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">CustomOverlayView</span> : <span class="hljs-title">OverlayView</span></span>
 
-@end
-//.m
-#import "CustomOverlayView.h"
+<span class="hljs-keyword">@end</span>
+<span class="hljs-comment">//.m</span>
+<span class="hljs-meta">#import <span class="hljs-meta-string">"CustomOverlayView.h"</span></span>
 
-@interface CustomOverlayView ()
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+<span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">CustomOverlayView</span> ()</span>
+<span class="hljs-keyword">@property</span> (<span class="hljs-keyword">weak</span>, <span class="hljs-keyword">nonatomic</span>) <span class="hljs-keyword">IBOutlet</span> <span class="hljs-built_in">UIImageView</span> *imageView;
 
-@end
+<span class="hljs-keyword">@end</span>
 
-@implementation CustomOverlayView
+<span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">CustomOverlayView</span></span>
 
-- (void)setType:(OverlayType)type
+- (<span class="hljs-keyword">void</span>)setType:(OverlayType)type
 {
-    switch (type) {
-        case OverlayTypeLeft:
+    <span class="hljs-keyword">switch</span> (type) {
+        <span class="hljs-keyword">case</span> OverlayTypeLeft:
 
-            self.imageView.image = [UIImage imageNamed:@"noOverlayImage"];
-            break;
-        case OverlayTypeRight:
-            self.imageView.image = [UIImage imageNamed:@"yesOverlayImage"];
-            break;
-        case OverlayTypeNone:
-        default:
-            self.imageView.image = nil;
-            break;
+            <span class="hljs-keyword">self</span>.imageView.image = [<span class="hljs-built_in">UIImage</span> imageNamed:<span class="hljs-string">@"noOverlayImage"</span>];
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> OverlayTypeRight:
+            <span class="hljs-keyword">self</span>.imageView.image = [<span class="hljs-built_in">UIImage</span> imageNamed:<span class="hljs-string">@"yesOverlayImage"</span>];
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> OverlayTypeNone:
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">self</span>.imageView.image = <span class="hljs-literal">nil</span>;
+            <span class="hljs-keyword">break</span>;
     }
 }
 
-@end
-</code></pre><h2>KolodaView的实现</h2><p><code>KolodaView</code>类负责卡片的加载以及管理工作。你可以通过代码或者<code>Interface Builder</code>来实现。然后你就可以为其指定<code> dataSource</code>以及<code> delegate</code>(可选)。最后你应该实现<code> dataSource</code>中的如下方法：</p><pre><code class="language-objc">
-@protocol SwipeViewDataSource &lt;NSObject&gt;
+<span class="hljs-keyword">@end</span>
+</code></pre><h2>KolodaView的实现</h2><p><code>KolodaView</code>类负责卡片的加载以及管理工作。你可以通过代码或者<code>Interface Builder</code>来实现。然后你就可以为其指定<code> dataSource</code>以及<code> delegate</code>(可选)。最后你应该实现<code> dataSource</code>中的如下方法：</p><pre data-language="objc"><code><span class="hljs-class"><span class="hljs-keyword">@protocol</span> <span class="hljs-title">SwipeViewDataSource</span> &lt;<span class="hljs-title">NSObject</span>&gt;</span>
 
-@required
-- (NSUInteger)swipeViewNumberOfCards:(SwipeView *)swipeView;
-- (UIView *)swipeView:(SwipeView *)swipeView
-          cardAtIndex:(NSUInteger)index;
+<span class="hljs-keyword">@required</span>
+- (<span class="hljs-built_in">NSUInteger</span>)swipeViewNumberOfCards:(SwipeView *)swipeView;
+- (<span class="hljs-built_in">UIView</span> *)swipeView:(SwipeView *)swipeView
+          cardAtIndex:(<span class="hljs-built_in">NSUInteger</span>)index;
 - (OverlayView *)swipeView:(SwipeView *)swipeView
-        cardOverlayAtIndex:(NSUInteger)index;
+        cardOverlayAtIndex:(<span class="hljs-built_in">NSUInteger</span>)index;
 
-@end
-</code></pre><p>我们使用了代理方法而不是回调(block)的方式来获取相关数据。</p><h2>几何解释</h2><p>还记得我们关于开发安卓<code>Guillotine</code>菜单动画的<a href="https://yalantis.com/blog/how-we-developed-the-guillotine-menu-animation-for-android/">故事</a>吗？在那个故事中我们的安卓工程师Dmytro Denysenko采用高中数学知识来计算一个自定义的差值。几何知识在我的 iOS 开发生涯中也发挥了很大的作用！</p><p>动画过程中最有趣的一件事就是当用户在拖拽顶部卡片时，下面的卡片也会跟着移动。我想让<code>Koloda</code>动画更加灵活，所以我简单地指定了想要在屏幕上展示的卡片数，然后我就拿出纸就开始计算。</p><img src="/oldimages/2019-11-21-15743471268387.jpg"/><p><code>KolodaView</code>需要展示位于顶层卡片之下的卡片正确的数量，然后让它们在动画开始的时候占据正确的位置。为了实现它，我需要计算所有卡片的<code>frame</code>，这个是通过给其中每个元素添加对应的序号来实现的。举个例子，第一个卡片视图的序号是[i]，那么第二个就是[i+1],第三个就是[i+2],以此类推。 如下图所示，你可以清晰的看到第一张卡片的<code>frame</code>和<code>size</code>的计算过程。</p><img src="/oldimages/2019-11-21-15743471496282.jpg"/><p>代码如下：</p><pre><code class="language-objc">- (CGRect)frameForCardAtIndex:(NSUInteger)index
+<span class="hljs-keyword">@end</span>
+</code></pre><p>我们使用了代理方法而不是回调(block)的方式来获取相关数据。</p><h2>几何解释</h2><p>还记得我们关于开发安卓<code>Guillotine</code>菜单动画的<a href="https://yalantis.com/blog/how-we-developed-the-guillotine-menu-animation-for-android/">故事</a>吗？在那个故事中我们的安卓工程师Dmytro Denysenko采用高中数学知识来计算一个自定义的差值。几何知识在我的 iOS 开发生涯中也发挥了很大的作用！</p><p>动画过程中最有趣的一件事就是当用户在拖拽顶部卡片时，下面的卡片也会跟着移动。我想让<code>Koloda</code>动画更加灵活，所以我简单地指定了想要在屏幕上展示的卡片数，然后我就拿出纸就开始计算。</p><img src="/oldimages/2019-11-21-15743471268387.jpg"/><p><code>KolodaView</code>需要展示位于顶层卡片之下的卡片正确的数量，然后让它们在动画开始的时候占据正确的位置。为了实现它，我需要计算所有卡片的<code>frame</code>，这个是通过给其中每个元素添加对应的序号来实现的。举个例子，第一个卡片视图的序号是[i]，那么第二个就是[i+1],第三个就是[i+2],以此类推。 如下图所示，你可以清晰的看到第一张卡片的<code>frame</code>和<code>size</code>的计算过程。</p><img src="/oldimages/2019-11-21-15743471496282.jpg"/><p>代码如下：</p><pre data-language="objc"><code>- (<span class="hljs-built_in">CGRect</span>)frameForCardAtIndex:(<span class="hljs-built_in">NSUInteger</span>)index
 {
-    CGFloat bottomOffset = 0;
-    CGFloat topOffset = kBackgroundCardsTopMargin * (self.visibleCardsCount - 1);
-    CGFloat xOffset = kBackgroundCardsLeftMargin * index;
-    CGFloat scalePercent = kBackgroundCardsScalePercent;
-    CGFloat width = CGRectGetWidth(self.frame) * pow(scalePercent, index);
-    CGFloat height = (CGRectGetHeight(self.frame) - bottomOffset - topOffset) * pow(scalePercent, index);
-    CGFloat multiplier = index &gt; 0 ? 1.0 : 0.0;
-    CGRect previousCardFrame = index &gt; 0 ? [self frameForCardAtIndex:MAX(index - 1, 0)] : CGRectZero;
-    CGFloat yOffset = (CGRectGetHeight(previousCardFrame) - height + previousCardFrame.origin.y
+    <span class="hljs-built_in">CGFloat</span> bottomOffset = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">CGFloat</span> topOffset = kBackgroundCardsTopMargin * (<span class="hljs-keyword">self</span>.visibleCardsCount - <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">CGFloat</span> xOffset = kBackgroundCardsLeftMargin * index;
+    <span class="hljs-built_in">CGFloat</span> scalePercent = kBackgroundCardsScalePercent;
+    <span class="hljs-built_in">CGFloat</span> width = <span class="hljs-built_in">CGRectGetWidth</span>(<span class="hljs-keyword">self</span>.frame) * pow(scalePercent, index);
+    <span class="hljs-built_in">CGFloat</span> height = (<span class="hljs-built_in">CGRectGetHeight</span>(<span class="hljs-keyword">self</span>.frame) - bottomOffset - topOffset) * pow(scalePercent, index);
+    <span class="hljs-built_in">CGFloat</span> multiplier = index &gt; <span class="hljs-number">0</span> ? <span class="hljs-number">1.0</span> : <span class="hljs-number">0.0</span>;
+    <span class="hljs-built_in">CGRect</span> previousCardFrame = index &gt; <span class="hljs-number">0</span> ? [<span class="hljs-keyword">self</span> frameForCardAtIndex:MAX(index - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)] : <span class="hljs-built_in">CGRectZero</span>;
+    <span class="hljs-built_in">CGFloat</span> yOffset = (<span class="hljs-built_in">CGRectGetHeight</span>(previousCardFrame) - height + previousCardFrame.origin.y
                        + kBackgroundCardsTopMargin) * multiplier;
-    CGRect frame = CGRectMake(xOffset, yOffset, width, height);
-    return frame;
+    <span class="hljs-built_in">CGRect</span> frame = <span class="hljs-built_in">CGRectMake</span>(xOffset, yOffset, width, height);
+    <span class="hljs-keyword">return</span> frame;
 }
 </code></pre><p>现在我们知道了序号、卡片<code>frame</code>以及动画结束的百分比，我们就可以很轻松的计算出当上一个卡片被滑出屏幕时下一个卡片应该出现的位置。之后，我们也可以实现一个百分比驱动动画（PercentDrivenAnimation）。 最后我给这个简单易用的组件取了个有趣的名字--Koloda。任何开发者都可以自定义它，通过设置其内容视图以及遮罩视图。过些时候，我想实现自定义动画以及<code>frame</code>的计算方式，这样开发者们就可以使用他们自己别具一格的组件。 KolodaView 的代码详见<a href="https://github.com/Yalantis/Koloda">GitHub</a>。</p><p>&gt;- 译者注：ObjC 版本可以参见<a href="https://github.com/wang9262/Koloda-ObjC">Koloda-ObjC</a></p></div><span>Tagged with: </span><ul class="tag-list"><li><a href="/tags/翻译">翻译</a></li></ul></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>

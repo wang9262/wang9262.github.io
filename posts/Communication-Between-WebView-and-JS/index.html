@@ -1,228 +1,226 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/Communication-Between-WebView-and-JS"/><meta name="twitter:url" content="https://wang9262.github.io/posts/Communication-Between-WebView-and-JS"/><meta name="og:url" content="https://wang9262.github.io/posts/Communication-Between-WebView-and-JS"/><title>WebView 与 JS 的交互 | Vong</title><meta name="twitter:title" content="WebView 与 JS 的交互 | Vong"/><meta name="og:title" content="WebView 与 JS 的交互 | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p><!-- more --><h3>UIWebView 调 JS 方法</h3><p>通过调用如下方法：</p><pre><code class="language-ObjectiveC">- (NSString *)stringByEvaluatingJavaScriptFromString:(NSString *)script;
-</code></pre><p>比如获取网页 title，也可以动态注入 JS，先写一个 JS 函数</p><pre><code class="language-JavaScript">function showAlert() {  
-    alert('show alert');  
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://wang9262.github.io/posts/Communication-Between-WebView-and-JS"/><meta name="twitter:url" content="https://wang9262.github.io/posts/Communication-Between-WebView-and-JS"/><meta name="og:url" content="https://wang9262.github.io/posts/Communication-Between-WebView-and-JS"/><title>WebView 与 JS 的交互 | Vong</title><meta name="twitter:title" content="WebView 与 JS 的交互 | Vong"/><meta name="og:title" content="WebView 与 JS 的交互 | Vong"/><meta name="description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="og:description" content="Vong,iOS,Performance,性能,Swift,SwiftUI,Objective-C"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://wang9262.github.io/media"/><meta name="og:image" content="https://wang9262.github.io/media"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">Vong</a><nav><ul><li><a href="/index">Index</a></li><li><a href="/posts" class="selected">My posts</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p><!-- more --><h3>UIWebView 调 JS 方法</h3><p>通过调用如下方法：</p><pre data-language="ObjectiveC"><code>- (<span class="hljs-built_in">NSString</span> *)stringByEvaluatingJavaScriptFromString:(<span class="hljs-built_in">NSString</span> *)script;
+</code></pre><p>比如获取网页 title，也可以动态注入 JS，先写一个 JS 函数</p><pre data-language="JavaScript"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showAlert</span>(<span class="hljs-params"></span>) </span>{  
+    alert(<span class="hljs-string">'show alert'</span>);  
 } 
-</code></pre><p>然后保存为js 文件，最后读取这个文件并注入</p><pre><code class="language-ObjectiveC">NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"js"];  
-NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath];  
+</code></pre><p>然后保存为js 文件，最后读取这个文件并注入</p><pre data-language="ObjectiveC"><code><span class="hljs-built_in">NSString</span> *filePath = [[<span class="hljs-built_in">NSBundle</span> mainBundle] pathForResource:<span class="hljs-string">@"test"</span> ofType:<span class="hljs-string">@"js"</span>];  
+<span class="hljs-built_in">NSString</span> *jsString = [[<span class="hljs-built_in">NSString</span> alloc] initWithContentsOfFile:filePath];  
 [webView stringByEvaluatingJavaScriptFromString:jsString];
-</code></pre><h3>JS 调原生方法</h3><p>直接调用无法做到，可以间接实现。</p><h4>方法1</h4><p>JS 中要从现在的网页跳到另外一个网页的时候，就会去修改 <code>window.location.href</code> ，而在 <code>@protocol UIWebViewDelegate</code> 中有一个回调方法</p><pre><code class="language-ObjectiveC">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
-</code></pre><p>可以监听到网页的跳转，所以可以在此做文章。 通过指定<code>window.location.href = schemename://nativemethodname:args</code>就可以去间接调用到原生函数。JS 一旦修改了<code>window.location.href</code>，<code>UIWebView</code>就会收到相应回调，也就是上面说的方法，这样我们可以通过判断<code> request</code>的<code>url</code>是否为自定义的 <code>scheme</code>来决定是否调用原生函数。</p><h4>方法2</h4><p>创建iframe，设置src，并插入到body节点</p><pre><code class="language-JavaScript">function execute(url) 
-{
-  var iframe = document.createElement("IFRAME");
-  iframe.setAttribute("src", url);
-  document.documentElement.appendChild(iframe);
+</code></pre><h3>JS 调原生方法</h3><p>直接调用无法做到，可以间接实现。</p><h4>方法1</h4><p>JS 中要从现在的网页跳到另外一个网页的时候，就会去修改 <code>window.location.href</code> ，而在 <code>@protocol UIWebViewDelegate</code> 中有一个回调方法</p><pre data-language="ObjectiveC"><code>- (<span class="hljs-built_in">BOOL</span>)webView:(<span class="hljs-built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="hljs-built_in">NSURLRequest</span> *)request navigationType:(<span class="hljs-built_in">UIWebViewNavigationType</span>)navigationType;
+</code></pre><p>可以监听到网页的跳转，所以可以在此做文章。 通过指定<code>window.location.href = schemename://nativemethodname:args</code>就可以去间接调用到原生函数。JS 一旦修改了<code>window.location.href</code>，<code>UIWebView</code>就会收到相应回调，也就是上面说的方法，这样我们可以通过判断<code> request</code>的<code>url</code>是否为自定义的 <code>scheme</code>来决定是否调用原生函数。</p><h4>方法2</h4><p>创建iframe，设置src，并插入到body节点</p><pre data-language="JavaScript"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">execute</span>(<span class="hljs-params">url</span>) 
+</span>{
+  <span class="hljs-keyword">var</span> iframe = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"IFRAME"</span>);
+  iframe.setAttribute(<span class="hljs-string">"src"</span>, url);
+  <span class="hljs-built_in">document</span>.documentElement.appendChild(iframe);
   iframe.parentNode.removeChild(iframe);
-  iframe = null;
+  iframe = <span class="hljs-literal">null</span>;
 }
-execute("schemename://nativemethodname:args");
-</code></pre><p>上述的这一串<code>schemename://nativemethodname:args</code>由客户端和前端约定好即可。剩余的事就是截获这个<code>request</code>，然后解析得到相应的参数，传入要调用的原生函数即可。同时在回调方法中要<code>return NO</code>。 大致代码如下：</p><pre><code class="language-ObjectiveC">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+execute(<span class="hljs-string">"schemename://nativemethodname:args"</span>);
+</code></pre><p>上述的这一串<code>schemename://nativemethodname:args</code>由客户端和前端约定好即可。剩余的事就是截获这个<code>request</code>，然后解析得到相应的参数，传入要调用的原生函数即可。同时在回调方法中要<code>return NO</code>。 大致代码如下：</p><pre data-language="ObjectiveC"><code>- (<span class="hljs-built_in">BOOL</span>)webView:(<span class="hljs-built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="hljs-built_in">NSURLRequest</span> *)request navigationType:(<span class="hljs-built_in">UIWebViewNavigationType</span>)navigationType
 {
-    NSURL *requestUrl = request.URL;
-    if ([requestUrl.scheme isEqualToString:@"schemename"]) {
-            NSArray *components = [requestUrl.absoluteString componentsSeparatedByString:@":"];
-            NSString *resultJSONString = [components[2] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            [self customMethod:resultJsonString];
-            return NO;
+    <span class="hljs-built_in">NSURL</span> *requestUrl = request.URL;
+    <span class="hljs-keyword">if</span> ([requestUrl.scheme isEqualToString:<span class="hljs-string">@"schemename"</span>]) {
+            <span class="hljs-built_in">NSArray</span> *components = [requestUrl.absoluteString componentsSeparatedByString:<span class="hljs-string">@":"</span>];
+            <span class="hljs-built_in">NSString</span> *resultJSONString = [components[<span class="hljs-number">2</span>] stringByReplacingPercentEscapesUsingEncoding:<span class="hljs-built_in">NSUTF8StringEncoding</span>];
+            [<span class="hljs-keyword">self</span> customMethod:resultJsonString];
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">NO</span>;
         }
-   return YES;
+   <span class="hljs-keyword">return</span> <span class="hljs-literal">YES</span>;
 }
-
-</code></pre><h3>WebViewJavaScriptBridge</h3><img src="/oldimages/2019-11-21-15743466661142.jpg"/><h4>实现原理</h4><p>大致原理与上面说的一致。只不过<code>WebViewJavaScriptBridge</code>进行了更完善的封装，使得 <code>JS</code>与<code>Native</code>之间的通信变得更为简便。</p><p>一开始注入<code>WebViewJavaScriptBridge.js</code>,该文件中的<code> JS</code>方法主要做了以下几件事</p><ul><li>创建了一个用于发送消息的iFrame(通过创建一个隐藏的<code>ifrmae</code>，并设置它的URL 来发出一个请求，从而触发UIWebView的<code>shouldStartLoadWithRequest</code>回调协议)</li><li>创建了一个核心对象<code>WebViewJavaScriptBridge</code>，并给它定义了几个方法，这些方法大部分是公开的API方法</li><li>创建了一个事件：<code>WebViewJavaScriptBridgeReady</code>，并<code>dispatch</code>。##</li></ul><p><code>native</code>将方法名、参数、回调的id放到一个对象中传给<code>js</code>。<code>js</code>根据方法名字调用相应方法，之后将返回数据和<code>responseId</code>拼装，最后通过<code>src</code> 重定向到<code>UIWebview</code> 的<code>delegate</code>。<code>native</code>得到数据后根据<code>responseId</code>调用事先装入<code>_responseCallbacks</code>的<code>block</code>，动态读取调用，从而完成交互。</p><h4>流程（Native端）</h4><h5>Public Interface</h5><pre><code class="language-ObjectiveC">+ (instancetype)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView handler:(WVJBHandler)handler;
-+ (instancetype)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)handler;
-+ (instancetype)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)handler resourceBundle:(NSBundle*)bundle;
-+ (void)enableLogging;
-- (void)send:(id)message;
-- (void)send:(id)message responseCallback:(WVJBResponseCallback)responseCallback;
-- (void)registerHandler:(NSString*)handlerName handler:(WVJBHandler)handler;
-- (void)callHandler:(NSString*)handlerName;
-- (void)callHandler:(NSString*)handlerName data:(id)data;
-- (void)callHandler:(NSString*)handlerName data:(id)data responseCallback:(WVJBResponseCallback)responseCallback;
-</code></pre><h5>初始化一个 bridge</h5><p>初始化的工作主要如下：</p><ul><li>设置默认的消息处理 block ———— messageHandler</li><li>初始化用来保存消息处理 block 的字典 ———— messageHandlers</li><li>初始化消息队列数组 ———— startupMessageQueue</li><li>初始化响应回调 ———— responseCallbacks</li><li>以及初始化全局唯一标识 ———— uniqueId</li></ul><p>当在外部调用</p><pre><code class="language-ObjectiveC">- (void)registerHandler:(NSString *)handlerName handler:(WVJBHandler)handler;
-</code></pre><p>方法时，会将 handler 保存到上面初始化好的 messageHandlers 当中，key为上述方法中的 handlerName，value 为上述方法的 handler。</p><pre><code class="language-ObjectiveC">- (void)sendData:(id)data responseCallback:(WVJBResponseCallback)responseCallback handlerName:(NSString*)handlerName; 
-</code></pre><p>发送消息时，会将消息加入到消息队列数组，加到数组当中的object 为字典型，字典有三个 key，分别为 data，callbackId， handlerName，分别对应上述方法的三个参数。入队时，如果当前消息队列存在，则将该消息入队，否则立即分发该消息。</p><h5>网页加载过程</h5><pre><code class="language-ObjectiveC">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
-</code></pre><p>加载请求或 html 时，在 shouldStartLoadWithRequest 回调中会先判断请求是否带自定义协议。如果带有自定义协议，会调用注入的 js 中 WebViewJavaScriptBridge 的_fetchQueue 方法来获取当前消息，然后分发该消息。主要是在分发消息这一块，拿到消息 json 然后序列化，如果这个消息是队列(数组)才进行处理，消息队列中也是一系列字典型对象，这些对象可能有这么几个key：responseId，responseData，callbackId，handlerName，data。 然后对消息队列做一个遍历大致逻辑如下：</p><ul><li>如果 responseId 对应的 value 存在，那么就到 responseCallbacks 字典中去寻找对应的 WVJBResponseCallback 型回调 block，然后执行，block 参数为 responseData 对应的 value。然后把这个 block 从 responseCallbacks 字典中移除。</li><li>如果 responseId 对应的 value 不存在，再看 callbackId 对应的 value 是否存在，存在则设置回调 responseCallback，这个 responseCallback 主要是创建一个消息，然后是消息入队，这个消息字典为 <code>@{ @"responseId":callbackId, @"responseData":responseData }</code>；反之 responseCallback 中什么也不执行；最后判断 handlerName 对应的 value 是否存在，存在则取 messageHandlers 中对应的回调 handler，不存在就是用默认的 handler，最后执行这个 WVJBHandler 型的 handler，参数为 data 对应的 value 以及 responseCallback。</li></ul><p>文字有点多，参考下下面这个流程图：</p><img src="/oldimages/2019-11-21-15743466818699.jpg"/><pre><code class="language-ObjectiveC">- (void)webViewDidFinishLoad:(UIWebView *)webView;
-</code></pre><p>加载结束的回调中判断 js 是否初始化了 WebViewJavaScriptBridge实例，如果不存在，就注入本地的 js。然后检测到 bridge 调用自定义 scheme 后会分发整个消息队列即 startupMessageQueue，遍历消息队列然后取出每一个消息对象(NSDictionary) 然后将其序列化成 JSON，在主线程中调用 JS 的 WebViewJavaScriptBridge._handleMessageFromObjC 方法，参数就是序列化后的 JSON 数据。分发完成后，将 startupMessageQueue 队列置为 nil。</p><p>至此 OC 端的整个流程完毕。</p><h4>JS 端流程</h4><p>JS 端流程和 OC 端流程大致是一样的</p><h5>Public Interface</h5><pre><code class="language-JavaScript">function init(messageHandler)
-function send(data, responseCallback)
-function registerHandler(handlerName, handler)
-function callHandler(handlerName, data, responseCallback)
-function _fetchQueue()
-function _handleMessageFromObjC(messageJSON)
-</code></pre><h5>初始化</h5><p>类似 OC 中的初始化</p><ul><li>注入一个默认的 messageHandler</li><li>初始化一个消息接收队列，然后调用内部方法 _dispatchMessageFromObjC 来分发消息,同时将消息接收队列置空</li></ul><h5>发送消息</h5><p>调用内部 <code>function _doSend(message, responseCallback)</code> 函数，该函数通过判断 responseCallback 回调是否存在，存在则将这个回调存入到 responseCallbacks 字典中，其 key 是全局唯一的，同时将这个 key 存入到 message 这个字典参数中，其 key 和 value 一致，及 message['key'] = key。接着把这个 message 参数入队即加到 sendMessageQueue 数组中。然后重定向 frame 的 src，这样 OC 端就可以在代理回调方法中去拦截这个 src 对应的 request。</p><h5>消息处理机制</h5><p>如果消息接受队列存在则将消息 JSON 入队即添加到 receiveMessageQueue 数组中。反之，调用内部消息分发方法</p><pre><code class="language-JavaScript">function _dispatchMessageFromObjC(messageJSON)
-</code></pre><p>分发机制类似 OC 端的那张流程图，在此不做详述。</p><h5>注册及调用 handler</h5><ul><li>注册：在 messageHandlers 这个字典添加对应的 key 和 value。key 为 name，value 为 handler</li><li>调用：类似发送消息，message 参数为 { handlerName:handlerName, data:data }</li></ul><h5>获取消息队列(供 OC 端调用)</h5><p>这里会将消息发送数组进行 JSON 转化，转换后清空消息队列，然后返回给 OC 端。</p><h5>内部注入的 JS</h5><p>上面说的所有都在内部注入的 JS(WebViewJavaScriptBridge.js.txt) 中完成,该 JS 做的事情在上述的实现原理中也有提到，这里不再展开。</p><h5>外部 html 或 js 需要处理的事</h5><p>可参考下例的写法：</p><pre><code class="language-JavaScript">document.addEventListener('WebViewJavascriptBridgeReady', function(event) {
-    var bridge = event.bridge
-    // Start using the bridge
-}, false)
-</code></pre><p>可将上述代码封装到一个 JS 函数中，然后在函数中进行其它一系列操作，如init，send 等具体参见 <a href="https://github.com/marcuswestin/WebViewJavascriptBridge">Demo</a>。</p><h3>JavaScriptCore(iOS7 &amp; OS X 10.9 later)</h3><h4>主要的类:</h4><ul><li>JSVirtualMachine：非常轻量，可初始化多个 VM 来支持 JS 中的多线程</li><li>JSContext：给 JS 提供运行上下文环境以及一系列值操作(通过下标来获取，类似 NSdictionary，即context[@"objectKey"])，一个 VM 中可有多个 context</li><li>JSValue：数据桥梁</li><li>JSManagedValue：用于解决 retain cycle</li></ul><h4>OC 调用 JS</h4><p>JSContext 可调用 <code>evaluateScript:</code> 方法来执行某个脚本如下：</p><pre><code class="language-ObjectiveC">[context evaluateScript:@”var square = function(x) {return x*x;}”]; 
-JSValue *squareFunction = context[@”square”]; NSLog(@”%@”, squareFunction);  // function (x) {return x*x;}
-JSValue *aSquared = [squareFunction callWithArguments:@[context[@”a”]]]; NSLog(@”a^2: %@”, aSquared); //a^2: 25
-JSValue *nineSquared = [squareFunction callWithArguments:@[@9]]; 
-NSLog(@”9^2: %@”, nineSquared); //81
-
-</code></pre><h4>JS 调用 OC</h4><p>两种方式：</p><ul><li>Block</li><li>JSExport 协议</li></ul><h5>Block</h5><pre><code class="language-ObjectiveC">context[@"factorial"] = ^(int x) {
-        int factorial = 1;
-        for (; x &gt; 1; x--) {
+</code></pre><h3>WebViewJavaScriptBridge</h3><img src="/oldimages/2019-11-21-15743466661142.jpg"/><h4>实现原理</h4><p>大致原理与上面说的一致。只不过<code>WebViewJavaScriptBridge</code>进行了更完善的封装，使得 <code>JS</code>与<code>Native</code>之间的通信变得更为简便。</p><p>一开始注入<code>WebViewJavaScriptBridge.js</code>,该文件中的<code> JS</code>方法主要做了以下几件事</p><ul><li>创建了一个用于发送消息的iFrame(通过创建一个隐藏的<code>ifrmae</code>，并设置它的URL 来发出一个请求，从而触发UIWebView的<code>shouldStartLoadWithRequest</code>回调协议)</li><li>创建了一个核心对象<code>WebViewJavaScriptBridge</code>，并给它定义了几个方法，这些方法大部分是公开的API方法</li><li>创建了一个事件：<code>WebViewJavaScriptBridgeReady</code>，并<code>dispatch</code>。##</li></ul><p><code>native</code>将方法名、参数、回调的id放到一个对象中传给<code>js</code>。<code>js</code>根据方法名字调用相应方法，之后将返回数据和<code>responseId</code>拼装，最后通过<code>src</code> 重定向到<code>UIWebview</code> 的<code>delegate</code>。<code>native</code>得到数据后根据<code>responseId</code>调用事先装入<code>_responseCallbacks</code>的<code>block</code>，动态读取调用，从而完成交互。</p><h4>流程（Native端）</h4><h5>Public Interface</h5><pre data-language="ObjectiveC"><code>+ (<span class="hljs-keyword">instancetype</span>)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView handler:(WVJBHandler)handler;
++ (<span class="hljs-keyword">instancetype</span>)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)handler;
++ (<span class="hljs-keyword">instancetype</span>)bridgeForWebView:(WVJB_WEBVIEW_TYPE*)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE*)webViewDelegate handler:(WVJBHandler)handler resourceBundle:(<span class="hljs-built_in">NSBundle</span>*)bundle;
++ (<span class="hljs-keyword">void</span>)enableLogging;
+- (<span class="hljs-keyword">void</span>)send:(<span class="hljs-keyword">id</span>)message;
+- (<span class="hljs-keyword">void</span>)send:(<span class="hljs-keyword">id</span>)message responseCallback:(WVJBResponseCallback)responseCallback;
+- (<span class="hljs-keyword">void</span>)registerHandler:(<span class="hljs-built_in">NSString</span>*)handlerName handler:(WVJBHandler)handler;
+- (<span class="hljs-keyword">void</span>)callHandler:(<span class="hljs-built_in">NSString</span>*)handlerName;
+- (<span class="hljs-keyword">void</span>)callHandler:(<span class="hljs-built_in">NSString</span>*)handlerName data:(<span class="hljs-keyword">id</span>)data;
+- (<span class="hljs-keyword">void</span>)callHandler:(<span class="hljs-built_in">NSString</span>*)handlerName data:(<span class="hljs-keyword">id</span>)data responseCallback:(WVJBResponseCallback)responseCallback;
+</code></pre><h5>初始化一个 bridge</h5><p>初始化的工作主要如下：</p><ul><li>设置默认的消息处理 block ———— messageHandler</li><li>初始化用来保存消息处理 block 的字典 ———— messageHandlers</li><li>初始化消息队列数组 ———— startupMessageQueue</li><li>初始化响应回调 ———— responseCallbacks</li><li>以及初始化全局唯一标识 ———— uniqueId</li></ul><p>当在外部调用</p><pre data-language="ObjectiveC"><code>- (<span class="hljs-keyword">void</span>)registerHandler:(<span class="hljs-built_in">NSString</span> *)handlerName handler:(WVJBHandler)handler;
+</code></pre><p>方法时，会将 handler 保存到上面初始化好的 messageHandlers 当中，key为上述方法中的 handlerName，value 为上述方法的 handler。</p><pre data-language="ObjectiveC"><code>- (<span class="hljs-keyword">void</span>)sendData:(<span class="hljs-keyword">id</span>)data responseCallback:(WVJBResponseCallback)responseCallback handlerName:(<span class="hljs-built_in">NSString</span>*)handlerName; 
+</code></pre><p>发送消息时，会将消息加入到消息队列数组，加到数组当中的object 为字典型，字典有三个 key，分别为 data，callbackId， handlerName，分别对应上述方法的三个参数。入队时，如果当前消息队列存在，则将该消息入队，否则立即分发该消息。</p><h5>网页加载过程</h5><pre data-language="ObjectiveC"><code>- (<span class="hljs-built_in">BOOL</span>)webView:(<span class="hljs-built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="hljs-built_in">NSURLRequest</span> *)request navigationType:(<span class="hljs-built_in">UIWebViewNavigationType</span>)navigationType;
+</code></pre><p>加载请求或 html 时，在 shouldStartLoadWithRequest 回调中会先判断请求是否带自定义协议。如果带有自定义协议，会调用注入的 js 中 WebViewJavaScriptBridge 的_fetchQueue 方法来获取当前消息，然后分发该消息。主要是在分发消息这一块，拿到消息 json 然后序列化，如果这个消息是队列(数组)才进行处理，消息队列中也是一系列字典型对象，这些对象可能有这么几个key：responseId，responseData，callbackId，handlerName，data。 然后对消息队列做一个遍历大致逻辑如下：</p><ul><li>如果 responseId 对应的 value 存在，那么就到 responseCallbacks 字典中去寻找对应的 WVJBResponseCallback 型回调 block，然后执行，block 参数为 responseData 对应的 value。然后把这个 block 从 responseCallbacks 字典中移除。</li><li>如果 responseId 对应的 value 不存在，再看 callbackId 对应的 value 是否存在，存在则设置回调 responseCallback，这个 responseCallback 主要是创建一个消息，然后是消息入队，这个消息字典为 <code>@{ @"responseId":callbackId, @"responseData":responseData }</code>；反之 responseCallback 中什么也不执行；最后判断 handlerName 对应的 value 是否存在，存在则取 messageHandlers 中对应的回调 handler，不存在就是用默认的 handler，最后执行这个 WVJBHandler 型的 handler，参数为 data 对应的 value 以及 responseCallback。</li></ul><p>文字有点多，参考下下面这个流程图：</p><img src="/oldimages/2019-11-21-15743466818699.jpg"/><pre data-language="ObjectiveC"><code>- (<span class="hljs-keyword">void</span>)webViewDidFinishLoad:(<span class="hljs-built_in">UIWebView</span> *)webView;
+</code></pre><p>加载结束的回调中判断 js 是否初始化了 WebViewJavaScriptBridge实例，如果不存在，就注入本地的 js。然后检测到 bridge 调用自定义 scheme 后会分发整个消息队列即 startupMessageQueue，遍历消息队列然后取出每一个消息对象(NSDictionary) 然后将其序列化成 JSON，在主线程中调用 JS 的 WebViewJavaScriptBridge._handleMessageFromObjC 方法，参数就是序列化后的 JSON 数据。分发完成后，将 startupMessageQueue 队列置为 nil。</p><p>至此 OC 端的整个流程完毕。</p><h4>JS 端流程</h4><p>JS 端流程和 OC 端流程大致是一样的</p><h5>Public Interface</h5><pre data-language="JavaScript"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params">messageHandler</span>)
+<span class="hljs-title">function</span> <span class="hljs-title">send</span>(<span class="hljs-params">data, responseCallback</span>)
+<span class="hljs-title">function</span> <span class="hljs-title">registerHandler</span>(<span class="hljs-params">handlerName, handler</span>)
+<span class="hljs-title">function</span> <span class="hljs-title">callHandler</span>(<span class="hljs-params">handlerName, data, responseCallback</span>)
+<span class="hljs-title">function</span> <span class="hljs-title">_fetchQueue</span>(<span class="hljs-params"></span>)
+<span class="hljs-title">function</span> <span class="hljs-title">_handleMessageFromObjC</span>(<span class="hljs-params">messageJSON</span>)</span>
+</code></pre><h5>初始化</h5><p>类似 OC 中的初始化</p><ul><li>注入一个默认的 messageHandler</li><li>初始化一个消息接收队列，然后调用内部方法 _dispatchMessageFromObjC 来分发消息,同时将消息接收队列置空</li></ul><h5>发送消息</h5><p>调用内部 <code>function _doSend(message, responseCallback)</code> 函数，该函数通过判断 responseCallback 回调是否存在，存在则将这个回调存入到 responseCallbacks 字典中，其 key 是全局唯一的，同时将这个 key 存入到 message 这个字典参数中，其 key 和 value 一致，及 message['key'] = key。接着把这个 message 参数入队即加到 sendMessageQueue 数组中。然后重定向 frame 的 src，这样 OC 端就可以在代理回调方法中去拦截这个 src 对应的 request。</p><h5>消息处理机制</h5><p>如果消息接受队列存在则将消息 JSON 入队即添加到 receiveMessageQueue 数组中。反之，调用内部消息分发方法</p><pre data-language="JavaScript"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_dispatchMessageFromObjC</span>(<span class="hljs-params">messageJSON</span>)</span>
+</code></pre><p>分发机制类似 OC 端的那张流程图，在此不做详述。</p><h5>注册及调用 handler</h5><ul><li>注册：在 messageHandlers 这个字典添加对应的 key 和 value。key 为 name，value 为 handler</li><li>调用：类似发送消息，message 参数为 { handlerName:handlerName, data:data }</li></ul><h5>获取消息队列(供 OC 端调用)</h5><p>这里会将消息发送数组进行 JSON 转化，转换后清空消息队列，然后返回给 OC 端。</p><h5>内部注入的 JS</h5><p>上面说的所有都在内部注入的 JS(WebViewJavaScriptBridge.js.txt) 中完成,该 JS 做的事情在上述的实现原理中也有提到，这里不再展开。</p><h5>外部 html 或 js 需要处理的事</h5><p>可参考下例的写法：</p><pre data-language="JavaScript"><code><span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">'WebViewJavascriptBridgeReady'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
+    <span class="hljs-keyword">var</span> bridge = event.bridge
+    <span class="hljs-comment">// Start using the bridge</span>
+}, <span class="hljs-literal">false</span>)
+</code></pre><p>可将上述代码封装到一个 JS 函数中，然后在函数中进行其它一系列操作，如init，send 等具体参见 <a href="https://github.com/marcuswestin/WebViewJavascriptBridge">Demo</a>。</p><h3>JavaScriptCore(iOS7 &amp; OS X 10.9 later)</h3><h4>主要的类:</h4><ul><li>JSVirtualMachine：非常轻量，可初始化多个 VM 来支持 JS 中的多线程</li><li>JSContext：给 JS 提供运行上下文环境以及一系列值操作(通过下标来获取，类似 NSdictionary，即context[@"objectKey"])，一个 VM 中可有多个 context</li><li>JSValue：数据桥梁</li><li>JSManagedValue：用于解决 retain cycle</li></ul><h4>OC 调用 JS</h4><p>JSContext 可调用 <code>evaluateScript:</code> 方法来执行某个脚本如下：</p><pre data-language="ObjectiveC"><code>[context evaluateScript:@”var square = function(x) {<span class="hljs-keyword">return</span> x*x;}”]; 
+JSValue *squareFunction = context[@”square”]; <span class="hljs-built_in">NSLog</span>(@”%@”, squareFunction);  <span class="hljs-comment">// function (x) {return x*x;}</span>
+JSValue *aSquared = [squareFunction callWithArguments:@[context[@”a”]]]; <span class="hljs-built_in">NSLog</span>(@”a^<span class="hljs-number">2</span>: %@”, aSquared); <span class="hljs-comment">//a^2: 25</span>
+JSValue *nineSquared = [squareFunction callWithArguments:@[@<span class="hljs-number">9</span>]]; 
+<span class="hljs-built_in">NSLog</span>(@”<span class="hljs-number">9</span>^<span class="hljs-number">2</span>: %@”, nineSquared); <span class="hljs-comment">//81</span>
+</code></pre><h4>JS 调用 OC</h4><p>两种方式：</p><ul><li>Block</li><li>JSExport 协议</li></ul><h5>Block</h5><pre data-language="ObjectiveC"><code>context[<span class="hljs-string">@"factorial"</span>] = ^(<span class="hljs-keyword">int</span> x) {
+        <span class="hljs-keyword">int</span> factorial = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (; x &gt; <span class="hljs-number">1</span>; x--) {
             factorial *= x;
         }
-        return factorial;
+        <span class="hljs-keyword">return</span> factorial;
     };
-[context evaluateScript:@"var fiveFactorial = factorial(5);"];
-JSValue *fiveFactorial = context[@"fiveFactorial"];
-// 5! = 120
-NSLog(@"5! = %@", fiveFactorial);
-</code></pre><p>值得注意的是：</p><ul><li>不要在 block 中持有 JSValue，而是应该将JSValue 作为参数来传递</li><li>不要在 block 中持有 JSContext，可通过 <code>[JSContext currentContext]</code>来获取当前 context</li></ul><pre><code class="language-ObjectiveC">JSContext *context = [[JSContext alloc] init];
-context[@"callback"] = ^{
-	//错误示例 
+[context evaluateScript:<span class="hljs-string">@"var fiveFactorial = factorial(5);"</span>];
+JSValue *fiveFactorial = context[<span class="hljs-string">@"fiveFactorial"</span>];
+<span class="hljs-comment">// 5! = 120</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"5! = %@"</span>, fiveFactorial);
+</code></pre><p>值得注意的是：</p><ul><li>不要在 block 中持有 JSValue，而是应该将JSValue 作为参数来传递</li><li>不要在 block 中持有 JSContext，可通过 <code>[JSContext currentContext]</code>来获取当前 context</li></ul><pre data-language="ObjectiveC"><code>JSContext *context = [[JSContext alloc] init];
+context[<span class="hljs-string">@"callback"</span>] = ^{
+	<span class="hljs-comment">//错误示例 </span>
      JSValue *object = [JSValue valueWithNewObjectInContext:context];
-     //正确的姿势
+     <span class="hljs-comment">//正确的姿势</span>
      JSValue *object = [JSValue valueWithNewObjectInContext:
         [JSContext currentContext]];
-     object[@"x"] = 2;
-     object[@"y"] = 3;
-     return object;
+     object[<span class="hljs-string">@"x"</span>] = <span class="hljs-number">2</span>;
+     object[<span class="hljs-string">@"y"</span>] = <span class="hljs-number">3</span>;
+     <span class="hljs-keyword">return</span> object;
 };
-</code></pre><h5>JSExport 协议</h5><p>如果没有这个协议，OC 端的修改会同步到 JS 端，但是 JS 端的修改对 JS 和 OC 均无影响。见下例</p><pre><code class="language-ObjectiveC">//TestModel.m
-- (NSString *)description
+</code></pre><h5>JSExport 协议</h5><p>如果没有这个协议，OC 端的修改会同步到 JS 端，但是 JS 端的修改对 JS 和 OC 均无影响。见下例</p><pre data-language="ObjectiveC"><code><span class="hljs-comment">//TestModel.m</span>
+- (<span class="hljs-built_in">NSString</span> *)description
 {
-    NSString *str = [@"TestModel With testString:" stringByAppendingString:self.testString];
-    return [str stringByAppendingString:[NSString stringWithFormat:@" and numberStr:%@",self.numberStr]];
+    <span class="hljs-built_in">NSString</span> *str = [<span class="hljs-string">@"TestModel With testString:"</span> stringByAppendingString:<span class="hljs-keyword">self</span>.testString];
+    <span class="hljs-keyword">return</span> [str stringByAppendingString:[<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@" and numberStr:%@"</span>,<span class="hljs-keyword">self</span>.numberStr]];
 }
 
-// viewDidLoad
+<span class="hljs-comment">// viewDidLoad</span>
 TestModel *model = [[TestModel alloc] init];
-model.testString = @"test string";
-model.numberStr = @"123";
+model.testString = <span class="hljs-string">@"test string"</span>;
+model.numberStr = <span class="hljs-string">@"123"</span>;
 JSContext *context = [[JSContext alloc] initWithVirtualMachine:[[JSVirtualMachine alloc] init]];
-context[@"model"] = model;
-JSValue *modelValue = context[@"model"];
-// model: TestModel With testString:test string and numberStr:123
-NSLog(@"model: %@",model);
-// model JSValue: TestModel With testString:test string and numberStr:123
-NSLog(@"model JSValue: %@",modelValue);
-model.numberStr = @"456";
-// model: TestModel With testString:test string and numberStr:456
-NSLog(@"model: %@",model);
-// model JSValue: TestModel With testString:test string and numberStr:456
-NSLog(@"model JSValue: %@",modelValue);
-[context evaluateScript:@"model.testString = \"anotoher test\";model.numberStr = \"789\""];
-// model: TestModel With testString:test string and numberStr:456
-NSLog(@"model: %@",model);
-// model JSValue: TestModel With testString:test string and numberStr:456
-NSLog(@"model JSValue: %@",modelValue);
-</code></pre><p>如果想要上述 JS 修改起作用,则需要实现 JSExport 协议。 通过实现该协议来暴露自定义类给 JS，这样 JS 会为这个类创建一个 wrapper object，这样看起来就像 OC 和 JS 在互相传值一样。这样，一个对象可以在 JS 和 OC 间共享，任何一端的更改都将同步到另外一端。需要注意的是，JS 只能修改暴露在协议中的属性或调用协议中的方法。</p><pre><code class="language-ObjectiveC">// .h
-@protocol TestModelDelegate &lt;JSExport&gt;
+context[<span class="hljs-string">@"model"</span>] = model;
+JSValue *modelValue = context[<span class="hljs-string">@"model"</span>];
+<span class="hljs-comment">// model: TestModel With testString:test string and numberStr:123</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model: %@"</span>,model);
+<span class="hljs-comment">// model JSValue: TestModel With testString:test string and numberStr:123</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model JSValue: %@"</span>,modelValue);
+model.numberStr = <span class="hljs-string">@"456"</span>;
+<span class="hljs-comment">// model: TestModel With testString:test string and numberStr:456</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model: %@"</span>,model);
+<span class="hljs-comment">// model JSValue: TestModel With testString:test string and numberStr:456</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model JSValue: %@"</span>,modelValue);
+[context evaluateScript:<span class="hljs-string">@"model.testString = \"anotoher test\";model.numberStr = \"789\""</span>];
+<span class="hljs-comment">// model: TestModel With testString:test string and numberStr:456</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model: %@"</span>,model);
+<span class="hljs-comment">// model JSValue: TestModel With testString:test string and numberStr:456</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model JSValue: %@"</span>,modelValue);
+</code></pre><p>如果想要上述 JS 修改起作用,则需要实现 JSExport 协议。 通过实现该协议来暴露自定义类给 JS，这样 JS 会为这个类创建一个 wrapper object，这样看起来就像 OC 和 JS 在互相传值一样。这样，一个对象可以在 JS 和 OC 间共享，任何一端的更改都将同步到另外一端。需要注意的是，JS 只能修改暴露在协议中的属性或调用协议中的方法。</p><pre data-language="ObjectiveC"><code><span class="hljs-comment">// .h</span>
+<span class="hljs-class"><span class="hljs-keyword">@protocol</span> <span class="hljs-title">TestModelDelegate</span> &lt;<span class="hljs-title">JSExport</span>&gt;</span>
 
-@property (nonatomic, copy) NSString *testString;
-- (void)modelTest;
+<span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>) <span class="hljs-built_in">NSString</span> *testString;
+- (<span class="hljs-keyword">void</span>)modelTest;
 
-@end
+<span class="hljs-keyword">@end</span>
 
-@interface TestModel : NSObject &lt;TestModelDelegate&gt;
+<span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">TestModel</span> : <span class="hljs-title">NSObject</span> &lt;<span class="hljs-title">TestModelDelegate</span>&gt;</span>
 
-@property (nonatomic, copy) NSString *testString;
-@property (nonatomic, copy) NSString *numberStr;
+<span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>) <span class="hljs-built_in">NSString</span> *testString;
+<span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>) <span class="hljs-built_in">NSString</span> *numberStr;
 
-@end
+<span class="hljs-keyword">@end</span>
 
-// .m
+<span class="hljs-comment">// .m</span>
 
-- (NSString *)description
+- (<span class="hljs-built_in">NSString</span> *)description
 {
-    NSString *str = [@"TestModel With testString:" stringByAppendingString:self.testString];
-    return [str stringByAppendingString:[NSString stringWithFormat:@" and numberStr:%@",self.numberStr]];
+    <span class="hljs-built_in">NSString</span> *str = [<span class="hljs-string">@"TestModel With testString:"</span> stringByAppendingString:<span class="hljs-keyword">self</span>.testString];
+    <span class="hljs-keyword">return</span> [str stringByAppendingString:[<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@" and numberStr:%@"</span>,<span class="hljs-keyword">self</span>.numberStr]];
 }
 
-- (void)modelTest
+- (<span class="hljs-keyword">void</span>)modelTest
 {
-    NSLog(@"modelTest!!!");
+    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"modelTest!!!"</span>);
 }
 
-- (void)test
+- (<span class="hljs-keyword">void</span>)test
 {
-    NSLog(@"Test!!!");
+    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"Test!!!"</span>);
 }
 
-// viewDidLoad
-[context evaluateScript:@"model.testString = \"anotoher test\";model.numberStr = \"567\""];
-// model: TestModel With testString:anotoher test and numberStr:123
-NSLog(@"model: %@",model);
-// model JSValue: TestModel With testString:anotoher test and numberStr:123
-NSLog(@"model JSValue: %@",modelValue);
-// modelTest!!!
-[context evaluateScript:@"model.modelTest()"];
-JSValue *unknowValue = [context evaluateScript:@"model.test()"];
-// unknowValue :undefined
-NSLog(@"unknowValue :%@",unknowValue);
-</code></pre><p>上例中的 numberStr 之所以还是保持为 123 是因为，这个属性不在协议中，JS 对其修改不起作用，同样如果 JS 中调用 model 不在协议中的方法，也不起作用，如果用 JSValue 去接收这个值，其值为 undefined。 没有任何响应，如果用一个 JSValue 去接收上面代码的值，得到的是 undifine</p><h5>对象对应关系</h5><p>Objective-C type | JavaScript type --------------------|--------------------- nil | undefined NSNull | null NSString | string NSNumber | number, boolean NSDictionary | Object object NSArray | Array object NSDate | Date object NSBlock | Function object id | Wrapper object Class | Constructor object</p><h4>UIWebView 与 JavaScriptCore 的交互</h4><p>UIWebview 也有一个 JSContext 实例，但是没有暴露在 API 中，但是我们可以通过 KVC 或者在 NSObject 分类去拿到这个实例，然后来进行自定义的一些操作。关于 NSObject 分类实现可以参考<a href="http://stackoverflow.com/questions/18920536/why-use-javascriptcore-in-ios7-if-it-cant-access-a-uiwebviews-runtime">这里</a>。但是这两种方法都有可能被拒。</p><p>其实WebView 与 JS 的交互和上述的 TestModel 与 JS 交互区别不大。只不过上例都是自己创建的 context，而在webView 中则是我们通过 KVC 来拿到这个 context 而不是自己创建。来看一个例子：</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;script&gt;
-            function test()
-            {
+<span class="hljs-comment">// viewDidLoad</span>
+[context evaluateScript:<span class="hljs-string">@"model.testString = \"anotoher test\";model.numberStr = \"567\""</span>];
+<span class="hljs-comment">// model: TestModel With testString:anotoher test and numberStr:123</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model: %@"</span>,model);
+<span class="hljs-comment">// model JSValue: TestModel With testString:anotoher test and numberStr:123</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"model JSValue: %@"</span>,modelValue);
+<span class="hljs-comment">// modelTest!!!</span>
+[context evaluateScript:<span class="hljs-string">@"model.modelTest()"</span>];
+JSValue *unknowValue = [context evaluateScript:<span class="hljs-string">@"model.test()"</span>];
+<span class="hljs-comment">// unknowValue :undefined</span>
+<span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"unknowValue :%@"</span>,unknowValue);
+</code></pre><p>上例中的 numberStr 之所以还是保持为 123 是因为，这个属性不在协议中，JS 对其修改不起作用，同样如果 JS 中调用 model 不在协议中的方法，也不起作用，如果用 JSValue 去接收这个值，其值为 undefined。 没有任何响应，如果用一个 JSValue 去接收上面代码的值，得到的是 undifine</p><h5>对象对应关系</h5><p>Objective-C type | JavaScript type --------------------|--------------------- nil | undefined NSNull | null NSString | string NSNumber | number, boolean NSDictionary | Object object NSArray | Array object NSDate | Date object NSBlock | Function object id | Wrapper object Class | Constructor object</p><h4>UIWebView 与 JavaScriptCore 的交互</h4><p>UIWebview 也有一个 JSContext 实例，但是没有暴露在 API 中，但是我们可以通过 KVC 或者在 NSObject 分类去拿到这个实例，然后来进行自定义的一些操作。关于 NSObject 分类实现可以参考<a href="http://stackoverflow.com/questions/18920536/why-use-javascriptcore-in-ios7-if-it-cant-access-a-uiwebviews-runtime">这里</a>。但是这两种方法都有可能被拒。</p><p>其实WebView 与 JS 的交互和上述的 TestModel 与 JS 交互区别不大。只不过上例都是自己创建的 context，而在webView 中则是我们通过 KVC 来拿到这个 context 而不是自己创建。来看一个例子：</p><pre data-language="html"><code><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span><span class="hljs-params">()</span>
+            </span>{
                 objcObject.testDemo();
                 alert(objcObject);
             }
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;h1&gt;JavaScriptCore Demo&lt;/h1&gt;
-        &lt;button type="button" onclick="test()"&gt;测试&lt;/button&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>上述 html 简单创建了一个 button，然后绑定一个事件。 接下来看看 ViewController 里面做了什么。</p><pre><code class="language-ObjectiveC">// .h
-@protocol TestJSDelegate &lt;JSExport&gt;
+        </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>JavaScriptCore Demo<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"test()"</span>&gt;</span>测试<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre><p>上述 html 简单创建了一个 button，然后绑定一个事件。 接下来看看 ViewController 里面做了什么。</p><pre data-language="ObjectiveC"><code><span class="hljs-comment">// .h</span>
+<span class="hljs-class"><span class="hljs-keyword">@protocol</span> <span class="hljs-title">TestJSDelegate</span> &lt;<span class="hljs-title">JSExport</span>&gt;</span>
 
-- (void)testDemo;
+- (<span class="hljs-keyword">void</span>)testDemo;
 
-@end
+<span class="hljs-keyword">@end</span>
 
-@interface WebViewController : UIViewController &lt;TestJSDelegate,UIWebViewDelegate&gt;
+<span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">WebViewController</span> : <span class="hljs-title">UIViewController</span> &lt;<span class="hljs-title">TestJSDelegate</span>,<span class="hljs-title">UIWebViewDelegate</span>&gt;</span>
 
-@end
+<span class="hljs-keyword">@end</span>
 
-// .m
-- (void)viewDidLoad
+<span class="hljs-comment">// .m</span>
+- (<span class="hljs-keyword">void</span>)viewDidLoad
 {
-    [super viewDidLoad];
-    NSURL *path = [[NSBundle mainBundle] URLForResource:@"test" withExtension:@"html"];
-    NSString *html = [NSString stringWithContentsOfURL:path encoding:NSUTF8StringEncoding error:nil];
-    [self.webView loadHTMLString:html baseURL:nil];
+    [<span class="hljs-keyword">super</span> viewDidLoad];
+    <span class="hljs-built_in">NSURL</span> *path = [[<span class="hljs-built_in">NSBundle</span> mainBundle] URLForResource:<span class="hljs-string">@"test"</span> withExtension:<span class="hljs-string">@"html"</span>];
+    <span class="hljs-built_in">NSString</span> *html = [<span class="hljs-built_in">NSString</span> stringWithContentsOfURL:path encoding:<span class="hljs-built_in">NSUTF8StringEncoding</span> error:<span class="hljs-literal">nil</span>];
+    [<span class="hljs-keyword">self</span>.webView loadHTMLString:html baseURL:<span class="hljs-literal">nil</span>];
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (<span class="hljs-keyword">void</span>)webViewDidFinishLoad:(<span class="hljs-built_in">UIWebView</span> *)webView
 {
-	JSContext *context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    context[@"objcObject"] = self;
+	JSContext *context = [webView valueForKeyPath:<span class="hljs-string">@"documentView.webView.mainFrame.javaScriptContext"</span>];
+    context[<span class="hljs-string">@"objcObject"</span>] = <span class="hljs-keyword">self</span>;
 }
 
-- (void)testDemo
+- (<span class="hljs-keyword">void</span>)testDemo
 {
-    NSLog(@"test!!!");
+    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"test!!!"</span>);
 }
-</code></pre><p>运行效果:</p><img src="/oldimages/2019-11-21-15743467085275.jpg"/><img src="/oldimages/2019-11-21-15743467192938.jpg"/><p>如果协议方法中有多个参数该怎么调用呢？举个例子</p><pre><code class="language-ObjectiveC">// ObjC 中的某个协议方法
-- (void)testWithName:(NSString *)name age:(NSNumber *)age
+</code></pre><p>运行效果:</p><img src="/oldimages/2019-11-21-15743467085275.jpg"/><img src="/oldimages/2019-11-21-15743467192938.jpg"/><p>如果协议方法中有多个参数该怎么调用呢？举个例子</p><pre data-language="ObjectiveC"><code><span class="hljs-comment">// ObjC 中的某个协议方法</span>
+- (<span class="hljs-keyword">void</span>)testWithName:(<span class="hljs-built_in">NSString</span> *)name age:(<span class="hljs-built_in">NSNumber</span> *)age
 {
-    NSLog(@"name:%@,age:%@",name,age);
+    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"name:%@,age:%@"</span>,name,age);
 }
-</code></pre><pre><code class="language-Html">// 在上述 html 的 js 中添加一行代码
+</code></pre><pre data-language="Html"><code>// 在上述 html 的 js 中添加一行代码
 objcObject.testWithNameAge("Tracy",20);
-</code></pre><p>那么在按钮点击后，协议方法将会被执行，然后打印出 <code>name:Tracy,age:20</code>。</p><h4>内存管理</h4><p>OC 中是用的是 ARC，JavaScriptCore 中用的是垃圾回收机制（garbage collection）,JavaScriptCore 中所有引用都为强引用。在大部分情况下，JavaScriptCore 能做到在这两种内存管理机制之间无缝切换，但是在以下两种情况下需要特别注意：</p><ul><li>在 OC 对象中存储 JavaScript 值</li><li>在 OC 对象中添加 JavaScript 域</li></ul><p>如下例就会造成循环引用：</p><pre><code class="language-JavaScript">// ClickHandler 构造器，button 为 OC 对象，callback 是按钮点击事件回调
-function ClickHandler(button, callback) {
-     this.button = button;
-     this.button.onClickHandler = this;
-     this.handleEvent = callback;
+</code></pre><p>那么在按钮点击后，协议方法将会被执行，然后打印出 <code>name:Tracy,age:20</code>。</p><h4>内存管理</h4><p>OC 中是用的是 ARC，JavaScriptCore 中用的是垃圾回收机制（garbage collection）,JavaScriptCore 中所有引用都为强引用。在大部分情况下，JavaScriptCore 能做到在这两种内存管理机制之间无缝切换，但是在以下两种情况下需要特别注意：</p><ul><li>在 OC 对象中存储 JavaScript 值</li><li>在 OC 对象中添加 JavaScript 域</li></ul><p>如下例就会造成循环引用：</p><pre data-language="JavaScript"><code><span class="hljs-comment">// ClickHandler 构造器，button 为 OC 对象，callback 是按钮点击事件回调</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ClickHandler</span>(<span class="hljs-params">button, callback</span>) </span>{
+     <span class="hljs-keyword">this</span>.button = button;
+     <span class="hljs-keyword">this</span>.button.onClickHandler = <span class="hljs-keyword">this</span>;
+     <span class="hljs-keyword">this</span>.handleEvent = callback;
 };
-</code></pre><pre><code class="language-ObjectiveC">@implementation MyButton
-- (void)setOnClickHandler:(JSValue *)handler
+</code></pre><pre data-language="ObjectiveC"><code><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">MyButton</span></span>
+- (<span class="hljs-keyword">void</span>)setOnClickHandler:(JSValue *)handler
 {
-     _onClickHandler = handler; // Retain cycle
+     _onClickHandler = handler; <span class="hljs-comment">// Retain cycle</span>
 }
-@end
-</code></pre><p>上例中 ClickHandler 对 button 进行了强引用，而 MyButton 中又对 _onClickHandler 这个 JSValue 进行了强引用，最终导致循环引用，如下图所示：</p><img src="/oldimages/2019-11-21-15743467542111.jpg"/><p>如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。</p><p>举个栗子，在某个方法中有一个临时的 OC 对象，然后通过 JSContext 被 JS 中的变量引用，但是该 OC 方法调用结束后，这个临时对象将被释放，因此 JS 会造成错误访问。 同样的，如果用 JSContext 创建了对象，然后在 OC 中用 JSValue 去接收，即使把 JSValue 变量在 OC 中被 retain，但可能因为 JS 中因为变量没有了引用而被释放内存，那么对应的JSValue也没有用了。</p><p>所以苹果引入了另一个类来解决这种循环引用的问题。</p><pre><code class="language-ObjectiveC">@implementation MyButton
-- (void)setOnClickHandler:(JSValue *)handler
+<span class="hljs-keyword">@end</span>
+</code></pre><p>上例中 ClickHandler 对 button 进行了强引用，而 MyButton 中又对 _onClickHandler 这个 JSValue 进行了强引用，最终导致循环引用，如下图所示：</p><img src="/oldimages/2019-11-21-15743467542111.jpg"/><p>如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。</p><p>举个栗子，在某个方法中有一个临时的 OC 对象，然后通过 JSContext 被 JS 中的变量引用，但是该 OC 方法调用结束后，这个临时对象将被释放，因此 JS 会造成错误访问。 同样的，如果用 JSContext 创建了对象，然后在 OC 中用 JSValue 去接收，即使把 JSValue 变量在 OC 中被 retain，但可能因为 JS 中因为变量没有了引用而被释放内存，那么对应的JSValue也没有用了。</p><p>所以苹果引入了另一个类来解决这种循环引用的问题。</p><pre data-language="ObjectiveC"><code><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">MyButton</span></span>
+- (<span class="hljs-keyword">void</span>)setOnClickHandler:(JSValue *)handler
 {
-	//正确的姿势
+	<span class="hljs-comment">//正确的姿势</span>
      _onClickHandler = [JSManagedValue managedValueWithValue:handler];
      [_context.virtualMachine addManagedReference:_onClickHandler
-                                        withOwner:self]
+                                        withOwner:<span class="hljs-keyword">self</span>]
 } 
-@end
+<span class="hljs-keyword">@end</span>
 </code></pre><p><code>addManagedReference</code>做的事情主要如下：它创建了一个 garbage collected reference，这种引用既不是强引用也不是弱引用。</p><img src="/oldimages/2019-11-21-15743467654320.jpg"/><p>JSManagedValue 本身是一个对 JavaScript Value 的弱引用，而 JSValue 是强引用。addManagedReference 将 JSManagedValue 转换为 garbage collected reference。如果 JS 在垃圾回收过程中能够找到 managed reference 的所有者，那么这个引用将不会被释放，否则将被释放。JSManagedValue 需要调用其addManagedReference:withOwner: 方法把它添加到JSVirtualMachine 中，确保使用过程中 JSValue 不会被释放。</p><h4>多线程</h4><p>如前面所说，每一个 JSVirtualMachine 都可以有多个 JScontext，在每个进程中又可以有多个 JSVirtualMachine。JSValue 可以在同一个 JSVirtualMachine 中的不同 JSContext 之间传递，但是不能跨 JSVirtualMachine 来传递。因为每个 JSVirtualMachine 都有自己的内存堆以及垃圾回收器，如果 JSValue 跨 JSVirtualMachine 传递，那么垃圾回收器将不知如何处理来自不同内存堆的 JSvalue。</p><ul><li>JavaScriptCore 的 API 是线程安全的</li><li>同步锁粒度：JSVirtualMachine，即我们可以在 JSVirtualMachine 不同线程中调用 JS，但是如果有线程正在执行 JS，那么其它线程将不能执行 JS 操作。所以要想进行并发操作，那么需要为每个操作创建一个单独的 JSVirtualMachine 来实现并发。</li></ul><h3>WKWebView (iOS8 and later)</h3><h4>新特性</h4><ul><li>在性能、稳定性、功能方面有很大提升（最直观的体现就是加载网页是占用的内存）；</li><li>允许JavaScript的Nitro库加载并使用（UIWebView中限制）；</li><li>支持了更多的HTML5特性以及 native 和 web 的高效交互；</li><li>高达60fps的滚动刷新率以及内置手势；</li><li>将UIWebViewDelegate与UIWebView重构成了14类与3个协议</li></ul><p>WebKit 为非线程安全的，所以要确保该 framework 的所有方法在主线程上调用。</p><p>更多内容请参考<a href="http://nshipster.cn/wkwebkit/">Nshipster</a>。</p><h3>总结</h3><p>总得来说两种方式都可以实现二者的交互，JavaScriptBridge 相对而言复杂一些，但是安全且不需要做版本适配，APP 上架不会被拒，但是 JavaScriptCore 更加简洁，不需要写繁琐的代码，但是有被拒的风险，同时这个框架是在 iOS7 之后才有，所以如果要适配 iOS6的话还是选择 JavaScriptBridge。</p><p>本文 <a href="https://github.com/wang9262/WebViewJSDemo">Demo</a></p></div><span>Tagged with: </span><ul class="tag-list"><li><a href="/tags/webview">WebView</a></li><li><a href="/tags/原创">原创</a></li></ul></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>

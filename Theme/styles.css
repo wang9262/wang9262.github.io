@@ -119,11 +119,13 @@ header nav a {
 header nav a:hover{
     color: #fff;
     background-color:var(--healthnote-green);
+    border-radius: 3px;
 }
 
 header nav .selected {
     color: #fff;
     background-color: var(--healthnote-green);
+    border-radius: 3px;
 }
 
 

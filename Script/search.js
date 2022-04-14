@@ -124,3 +124,58 @@ var getSearchFile = function(){
     var path = "/search.xml";
     searchFunc(path, 'local-search-input', 'local-search-result');
 }
+
+$(window).resize(function(){
+    setHeight();
+})
+
+var setHeight = function(){
+    var wrapperPaddingTop = 20;
+    var wrapperPaddingBottom = 30;
+    var searchResult = $('.local-search-result-cls').get(0);
+    var searchWrapper = $('.wrapper')[1];
+    var headerHeight = $('header').get(0).offsetHeight;
+    var footerHeight = $('footer').get(0).offsetHeight;
+    var searchResultHeight = searchResult.offsetHeight;
+    var searchFormHeight = $('.searchform').get(0).offsetHeight;
+    var tagListHeight = $('.all-tags').get(0).offsetHeight;
+    var totalHeight = headerHeight;
+    totalHeight += wrapperPaddingTop;
+    totalHeight += searchFormHeight;
+    totalHeight += tagListHeight;
+    totalHeight += searchResultHeight;
+    totalHeight += wrapperPaddingBottom;
+    totalHeight += footerHeight;
+    if (totalHeight < window.innerHeight) {
+        // 最后加1像素主要是 taglist 高度是小数，但上面取到会是整数，导致底部会空一点点间隙
+        searchResult.style.minHeight = (window.innerHeight - totalHeight + 1) + 'px';
+    }
+}
+
+$(document).ready(function(){
+    var emote_list = document.getElementById('local-search-result');
+    emote_list.addEventListener('DOMSubtreeModified', function () {
+        setHeight();
+    }, false);
+})
+
+$(document).ready(function(){
+    setHeight();
+})
+
+var inputArea  = document.querySelector("#local-search-input");
+inputArea.onclick = function(){
+    getSearchFile();
+    this.onclick = null
+}
+inputArea.onkeydown = function(){
+    if(event.keyCode == 13) return false
+}
+
+var clearBtn = document.getElementById("clear-search-input");
+clearBtn.onclick = function() {
+    document.getElementById('local-search-input').value = '';
+    var resultContent = document.getElementById('local-search-result');
+    resultContent.innerHTML = "";
+}
+

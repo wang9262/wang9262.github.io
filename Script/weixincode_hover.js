@@ -6,7 +6,12 @@
 //
 var weixinHeadButton = $('.headIconWeixin');
 weixinHeadButton.hover(
+    // in
     function(){
         $('.weixinHeadQcode').css('display','block');
+    },
+    // out
+    function(){
+        $('.weixinHeadQcode').css('display','none');
     }
 )

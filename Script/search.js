@@ -157,9 +157,10 @@ $(document).ready(function(){
     emote_list.addEventListener('DOMSubtreeModified', function () {
         setHeight();
     }, false);
+    setHeight();
 })
 
-$(document).ready(function(){
+$(window).resize(function(){
     setHeight();
 })
 

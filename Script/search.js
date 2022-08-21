@@ -17,6 +17,29 @@
 // 02110-1301 USA
 //
 
+document.addEventListener("DOMContentLoaded", () => {
+    const search_input = document.querySelector(".search-input"),
+    reset = () => {
+        document.body.classList.remove("search-active")
+    }
+    document.querySelector(".search-popup-trigger").onclick = function(){
+        document.body.classList.add("search-active")
+        setTimeout(() => search_input.focus(), 500)
+        getSearchFile()
+    }
+
+    document.querySelector(".popup-btn-close").onclick = function() {
+        reset();
+    }
+
+    window.addEventListener("keyup", e => {
+        "Escape" === e.key && reset();
+    })
+    document.querySelector(".search-pop-overlay").addEventListener("click", e => {
+        e.target === document.querySelector(".search-pop-overlay") && reset();
+    })
+})
+
 var searchFunc = function(path, search_id, content_id) {
     'use strict';
 
@@ -33,31 +56,31 @@ $.ajax({
                 };
             }).get().reverse();
 
-            var $input = document.getElementById(search_id);
+            var $input = document.querySelector(search_id);
             if (!$input) return;
-            var $resultContent = document.getElementById(content_id);
+            var $resultContent = document.querySelector(content_id);
             if ($("#local-search-input").length > 0) {
                 $input.addEventListener('input', function () {
                     var str = '<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    var keywords = this.value.trim().split(/[\s\-]+/);
                     $resultContent.innerHTML = "";
                     if (this.value.trim().length <= 0) {
                         return;
                     }
+                    var matchedCount = 0;
                     // perform local searching
                     datas.forEach(function (data) {
                         var isMatch = true;
-                        var content_index = [];
                         if (!data.title || data.title.trim() === '') {
                             data.title = "Untitled";
                         }
-                        var data_title = data.title.trim().toLowerCase();
-                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_title = data.title.trim();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "");
                         var data_url = data.url;
                         var index_title = -1;
                         var index_content = -1;
                         var first_occur = -1;
-                        // only match artiles with not empty contents
+                        // only match articles with not empty contents
                         if (data_content !== '') {
                             keywords.forEach(function (keyword, i) {
                                 index_title = data_title.indexOf(keyword);
@@ -72,7 +95,6 @@ $.ajax({
                                     if (i == 0) {
                                         first_occur = index_content;
                                     }
-                                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
                                 }
                             });
                         } else {
@@ -80,7 +102,8 @@ $.ajax({
                         }
                         // show search results
                         if (isMatch) {
-                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            matchedCount += 1;
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title;
                             var content = data.content.trim().replace(/<[^>]+>/g, "");
                             if (first_occur >= 0) {
                                 // cut out 100 characters
@@ -107,13 +130,19 @@ $.ajax({
                                     match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
                                 });
 
-                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                                str += "<p class=\"search-result\">" + match_content + "...</p></a>"
                             }
                             str += "</li>";
                         }
                     });
                     str += "</ul>";
-                    $resultContent.innerHTML = str;
+                    var countDiv = "<div class=\"search-result-count\">"
+                    if (matchedCount > 0) {
+                        countDiv += "共 " + matchedCount + " 个结果</div> <hr>"
+                    } else {
+                        countDiv += "暂时没有搜索到你想要的内容，换个关键词看看~</div> <hr>"
+                    }
+                    $resultContent.innerHTML = countDiv + str;
                 });
             }
         }
@@ -122,61 +151,5 @@ $.ajax({
 
 var getSearchFile = function(){
     var path = "/search.xml";
-    searchFunc(path, 'local-search-input', 'local-search-result');
+    searchFunc(path, '.search-input', '.search-result-container');
 }
-
-$(window).resize(function(){
-    setHeight();
-})
-
-var setHeight = function(){
-    var wrapperPaddingTop = 20;
-    var wrapperPaddingBottom = 30;
-    var searchResult = $('.local-search-result-cls').get(0);
-    var searchWrapper = $('.wrapper')[1];
-    var headerHeight = $('header').get(0).offsetHeight;
-    var footerHeight = $('footer').get(0).offsetHeight;
-    var searchResultHeight = searchResult.offsetHeight;
-    var searchFormHeight = $('.searchform').get(0).offsetHeight;
-    var tagListHeight = $('.all-tags').get(0).offsetHeight;
-    var totalHeight = headerHeight;
-    totalHeight += wrapperPaddingTop;
-    totalHeight += searchFormHeight;
-    totalHeight += tagListHeight;
-    totalHeight += searchResultHeight;
-    totalHeight += wrapperPaddingBottom;
-    totalHeight += footerHeight;
-    if (totalHeight < window.innerHeight) {
-        // 最后加1像素主要是 taglist 高度是小数，但上面取到会是整数，导致底部会空一点点间隙
-        searchResult.style.minHeight = (window.innerHeight - totalHeight + 1) + 'px';
-    }
-}
-
-$(document).ready(function(){
-    var emote_list = document.getElementById('local-search-result');
-    emote_list.addEventListener('DOMSubtreeModified', function () {
-        setHeight();
-    }, false);
-    setHeight();
-})
-
-$(window).resize(function(){
-    setHeight();
-})
-
-var inputArea  = document.querySelector("#local-search-input");
-inputArea.onclick = function(){
-    getSearchFile();
-    this.onclick = null
-}
-inputArea.onkeydown = function(){
-    if(event.keyCode == 13) return false
-}
-
-var clearBtn = document.getElementById("clear-search-input");
-clearBtn.onclick = function() {
-    document.getElementById('local-search-input').value = '';
-    var resultContent = document.getElementById('local-search-result');
-    resultContent.innerHTML = "";
-}
-

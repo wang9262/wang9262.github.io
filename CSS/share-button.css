@@ -1,0 +1,44 @@
+.tool-button-container {
+    display: flex;
+    padding: 20px 20px 5px 20px;
+    justify-content: space-around;
+    border-bottom: 1px dashed var(--text-color);
+}
+
+.actionButton {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background-color: var(--theme-color);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
+    cursor: pointer;
+    margin: 0 0 10px 0;
+    background-size: 22px 22px;
+}
+
+.tool-button-container .twitter {
+    background-image: url("/images/buttonTwitterGray.svg");
+}
+
+.tool-button-container .twitter:hover {
+    background-image: url("/images/buttonTwitterColor.svg");
+}
+
+.tool-button-container .comment {
+    background-image: url("/images/buttonCommentGray.svg");
+}
+
+.tool-button-container .comment:hover {
+    background-image: url("/images/buttonCommentColor.svg");
+}
+
+.tool-button-container .top {
+    background-image: url("/images/buttonTopGray.svg");
+}
+
+.tool-button-container .top:hover {
+    background-image: url("/images/buttonTopColor.svg");
+}

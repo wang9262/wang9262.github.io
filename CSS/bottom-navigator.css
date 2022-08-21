@@ -1,0 +1,50 @@
+/* item-nav*/
+.item-navigator {
+    font-size: 15px;
+    text-overflow: ellipsis;
+    padding-top: 20px;
+    padding-top: 20px;
+}
+
+.item-navigator a {
+    color: var(--item-title-color);
+    border-bottom: initial;
+    color: var(--item-title-hover-color);
+}
+
+.item-navigator table {
+    width: 100%;
+}
+
+.item-navigator td {
+    width: 50%;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.item-navigator .previous-item {
+    text-overflow: ellipsis;
+    background-image: url("/images/leftarrow.svg");
+    background-repeat: no-repeat;
+    background-position-x: left;
+    background-position-y: center;
+    background-size: 15px 15px;
+    padding-left: 18px;
+}
+
+.item-navigator .next-item {
+    text-overflow: ellipsis;
+    background-image: url("/images/rightarrow.svg");
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: center;
+    background-size: 15px 15px;
+    padding-right: 18px;
+    text-align: right;
+}
+
+.item-navigator table,
+th,
+td {
+    border: initial;
+}

@@ -11,7 +11,7 @@
 
 (function () {
     'use strict';
-    $(document).ready(initSidebar('.sidebar', 'article'));
+    $(document).ready(initSidebar('.toc-side-bar', 'article'));
 })();
 
 /**
@@ -24,12 +24,12 @@ function initSidebar(sidebarQuery, contentQuery) {
     // addAllStyle()
     var body = document.body
     var sidebar = document.querySelector(sidebarQuery)
-    // 在 body 标签内部添加 div.sidebar 侧边栏,用于显示文档目录
+    // 在 body 标签内部添加 div.toc-side-bar 侧边栏,用于显示文档目录
     if (!sidebar) {
         sidebar = document.createElement('div')
         body.insertBefore(sidebar, body.firstChild)
     }
-    sidebar.classList.add('sidebar')
+    sidebar.classList.add('toc-side-bar')
     var content = document.querySelector(contentQuery)
     if (!content) {
         throw ('Error: content not find!')
@@ -317,7 +317,7 @@ function addAllStyle(highlightColor) {
     function addStyle(str) {
         sheet.insertRule(str, position++);
     }
-    //    addStyle(`.sidebar{position:fixed;    z-index: 10;
+    //    addStyle(`.toc-side-bar{position:fixed;    z-index: 10;
     //        top: 61px;
     //        left: 0;
     //        bottom: 0;
@@ -383,7 +383,7 @@ function addAllStyle(highlightColor) {
     //            margin-left:310px !important;
     //        }
     //    }`)
-    //    addStyle(`.sidebar .active{
+    //    addStyle(`.toc-side-bar .active{
     //        color:${highlightColor};
     //        font-weight:700;
     //    }`)

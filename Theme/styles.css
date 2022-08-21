@@ -191,7 +191,7 @@ footer p {
     .main-content {
         width: 100vw;
     }
-    .right-side-nav, header {
+    .right-side-nav, .header-container {
         display: none;
     }
     .top-nav {

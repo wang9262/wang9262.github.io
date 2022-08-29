@@ -9,10 +9,12 @@
 }
 
 .all-tags,
-.tag a {
+.tag a,
+.tag-list a {
     border-bottom: 0;
     display: block;
     transition: border-color 0.2s ease-in-out;
+    color: var(--tag-text-color);
 }
 
 .tag {

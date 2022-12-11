@@ -48,7 +48,6 @@
 .hljs-section,
 .hljs-name,
 .hljs-selector-tag,
-.hljs-deletion,
 .hljs-subst {
     color: #e45649;
 }
@@ -59,10 +58,19 @@
 
 .hljs-string,
 .hljs-regexp,
-.hljs-addition,
 .hljs-attribute,
 .hljs-meta-string {
     color: #50a14f;
+}
+
+.hljs-addition {
+    color: #008080;
+    background-color: #ddffdd;
+}
+
+.hljs-deletion {
+    color: #d01040;
+    background-color: #ffdddd;
 }
 
 .hljs-built_in,
@@ -146,7 +154,6 @@
     .hljs-section,
     .hljs-name,
     .hljs-selector-tag,
-    .hljs-deletion,
     .hljs-subst {
         color: #e06c75;
     }
@@ -157,10 +164,19 @@
 
     .hljs-string,
     .hljs-regexp,
-    .hljs-addition,
     .hljs-attribute,
     .hljs-meta-string {
         color: #98c379;
+    }
+    
+    .hljs-addition {
+        color: #62aa54;
+        background-color: #0b5858;
+    }
+    
+    .hljs-deletion {
+        color: #cc346b;
+        background-color: #561c08;
     }
 
     .hljs-built_in,

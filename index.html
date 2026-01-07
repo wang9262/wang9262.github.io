@@ -1,17 +1,226 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Vong"/><link rel="canonical" href="https://vonglo.cn"/><meta name="twitter:url" content="https://vonglo.cn"/><meta name="og:url" content="https://vonglo.cn"/><title>Vong</title><meta name="twitter:title" content="Vong"/><meta name="og:title" content="Vong"/><meta name="description" content="记录iOS开发点滴～"/><meta name="twitter:description" content="记录iOS开发点滴～"/><meta name="og:description" content="记录iOS开发点滴～"/><meta name="twitter:card" content="summary"/><meta name="twitter:site" content="@Vong_HUST"/><meta name="twitter:creator" content="@Vong_HUST"/><link rel="stylesheet" href="/styles.css" type="text/css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Vong"/><meta name="twitter:image" content="https://vonglo.cn/media"/><meta name="og:image" content="https://vonglo.cn/media"/><script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><script async src="/Script/lazysizes.min.js"></script></head><body class="index"><div class="top-nav"><ul><li><a class="active" href="/">首页</a></li><li><a href="/posts">所有文章</a></li><li><a href="/about">关于</a></li></ul></div><main class="main"><header><div class="header-container"><div class="site-meta-container"><a class="avatar" href="/"><img src="/images/avatar.jpg"/></a><a href="/"><h2>Vong</h2></a><p class="site-subtitle">记录iOS开发点滴～</p><div class="social-icons-container"><ul><li><a href="https://weibo.com/vonglo" target="_blank"><img src="/images/weibo.svg"/></a></li><li><a href="https://twitter.com/Vong_HUST" target="_blank"><img src="/images/twitter.svg"/></a></li><li><a href="https://github.com/wang9262/" target="_blank"><img src="/images/github.svg"/></a></li><li><a href="mailto:Vong9262@gmail.com"><img src="/images/email.svg"/></a></li><li><a href="/feed.rss"><img src="/images/rss.svg"/></a></li></ul></div><a class="wechat-subscriber" href="/about"><img src="/images/wechat.png"/></a></div><nav><ul><li class="menu-item"><a class="menu-item-active" href="/">首页</a></li><li class="menu-item"><a href="/posts">所有文章</a></li><li class="menu-item"><a href="/about">关于</a></li><li class="menu-item"><a class="search-popup-trigger">搜索</a></li></ul><div class="spacer"></div></nav></div></header><div class="main-content"><div class="index-list"><ul class="indexul"><li class="indexli"><div class="index-title"><a href="/posts/iOS16-Live-Activity"><h1>iOS16 Live Activity 初体验</h1></a></div><div><ul class="tag-list"><li class="tag variant-3"><a href="/tags/wwdc">WWDC</a></li><li class="tag tagdate">发布于2022年07月31日</li></ul></div><div class="content"><article><p>WWDC 2022 Keynote 中苹果给我们介绍了 iOS 16 中一个比较亮眼的更新：Live Activity（实时活动），开发者可以在锁屏页面上放置一个可以“实时”更新的 Widget，比如外卖或者打车应用，在开启实时活动之后我们可以在锁屏页上实时看到外卖小哥/司机与我们的距离及预计到达时间。但是这一 API 及对应功能并没有第一时间放出，而是随着 iOS 16 Beta4 一起放出：<a href="https://developer.apple.com/cn/news/?id=hi37aek8 "【实时活动现已推出 Beta 版本】"" target="_blank">【实时活动...</p></article><div class="index-item-more float-container"><a href="/posts/iOS16-Live-Activity">查看全文 &gt;</a></div></div></li><li class="indexli"><div class="index-title"><a href="/posts/Xcode-Condition-Build"><h1>iOS 中资源的条件编译</h1></a></div><div><ul class="tag-list"><li class="tag variant-4"><a href="/tags/xcode">Xcode</a></li><li class="tag tagdate">发布于2020年11月21日</li></ul></div><div class="content"><article><p>日常开发中常常遇到某些类及其引用的资源文件仅在 <code>Debug</code> 或内测版本中生效，而不希望带到线上版本。因为一来会增加包体积，二来会把一些内部功能的相关接口暴露，导致可能的一些动态调试。那么有没有避免的方案呢？</p><h2>Pod</h2><p>答案肯定是有的，通常的做法是把对应功能抽成单独的 <code>pod</code> 库，然后仅 <code>Debug</code> 模式才集成到主工程，发出去的版本不集成。通常方式如下，以 <code>FLEX</code> 为例：</p><pre data-language="ruby" class="hljs"><code>pod <span class="hljs-string">'FLEX'</span>, <span class="hljs-string">'~&gt; 2.0'</span>, <span class="hljs-symbol">:configurations</span> =&gt; [<span class="hljs-string">'Debug'</span>]
-</code></pre><p>但是如果某些强耦合主工程无法拆成独立 <code>pod</code> 的功能，这种方式可能就不再适用了。</p><h2>条件编译</h2><p><code>pod</code> 这条路走不通，有没有其...</p></article><div class="index-item-more float-container"><a href="/posts/Xcode-Condition-Build">查看全文 &gt;</a></div></div></li><li class="indexli"><div class="index-title"><a href="/posts/An-Abnormal-Swift-Crash"><h1>聊聊最近遇到的一个Crash</h1></a></div><div><ul class="tag-list"><li class="tag variant-0"><a href="/tags/crash">Crash</a></li><li class="tag tagdate">发布于2020年09月20日</li></ul></div><div class="content"><article><h2>卖个关子</h2><pre data-language="swift" class="hljs"><code><span class="hljs-comment">// 代码段1</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Manager</span>: <span class="hljs-title">NSObject</span> </span>{
-    <span class="hljs-keyword">deinit</span> {
-         <span class="hljs-built_in">print</span>(<span class="hljs-string">"deinit "</span> + <span class="hljs-type">String</span>(format: <span class="hljs-string">"%p"</span>, <span class="hljs-keyword">self</span>))
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/"><!-- Primary Meta Tags --><title>Vong</title><meta name="title" content="Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://vonglo.cn/"><meta property="og:title" content="Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/"><meta property="twitter:title" content="Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://vonglo.cn/","name":"Vong","potentialAction":{"@type":"SearchAction","target":"https://vonglo.cn/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div class="max-w-3xl mx-auto py-12 sm:py-20"> <div class="space-y-20"> <article class="group relative flex flex-col items-start min-w-0"> <h2 class="text-2xl font-bold text-text-main mb-4 group-hover:text-primary transition-colors"> <a href="/posts/ios16-live-activity/" class="decoration-transparent">iOS16 Live Activity 初体验</a> </h2> <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-text-muted"> <time datetime="2022-07-31T00:13:00.000Z"> 7/31/2022 </time> <div class="flex gap-2"> <span class="hover:text-primary transition-colors">
+#WWDC </span> </div> </div> <div class="mb-6 text-text-muted leading-[1.8] text-base line-clamp-3"> WWDC 2022 Keynote 中苹果给我们介绍了 iOS 16 中一个比较亮眼的更新：Live Activity（实时活动），开发者可以在锁屏页面上放置一个可以“实时”更新的 Widget，比如外卖或者打车应用，在开启实时活动之后我们可以在锁屏页上实时看到外卖小哥/司机与我们的距离及预计到达时间。但是这一 API 及对应功能并没有第一时间放出，而是随着 iOS 16 Beta4 一起放出：[【实时活动现已推出 Beta 版本】](https://developer.apple.com/cn/news/?id=hi37aek8 &quot;【实时活动现已推出 Beta 版本】&quot;)。
+
+![](/me... </div> <a href="/posts/ios16-live-activity/" class="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+阅读全文
+</a> </article><article class="group relative flex flex-col items-start min-w-0"> <h2 class="text-2xl font-bold text-text-main mb-4 group-hover:text-primary transition-colors"> <a href="/posts/xcode-condition-build/" class="decoration-transparent">iOS 中资源的条件编译</a> </h2> <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-text-muted"> <time datetime="2020-11-21T00:13:00.000Z"> 11/21/2020 </time> <div class="flex gap-2"> <span class="hover:text-primary transition-colors">
+#Xcode </span> </div> </div> <div class="mb-6 text-text-muted leading-[1.8] text-base line-clamp-3"> 日常开发中常常遇到某些类及其引用的资源文件仅在 `Debug` 或内测版本中生效，而不希望带到线上版本。因为一来会增加包体积，二来会把一些内部功能的相关接口暴露，导致可能的一些动态调试。那么有没有避免的方案呢？
+
+## Pod
+
+答案肯定是有的，通常的做法是把对应功能抽成单独的 `pod` 库，然后仅 `Debug` 模式才集成到主工程，发出去的版本不集成。通常方式如下，以 `FLEX` 为例：
+
+```ruby
+pod &#39;FLEX&#39;, &#39;~&gt; 2.0&#39;, :configurations =&gt; [&#39;Debug&#39;]
+```
+
+但是如果某些强耦合主工程无法拆成独立 `pod` 的功能，这种方式可能... </div> <a href="/posts/xcode-condition-build/" class="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+阅读全文
+</a> </article><article class="group relative flex flex-col items-start min-w-0"> <h2 class="text-2xl font-bold text-text-main mb-4 group-hover:text-primary transition-colors"> <a href="/posts/an-abnormal-swift-crash/" class="decoration-transparent">聊聊最近遇到的一个Crash</a> </h2> <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-text-muted"> <time datetime="2020-09-20T00:13:00.000Z"> 9/20/2020 </time> <div class="flex gap-2"> <span class="hover:text-primary transition-colors">
+#Crash </span> </div> </div> <div class="mb-6 text-text-muted leading-[1.8] text-base line-clamp-3"> ## 卖个关子
+
+```swift
+// 代码段1
+class Manager: NSObject {
+    deinit {
+         print(&quot;deinit &quot; + String(format: &quot;%p&quot;, self))
     }
 }
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>{
-    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span><span class="hljs-params">()</span></span> {
-        <span class="hljs-keyword">super</span>.viewDidLoad()
-        <span class="hljs-keyword">var</span> x: <span class="hljs-type">Manager?</span> = <span class="hljs-type">Manager</span>()
-        x = <span class="hljs-literal">nil</span>
+class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        var x: Manager? = Manager()
+        x = nil
     }
 }
-</code></pre><pre data-language="objectivec" class="hljs"><code><span class="hljs-comment">// 代码段2</span>
-<span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">Man...</span></span></code></pre></article><div class="index-item-more float-container"><a href="/posts/An-Abnormal-Swift-Crash">查看全文 &gt;</a></div></div></li><li class="indexli"><div class="index-title"><a href="/posts/Eliminate-animation-hitches-with-XCTest"><h1>WWDC20 10077 - 使用 XCTest 消除动画卡顿</h1></a></div><div><ul class="tag-list"><li class="tag variant-3"><a href="/tags/wwdc">WWDC</a></li><li class="tag tagdate">发布于2020年06月20日</li></ul></div><div class="content"><article><blockquote><p>本文基于 <a href="https://developer.apple.com/videos/play/wwdc2020/10077/" target="_blank">Session 10077 - Eliminate animation hitches with XCTest</a></p></blockquote><h2>概述</h2><p>iOS中动画无处不在，应用中优雅流畅的动画可以显著提升用户体验，同理卡顿也会影响用户体验。通过这个 WWDC Session，我们将学会如何通过 XCTest 来检测滑动和动画过程中的掉帧，进而在开发阶段就能解决问题，避免糟糕的用户体验。</p><h2>如何定义卡顿（Hitches）</h2><p>当用户在页面上操作时，比如上下滑或者点击导航栏上的返回按钮时，主要焦点集中在手势的交互上。良好的交互体验是提供“众享丝滑”的响应速度，反之用户将会感知到明显的卡顿。我们将这些用户可感知的“抖动”称之为卡顿（H...</p></article><div class="index-item-more float-container"><a href="/posts/Eliminate-animation-hitches-with-XCTest">查看全文 &gt;</a></div></div></li><li class="indexli"><div class="index-title"><a href="/posts/Attention-to-Category"><h1>一个不规范的 Category 写法导致的“血案”</h1></a></div><div><ul class="tag-list"><li class="tag variant-0"><a href="/tags/crash">Crash</a></li><li class="tag tagdate">发布于2020年04月20日</li></ul></div><div class="content"><article><p>名字取得有点标题党，不然没人愿意点进来😂😂😂</p><h3>1.背景</h3><p>项目前后两个版本，线上监控显示整体启动时间缩短了近 <strong>300ms</strong>，而且包体积也变小了 <strong>5M</strong>（提交到 App Store 的ipa包）。但是新版本没有大的需求插入，只是 <code>bugfix</code> 版本，启动阶段的代码也没有相关改动。为何会引起包体积和启动时间的变化呢？</p><img class="lazyload" data-src="/media/2020-03-11/15839096586934.jpg" alt="启动耗时&amp;包体积变化"/><p>使用 <code>Instrument</code> 多次跑耗时分析，发现两个版本启动阶段的 <code>getMethodNoSuper_nolock()</code> 函数的耗时的差异非常明显。关键是这个还是系统函数，看起来是消息发送阶段的耗时增加了。</p><img class="lazyload" data-src="/media/2020-03-11/15839137733724.jpg" alt="Instrument 启动阶段耗时对比"/><h3>2.继续分析</h3><p>上面 <code>Instrument</code> 的方法耗时在设置隐藏系统库之后，对比发现没有明...</p></article><div class="index-item-more float-container"><a href="/posts/Attention-to-Category">查看全文 &gt;</a></div></div></li></ul></div><div class="index-bottom-bar"><a href="/posts/">查看更多文章(27) &gt;</a></div></div><div class="right-side-nav"><div class="sideTags"><ul class="all-tags"><li class="tag variant-0"><a href="/tags/avfoundation">AVFoundation (1)</a></li><li class="tag variant-0"><a href="/tags/crash">Crash (2)</a></li><li class="tag variant-1"><a href="/tags/gpuimage">GPUImage (1)</a></li><li class="tag variant-1"><a href="/tags/objectivec">Objective-C (1)</a></li><li class="tag variant-2"><a href="/tags/pod">Pod (1)</a></li><li class="tag variant-2"><a href="/tags/uicollectionview">UICollectionView (3)</a></li><li class="tag variant-3"><a href="/tags/wwdc">WWDC (5)</a></li><li class="tag variant-3"><a href="/tags/webview">WebView (1)</a></li><li class="tag variant-4"><a href="/tags/xcode">Xcode (5)</a></li><li class="tag variant-4"><a href="/tags/xcode8">Xcode8 (2)</a></li><li class="tag variant-5"><a href="/tags/原创">原创 (10)</a></li><li class="tag variant-5"><a href="/tags/后台任务">后台任务 (1)</a></li><li class="tag variant-6"><a href="/tags/插件">插件 (2)</a></li><li class="tag variant-6"><a href="/tags/杂谈">杂谈 (5)</a></li><li class="tag variant-7"><a href="/tags/笔记">笔记 (1)</a></li><li class="tag variant-7"><a href="/tags/翻译">翻译 (6)</a></li></ul></div></div></main><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autofocus placeholder="输入你要搜索的内容..." spellcheck="false" type="search" class="search-input" id="local-search-input"/></div><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span></div><div class="search-result-container"><div class="search-result-icon"><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div><footer><p>Copyright &copy; Vong 2024 Generated using <a href="https://github.com/johnsundell/publish" target="_blank">Publish</a></p><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script src="/Script/google_analyse.js"></script><script src="/Script/baidu_analyse.js"></script><script src="/Script/search.js"></script></footer></body></html>
+```
+
+```... </div> <a href="/posts/an-abnormal-swift-crash/" class="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+阅读全文
+</a> </article><article class="group relative flex flex-col items-start min-w-0"> <h2 class="text-2xl font-bold text-text-main mb-4 group-hover:text-primary transition-colors"> <a href="/posts/eliminate-animation-hitches-with-xctest/" class="decoration-transparent">WWDC20 10077 - 使用 XCTest 消除动画卡顿</a> </h2> <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-text-muted"> <time datetime="2020-06-20T00:13:00.000Z"> 6/20/2020 </time> <div class="flex gap-2"> <span class="hover:text-primary transition-colors">
+#WWDC </span> </div> </div> <div class="mb-6 text-text-muted leading-[1.8] text-base line-clamp-3"> &gt; 本文基于 [Session 10077 - Eliminate animation hitches with XCTest](https://developer.apple.com/videos/play/wwdc2020/10077/)
+
+## 概述
+
+iOS中动画无处不在，应用中优雅流畅的动画可以显著提升用户体验，同理卡顿也会影响用户体验。通过这个 WWDC Session，我们将学会如何通过 XCTest 来检测滑动和动画过程中的掉帧，进而在开发阶段就能解决问题，避免糟糕的用户体验。
+
+## 如何定义卡顿（Hitches）
+
+当用户在页面上操作时，比如上下滑或者点击导航栏上的返回按钮... </div> <a href="/posts/eliminate-animation-hitches-with-xctest/" class="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+阅读全文
+</a> </article><article class="group relative flex flex-col items-start min-w-0"> <h2 class="text-2xl font-bold text-text-main mb-4 group-hover:text-primary transition-colors"> <a href="/posts/attention-to-category/" class="decoration-transparent">一个不规范的 Category 写法导致的“血案”</a> </h2> <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-text-muted"> <time datetime="2020-04-20T00:13:00.000Z"> 4/20/2020 </time> <div class="flex gap-2"> <span class="hover:text-primary transition-colors">
+#Crash </span> </div> </div> <div class="mb-6 text-text-muted leading-[1.8] text-base line-clamp-3"> 名字取得有点标题党，不然没人愿意点进来😂😂😂
+
+### 1.背景
+
+项目前后两个版本，线上监控显示整体启动时间缩短了近 **300ms**，而且包体积也变小了 **5M**（提交到 App Store 的ipa包）。但是新版本没有大的需求插入，只是 `bugfix` 版本，启动阶段的代码也没有相关改动。为何会引起包体积和启动时间的变化呢？
+
+![启动耗时&amp;包体积变化](/media/Attention-to-Category/Attention-to-Category-01-Attention-to-Category-01-Attention-to-Category-01-Attenti... </div> <a href="/posts/attention-to-category/" class="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+阅读全文
+</a> </article> <div class="mt-20 pt-10 flex justify-center"> <a href="/posts/" class="inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-[var(--radius-btn)] cursor-pointer bg-primary text-white hover:opacity-90 shadow-md hover:shadow-lg active:scale-95 border border-transparent text-base px-7 py-3.5 gap-2.5 rounded-full font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+查看所有文章 (27)
+</a> </div> </div> </div>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer>  </body> </html>

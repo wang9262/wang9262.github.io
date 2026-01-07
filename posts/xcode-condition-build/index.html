@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/xcode-condition-build/"><!-- Primary Meta Tags --><title>iOS 中资源的条件编译 | Vong</title><meta name="title" content="iOS 中资源的条件编译 | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/xcode-condition-build/"><meta property="og:title" content="iOS 中资源的条件编译 | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/xcode-condition-build/"><meta property="twitter:title" content="iOS 中资源的条件编译 | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2020-11-21T00:13:00.000Z"><meta property="article:tag" content="Xcode"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"iOS 中资源的条件编译","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2020-11-21T00:13:00.000Z","dateModified":"2020-11-21T00:13:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">iOS 中资源的条件编译</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2020-11-21T00:13:00.000Z" class="flex items-center gap-1.5"> 11/21/2020 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#Xcode </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>日常开发中常常遇到某些类及其引用的资源文件仅在 <code>Debug</code> 或内测版本中生效，而不希望带到线上版本。因为一来会增加包体积，二来会把一些内部功能的相关接口暴露，导致可能的一些动态调试。那么有没有避免的方案呢？</p>
+<h2 id="pod"><a href="#pod">Pod</a></h2>
+<p>答案肯定是有的，通常的做法是把对应功能抽成单独的 <code>pod</code> 库，然后仅 <code>Debug</code> 模式才集成到主工程，发出去的版本不集成。通常方式如下，以 <code>FLEX</code> 为例：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ruby"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">pod </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'FLEX'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'~> 2.0'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">:configurations</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> => [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">'Debug'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span></code></pre>
+<p>但是如果某些强耦合主工程无法拆成独立 <code>pod</code> 的功能，这种方式可能就不再适用了。</p>
+<h2 id="条件编译"><a href="#条件编译">条件编译</a></h2>
+<p><code>pod</code> 这条路走不通，有没有其他方式呢？答案也是肯定的，也是大家经常采用的方式，使用条件编译。也就是将对应类文件及引用到的地方使用类似下面的方式：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">#if</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> DEBUG</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 放入仅Debug模式下生效的代码</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">#endif</span></span></code></pre>
+<p>以上两种方式将大部分场景 <code>cover</code> 住了，但是假设对应的类文件还引用到了图片、<code>Storyboard</code>、<code>Xib</code> 等资源时，该如何让这些资源仅在 <code>Debug</code> 下才参与编译，而其他场景不参与编译呢？</p>
+<h2 id="xcode-build-options"><a href="#xcode-build-options">Xcode Build Options</a></h2>
+<p>既然都写了这篇文章了，那答案也是肯定的，就是使用 <code>Xcode</code> 提供的一个编译选项 <code>Excluded Source File Names</code> 来将不需要的资源排除。</p>
+<p><img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-01-Xcode-Condition-Build-01-Xcode-Condition-Build-01-Xcode-Condition-Build-01-15855806858197.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAIAAABM9SnKAAAACXBIWXMAABYlAAAWJQFJUiTwAAABUUlEQVR4nCXI20vCUACA8T2VEARO3eVMPXNz00y60IOVztzSSjC00k23mc08m/MySehGb0VCjyX194YKP76HD/v5/jWMO9cZT/rTl8mbN3rwvKljDweu13dGNhq4aOyg4XAwGbjjiTft3Ts2ck2jM5//YWbb8gdBJMwLIL0fP2IAR5DhEMGECAYPUH6cwgM0vihFkGHAQDxAhgiwtr7R0k3s2X6qJmU9W7vcK5WF7CkvSQmlmD6TUyVJlPOiIonySk4o5ISCJConyeIBc/jovGLIsncotpzJK7uZY247DRMcm+JhcoHdWokv8eyWEEsJsVSCTwMC2j0XM4wORUEYFWgKMjRL0xDQUS4mQigAmgXLswIAS5KRYBCQZMTn29T1W+zj/bNSuUI917JQ10Ldrq02dE01mpqpqaamLammphqtZrtRb9Wq9Ztr7eK8Mpt9/QO4DVfgMpVi+QAAAABJRU5ErkJggg=="></p>
+<blockquote>
+<p>确切来说这个编译选项是 <code>Xcode 9</code> 才引入的，之前版本需要自行定义，可以参考这个<a href="https://stackoverflow.com/a/41495430" rel="noopener noreferrer" target="_blank">回答</a>。
+摘录一段来自<a href="https://xcodebuildsettings.com/#excluded_source_file_names" rel="noopener noreferrer" target="_blank">Xcode Build Settings</a>的解释
+<img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-02-Xcode-Condition-Build-02-Xcode-Condition-Build-02-Xcode-Condition-Build-02-15855826179239.jpg" alt="-w849" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAABYlAAAWJQFJUiTwAAABeElEQVR4nF2Ly07CQABFG4y60LQM48irosWC9UW0PqDMtAODFNRPMYpoSGlZ+PwME1shkUACRX8CF/pNJmhcmJzcnMW53OfnV6/X9/23wcAfjd57vb7rep734rrer/y41/Y6Xa/TdduvL53u03N7PP7grq8bILiwuppeElckSY5Gxbk5fn5e4HkgCJDnwS8CBEiE4WUYSYRj0tSscHZ2wT3cP+7tZavVU8ZMxsqlUkXXCxjTUsmsmCfl8rFpnjBmViqnOqEH+1mCDV2n8fhSo2Fxt7d329u7xeIRpUzLEWowQijOGzopaJquaTrGRn4iqnqYyag7O/uqepBMpifnm7vNjQylbFIQgmkuh7PZPCEFginGhpYjirIpy2uSJMvymiynU6n1eCxhWTZXq9UDgWmEIghFUilFFJcVZSu8GAMAhUIIQgQAEoRQMAgBWPhZCMOBwMz5+QXn+6PaZd22W5Zl23ar2XQcx7Es+49m8z+O49TrV8Ph8BtZTn72COf12AAAAABJRU5ErkJggg=="></p>
+</blockquote>
+<p>假设有下面目录结构的工程</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># 使用 tree 命令行得到下面结构</span></span>
+<span class="line"><span>├── ConditionBuildDemo</span></span>
+<span class="line"><span>│   ├── A</span></span>
+<span class="line"><span>│   │   ├── Debug</span></span>
+<span class="line"><span>│   │   │   ├── DebugA.swift</span></span>
+<span class="line"><span>│   │   │   ├── icon_test@2x.png</span></span>
+<span class="line"><span>│   │   │   ├── Sub</span></span>
+<span class="line"><span>│   │   │   │   ├── DeepSub</span></span>
+<span class="line"><span>│   │   │   │   │   └── DeepSubA.swift</span></span>
+<span class="line"><span>│   │   │   │   ├── SubDebugA.swift</span></span>
+<span class="line"><span>│   │   │   │   └── icon.png</span></span>
+<span class="line"><span>│   │   │   └── SubA.xcassets</span></span>
+<span class="line"><span>│   │   │       ├── Contents.json</span></span>
+<span class="line"><span>│   │   │       └── logo.imageset</span></span>
+<span class="line"><span>│   │   │           ├── Contents.json</span></span>
+<span class="line"><span>│   │   │           └── logo@2x.png</span></span>
+<span class="line"><span>│   │   └── ModelA.swift</span></span>
+<span class="line"><span>│   ├── B</span></span>
+<span class="line"><span>│   │   ├── Debug</span></span>
+<span class="line"><span>│   │   │   └── DebugB.swift</span></span>
+<span class="line"><span>│   │   └── ModelB.swift</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//测试代码</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">override</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    super</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> ModelA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> ModelB</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> DebugA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> DebugB</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> SubDebugA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> DeepSubA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIImage.</span><span style="color:#D73A49;--shiki-dark:#F97583">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">named</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"logo"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        print</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"has logo"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIImage.</span><span style="color:#D73A49;--shiki-dark:#F97583">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">named</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"icon"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        print</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"has icon"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIImage.</span><span style="color:#D73A49;--shiki-dark:#F97583">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">named</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"icon_test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        print</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"has icon_test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<blockquote>
+<p>这里为了方便验证，直接设置 <code>Debug Configuration</code> 下的 <code>Excluded Source File Names</code>。如图
+<img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-03-Xcode-Condition-Build-03-Xcode-Condition-Build-03-Xcode-Condition-Build-03-15859854120322.jpg" alt="-w984" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAIAAAABPYjBAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAx0lEQVR4nGPYvXtvb+/EmTNnL521fMP8jTuX7pw+beakiVP6+yb1900Eof5JaGjWrNlTp07duXMnQ0ZGjpiIjKS0koCAlLiIorS4qoCwlICQJL+QhJCwlLCgpKCABBqSEJfl5OBLSU5nSEvJ5OcXtzEwddDUM1VQ1RGT1hSSNJCUc9TQ0ZVXlZBQEBOVRUOSEvIc7PypKZkMixYuTkpOb6msntbQ1FJQ3JxX2JiT35xX1FVSUZlbmJtXlI+BCgtK0tOyFi1aAgDb70/FJRgHYAAAAABJRU5ErkJggg==">
+实际用到项目中可根据自己项目自行对不同 <code>Configuratio</code> 进行配置。</p>
+</blockquote>
+<p>下面我们来探索下这个路径的配置规则。</p>
+<p>如果我们想要排除 <code>A</code> 和 <code>B</code> 目录下的 <code>Debug</code> 文件夹的所有内容，按照常规思路，理所当然直接写上 <code>Debug/*</code>，然后编译发现上面的测试代码编译报错，找不到类 <code>DebugA</code>,<code>DebugB</code>。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ViewController.swift:18:22: Use of unresolved identifier 'DebugA'</span></span>
+<span class="line"><span>ViewController.swift:19:22: Use of unresolved identifier 'DebugB'</span></span></code></pre>
+<p>屏蔽掉这两处代码运行，发现 <code>has logo</code> 和 <code>has icon</code> 都输出了。</p>
+<p>所以 <code>Debug/*</code> 只能屏蔽 <code>Debug</code> 根目录下的文件，子文件夹无法屏蔽（因为 <code>.xcasset</code> 实质上也是一个文件夹，所以无法被屏蔽）。</p>
+<p>如果确实想要屏蔽 <code>Debug</code> 下所有内容，要怎么处理呢？目前我还没找到比较好的方式😂，只能一个个目录排除了。拿上面的的结构来说，如果要排除文件夹 <code>A</code> <code>B</code> 目录下的 <code>Debug</code>，可能就得这样配置 <code>Debug/*</code> <code>Debug/*/*</code> <code>Debug/*/*/*</code>，如图</p>
+<p><img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-04-Xcode-Condition-Build-04-Xcode-Condition-Build-04-Xcode-Condition-Build-04-15859945623293.jpg" alt="-w589" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAIAAAAcOLh5AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAwklEQVR4nAG3AEj/ANzb3bGusre1uLKws7Oxtba0uKyqrqCeo6KgpKKgpKKgpKmoqqmoq6moq6alqKOipaSjpqOhpZ6coNjX2QCqnKo+D0BcN19iQWRJHUtNIU9FGUc8ED4+EkA7Dj1JI0tUNldQL1NOLVJQMVNMK09OL1JDGkYyAzSik6MAxsbHaWdsend7goGEcW9zbmxxcW5zc3F1c3F1cnB0d3V6c3B1cG50cW5zcW5zcm90cm90dHJ2bmtwwsHDyQBWKd/iiz4AAAAASUVORK5CYII="></p>
+<p>所以这里支持的匹配模式主要有以下两种：</p>
+<ul>
+<li>文件名完全匹配，比如 <code>ModelA.Swift</code></li>
+<li>通配符，如 <code>Debug/*.Swift</code> <code>Debug/*.*</code> <code>*/Debug/*</code> <code>Debug/*/*/*.png</code></li>
+</ul>
+<h2 id="development-assets"><a href="#development-assets">Development Assets</a></h2>
+<p><img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-05-Xcode-Condition-Build-05-Xcode-Condition-Build-05-Xcode-Condition-Build-05-15859936373369.jpg" alt="-w1219" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB00lEQVR4nGXQS28SURQAYFbiwlg7d0Dnzuu+5869M0BpsWAa/4AsFCjYhNpCbaEz05lqWLhq4kLjqolbo//VDIiJMfkW55FzTnIqP3/8WiyL1erT7e1qsUiXyyxZ3iTXeZ5/zNIiSfIkyZeLLE2L5DpPsyJNivzmw2x2eX//vXJ+dmW7wnOpCSAwLGBYNWDXTQdayHUowXK/3VVhMwiiQETMDes1x4b4YfVxv/+mkmVFp9Prdo8IlhgFGAUICYSE73Hf48gXh4dHve7LQMRlxS8rBMundXcynlZOpzNgWMgXjIQqbGnVoiR0bOK5jJKQM63VnpSNsNSUrOG5DPnCNODx6GQzDNf7As4Uo4ozzalyHSqDONLtzkGvEbdDGWvVilnbdej/wxxhKUTMeSSCmPEIYclEhIjEpZDQklRNyjSlITCsfy4jm2CIMcTEJsQmzGMCCeELzbViSjG1DjTzOEUB2Fw+O52bNUei4LnQL5oH+yLSHo988Zf2+BrbBJEv9rB8tnnY8ejkQXXHNx0HWLumDQA0jC2wYVsQWxDX6p4B4BMAqWk/qu70+4PK1y/fhqPJfPrucjA+H4znWxfDycVw8icdTkrb1vvR2/6r13d3n38DhJ56C4/OYe0AAAAASUVORK5CYII="></p>
+<blockquote>
+<p>关于这个配置项可以查看 <a href="https://developer.apple.com/videos/play/wwdc2019/233/" rel="noopener noreferrer" target="_blank">WWDC 2019 Session 233 Mastering Xcode Previews</a></p>
+</blockquote>
+<p><code>Xcode 11</code> 新增了一个 <code>Development Assets</code> 的配置项，简单尝试了下，但是似乎没有生效。我把上面目录结构中的 <code>SubA.xcassets</code> 加到里面，然后用<code>release</code> 模式跑起来还是能读到对应的图片，不知道是不是姿势不对。</p>
+<p>其实重点还是 <code>Excluded Source File Names</code> 这个编译配置，有时候会有事半功倍的效果。</p>
+<p>update 2022-09-22</p>
+<p>最近使用 Development Assets 无意间发现，这个目录下的资源在 archive 出来的包会被排除（但 release 模式不会），具体情况如下
+<img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-06-16640814305662.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAIAAADKYVtkAAAACXBIWXMAAAsTAAALEwEAmpwYAAABPElEQVR4nAExAc7+ALKxtZSSmJ2WnIuHjYSEi4WEiZWEiZyChpGBhYKBh4WCh4KAhYOAhYmGjIaDiIWEioiHjIuJjoJ/hauprQBqaHAhHyw7Ljg4JC4sHCcfGCIpISwlGCIsKDIuLjcnIyoXExsWDxs0LjoqJSwmJTE2M0AsJTESChhYU1wAj42ST0tUSUZQLCg0Nys1PioyRDM8My03OzpBSkZNMi42LCkxKCEsT0hSREFGPTdAUk5YNjE9JiEuZWFpAIWCiDYyPSolMB4aJh0aJx0ZJS0hLC0YITspLzo6PyMgJh8eIxwWIDsyPysmLCQeKDAiLyUUIRcFE1hTXQCsq657en+AfoR3dXt4dnx4dXp4d312dnt6dXp4dnp5d3p4d3p1c3iAfIJ+e352c3l9bnSHcniAanCdmp7R/GLMz33PjQAAAABJRU5ErkJggg=="></p>
+<p>具体入口在选中 Target 之后，选中顶部 General 即可。
+<img src="/media/Xcode-Condition-Build/Xcode-Condition-Build-07-16640814434504.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAIAAAAcOLh5AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAdklEQVR4nGOYMX1WYlxKQW5xalJGbFRCXHQiQZQQmxwWHDl54lSGxPgUJgZ2YT5xfi5hPiTEj4REBSTFBaXFBKUEeUT5uYSFeMWYGdijIuIYOtq6bCwdPN183F28kZGHq4+Hq7c7GIHZIATherr72tk4NTe1AgAovi8DWEXm4AAAAABJRU5ErkJggg=="></p>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/ios16-live-activity/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">iOS16 Live Activity 初体验</span> </a> <a href="/posts/an-abnormal-swift-crash/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">聊聊最近遇到的一个Crash</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

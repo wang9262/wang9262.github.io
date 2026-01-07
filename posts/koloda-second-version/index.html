@@ -1,0 +1,416 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/koloda-second-version/"><!-- Primary Meta Tags --><title>Koloda动画第二版[译] | Vong</title><meta name="title" content="Koloda动画第二版[译] | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/koloda-second-version/"><meta property="og:title" content="Koloda动画第二版[译] | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/koloda-second-version/"><meta property="twitter:title" content="Koloda动画第二版[译] | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2015-08-23T17:31:00.000Z"><meta property="article:tag" content="翻译"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Koloda动画第二版[译]","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2015-08-23T17:31:00.000Z","dateModified":"2015-08-23T17:31:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">Koloda动画第二版[译]</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2015-08-23T17:31:00.000Z" class="flex items-center gap-1.5"> 8/23/2015 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#翻译 </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>一个月前，我们发布了<a href="https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/" rel="noopener noreferrer" target="_blank">how we developed Tinder-like Koloda in Swift</a>(<a href="http://0.0.0.0:4000/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/" rel="noopener noreferrer" target="_blank">如何创建一个类似 Tinder 的交互动画[译]</a>)。在开发者与设计师社区这个动画都受到强烈的欢迎，所以我们决定继续改善它。</p>
+<p>原文：<a href="https://yalantis.com/blog/koloda-tinder-like-animation-version-2-prototyping-in-pixate-and-development-in-swift/" rel="noopener noreferrer" target="_blank">Koloda Tinder-Like Animation Version 2.</a></p>
+<p>从我们发布第一个简单的 Koloda 动画后，我们的设计师Dmitry Goncharov坚持要实现他的下一个想法。同样，我们的 iOS 开发工程师，Koloda 动画创建者Eugene Andreyev承诺要让 frame 计算更加自定义化来让更多开发者在我们的 Koloda 动画上制作他们别具一格的组件。
+所以这是 Koloda 故事的第二章。这一次我们将同时讨论设计和开发。同时你也可以在<a href="https://dribbble.com/shots/2189960-Koloda-Tinder-Like-component-for-IOS-Available-on-GitHub" rel="noopener noreferrer" target="_blank">Dribble</a>以及<a href="https://github.com/Yalantis/Koloda" rel="noopener noreferrer" target="_blank">GitHub</a>上查看该动画。</p>
+<h2 id="我们如何用-pixate-制作-koloda-原型"><a href="#我们如何用-pixate-制作-koloda-原型">我们如何用 Pixate 制作 Koloda 原型</a></h2>
+<blockquote>
+<ul>
+<li>by Dmitry Goncharov</li>
+</ul>
+</blockquote>
+<p>我被 Tinder-like 这个概念所鼓舞，决定详细阐述把 Koloda 转变为不同寻常动画的最原始的想法。可喜的是，几个小时后我有了一个新的想法。我的想法是去除底部层级，从背景中来加载下一个卡片。我在 PS 中设计了一个实物模型，然后在<a href="http://www.pixate.com/" rel="noopener noreferrer" target="_blank">Pixate</a>中制作了原型。Pixate 是一个类似 InVisio、Marver、Origami 的设计工具。尽管在 Pixate 中设计原型比在 InVisio 中花了更多时间，但是Pixate做出的原型更加像一个原生应用。这个原型重造了我想要的卡片行为。</p>
+<p><img src="/media/Koloda-Second-Version/Koloda-Second-Version-01.gif" alt="content_pixate" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAD9UlEQVR4nF2O229TBRzHzxZMh4Ve1vV62tOd3s45XU+7lnZbx27swtgGu7CBAhGBySC4xHghkAGRFxige4DMiKzgxui4qbCNBdFIREFNTEiQEOMbJvoHQPQBXz5mXXzx4ZPv75ffL5/fT7CUlrFIqc2BrcyJze7E4fIg+QP45SDlcojyQBg5ECYYihRwi97CbpndhdMt4nR7cXl8uEUJYaXJgslswWSxYrbaKLM78fokXi4xLGEwYF6xghXLl2MsMWAsKcFsMmF3uigtc+B0LQn/Q1hpsmKx2grDxatOlxezxYogCBQVFRVSKDYgFC1bqgWB4uJi7E43jv/JFr8UrDYHdqen0Hi8fjz+EHFZ4kjax2hW5kSlnePVfk5kvIwmyhhLexhKBfB6fUg+CUnyI/pkRF85XklG8Ihe/H4/4XAELRpFiyeo1zVub23g8w2VXF2rcbUjxpX2KFfWasx16rxfqxAJh9Aj5aiRIHIwgiSHkeQQgq7KpPQQ6aRGVVWM+rokakynbn0/JinCMruPlxw+iks9GBwSRo+MweoiGVeoTshURkNURFVUVUNRVITmbJjW2ggttSotqxXWr4kXFg4fPsLczVnmZ2dZuHWL+bm5Qj74/js2bXoVXfXSXBMkowfI6GEyCYVMQkXY1hZla2uUTc0a/U0KW9sqiKoRRkZG+PrLBS7kJhg9doxTJ0b54NRJ8hen2NDdR1qXac8uCsupTgSpSym0VMUQBts19nTGeKMrzq51FeztipGMKSiqRiquIdqtLC8pwWK1YjQaEUWRoBKlNauzsUGhPhGgIRWhLavT05RC2NIcZldHjKHuNHu70wz3pKivSZG/cp3Z+QXu3LnDN3fvcv+Hn7j/4Ee+vXePdLae3qYE7/SneKVJYUtzlJ0dCYZ7VyF0Vsv0N0bY3h5jd1eCfd1J6mtW8cm5c1w4nyOfz3Pt2jWmpiYLTE5+SmW6lh3rM4y/WcfBvgoO92kc3xxl/PUoQkOFm7akl/7VQXa2KAx3aNSuinNm/CMmJs6Ry+W4PDPD+fMTzOSnyV+aJJHOMtSXZXr/Go4PKJzcIDHe62Fmh4jQqNpo1e1srBIZavRzsN1PYybO73/8yT8vXvDs2XMePfyZrxZmefjLb9y4fY9EuobdvbXM7G9lbKPCWLuT02vNTG22IvRWOhhIOxlc7WakTWSsR2JNJsbjJ7/y9OlTpi9OcezQ2+TOfMjZ6VuMT94gmVkSXj+wjrPbYuT6RD7uNDPRY0R4rcrNcIObo+tExgckJrcrtFbHefT4CX//9ZzL0xd468BR8pdv8t6+Qd4d3k2qpoF9fVnmD3VxaU8VXwwG+GxLKZcGjPwL/ygqBN6Fvp0AAAAASUVORK5CYII="></p>
+<p>现在让我们来讲一下其中的过程。Pixate 工具栏中包含了layers、action kit、以及animations。在资源加载完成出现在 artboard 上后，你就可以在layer上开始工作了，然后继续创建交互。一开始我需要让卡片水平移动然后当他们跨越临界点时从屏幕当中飞出。在简单的动画帮助下，我实现了这个过程。同样我也让卡片改变它的透明度和在交互过程中进行旋转。</p>
+<p>然后我要让一个新的卡片按照就像它从背景中加载一样出现，所以我需要对其进行拉伸和缩放。我设置了缩放比为3.5倍到1倍，3.5倍是卡片在背景中的大小。</p>
+<p><a href="https://yalantis.com/media/content/ckeditor/2015/08/11/tips.png" rel="noopener noreferrer" target="_blank"></a></p>
+<p>为了有更好的效果，我加了一些弹性动画，然后它就大功告成了。至此，原型设计就完成了，接下来就是开发的事情了。下面我想总结一下我对 Pixate 的总体印象。
+优点：</p>
+<ul>
+<li>在移动设备上预览</li>
+<li>原型处理简单</li>
+<li>不需要有特定的动画基础知识</li>
+<li>原型看起来更像原生 App</li>
+<li>工程共享更加方便（可导出到电脑，外链，二维码）</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>一个原型没有囊括整个 App 的功能，只是展示独立的功能和交互</li>
+<li>一个单独的 artboard 不能容纳原型的所有界面</li>
+<li>不能将原型导出为代码</li>
+<li>web 端应用有 bug</li>
+<li>基础的 asset kit 非常有限</li>
+<li>动画没有时间线</li>
+</ul>
+<p>尽管有这么些缺点，但是 Pixate 是一个强大的工具，它能够设计师设计原生可点击的原型，创建导航模式以及屏幕间的交互。最重要的是，它能够让整个团队明白工程开发的整体方向。你可以观看<a href="https://www.youtube.com/channel/UCi0aGwdVsX6O4yw5JxpNGgQ" rel="noopener noreferrer" target="_blank">Jared Lodwick</a>的视频教程来了解更多。</p>
+<p>现在你已经知道一些关于 Koloda 的原型设计过程，是时候来谈谈我们如何开发出第二版动画的。</p>
+<h2 id="我们如何开发-koloda-v2"><a href="#我们如何开发-koloda-v2">我们如何开发 Koloda v.2</a></h2>
+<blockquote>
+<p>by Eugene Andreyev</p>
+</blockquote>
+<p>第一版和第二版动画的最主要的区别就是卡片的布局。新版动画中最前的卡片被放置在屏幕中间，下面的卡片在背景中拉伸。底部卡片不会随顶部卡片移动而做出响应，而是在顶层卡片被滑出时出现在屏幕中，出现过程中有一个弹性特效。
+得益于 Dima 的原型，第二版更加容易开发。首先，Pixate 允许查看原型的所有交互，其次我可以通过 Pixate 来查看所有应用到的变化，以及它们的顺序。然后简单地讲它们写进代码中，不需要人为调整。
+最后，第二版 Koloda 是一个旅行 app 的一部分，不像第一版那样全是摇滚。</p>
+<p>第一版：</p>
+<!-- Missing: /media/content_koloda_v1.gif -->
+<h2 id="koloda-v2的实现"><a href="#koloda-v2的实现">Koloda v.2的实现</a></h2>
+<p>为了实现 Dima 设计的动画，我需要用不同的方式来放置卡片，所以我将<a href="http://vonglo.me/2015/08/21/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BC%20Tinder%20%E7%9A%84%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB/" rel="noopener noreferrer" target="_blank">上一篇文章</a>(KolodaView实现那一段)中的<code>frameForCardAtIndex</code>暴露在头文件中。在 KolodaView 的子类中我复写了这个方法，然后按如下方式来放置卡片：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">override</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> frameForCardAtIndex</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">index</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">UInt</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> CGRect {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">       if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> index </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> bottomOffset:CGFloat </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> defaultBottomOffset</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> topOffset:CGFloat </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> defaultTopOffset</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> xOffset:CGFloat </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> defaultHorizontalOffset</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> width </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CGRectGetWidth</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.frame ) </span><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> defaultHorizontalOffset</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> height </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> width </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> defaultHeightRatio</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> yOffset:CGFloat </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> topOffset</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> frame </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CGRect</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">x</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: xOffset, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">y</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: yOffset, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">width</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: width, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">height</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: height)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> frame</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">       } </span><span style="color:#D73A49;--shiki-dark:#F97583">else</span><span style="color:#D73A49;--shiki-dark:#F97583"> if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> index </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> horizontalMargin </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> -</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.bounds.width </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> backgroundCardHorizontalMarginMultiplier</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> width </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.bounds.width </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> backgroundCardScalePercent</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> height </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> width </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> defaultHeightRatio</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">           return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CGRect</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">x</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: horizontalMargin, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">y</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">width</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: width, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">height</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: height)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">       }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">       return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> CGRectZero</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">   }</span></span></code></pre>
+<p>发生了什么？我将 frontCard放置在KolodaView中间，然后拉伸背景卡片为其原始大小的1.5倍。</p>
+<!-- Missing: /media/15743481476006.jpg -->
+<h2 id="背景卡片的弹性动画"><a href="#背景卡片的弹性动画">背景卡片的弹性动画</a></h2>
+<p>因为背景卡片以弹性动画的方式出现，以及在移动过程中改变透明度，我写了一个新的代理方法：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">KolodaView </span><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> kolodaBackgroundCardAnimation</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">koloda</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: KolodaView) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> POPPropertyAnimation</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span></span></code></pre>
+<p>在这个方法中，POPAnimation 被创建用来传给 Koloda。然后当用户滑动卡片时， Koloda 用它来给 frame 的改变做动画。如果代理方法返回 nil，意味着 Koloda 使用默认的动画。</p>
+<p>下面代码就是这个代理方法的实现</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> kolodaBackgroundCardAnimation</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">koloda</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: KolodaView) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> POPPropertyAnimation</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">       let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> animation </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> POPSpringAnimation</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">propertyNamed</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: kPOPViewFrame)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">       animation.springBounciness </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> frameAnimationSpringBounciness</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">       animation.springSpeed </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> frameAnimationSpringSpeed</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">       return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> animation</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">   }</span></span></code></pre>
+<h2 id="怎样阻止背景卡片移动"><a href="#怎样阻止背景卡片移动">怎样阻止背景卡片移动？</a></h2>
+<p>同样我也添加了一个新的代理方法在新版的 Koloda 中</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> kolodaShouldMoveBackgroundCard</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">koloda</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: KolodaView) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#005CC5;--shiki-dark:#79B8FF"> Bool</span></span></code></pre>
+<p>如果返回 false就意味着交互动画被禁用，背景卡片不会随着顶层卡片移动而移动。</p>
+<p>下面就是返回 false 时的动画效果：</p>
+<!-- Missing: /media/content_static_bg.gif -->
+<p>这是返回 true 的动画效果</p>
+<!-- Missing: /media/content_v2.gif -->
+<p>希望你能喜欢第二版的 Koloda，尽情使用它吧！</p>
+<ul>
+<li><a href="https://dribbble.com/shots/2189960-Koloda-Tinder-Like-component-for-IOS-Available-on-GitHub" rel="noopener noreferrer" target="_blank">Dribbble</a></li>
+<li><a href="https://github.com/Yalantis/Koloda" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+</ul>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/a-spinning-wheel-layout/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">UICollectionView自定义布局之风火轮[译]</span> </a> <a href="/posts/how-we-built-tinder-like-koloda-animation-in-swift-chinese-translation/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">如何创建一个类似 Tinder 的交互动画[译]</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

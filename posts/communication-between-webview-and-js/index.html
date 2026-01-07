@@ -1,0 +1,702 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/communication-between-webview-and-js/"><!-- Primary Meta Tags --><title>WebView 与 JS 的交互 | Vong</title><meta name="title" content="WebView 与 JS 的交互 | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/communication-between-webview-and-js/"><meta property="og:title" content="WebView 与 JS 的交互 | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/communication-between-webview-and-js/"><meta property="twitter:title" content="WebView 与 JS 的交互 | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2015-10-19T00:14:00.000Z"><meta property="article:tag" content="WebView"><meta property="article:tag" content="原创"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"WebView 与 JS 的交互","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2015-10-19T00:14:00.000Z","dateModified":"2015-10-19T00:14:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">WebView 与 JS 的交互</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2015-10-19T00:14:00.000Z" class="flex items-center gap-1.5"> 10/19/2015 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#WebView </span><span class="text-text-muted hover:text-primary transition-colors">
+#原创 </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>本文主要分析一些 iOS 中 WebView 与 JavaScript 交互的一些框架。</p>
+<h3 id="uiwebview-调-js-方法"><a href="#uiwebview-调-js-方法">UIWebView 调 JS 方法</a></h3>
+<p>通过调用如下方法：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)stringByEvaluatingJavaScriptFromString:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)script;</span></span></code></pre>
+<p>比如获取网页 title，也可以动态注入 JS，先写一个 JS 函数</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> showAlert</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {  </span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">    alert</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">'show alert'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">} </span></span></code></pre>
+<p>然后保存为js 文件，最后读取这个文件并注入</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">filePath </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSBundle</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> mainBundle</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">pathForResource:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"test"</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> ofType:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"js"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];  </span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">jsString </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithContentsOfFile:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">filePath];  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[webView </span><span style="color:#005CC5;--shiki-dark:#79B8FF">stringByEvaluatingJavaScriptFromString:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">jsString];</span></span></code></pre>
+<h3 id="js-调原生方法"><a href="#js-调原生方法">JS 调原生方法</a></h3>
+<p>直接调用无法做到，可以间接实现。</p>
+<h4 id="方法1"><a href="#方法1">方法1</a></h4>
+<p>JS 中要从现在的网页跳到另外一个网页的时候，就会去修改 <code>window.location.href</code> ，而在 <code>@protocol UIWebViewDelegate</code> 中有一个回调方法</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">BOOL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView:(UIWebView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView shouldStartLoadWithRequest:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSURLRequest</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)request navigationType:(UIWebViewNavigationType)navigationType;</span></span></code></pre>
+<p>可以监听到网页的跳转，所以可以在此做文章。
+通过指定<code>window.location.href = schemename://nativemethodname:args</code>就可以去间接调用到原生函数。JS 一旦修改了<code>window.location.href</code>，<code>UIWebView</code>就会收到相应回调，也就是上面说的方法，这样我们可以通过判断<code> request</code>的<code>url</code>是否为自定义的 <code>scheme</code>来决定是否调用原生函数。</p>
+<h4 id="方法2"><a href="#方法2">方法2</a></h4>
+<p>创建iframe，设置src，并插入到body节点</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> execute</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">url</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> iframe </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> document.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">createElement</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"IFRAME"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  iframe.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">setAttribute</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"src"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, url);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  document.documentElement.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">appendChild</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(iframe);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  iframe.parentNode.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">removeChild</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(iframe);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  iframe </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> null</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">execute</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"schemename://nativemethodname:args"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span></code></pre>
+<p>上述的这一串<code>schemename://nativemethodname:args</code>由客户端和前端约定好即可。剩余的事就是截获这个<code>request</code>，然后解析得到相应的参数，传入要调用的原生函数即可。同时在回调方法中要<code>return NO</code>。
+大致代码如下：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">BOOL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView:(UIWebView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView shouldStartLoadWithRequest:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSURLRequest</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)request navigationType:(UIWebViewNavigationType)navigationType</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSURL</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">requestUrl </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> request.URL;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ([requestUrl.scheme </span><span style="color:#005CC5;--shiki-dark:#79B8FF">isEqualToString:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"schemename"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">            NSArray</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">components </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [requestUrl.absoluteString </span><span style="color:#005CC5;--shiki-dark:#79B8FF">componentsSeparatedByString:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@":"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">            NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">resultJSONString </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#E36209;--shiki-dark:#FFAB70">components</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> customMethod:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">resultJsonString];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">            return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> NO</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">   return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> YES</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="webviewjavascriptbridge"><a href="#webviewjavascriptbridge">WebViewJavaScriptBridge</a></h3>
+<p><img src="/media/Communication-Between-WebView-and-JS/Communication-Between-WebView-and-JS-01-2019-11-21-15743466661142.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAACQUlEQVR4nHWSz09TQRDH+49wUDRSxEBKjKloTTxw0OBFjOGkJ/Vg4w+oaWowxpB4QEQBbTyo0LS1QKzY2lpaEvFk2oIYk0LV1ia0fU8D7aN9j93X93Z3zKMIpuBksoeZ72dmd2d08B+jjGJFRoqMKkhWK4yxnRrdrhgApFYz51yXLr+5dXHi2gWXuSAVAaCmxC5wNb+uVD5z2dwax5V/xxLzhWKhCv/L67ZCNQmFgEy2a0mSJAgCpZQxVj0ZY7WdGTC2oUcKRRWVEs1UVQUALOOSUKKEbndmDFbKiBMkfk3KCyJWNB0ACBVGd/zRiliIJuLf8ym+/EvEok5RSZc91NLrOdo3qbc6Q4tpAKVQKCZ/LudyHM/xfJ7PZfP5HCdLcnegt/mxyWQ/3fjQ6Jgb11VUcnYo0GB1Gu549naPTS0my1CMReOhYDAcioSnI+FQJOAP+n3vfiRT5rfWxkGj8Wn7vv7Wl3G3BncOBw/aXMZ7E/UWx4cvaQAQRVHGWHOENMcYY6SI62avpXnIdOJZx4GBI6PxV9q1O4cDTTaXqc+7v8c98ykBRFYRphhThChGFCGCEJExlMSrkzcMIydPvehqeNA2Gvdo8Pkn75tuu413X+stntlEDgBUsjmMqtGN8QDAdb/t0KNjbfYz+oHjm2/uGPTv6RlrsY3XmR0zX5c1WCWM0i2nlFCiDf2K92Z9f+vhkfa6+4bnUaeOMvZxKeubTwUXMlOxFC9I2ob+XYOa/ZnLLgSWwuFvs77EdHo18wcdaJDJV+w3wgAAAABJRU5ErkJggg=="></p>
+<h4 id="实现原理"><a href="#实现原理">实现原理</a></h4>
+<p>大致原理与上面说的一致。只不过<code>WebViewJavaScriptBridge</code>进行了更完善的封装，使得 <code>JS</code>与<code>Native</code>之间的通信变得更为简便。</p>
+<p>一开始注入<code>WebViewJavaScriptBridge.js</code>,该文件中的<code> JS</code>方法主要做了以下几件事</p>
+<ul>
+<li>创建了一个用于发送消息的iFrame(通过创建一个隐藏的<code>ifrmae</code>，并设置它的URL 来发出一个请求，从而触发UIWebView的<code>shouldStartLoadWithRequest</code>回调协议)</li>
+<li>创建了一个核心对象<code>WebViewJavaScriptBridge</code>，并给它定义了几个方法，这些方法大部分是公开的API方法</li>
+<li>创建了一个事件：<code>WebViewJavaScriptBridgeReady</code>，并<code>dispatch</code>。##</li>
+</ul>
+<p><code>native</code>将方法名、参数、回调的id放到一个对象中传给<code>js</code>。<code>js</code>根据方法名字调用相应方法，之后将返回数据和<code>responseId</code>拼装，最后通过<code>src</code> 重定向到<code>UIWebview</code> 的<code>delegate</code>。<code>native</code>得到数据后根据<code>responseId</code>调用事先装入<code>_responseCallbacks</code>的<code>block</code>，动态读取调用，从而完成交互。</p>
+<h4 id="流程native端"><a href="#流程native端">流程（Native端）</a></h4>
+<h5 id="public-interface"><a href="#public-interface">Public Interface</a></h5>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)bridgeForWebView:(WVJB_WEBVIEW_TYPE</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView handler:(WVJBHandler)handler;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)bridgeForWebView:(WVJB_WEBVIEW_TYPE</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webViewDelegate handler:(WVJBHandler)handler;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)bridgeForWebView:(WVJB_WEBVIEW_TYPE</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView webViewDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webViewDelegate handler:(WVJBHandler)handler resourceBundle:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSBundle</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)bundle;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)enableLogging;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)send:(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)message;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)send:(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)message responseCallback:(WVJBResponseCallback)responseCallback;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)registerHandler:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handlerName handler:(WVJBHandler)handler;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)callHandler:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handlerName;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)callHandler:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handlerName data:(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)data;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)callHandler:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handlerName data:(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)data responseCallback:(WVJBResponseCallback)responseCallback;</span></span></code></pre>
+<h5 id="初始化一个-bridge"><a href="#初始化一个-bridge">初始化一个 bridge</a></h5>
+<p>初始化的工作主要如下：</p>
+<ul>
+<li>设置默认的消息处理 block ———— messageHandler</li>
+<li>初始化用来保存消息处理 block 的字典 ———— messageHandlers</li>
+<li>初始化消息队列数组 ———— startupMessageQueue</li>
+<li>初始化响应回调 ———— responseCallbacks</li>
+<li>以及初始化全局唯一标识 ———— uniqueId</li>
+</ul>
+<p>当在外部调用</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)registerHandler:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handlerName handler:(WVJBHandler)handler;</span></span></code></pre>
+<p>方法时，会将 handler 保存到上面初始化好的 messageHandlers 当中，key为上述方法中的 handlerName，value 为上述方法的 handler。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)sendData:(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)data responseCallback:(WVJBResponseCallback)responseCallback handlerName:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handlerName; </span></span></code></pre>
+<p>发送消息时，会将消息加入到消息队列数组，加到数组当中的object 为字典型，字典有三个 key，分别为 data，callbackId， handlerName，分别对应上述方法的三个参数。入队时，如果当前消息队列存在，则将该消息入队，否则立即分发该消息。</p>
+<h5 id="网页加载过程"><a href="#网页加载过程">网页加载过程</a></h5>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">BOOL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView:(UIWebView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView shouldStartLoadWithRequest:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSURLRequest</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)request navigationType:(UIWebViewNavigationType)navigationType;</span></span></code></pre>
+<p>加载请求或 html 时，在 shouldStartLoadWithRequest 回调中会先判断请求是否带自定义协议。如果带有自定义协议，会调用注入的 js 中 WebViewJavaScriptBridge 的_fetchQueue 方法来获取当前消息，然后分发该消息。主要是在分发消息这一块，拿到消息 json 然后序列化，如果这个消息是队列(数组)才进行处理，消息队列中也是一系列字典型对象，这些对象可能有这么几个key：responseId，responseData，callbackId，handlerName，data。
+然后对消息队列做一个遍历大致逻辑如下：</p>
+<ul>
+<li>如果 responseId 对应的 value 存在，那么就到 responseCallbacks 字典中去寻找对应的 WVJBResponseCallback 型回调 block，然后执行，block 参数为 responseData 对应的 value。然后把这个 block 从 responseCallbacks 字典中移除。</li>
+<li>如果 responseId 对应的 value 不存在，再看 callbackId 对应的 value 是否存在，存在则设置回调 responseCallback，这个 responseCallback 主要是创建一个消息，然后是消息入队，这个消息字典为 <code>@{ @"responseId":callbackId, @"responseData":responseData }</code>；反之 responseCallback 中什么也不执行；最后判断 handlerName 对应的 value 是否存在，存在则取 messageHandlers 中对应的回调 handler，不存在就是用默认的 handler，最后执行这个 WVJBHandler 型的 handler，参数为 data 对应的 value 以及 responseCallback。</li>
+</ul>
+<p>文字有点多，参考下下面这个流程图：</p>
+<p><img src="/media/Communication-Between-WebView-and-JS/Communication-Between-WebView-and-JS-02-2019-11-21-15743466818699.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAAsTAAALEwEAmpwYAAABP0lEQVR4nGWQjY4bIQyE8/7PeY1y2eN2AYP/xt6KJG2j3shCaNBYH3M5/2jMGZnPe77NXyNf5z//gkyKEFHed7QONZrj+2ifKleZnzq/dV653Vo5yq2U+9fRNjOOWOE8T8tEpBCF6pkZkc4mUA5hiIRWx24+REmU3Uek5kJY4bXkPPtxhC4TGaoqInNMniwsrqLMYwzmKQuS3eyF3RGiyqWgVphN4X2v/avU67WWstHYOx232/7x69i2jWjrnUVf2M/fU2twf5bznzKTiH7Y54UQhBgR+4LBMFSgAR3BEXj0/x5+X/1q21jm/Y7jgOqQ2cfgTDicVTDZeht1ZrJqdIrWnTmeYY3VMJXic8RD/hhEAOHhBmuteqavNw9zACtMiB7hCm5zeCet05rBiOhQpUhCVHMpBbRwKqIjGmIifgNu4khh+GtkhAAAAABJRU5ErkJggg=="></p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webViewDidFinishLoad:(UIWebView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView;</span></span></code></pre>
+<p>加载结束的回调中判断 js 是否初始化了 WebViewJavaScriptBridge实例，如果不存在，就注入本地的 js。然后检测到 bridge 调用自定义 scheme 后会分发整个消息队列即 startupMessageQueue，遍历消息队列然后取出每一个消息对象(NSDictionary) 然后将其序列化成 JSON，在主线程中调用 JS 的 WebViewJavaScriptBridge._handleMessageFromObjC 方法，参数就是序列化后的 JSON 数据。分发完成后，将 startupMessageQueue 队列置为 nil。</p>
+<p>至此 OC 端的整个流程完毕。</p>
+<h4 id="js-端流程"><a href="#js-端流程">JS 端流程</a></h4>
+<p>JS 端流程和 OC 端流程大致是一样的</p>
+<h5 id="public-interface-1"><a href="#public-interface-1">Public Interface</a></h5>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">messageHandler</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> send</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">data</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#E36209;--shiki-dark:#FFAB70">responseCallback</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> registerHandler</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">handlerName</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#E36209;--shiki-dark:#FFAB70">handler</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> callHandler</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">handlerName</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#E36209;--shiki-dark:#FFAB70">data</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#E36209;--shiki-dark:#FFAB70">responseCallback</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> _fetchQueue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> _handleMessageFromObjC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">messageJSON</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<h5 id="初始化"><a href="#初始化">初始化</a></h5>
+<p>类似 OC 中的初始化</p>
+<ul>
+<li>注入一个默认的 messageHandler</li>
+<li>初始化一个消息接收队列，然后调用内部方法 _dispatchMessageFromObjC 来分发消息,同时将消息接收队列置空</li>
+</ul>
+<h5 id="发送消息"><a href="#发送消息">发送消息</a></h5>
+<p>调用内部 <code>function _doSend(message, responseCallback)</code> 函数，该函数通过判断 responseCallback 回调是否存在，存在则将这个回调存入到 responseCallbacks 字典中，其 key 是全局唯一的，同时将这个 key 存入到 message 这个字典参数中，其 key 和 value 一致，及 message[‘key’] = key。接着把这个 message 参数入队即加到 sendMessageQueue 数组中。然后重定向 frame 的 src，这样 OC 端就可以在代理回调方法中去拦截这个 src 对应的 request。</p>
+<h5 id="消息处理机制"><a href="#消息处理机制">消息处理机制</a></h5>
+<p>如果消息接受队列存在则将消息 JSON 入队即添加到 receiveMessageQueue 数组中。反之，调用内部消息分发方法</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> _dispatchMessageFromObjC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">messageJSON</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<p>分发机制类似 OC 端的那张流程图，在此不做详述。</p>
+<h5 id="注册及调用-handler"><a href="#注册及调用-handler">注册及调用 handler</a></h5>
+<ul>
+<li>注册：在 messageHandlers 这个字典添加对应的 key 和 value。key 为 name，value 为 handler</li>
+<li>调用：类似发送消息，message 参数为 { handlerName:handlerName, data:data }</li>
+</ul>
+<h5 id="获取消息队列供-oc-端调用"><a href="#获取消息队列供-oc-端调用">获取消息队列(供 OC 端调用)</a></h5>
+<p>这里会将消息发送数组进行 JSON 转化，转换后清空消息队列，然后返回给 OC 端。</p>
+<h5 id="内部注入的-js"><a href="#内部注入的-js">内部注入的 JS</a></h5>
+<p>上面说的所有都在内部注入的 JS(WebViewJavaScriptBridge.js.txt) 中完成,该 JS 做的事情在上述的实现原理中也有提到，这里不再展开。</p>
+<h5 id="外部-html-或-js-需要处理的事"><a href="#外部-html-或-js-需要处理的事">外部 html 或 js 需要处理的事</a></h5>
+<p>可参考下例的写法：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">document.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">addEventListener</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">'WebViewJavascriptBridgeReady'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">event</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> bridge </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> event.bridge</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // Start using the bridge</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">false</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<p>可将上述代码封装到一个 JS 函数中，然后在函数中进行其它一系列操作，如init，send 等具体参见 <a href="https://github.com/marcuswestin/WebViewJavascriptBridge" rel="noopener noreferrer" target="_blank">Demo</a>。</p>
+<h3 id="javascriptcoreios7--os-x-109-later"><a href="#javascriptcoreios7--os-x-109-later">JavaScriptCore(iOS7 &#x26; OS X 10.9 later)</a></h3>
+<h4 id="主要的类"><a href="#主要的类">主要的类:</a></h4>
+<ul>
+<li>JSVirtualMachine：非常轻量，可初始化多个 VM 来支持 JS 中的多线程</li>
+<li>JSContext：给 JS 提供运行上下文环境以及一系列值操作(通过下标来获取，类似 NSdictionary，即context[@“objectKey”])，一个 VM 中可有多个 context</li>
+<li>JSValue：数据桥梁</li>
+<li>JSManagedValue：用于解决 retain cycle</li>
+</ul>
+<h4 id="oc-调用-js"><a href="#oc-调用-js">OC 调用 JS</a></h4>
+<p>JSContext 可调用 <code>evaluateScript:</code> 方法来执行某个脚本如下：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[context </span><span style="color:#005CC5;--shiki-dark:#79B8FF">evaluateScript:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@”var square </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> function</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(x) {</span><span style="color:#D73A49;--shiki-dark:#F97583">return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> x</span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">x;}”]; </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">squareFunction </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#E36209;--shiki-dark:#FFAB70"> context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[@”square”]; </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(@”</span><span style="color:#D73A49;--shiki-dark:#F97583">%</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@”, squareFunction);  </span><span style="color:#6A737D;--shiki-dark:#6A737D">// function (x) {return x*x;}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">aSquared </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [squareFunction </span><span style="color:#005CC5;--shiki-dark:#79B8FF">callWithArguments:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@[</span><span style="color:#E36209;--shiki-dark:#FFAB70">context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[@”a”]]]; </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(@”a</span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#005CC5;--shiki-dark:#79B8FF">2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">%</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@”, aSquared); </span><span style="color:#6A737D;--shiki-dark:#6A737D">//a^2: 25</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">nineSquared </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [squareFunction </span><span style="color:#005CC5;--shiki-dark:#79B8FF">callWithArguments:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@[@</span><span style="color:#005CC5;--shiki-dark:#79B8FF">9</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]]; </span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(@”</span><span style="color:#005CC5;--shiki-dark:#79B8FF">9</span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#005CC5;--shiki-dark:#79B8FF">2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">%</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@”, nineSquared); </span><span style="color:#6A737D;--shiki-dark:#6A737D">//81</span></span>
+<span class="line"></span></code></pre>
+<h4 id="js-调用-oc"><a href="#js-调用-oc">JS 调用 OC</a></h4>
+<p>两种方式：</p>
+<ul>
+<li>Block</li>
+<li>JSExport 协议</li>
+</ul>
+<h5 id="block"><a href="#block">Block</a></h5>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"factorial"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> ^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">int</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> x) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        int</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> factorial </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (; x </span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">; x</span><span style="color:#D73A49;--shiki-dark:#F97583">--</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            factorial </span><span style="color:#D73A49;--shiki-dark:#F97583">*=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> x;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> factorial;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    };</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[context </span><span style="color:#005CC5;--shiki-dark:#79B8FF">evaluateScript:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"var fiveFactorial = factorial(5);"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">fiveFactorial </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#E36209;--shiki-dark:#FFAB70"> context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"fiveFactorial"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 5! = 120</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"5! = </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, fiveFactorial);</span></span></code></pre>
+<p>值得注意的是：</p>
+<ul>
+<li>不要在 block 中持有 JSValue，而是应该将JSValue 作为参数来传递</li>
+<li>不要在 block 中持有 JSContext，可通过 <code>[JSContext currentContext]</code>来获取当前 context</li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSContext </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">context </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[JSContext </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"callback"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> ^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">	//错误示例 </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">object </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [JSValue </span><span style="color:#005CC5;--shiki-dark:#79B8FF">valueWithNewObjectInContext:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">context];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">     //正确的姿势</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">object </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [JSValue </span><span style="color:#005CC5;--shiki-dark:#79B8FF">valueWithNewObjectInContext:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        [JSContext </span><span style="color:#005CC5;--shiki-dark:#79B8FF">currentContext</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]];</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">     object</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"x"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">     object</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"y"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 3</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">     return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> object;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">};</span></span></code></pre>
+<h5 id="jsexport-协议"><a href="#jsexport-协议">JSExport 协议</a></h5>
+<p>如果没有这个协议，OC 端的修改会同步到 JS 端，但是 JS 端的修改对 JS 和 OC 均无影响。见下例</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//TestModel.m</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)description</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">str </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"TestModel With testString:"</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringByAppendingString:self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.testString];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [str </span><span style="color:#005CC5;--shiki-dark:#79B8FF">stringByAppendingString:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringWithFormat:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@" and numberStr:</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.numberStr]];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// viewDidLoad</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">TestModel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">model </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[TestModel </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model.testString </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> @"test string"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model.numberStr </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> @"123"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSContext </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">context </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[JSContext </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithVirtualMachine:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[[JSVirtualMachine </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]];</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> model;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">modelValue </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#E36209;--shiki-dark:#FFAB70"> context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model: TestModel With testString:test string and numberStr:123</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,model);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model JSValue: TestModel With testString:test string and numberStr:123</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model JSValue: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,modelValue);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model.numberStr </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> @"456"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model: TestModel With testString:test string and numberStr:456</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,model);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model JSValue: TestModel With testString:test string and numberStr:456</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model JSValue: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,modelValue);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[context </span><span style="color:#005CC5;--shiki-dark:#79B8FF">evaluateScript:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model.testString = </span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">anotoher test</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">;model.numberStr = </span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">789</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model: TestModel With testString:test string and numberStr:456</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,model);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model JSValue: TestModel With testString:test string and numberStr:456</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model JSValue: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,modelValue);</span></span></code></pre>
+<p>如果想要上述 JS 修改起作用,则需要实现 JSExport 协议。
+通过实现该协议来暴露自定义类给 JS，这样 JS 会为这个类创建一个 wrapper object，这样看起来就像 OC 和 JS 在互相传值一样。这样，一个对象可以在 JS 和 OC 间共享，任何一端的更改都将同步到另外一端。需要注意的是，JS 只能修改暴露在协议中的属性或调用协议中的方法。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// .h</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@protocol</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestModelDelegate</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x3C;JSExport></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">nonatomic</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">copy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">testString;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">modelTest</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestModel</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x3C;TestModelDelegate></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">nonatomic</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">copy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">testString;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">nonatomic</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">copy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">numberStr;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// .m</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)description</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">str </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"TestModel With testString:"</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringByAppendingString:self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.testString];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [str </span><span style="color:#005CC5;--shiki-dark:#79B8FF">stringByAppendingString:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringWithFormat:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@" and numberStr:</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.numberStr]];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)modelTest</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"modelTest!!!"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)test</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"Test!!!"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// viewDidLoad</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[context </span><span style="color:#005CC5;--shiki-dark:#79B8FF">evaluateScript:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model.testString = </span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">anotoher test</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">;model.numberStr = </span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">567</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model: TestModel With testString:anotoher test and numberStr:123</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,model);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// model JSValue: TestModel With testString:anotoher test and numberStr:123</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model JSValue: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,modelValue);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// modelTest!!!</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[context </span><span style="color:#005CC5;--shiki-dark:#79B8FF">evaluateScript:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model.modelTest()"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">unknowValue </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [context </span><span style="color:#005CC5;--shiki-dark:#79B8FF">evaluateScript:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"model.test()"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// unknowValue :undefined</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"unknowValue :</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,unknowValue);</span></span></code></pre>
+<p>上例中的 numberStr 之所以还是保持为 123 是因为，这个属性不在协议中，JS 对其修改不起作用，同样如果 JS 中调用 model 不在协议中的方法，也不起作用，如果用 JSValue 去接收这个值，其值为 undefined。
+没有任何响应，如果用一个 JSValue 去接收上面代码的值，得到的是 undifine</p>
+<h5 id="对象对应关系"><a href="#对象对应关系">对象对应关系</a></h5>
+
+
+
+
+
+
+
+<table><thead><tr><th>Objective-C type</th><th>JavaScript type</th></tr></thead></table>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>     nil         |     undefined</span></span>
+<span class="line"><span>    NSNull       |        null</span></span>
+<span class="line"><span>   NSString      |       string</span></span>
+<span class="line"><span>   NSNumber      |   number, boolean</span></span>
+<span class="line"><span> NSDictionary    |   Object object</span></span>
+<span class="line"><span>   NSArray       |    Array object</span></span>
+<span class="line"><span>    NSDate       |     Date object</span></span>
+<span class="line"><span>   NSBlock       |   Function object </span></span>
+<span class="line"><span>      id         |   Wrapper object </span></span>
+<span class="line"><span>    Class        | Constructor object</span></span></code></pre>
+<h4 id="uiwebview-与-javascriptcore-的交互"><a href="#uiwebview-与-javascriptcore-的交互">UIWebView 与 JavaScriptCore 的交互</a></h4>
+<p>UIWebview 也有一个 JSContext 实例，但是没有暴露在 API 中，但是我们可以通过 KVC 或者在 NSObject 分类去拿到这个实例，然后来进行自定义的一些操作。关于 NSObject 分类实现可以参考<a href="http://stackoverflow.com/questions/18920536/why-use-javascriptcore-in-ios7-if-it-cant-access-a-uiwebviews-runtime" rel="noopener noreferrer" target="_blank">这里</a>。但是这两种方法都有可能被拒。</p>
+<p>其实WebView 与 JS 的交互和上述的 TestModel 与 JS 交互区别不大。只不过上例都是自己创建的 context，而在webView 中则是我们通过 KVC 来拿到这个 context 而不是自己创建。来看一个例子：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="html"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;!</span><span style="color:#22863A;--shiki-dark:#85E89D">DOCTYPE</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> html</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">html</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">head</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">script</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">            function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> test</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                objcObject.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">testDemo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">                alert</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(objcObject);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">script</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">head</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">body</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">h1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>JavaScriptCore Demo&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">h1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">button</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> type</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"button"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> onclick</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#6F42C1;--shiki-dark:#B392F0">test</span><span style="color:#032F62;--shiki-dark:#9ECBFF">()"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>测试&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">button</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">body</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">html</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span></code></pre>
+<p>上述 html 简单创建了一个 button，然后绑定一个事件。
+接下来看看 ViewController 里面做了什么。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// .h</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@protocol</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestJSDelegate</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x3C;JSExport></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">testDemo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> WebViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">UIViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x3C;TestJSDelegate,UIWebViewDelegate></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// .m</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)viewDidLoad</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSURL</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">path </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSBundle</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> mainBundle</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">URLForResource:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"test"</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> withExtension:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"html"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">html </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringWithContentsOfURL:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">path </span><span style="color:#005CC5;--shiki-dark:#79B8FF">encoding:NSUTF8StringEncoding</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> error:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.webView </span><span style="color:#005CC5;--shiki-dark:#79B8FF">loadHTMLString:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">html </span><span style="color:#005CC5;--shiki-dark:#79B8FF">baseURL:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webViewDidFinishLoad:(UIWebView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)webView</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	JSContext </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">context </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [webView </span><span style="color:#005CC5;--shiki-dark:#79B8FF">valueForKeyPath:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"documentView.webView.mainFrame.javaScriptContext"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">    context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"objcObject"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)testDemo</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"test!!!"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>运行效果:</p>
+<p><img src="/media/Communication-Between-WebView-and-JS/Communication-Between-WebView-and-JS-03-2019-11-21-15743467085275.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAlCAIAAADNzV5SAAAACXBIWXMAAAsTAAALEwEAmpwYAAADD0lEQVR4nO2UW08TQRiG979AowYx8acYPEQTRNQoFE0URL1QBGsRod3jnLcQvTAebozGcKjxxoAFhbYcNAIFOalRQwVKt3soaNqFLSAaNCZ64eTJ5Jt35t359tuZ5RobGjxXaxsb6mVZQgjB1SbLstfr9Xg8TU1Na3UAACGkvr6+uLiYaxCxh6deHvISzC3JNoQQwpluvZxpCCHKKOf1oZob+NJ1cMMPIIBAyQABhHaQJScCGwQBAgrkVEwDhAUwZZhRzAgi2Z7SlSHF2ZhhlUCaGcIcHFCQIkFKVAyxJEgUM1lUCKKSIMuiYj9CEmSRlxhRCaKMqLZIMePqrlw9eOBQ1dlz7rKKI4dLK89Uucsq9hXtLz/pvlB9sexE+bnK6uqq8yXFR9xlFcdKj59yn3by4hDAsqhgSAS/KPKSJMi8T/DUXYMKsjeURUWRgK37m3iRz2S3YhZ5qbamzlN3jWKm0oBNs9rCiMqIag+dQM2SM1+5XFu0Z29pyVFFAvZb2TgrfgLn1HZtJbYI96sG+ufNLFuhrUA3mAmiQIYOigQ2sHYWAZwzY0huttzqCb0I90bCvZG+l+GB6ODQwKvB/qHB/iE7cKYifdGHDx4hgBlROUZUBPC9O/cXF5Kmbpm6tZz++vHDp7HR8enJmdjI2Hjs7ehwzNSttLlkpMwla7kn9ALIcJ15Lj6fSurJhKZrxuhwrPNZV9/LcH9kINTVHe6NzH9ZSCY0bTFlGennnaGN5oW5hGWkZz/HI33RqYnp2MjYm9cjsZGxqYnpifHJaLh/8u2UqVuWkQ51dW80J+YXjZS5Fku3lo30SpwNdM1Im0ub7Gyn7WBoenxOezeb1JOGIyYTmpEyN09b1wx7H10zlwxrJp6Kvk9Yei6XVFJfl7b9kZvVltbHbR1tQYf21uCT9uDTYEf7OrGjoy145/ZdDMkPD8nqUcnwvY6zzj90POnfvFX0v5n+2wUjq3/534AL0OYA+004wS8KPoH38byPF3zC1uH9Ardtx26XqzA/ryA/r8CVv3OruApd23d9A+R9YpxCnVgAAAAAAElFTkSuQmCC">
+<img src="/media/Communication-Between-WebView-and-JS/Communication-Between-WebView-and-JS-04-2019-11-21-15743467192938.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAgElEQVR4nAXBQQ6CMBAAQH6jp8Zit220pCr04C+4eVBDAktJZdGSVOXin53JQoivmGh605Sa1t+bfhieHT5GSojkfQxhpvhtMcT5syy/27X3njoc6/qSwc5J5ZR2UpeMG7YthDhyYUGfNtyCqgQcQJcst0K7vTkzZkBWPLerNfwBxm0pjayepA8AAAAASUVORK5CYII="></p>
+<p>如果协议方法中有多个参数该怎么调用呢？举个例子</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// ObjC 中的某个协议方法</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)testWithName:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)name age:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSNumber</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)age</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"name:</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">,age:</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,name,age);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="html"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// 在上述 html 的 js 中添加一行代码</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">objcObject.testWithNameAge("Tracy",20);</span></span></code></pre>
+<p>那么在按钮点击后，协议方法将会被执行，然后打印出 <code>name:Tracy,age:20</code>。</p>
+<h4 id="内存管理"><a href="#内存管理">内存管理</a></h4>
+<p>OC 中是用的是 ARC，JavaScriptCore 中用的是垃圾回收机制（garbage collection）,JavaScriptCore 中所有引用都为强引用。在大部分情况下，JavaScriptCore 能做到在这两种内存管理机制之间无缝切换，但是在以下两种情况下需要特别注意：</p>
+<ul>
+<li>在 OC 对象中存储 JavaScript 值</li>
+<li>在 OC 对象中添加 JavaScript 域</li>
+</ul>
+<p>如下例就会造成循环引用：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// ClickHandler 构造器，button 为 OC 对象，callback 是按钮点击事件回调</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ClickHandler</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">button</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#E36209;--shiki-dark:#FFAB70">callback</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">     this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.button </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> button;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">     this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.button.onClickHandler </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">     this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.handleEvent </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> callback;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">};</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@implementation</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> MyButton</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">setOnClickHandler:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handler</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     _onClickHandler </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> handler; </span><span style="color:#6A737D;--shiki-dark:#6A737D">// Retain cycle</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span></code></pre>
+<p>上例中 ClickHandler 对 button 进行了强引用，而 MyButton 中又对 _onClickHandler 这个 JSValue 进行了强引用，最终导致循环引用，如下图所示：</p>
+<p><img src="/media/Communication-Between-WebView-and-JS/Communication-Between-WebView-and-JS-05-2019-11-21-15743467542111.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABoElEQVR4nIWRPW8TQRCGZ2Z3dnb37hx/xWdzDuFsAlYUopwTi48I5BDJ7igCHRWiCTpZNFGiIApSQBeEKCLRgYAfkyJKkx+E7gw0FDyaYjTS+84XKKWYmRBv9nrbD+4Ps41+mhpmXcIliJgkyWg02hxuxe0YAJlZKQVBEIgxpBhAARAAAhASK61NiVJarNVakyIRJtQiYozx3oOzFgDWWu5xGj5cco+u+500Gna8c64SRc1mMwg8ANRi82Q/eX68vDGuQgkzg3eF+OO0e5Wvnedb53l2ub/682maLNa7rWav22k3FgzAs7z39uvdg7PNwy/DpF/YGTF/xJPkarZ+cTy9ONq9zNe/7y2zIdIYBDasuLDiX75bPfk2eXO2e/JjvJJFACBifo/9Imt8mibvx60PO/Hp5Nrrey2tUGtqNGpxe7FWrd/Zrr867c8+39qbLYlTRWfD4L0nIiQFSECqCCRAQqT5qecbAkDnRng7q7uAi4siiViQEvtPFEVrnXPzpFativEA2hgJvY28tSJ/ff/DYDAIwxCKT6LVuCDECn8BZmE0a8XFpzIAAAAASUVORK5CYII="></p>
+<p>如果将 _onClickHandler 设置为 weak，那么我们将收不到点击事件回调。</p>
+<p>举个栗子，在某个方法中有一个临时的 OC 对象，然后通过 JSContext 被 JS 中的变量引用，但是该 OC 方法调用结束后，这个临时对象将被释放，因此 JS 会造成错误访问。</p>
+<p>同样的，如果用 JSContext 创建了对象，然后在 OC 中用 JSValue 去接收，即使把 JSValue 变量在 OC 中被 retain，但可能因为 JS 中因为变量没有了引用而被释放内存，那么对应的JSValue也没有用了。</p>
+<p>所以苹果引入了另一个类来解决这种循环引用的问题。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@implementation</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> MyButton</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">setOnClickHandler:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(JSValue </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)handler</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">	//正确的姿势</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     _onClickHandler </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [JSManagedValue </span><span style="color:#005CC5;--shiki-dark:#79B8FF">managedValueWithValue:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">handler];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     [_context.virtualMachine </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addManagedReference:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">_onClickHandler</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                        withOwner:self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">} </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span></code></pre>
+<p><code>addManagedReference</code>做的事情主要如下：它创建了一个 garbage collected reference，这种引用既不是强引用也不是弱引用。</p>
+<p><img src="/media/Communication-Between-WebView-and-JS/Communication-Between-WebView-and-JS-06-2019-11-21-15743467654320.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAAsTAAALEwEAmpwYAAABtklEQVR4nI2RzWsUQRDFq6u7q6q7Z82SZJydSWZ33IE1WYOHxQ1+xQgSJYaAkoNCRA/xEEFyiCAKfiDoKRcvwiqoN73qWa96UvIvycxGyE0fdaiG/lW9fg2IaIwBgBP9/oWlpeHwVLudo1L6kJRS3bJcXByeOXs6jqcBwBiDiBBCICK0hJat81Y8kmhLRCQizjkiYmZhZ7UzWoyuDszsnAMRAYA4mCwyrYCtSGcNM+WrhRUjojUCgG/o89filVutpFPdBwAiAq7hN2vtH1vHv9+Z+3a793Ort3clj+M4z9Ky0zk6NYkA17eLh+9PPhgt3H3Zi5oWAJj/wu/W8v37g99P1389vrx/b+H16qwyypJiMZZ0NGF39gYvPqw+e3v1+cfl9pyvYKED268uzXy50f20UXzeKL7e7D5ZTkEDi8myZDbPkiRZ2ZzZHc3vjvqbj7ri9YFt771SqiG26exEXU1nA1f510lXDQBYxsHF6XPrSTNmAKUUMksFiwgR20NFdVS+1jjYECKNAmDJcvASfPUR47n/kNa6LMvxA5WCYNURRoPqv2BELIpjaZplaSYiRoFY1Ah/AP/kNYJmM9i/AAAAAElFTkSuQmCC"></p>
+<p>JSManagedValue 本身是一个对 JavaScript Value 的弱引用，而 JSValue 是强引用。addManagedReference 将 JSManagedValue 转换为 garbage collected reference。如果 JS 在垃圾回收过程中能够找到 managed reference 的所有者，那么这个引用将不会被释放，否则将被释放。JSManagedValue 需要调用其addManagedReference:withOwner: 方法把它添加到JSVirtualMachine 中，确保使用过程中 JSValue 不会被释放。</p>
+<h4 id="多线程"><a href="#多线程">多线程</a></h4>
+<p>如前面所说，每一个 JSVirtualMachine 都可以有多个 JScontext，在每个进程中又可以有多个  JSVirtualMachine。JSValue 可以在同一个 JSVirtualMachine 中的不同  JSContext 之间传递，但是不能跨 JSVirtualMachine 来传递。因为每个 JSVirtualMachine 都有自己的内存堆以及垃圾回收器，如果  JSValue 跨 JSVirtualMachine 传递，那么垃圾回收器将不知如何处理来自不同内存堆的 JSvalue。</p>
+<ul>
+<li>JavaScriptCore 的 API 是线程安全的</li>
+<li>同步锁粒度：JSVirtualMachine，即我们可以在 JSVirtualMachine 不同线程中调用 JS，但是如果有线程正在执行 JS，那么其它线程将不能执行 JS 操作。所以要想进行并发操作，那么需要为每个操作创建一个单独的 JSVirtualMachine 来实现并发。</li>
+</ul>
+<h3 id="wkwebview-ios8-and-later"><a href="#wkwebview-ios8-and-later">WKWebView (iOS8 and later)</a></h3>
+<h4 id="新特性"><a href="#新特性">新特性</a></h4>
+<ul>
+<li>在性能、稳定性、功能方面有很大提升（最直观的体现就是加载网页是占用的内存）；</li>
+<li>允许JavaScript的Nitro库加载并使用（UIWebView中限制）；</li>
+<li>支持了更多的HTML5特性以及 native 和 web 的高效交互；</li>
+<li>高达60fps的滚动刷新率以及内置手势；</li>
+<li>将UIWebViewDelegate与UIWebView重构成了14类与3个协议</li>
+</ul>
+<p>WebKit 为非线程安全的，所以要确保该 framework 的所有方法在主线程上调用。</p>
+<p>更多内容请参考<a href="http://nshipster.cn/wkwebkit/" rel="noopener noreferrer" target="_blank">Nshipster</a>。</p>
+<h3 id="总结"><a href="#总结">总结</a></h3>
+<p>总得来说两种方式都可以实现二者的交互，JavaScriptBridge 相对而言复杂一些，但是安全且不需要做版本适配，APP 上架不会被拒，但是 JavaScriptCore 更加简洁，不需要写繁琐的代码，但是有被拒的风险，同时这个框架是在 iOS7 之后才有，所以如果要适配 iOS6的话还是选择 JavaScriptBridge。</p>
+<p>本文 <a href="https://github.com/wang9262/WebViewJSDemo" rel="noopener noreferrer" target="_blank">Demo</a></p>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/note-for-ios-animations-by-tutorials/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">iOS Animations by Tutorials 2.0 笔记</span> </a> <a href="/posts/how-to-create-an-ios-book-open-animation-part-two-translation/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">如何创建一个翻书动画(Part2)[译]</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

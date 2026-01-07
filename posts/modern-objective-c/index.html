@@ -1,0 +1,569 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/modern-objective-c/"><!-- Primary Meta Tags --><title>Modern Objective-C | Vong</title><meta name="title" content="Modern Objective-C | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/modern-objective-c/"><meta property="og:title" content="Modern Objective-C | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/modern-objective-c/"><meta property="twitter:title" content="Modern Objective-C | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2017-04-21T20:51:00.000Z"><meta property="article:tag" content="Objective-C"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Modern Objective-C","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2017-04-21T20:51:00.000Z","dateModified":"2017-04-21T20:51:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">Modern Objective-C</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2017-04-21T20:51:00.000Z" class="flex items-center gap-1.5"> 4/21/2017 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#Objective-C </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>本文主要介绍一些 Objective-C 的一些新特性。</p>
+<h3 id="从一个-bug-来说说-objective-c-中的指定构造器"><a href="#从一个-bug-来说说-objective-c-中的指定构造器">从一个 Bug 来说说 Objective-C 中的指定构造器</a></h3>
+<p>某天测试反馈，iOS8 点击按钮时弹出一个列表视图出现必现崩溃，看了下崩溃日志，是野指针导致导出乱崩，具体是 <code>[xxx collectionView:numberOfItemsInSection:] unrecognized selector send to instance xxxxx</code>。
+连上设备调试，发现 <code>setupDataSource</code> 走了两次，由于调用栈非常类似，一开始没注意它调了两次，一直没找到问题所在。后面各种断点上去，发现 <code>setupDataSource</code> 方法被调用了两次，进一步 <code>commonInit</code> 被调用了两次。最后查看初始化代码，才发现调用 <code>convenience init method</code> 时，没有调 <code>designed init method</code>，并且调完之后又再调了一次 <code>commonInit</code>。具体看下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> PanelView</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">nonatomic</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">strong</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) UICollectionView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">collectionView;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)initWithCoder:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSCoder</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)aDecoder {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> initWithCoder:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">aDecoder]) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> commonInit</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)initWithFrame:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">CGRect</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)frame {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> initWithFrame:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">frame]) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> commonInit</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)initWithType:(PanelType)type {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> commonInit</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.type </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> type;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)commonInit {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.colletionView </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ...</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> addSubview:self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.colletionView];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> setupDataSource</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)setupDataSource {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    DataSource </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">dataSource </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[DataSource </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithCollectionView:self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.collectionView];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    dataSource.delegate </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.collectionView.dataSource </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> dataSource;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.dataSource </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> dataSource;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 外面使用 initWithType: 做了初始化</span></span></code></pre>
+<p>由于调了两次 <code>commonInit</code>，导致创建了两个 <code>collectionView</code> 和 <code>dataSource</code>，由于第一次创建的 <code>dataSource</code> 没有持有者，被释放为 <code>nil</code>，而第一次创建的 <code>collectionView</code> 被加到视图层级当中被 <code>self</code> 持有，所以在第一个 <code>collectionView</code> 在执行调用数据源方法时，<code>dataSource</code> 为 <code>nil</code>，但是在 iOS9 之前 <code>UICollectionView</code> 和 <code>UITableView</code> 的 <code>delegate</code> 和 <code>dataSource</code> 属性用 <code>assign</code> 而非 <code>weak</code> 修饰，导致这一块内存被污染，继续调用时会出现野指针崩溃。</p>
+<p>归根结底，就是初始化的姿势不对。</p>
+<p>正确的姿势应该是：</p>
+<ol>
+<li>子类指定构造器必须调用父类指定构造器</li>
+<li>便捷构造器只能通过调用自身指定构造器来完成初始化</li>
+<li>指定构造器必须要用 <code>NS_DESIGNATED_INITIALIZER</code> 标示</li>
+</ol>
+<p>可参考下图</p>
+<p><img src="/media/Modern-Objective-C/Modern-Objective-C-01-14912017895530.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAIAAADUsmlHAAAACXBIWXMAABYlAAAWJQFJUiTwAAADcklEQVR4nEVTaU8bSRDlX++XVbLBXImy+2W/BMFGWgw+QkQiMLYxIRESR/A19ty2h8P2zPic03P2VE+vxhBt66n1qrtKXe+pegUDBGF0r1pd2erJZgLFkmRTUkxJNl6Q8P/D7tCYGm6MYYUQPNG993nmXY7+85B7/4l7m21v5bn1nLD5Sdw6FDfywkaO28rz6/nk5O3nzqs0e3I7JCReAYAwRA+afSnJF0z3h/BIjUxDn/tPNxpzNmmXbeHMn0r2+N7pnE/p8rRdCh6vXMcCwMviAIlj83tHrtC9Urt3fT+aa5rZuxm3z2WqMmcqltrTZEnnvqmtc7VVsbpXlmUCXr4cRRDHQGJMCEFhaOsziBAmJCbJignBS/ocPhMADAArJMYz09vK86tZPpXl13JiKiuk9mp/5ZubGXorm2DjgE5l2LUsv5blN3LC73tM4edSc4zB9hAnPjBUg6YommpwNM3eT34wg0JNOqflCj287Uw48YFNEpoM1WRbrSdFi2O8giHyEEFj1mpk1dvM5PYgFEvabHQ1mB81+M8/WyfsAz8xfJleUIfqTWZ0exAKBdc2XjSHCHCECPgEAhIFyU5iwOB6nqZriR8YSAwk+pUQBQhFEUDStuOF5021WFNLS5TrSvFuWKmr5bt+6UaqNNRyVS5V5XL9+VYt3Mnck04IfjFstyhun/C7RXHnVNgu8B/PpA8FYbsg7J7yHwriTrGzW+5tn3A7p+I/RfHvr+wFpSaGYYj8iMCc9+i8Xs8ZjWx0f2br48bELLLd4yZb6fZ7moXGTMAf6fWsUc+AVPIWZoSTYvBCsOdjc8hrfUEf8PZIsh2PG07rvUFTGggjXdadhT4xZUEfJLDVrm07LxOGUKQvkOZgzQHNAd2Np/piqEynM3M00RZuZNq+vkC6A8/QFtHCQzgZEoInhrt+0E7ttdYP2qvp1ma6lvq3+ibdToYkQ63u02/Srddp+vU++8c+u5rhfvvY+no9WGrG4AdIUI3LrnIpDC74p5ueMrf8Wn/2ne9fsA+XXUVQTU15HPNXCnutclfzXlXTTcDPbYeoO7POhP5xjSlQ4t1w5gZBdTgvtDrHNaYi9PmxYQ85kynI1S9K9cjtfHPsXx8jRJHrhUEYhREOEPh+6PnI98MAQYhwEKAgQH4IbgA+wgHCbgCujwDgP6Kqovwx3sL1AAAAAElFTkSuQmCC"></p>
+<blockquote>
+<p>图片出自 《The Swift Programming Language (Swift 3.0.1)》 Initialization - Syntax for Designated and Convenience Initializers 小节</p>
+</blockquote>
+<p>关于指定构造器，iOS 自身内部实现也有一个 bug <a href="http://www.openradar.me/23709930" rel="noopener noreferrer" target="_blank">UITableViewController subclass designated initializer Crash</a>、<a href="http://stackoverflow.com/questions/25139494/how-to-subclass-uitableviewcontroller-in-swift" rel="noopener noreferrer" target="_blank">How to subclass UITableViewController in Swift</a>。iOS8 下自定义一个 <code>UIViewController</code> 继承自 <code>UITableViewController</code>，然后自定义指定构造器，代码如下：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 指定构造器</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)initWithTitle:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)title {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> initWithStyle:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">UITableViewStyleGrouped]) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //....</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)initWithNibName:(nullable </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)nibNameOrNil bundle:(nullable </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSBundle</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)nibBundleOrNil {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> initWithTitle:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)initWithStyle:(UITableViewStyle)style {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> initWithTitle:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 外面调用，iOS8 下调用此段代码，必崩</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 所以 iOS8 最好不要继承自 UITableViewController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">TestViewController </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">vc </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[TestViewController </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithTitle:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"Hello"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span></code></pre>
+<h4 id="几个小问题"><a href="#几个小问题">几个小问题</a></h4>
+<ul>
+<li><strong>Question 1</strong>: <code>instancetype</code> 和 <code>id</code> 两者有什么区别？</li>
+</ul>
+<blockquote>
+<p><code>instancetype</code> 能够做到类型检测而 <code>id</code> 不行。前者仅可做方法返回值，不能作为参数，见示例代码
+比如如下代码：</p>
+</blockquote>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestObjectA</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">+ (</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">createObjectA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">methodA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestObjectB</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">+ (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">createObjectB</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">methodB</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[[TestObjectA </span><span style="color:#005CC5;--shiki-dark:#79B8FF">createObjectA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">methodB</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];      </span><span style="color:#6A737D;--shiki-dark:#6A737D">// no compile error or warning but crash</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[[TestObjectB </span><span style="color:#005CC5;--shiki-dark:#79B8FF">createObjectB</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">methodA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];      </span><span style="color:#6A737D;--shiki-dark:#6A737D">// compile error --> No visible @interface for 'TestObjectB' declares the selector 'methodA'</span></span></code></pre>
+<p>延伸问题：为什么<code>(id)initWithXXX:</code> 也可以做到类型检测？</p>
+<blockquote>
+<p>类方法只要以 <code>alloc</code>、<code>new</code> 开头就会有关联返回类型（即类型检测）
+实例方法只要以 <code>init</code>、<code>autorelease</code>、<code>retain</code>、<code>self</code> 开头就会有关联返回类型
+<a href="https://clang.llvm.org/docs/LanguageExtensions.html#objective-c-features" rel="noopener noreferrer" target="_blank">Clang Language Extensions—Objective-C Features</a>
+<strong>Note</strong>: ARC 下实测，实例方法只有 <code>init</code> 开头的才有关联返回类型。</p>
+</blockquote>
+<ul>
+<li><strong>Question 2</strong>: 新建一个VC 文件同时勾选 <code>Also create XIB file</code> 后，初始化 <code>VC *vc = [[VC alloc] init]</code> 得到的是否和 <code>initWithNibName:bundle:</code> 初始化得到的 UI 一致？为什么？</li>
+</ul>
+<blockquote>
+<p>是一致的，因为最终都会调到指定构造器 <code>initWithNibName:bundle:</code>，但此时 <code>nibName</code> 为 <code>nil</code>，关于 <code>nibName</code> 的相关设置文档是这么说的
+However, if you do not specify a nib name, and do not override the loadView method in your custom subclass, the view controller searches for a nib file using other means. Specifically, it looks for a nib file with an appropriate name (without the .nib extension) and loads that nib file whenever its view is requested. Specifically, it looks (in order) for a nib file with one of the following names:
+If the view controller class name ends with the word ‘Controller’, as in MyViewController, it looks for a nib file whose name matches the class name without the word ‘Controller’, as in MyView.nib.
+It looks for a nib file whose name matches the name of the view controller class. For example, if the class name is MyViewController, it looks for a MyViewController.nib file.</p>
+</blockquote>
+<blockquote>
+<p>简单来说，如果没设置该属性也没有复写 <code>loadView</code> 方法，则系统有一套自己的寻找机制来看是否有对应的 xib 文件，如果有，则加载 xib 文件。</p>
+</blockquote>
+<ul>
+<li><strong>Question 3</strong>: 如下代码输出的是什么？为什么？ 选自 <a href="http://blog.sunnyxx.com/2014/11/06/runtime-nuts/" rel="noopener noreferrer" target="_blank">神经病院objc runtime入院考试</a></li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestSubclass</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">TestSuperclass</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@implementation</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestSubclass</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSStringFromClass</span><span style="color:#24292E;--shiki-dark:#E1E4E8">([</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> class</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]));</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSStringFromClass</span><span style="color:#24292E;--shiki-dark:#E1E4E8">([</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> class</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]));</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span></code></pre>
+<blockquote>
+<p>输出的都是 <code>TestSubclass</code>，因为两者的 receiver 都是 self。当我们给 super 发消息的时候，实际上是给 self 发消息，只不过在查找方法列表时会自动跳过当前类的方法列表，而从父类方法列表中开始查找。归根结底，最后产生的消息是 <code>objc_msgSendSuper(self, @selector(init));</code>。</p>
+</blockquote>
+<ul>
+<li><strong>Question 4</strong>: 为什么我们初始化方法的写法都长这样？</li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> SomeClass</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">TestSuperClass</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@implementation</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)init </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@end</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">SomeClass </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">aInstance </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[SomeClass </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span></code></pre>
+<blockquote>
+<p>我们可以将上面代码拆成以下几个步骤：</p>
+</blockquote>
+<blockquote>
+<ol>
+<li><code>[SomeClass alloc]</code> 返回一个 <code>SomeClass</code> 的实例</li>
+<li>紧接着给 <strong>步骤1</strong> 生成的实例发 <code>init</code> 消息，所以 <strong>init</strong> 方法中的 self 为 <strong>步骤1</strong> 生成的实例</li>
+<li><code>[super init]</code> 实际上调用的是父类的初始化方法，在父类的方法中，<strong>self</strong> 依然是 <strong>步骤1</strong> 生成的实例，<strong>对于这一点的理解很重要</strong></li>
+<li>父类的 <code>init</code> 方法要么做一些基本的初始化工作，要么修改 self，然后返回一个新的实例</li>
+<li>回到 SomeClass 的<code>init</code>方法中来，此时得到的要么是 <strong>步骤1</strong> 生成的实例，要么是新生成的实例。这就是为什么我们要加 if 判断的原因。</li>
+</ol>
+</blockquote>
+<h3 id="新增关键字及特性"><a href="#新增关键字及特性">新增关键字及特性</a></h3>
+<h4 id="nullability"><a href="#nullability">Nullability</a></h4>
+<p><code>nonnull/_Nonnull</code> 表达的意思是一样的，<code>nullable/_Nullable</code> 同理，只是修饰符的位置不同
+<code>_Nonnull</code> 和 <code>_Nullable</code> 的位置和 C语言的 <code>const</code> 关键字位置一致。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 写法1和2 表达的意思完全一致</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 写法1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (AAPLListItem </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> _Nullable)itemWithName:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> _Nonnull)name;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (copy, readonly) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSArray</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> _Nonnull allItems;</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 写法2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (nullable AAPLListItem </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)itemWithName:(nonnull </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)name;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (copy, readonly, nonnull) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSArray</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">allItems;</span></span></code></pre>
+<p>几个特例：</p>
+<ul>
+<li><code>typedef</code> 类型由于可以从上下文中推断出它是空（nullable）或非空（nonnull），所以内部不需要写 <code>nullable</code> 或 <code>nonnull</code>。</li>
+<li>复杂指针必须显式声明其是否可为空，比如指定一个指向非空对象的可空指针可声明为 <code>_Nullable id * _Nonnull</code></li>
+<li><code>NSError **</code> 类型通常为一个指向可空对象的可空指针。</li>
+</ul>
+<p>为了避免重复写 <code>nonnull</code>，有一对宏 <code>NS_ASSUME_NONNULL_BEGIN</code> 和 <code>NS_ASSUME_NONNULL_END</code>，被这两个宏包裹的代码，默认都是 <code>nonnull</code>，如果可为空，则需显式声明为 <code>nullable</code> 或者 <code>_Nullable</code>。</p>
+<p><code>null_resettable</code>: 可被置 nil，但是调用 getter 时又会重新创建，可参考 <code>UIViewController</code> 的 <code>view</code> 属性 或者 <code>UIView</code> 的 <code>tintColor</code> 属性。</p>
+<p>更多关于 Nullability 可参考：</p>
+<blockquote>
+<p><a href="https://developer.apple.com/swift/blog/?id=25" rel="noopener noreferrer" target="_blank">Nullability and Objective-C</a>
+<a href="http://stackoverflow.com/questions/32452889/difference-between-nullable-nullable-and-nullable-in-objective-c" rel="noopener noreferrer" target="_blank">Difference between nullable, __nullable and _Nullable in Objective-C</a></p>
+</blockquote>
+<h4 id="__kindof"><a href="#__kindof">__kindof</a></h4>
+<p>该关键字的出现可以很好的避免做强转，比如 <code>UIView</code>、<code>UITableView</code> 的如下方法/属性</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// UIView.h</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(nonatomic,readonly,copy) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSArray</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">__kindof UIView </span><span style="color:#D73A49;--shiki-dark:#F97583">*></span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">subviews;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (nullable __kindof UIView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)viewWithTag:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSInteger</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)tag;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// UITableView.h</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (nullable __kindof UITableViewCell </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)cellForRowAtIndexPath:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSIndexPath</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)indexPath;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (nonatomic, readonly) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSArray</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">__kindof UITableViewCell </span><span style="color:#D73A49;--shiki-dark:#F97583">*></span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">visibleCells;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 无警告，不需要做强转</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">UIlabel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">textLabel </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> view.subviews.firstObject; </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">CustomCell </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">cell </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.tableView.visibleCells.lastObject;</span></span></code></pre>
+<h4 id="generics"><a href="#generics">Generics</a></h4>
+<p>为了更好的桥接 Swift，Objective-C 新增了轻量级的泛型支持，之所以是轻量级泛型，是因为它只是编译时的泛型。目前 Swift 仅支持 NSArray,、NSDictionary、NSSet 这 3 个类的泛型桥接，其它类(含自定义)，不支持。
+<a href="https://useyourloaf.com/blog/using-objective-c-lightweight-generics/" rel="noopener noreferrer" target="_blank">Using Objective-C Lightweight Generics</a></p>
+<h5 id="__covariant"><a href="#__covariant">__covariant</a></h5>
+<p>子类可赋给父类</p>
+<h5 id="__contravariant"><a href="#__contravariant">__contravariant</a></h5>
+<p>父类可赋给子类，目前没有想到适用的场景，<code>__kindof</code> 和这个有点类似，但是又不一样，<code>__kindof</code> 可直接修饰属性。
+比如 <code>@property (nullable, nonatomic, strong) __kindof NSObject *object;</code></p>
+<p>协变和逆变的具体区别可参考，sunnyxx 的博客<a href="http://blog.sunnyxx.com/2015/06/12/objc-new-features-in-2015/" rel="noopener noreferrer" target="_blank">2015 Objective-C 新特性</a></p>
+<h3 id="__attributes__-命令"><a href="#__attributes__-命令">__attributes__ 命令</a></h3>
+<h4 id="基本概念"><a href="#基本概念">基本概念</a></h4>
+<p><code>__attribute__</code> 命令是用来修饰 C/C++/Objective-C 中的代码片段，让它们拥有额外的属性，进而使编译器做出对应的优化或者为代码调用者提供有用的上下文（警告或提示）。进一步来讲，就是 <code>__attributes__</code> 命令为我们提供了阅读代码的上下文，便于编译器提前做出优化，达到事半功倍的效果。</p>
+<h4 id="什么时候用"><a href="#什么时候用">什么时候用</a></h4>
+<p>Twitter 官方博客是推荐，能用且可以提供额外上下文的地方就尽量用。这样不仅可以让编译器做优化，同时可以让其他阅读代码的人（包括你自己）受益匪浅。当你想用却又在犹豫该不该用时，就不要用了。</p>
+<h4 id="怎么用"><a href="#怎么用">怎么用</a></h4>
+<p>虽然上面说到在能够使用的地方尽量使用，但是也不能乱用、滥用。具体例子可以参考下面提到的 Twitter 官方博客。</p>
+<p>最开始接触 <code>__attribute__</code> 命令是在 <code>PSPDFUIKitMainThreadGuard.m</code>，第一次看到这个的时候一脸懵逼，仅仅一个 <code>.m</code> 文件，就可以起到检测是否在主线程执行的作用，而且对项目毫无侵入。后面看了下源代码，然后每个方法都设置了一个断点，然后在非主线程操作 UI，看断点位置。结果运行后，就走到了一个方法：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// This installs a small guard that checks for the most common threading-errors in UIKit.</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// This won't really slow down performance but still only is compiled in DEBUG versions of PSPDFKit.</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// @note No private API is used here.</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">__attribute__</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((constructor)) </span><span style="color:#D73A49;--shiki-dark:#F97583">static</span><span style="color:#D73A49;--shiki-dark:#F97583"> void</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> PSPDFUIKitMainThreadGuard</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @autoreleasepool {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">selStr </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> @[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">PROPERTY</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(setNeedsLayout), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">PROPERTY</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(setNeedsDisplay), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">PROPERTY</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(setNeedsDisplayInRect:)]) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">            SEL</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> selector </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> NSSelectorFromString</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(selStr);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">            SEL</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> newSelector </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> NSSelectorFromString</span><span style="color:#24292E;--shiki-dark:#E1E4E8">([</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringWithFormat:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"pspdf_</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, selStr]);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">            if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ([selStr </span><span style="color:#005CC5;--shiki-dark:#79B8FF">hasSuffix:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@":"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">                PSPDFReplaceMethodWithBlock</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(UIView.class, selector, newSelector, </span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(__unsafe_unretained UIView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">_self, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">CGRect</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> r) {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">                    PSPDFAssertIfNotMainThread</span><span style="color:#24292E;--shiki-dark:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                    ((</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">SEL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">CGRect</span><span style="color:#24292E;--shiki-dark:#E1E4E8">))objc_msgSend)(_self, newSelector, r);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                });</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span><span style="color:#D73A49;--shiki-dark:#F97583">else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">                PSPDFReplaceMethodWithBlock</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(UIView.class, selector, newSelector, </span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(__unsafe_unretained UIView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">_self) {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">                    PSPDFAssertIfNotMainThread</span><span style="color:#24292E;--shiki-dark:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                    ((</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#D73A49;--shiki-dark:#F97583">SEL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">))objc_msgSend)(_self, newSelector);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                });</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>具体代码就不分析了，就是 hook 了一些布局才会调用的函数，然后判断其是否在主线程。最有意思的是前面的修饰符<code>__attribute__((constructor))</code>，后面查阅资料才知道，该修饰符修饰的方法，在 <code>main()</code> 函数执行前， <code>+load</code> 方法执行后。</p>
+<blockquote>
+<p>constructor 和 +load 都是在 main 函数执行前调用，但 +load 比 constructor 更加早一丢丢，因为 dyld（动态链接器，程序的最初起点）在加载 image（可以理解成 Mach-O 文件）时会先通知 objc runtime 去加载其中所有的类，每加载一个类时，它的 +load 随之调用，全部加载完成后，dyld 才会调用这个 image 中所有的 constructor 方法。<br>
+<a href="http://blog.sunnyxx.com/2016/05/14/clang-attributes/" rel="noopener noreferrer" target="_blank">Clang Attributes 黑魔法小记</a></p>
+</blockquote>
+<p><code>__attribute__</code> 是编译器命令，后面会跟随两个括号对，主要是为了防止宏的歧义，方便宏的展开。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// +(void)load 执行之后，main() 执行之前，只对 C 方法生效</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 若有多个 constructor 且想控制优先级的话，可以写成 __attribute__((constructor(101)))</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 里面的数字越小优先级越高，1 ~ 100 为系统保留</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">__attribute__</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((constructor))</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">__attribute__</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((objc_requires_super)) </span><span style="color:#6A737D;--shiki-dark:#6A737D">// 子类复写时，必须先调用父类方法</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// ---------- </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 用于 @interface 或 @protocol，将类或协议的名字在编译时指定成另一个</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">__attribute__</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((</span><span style="color:#6F42C1;--shiki-dark:#B392F0">objc_runtime_name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"SomeClass"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)))</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Some</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSStringFromClass</span><span style="color:#24292E;--shiki-dark:#E1E4E8">([Some </span><span style="color:#005CC5;--shiki-dark:#79B8FF">class</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]));  </span><span style="color:#6A737D;--shiki-dark:#6A737D">// "SomeClass"</span></span></code></pre>
+<p>更多的 <code>__attribute__</code> 命令可参考：</p>
+<blockquote>
+<p>Twitter 官方博客：<a href="https://blog.twitter.com/2014/attribute-directives-in-objective-c" rel="noopener noreferrer" target="_blank"><strong>attribute</strong> directives in Objective-C</a>
+NSHipster 关于 <code>__attribute__</code> 的讨论： <a href="http://nshipster.com/__attribute__/" rel="noopener noreferrer" target="_blank"><strong>attribute</strong></a></p>
+</blockquote>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/2017-summary/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">亦无岁月可回头</span> </a> <a href="/posts/useful-xcode-plugins/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">Xcode 常用插件</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

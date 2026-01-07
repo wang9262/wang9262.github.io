@@ -1,0 +1,842 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/how-to-create-an-ios-book-open-animation-part-two-translation/"><!-- Primary Meta Tags --><title>如何创建一个翻书动画(Part2)[译] | Vong</title><meta name="title" content="如何创建一个翻书动画(Part2)[译] | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/how-to-create-an-ios-book-open-animation-part-two-translation/"><meta property="og:title" content="如何创建一个翻书动画(Part2)[译] | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/how-to-create-an-ios-book-open-animation-part-two-translation/"><meta property="twitter:title" content="如何创建一个翻书动画(Part2)[译] | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2015-09-01T23:11:00.000Z"><meta property="article:tag" content="UICollectionView"><meta property="article:tag" content="翻译"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"如何创建一个翻书动画(Part2)[译]","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2015-09-01T23:11:00.000Z","dateModified":"2015-09-01T23:11:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">如何创建一个翻书动画(Part2)[译]</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2015-09-01T23:11:00.000Z" class="flex items-center gap-1.5"> 9/1/2015 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#UICollectionView </span><span class="text-text-muted hover:text-primary transition-colors">
+#翻译 </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>欢迎回到 iOS 翻书动画教程系列！在该系列的<a href="http://www.raywenderlich.com/94565/how-to-create-an-ios-book-open-animation-part-1" rel="noopener noreferrer" target="_blank">第一部分</a>(<a href="/posts/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation">译文</a>，你已经知道如何创建自定义的 layout 以及如何在 app 中使用阴影效果来创建景深和模拟现实。在这篇教程中，你将学到如何创建一个自定义的转场以及如何使用 pinch 手势来打开书本。</p>
+<blockquote>
+<p>2019.11.21 update
+本文中图片和资源相关链接可能已失效，如需查阅，请查看原文
+感谢<a href="https://twitter.com/hegedus90" rel="noopener noreferrer" target="_blank">Attila Hegedüs</a>创建了这个棒棒哒示例工程。</p>
+</blockquote>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-01-BookOpening.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAC2UlEQVR4nL2Ue0tTYRjAzzfoc4T0MUp2OWdnbZ7tXHY7O9fp5tzm3I7Ls2Y6Sud05ppLRzMmtFpuDvGk4mW5SDQrRTLRCgQhiIJI6o+wmDONEIqg4PfXy/N7n5fn8gIqnP1rgH8kczDOqU44TYZxFv71lIFwGsQoEKUg7AgVzpwiK3FOifPgyd0MjNtUqFNn9mJWv87kRUxencmrJupPfOwIAMVMmN5Yh5JQ5QkciFpxWrDQcTGYSyRLkchkOJzv7pIYe6dCb4GJSg7IxIJmDrSwwI6g3AvIJOdFBcbBBKfUW018wNc2ei2SLxSfjBdXs3cXFxY2Xf6IDDHDRh6uY8CURyaFyKkY8GUk+C0feTbUKdfTMMGBGKWzeByewWjfhDS5PjO9IUnPH5a23EK3rM6sNvKQhsZzIXYzmdqZBz5NDB8sZFcyiaoMYbTW1ERQXd0Rqby4XSptlstbS0uv/Zf7arUmdSUzLR/2N70amny7DHwcsH/NiMsDogJlqjJiaSL5SLRXKi/u5AuPZ2c31tb3glfjFzTGQ5mRDQqGtVh8twi8Z2r2kTOPDDUKwgbjbCWz0elwJSM9UwP9syHxfoPrBtXQQ9A+EKVgAwdpaSQdwldjxFIv8EGo/cyeLRPnjmWNsdHXmunoGBfFXHtHHjW3nwebIb1TRdAqoiIT2RD5sp9bvw7sCxcOLtWuuFSVauMsiFGI2d3gTDS6k80tI62BUbsz3uIdpeoPW2XgQQ1FjYU9b9L2tSFg93b0XS4xEwsrDgumRK04JUR7poW2lK81JQTSzf5Bf+CWhQ8q9aTawMu1pJBJpF/M3Xz6AFAbeLWBr3YfJjgZYrG5rpQXt/PF8p3cXK5QuleYz47NO3ydMuRoSNREJR4mOADCmCrV0QNRWkc6eLdIOwKss41zibwraHMHdaQD/BFzrJyyVSBKyxCLXGeVI+QxIEb/6UpWX/Uz//Uz+L38HXNgAgmXcD6jAAAAAElFTkSuQmCC"></p>
+<p>原文：<a href="http://www.raywenderlich.com/?p=97690" rel="noopener noreferrer" target="_blank">How to Create an iOS Book Open Animation: Part 2</a></p>
+<h2 id="开始"><a href="#开始">开始</a></h2>
+<p>这篇教程基于<a href="/posts/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation">第一部分</a>。如果你不了解第一部分或者想重新开始，可以下载上一教程的<a href="https://koenig-media.raywenderlich.com/uploads/2015/05/Part-1-Paper-Completed.zip" rel="noopener noreferrer" target="_blank">完整代码</a>。</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-02-VN2_Start.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAClklEQVR4nJ3T60tTcRgH8POv9KK3YfQXZKbLnctuZ+ec39mmO5ffOXPbcbotNz3pSd0kL8zZlriN4z3QSKMIRSFwe9FFUSMSLK03QSAhQVFvgsXOwi7om+Dz6sfzfeDh9zzIw9Un/w3BGHgGCQcGpuLUGgQHkgWIFgAtABIAVgMYgBgQzTSPMjzKCBgj/mrEGlxyBSshGJCugsAVxl9Lt9QzPqMIEqzf7rreLPe6BQ14bzg9UQzASoySCDvE7AJqE3AKIlYgpqjaCQ7PS5aE14kBGWUEhu9ojUznCxtT06WpyVLy1nwjxRG0jPlbTENhcqSTyaoWRUFIwH8UL5RHXOX5+OuxCFoZT6S84XBMX1h8trb+qljcv5NbMjk5wg5t/e3wIDd2sDJzXFSyQwjJ8IdCzbe57h/FxZ2FAkpDHECrW+F96QfLu6XS/vbWB332scnJWUnJFFeUN4W1o63i8Z6azSAkEN/7Ln3VGr7HLm9GcRT4MAbaPUElnJubfTGpb+T19f5h3UwLBAmxeJtr53Zot6C8zXOZnkr4EF78HKj5wp9/6jiHsj6cgTZ3sFO9m0g86tbu2YBmdkQIl4TZRYcW8eyNep6nrC8H8FQb4mSFTzed5ZGm8mjzXi9XnZlsag+25QKtE+1R3R8c9wXSGCuabYI72ZU4WurZX+x5d9+b6kOsrDTcpWY1bbyvrzem4kBqpHje3728vJ3XV/L66uTMupbMmykBoyHjD8cyY9F0qiOTdoc6jH8mhToHX+fg6p08DiSUFikuFFYHW+PJUOdAWB3kg10oLRKsjFKiyeatMlOCsWGsZGFlCysTrFzdJJQWG+zNJoe3wXDNaFpFuOSqyoadvP6DMHqdOLXmr/DZR/Lbn+GfWvOT0cbk9P0AAAAASUVORK5CYII="></p>
+<p>在 Xcode 中打开工程。现在你可以选择一本书，然后书本从右滑出(即 push)，这是 UINavigationController 的默认转场行为。但是在这片教程结束的时候，自定义转场看起来像这样：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-03-VN_BookOpening.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB/0lEQVR4nGPwi0onGzFgFfWPSgtAQv5RacRq9o9K84rKconKcQGR2c5ROZ5RWf5wBdHp/tEZ/lEZWDT7R6V5RmVlhwdPD3OYHOc7KcF7Rpx7UXS4Z1QmWH+qT0Syd3iyT2SKb2QauubAqDSnqNzpsS7/4yV/dkT/nJH5f17W+rpM57D0gOi0wOj8+LTm5KzWuNTG4Nh8bJojc6bEe/8stf64uOnTyu7/O2et6m12CU31i0yOT2+aMGnXmjVnVq86mVnYgt3mKZFuv1IUP61qf79l5v/DK9f0d7qEpAREp4bElU2YtP34sTtnTj8oqOzAanP2lET/3/k67+o8XuRa/KuyXVkU5RKR6R+VEpZQ3j9h59Ilx6fN3JqSV4td89TkwN+F+u+LLN7n2/wK41kWYewanecXkRSVVF1RuaKoZGFQRKN/JDY/O0fmTI73/p6q/ibb9HW+zc8MneUJLq5ROV6h8YXlEydP2d7du7ZvwsbErDoMzdHpjmEZswsS/s8t/jOz9M+0wv+LqtbX5rmEp/uGJ6cV1NW1Ta1o6Kto7I9IKcCI5+h0z/DU3OyiWa0tU5qapjS3zOroKC4o8wxPDYjO8ApLdg2KcwtOcAtO8IlIxZrCQPodg5OcwMgxMNE9LAWSwkBpKybDPzojIDoTT9pOD4zOgCNE2iQmYxCZqwD8x2r7YWcwwQAAAABJRU5ErkJggg=="></p>
+<p>自定义转场将在书本打开和合上的状态转换中进行丝滑的动画过渡，这种方式非常自然，深得我心。
+来吧，骚年，开撸！</p>
+<h2 id="创建自定义导航控制器"><a href="#创建自定义导航控制器">创建自定义导航控制器</a></h2>
+<p>想要实现自定义转场必须创建一个自定义的导航控制器然后实现 UINavigationControllerDelegate 协议。
+右键 App 分组创建一个继承自 UINavigationController 名为 CustomNavigationController 的类。语言设置为 Swift。</p>
+<p>打开CustomNavigationController.swift，用下面代码替换其内容：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> UIKit</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> CustomNavigationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#6F42C1;--shiki-dark:#B392F0">UINavigationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">UINavigationControllerDelegate </span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  override</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    super</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    delegate </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> navigationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">navigationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UINavigationController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">animationControllerForOperation</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> operation: UINavigationControllerOperation, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC: UIViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC: UIViewController) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIViewControllerAnimatedTransitioning</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> operation </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Push {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> operation </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Pop {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>上面代码主要做了两件事：</p>
+<ul>
+<li>1.在 viewDidLoad 方法中将代理设置为自身</li>
+<li>2.navigationController(_:animationControllerForOperation:fromViewController:toViewController:) 方法是协议方法中的一个。这个方法在每次 push 或者 pop 的时候被调用，你可以在此返回对应的转场类型动画。现在这个方法返回 nil 使得其使用默认的标准转场。马上你就会用你自定义的转场类来替换它。</li>
+</ul>
+<p>既然导航控制器已经准备就绪，那么让我们开始来替换 storyboard 中默认的导航控制器</p>
+<p>设置如下图所示：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-04-VN_storyboard2.png" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpklEQVR4nH2STWsTURSG86P0D1TdF+pe8QeIa9ttl1JduHBjQEGHYpWquBCXIihErAgKwZqEmTRkJvdjZu5HZpI8MteQNll44OUcuJfn3PPe0xoN+vS7XSZJH28KnLE4Y7DGUuZ5qL0r8c7ivWexWKzUxGw2I/7To3vyi+6nDq30e4fe1w4mianzHFuU2NJQ5gUyS3FaY0tLIRS1+wds4kvnG/cetnn5/jPDOEYJyej3Ka28NAit8VVN7RxSSqRSQUrrVS2FCOez+TwAn0ZHXL56ndv7bZJkyEQrVBLTCh2XXWtrUVKiGphS6GUOkpLa+xXw8NVbru3cYvd+hNaaej7HpmNaXIipOQdmWcZ4PCZN03Ogc9R1He4+f/Gare0b7B5EJEnC2WjI8LS3DvRliRIiAIQQAdbkABSSqTFMq2oJPGZr+yZ3DyLSNEMVBWm/vw5sXrA2stb/GflNGHnvwWHwvWz8bzy8CKysDeaHj9nUxqc8iY64dGWHO/uPQ0PrPTLeAM6mFU7nuGb/NqU186parc3Jj588aj/j3YePwe/hOGMyGPAXmwaYDKl5nX8AAAAASUVORK5CYII="></p>
+<p>运行一下，确保能正常运行，一切正常，因为你在代理方法中返回 nil，导致控制器使用默认转场行为。</p>
+<h2 id="创建自定义转场"><a href="#创建自定义转场">创建自定义转场</a></h2>
+<p>终于来到重头戏环节————撸一个自定义转场！
+在自定义转场类中，必须遵循 UIViewControllerAnimatedTransitioning 协议，特别是需要实现下面几个方法：</p>
+<ul>
+<li>transitionDuration：必须实现。返回转场动画时间，以及同步交互转场动画</li>
+<li>animateTransition：必须实现。提供转场过程中的源控制器和目的控制器。自定义转场的工作重心主要是在这个方法中完成</li>
+<li>animationEnded：可选实现。在转场结束时调用。可以在该方法中还原之前的设置</li>
+</ul>
+<h2 id="设置你的转场"><a href="#设置你的转场">设置你的转场</a></h2>
+<p>右键 App 分组新建一个继承自 NSObject 名为 BookOpeningTransition 的类，设置语言为 Swift。</p>
+<p>打开它，然后用下面代码来替换其所有内容：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> UIKit</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> BookOpeningTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">UIViewControllerAnimatedTransitioning </span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // MARK: Stored properties</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transforms </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [UICollectionViewCell</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> CATransform3D]() </span><span style="color:#6A737D;--shiki-dark:#6A737D">//2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toViewBackgroundColor: UIColor</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#6A737D;--shiki-dark:#6A737D"> //3</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> isPush </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> true</span><span style="color:#6A737D;--shiki-dark:#6A737D"> //4</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //5</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // MARK: UIViewControllerAnimatedTransitioning</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> transitionDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">transitionContext</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UIViewControllerContextTransitioning) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> NSTimeInterval {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> animateTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">transitionContext</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UIViewControllerContextTransitioning) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>每个数字标号注释的解释：</p>
+<ul>
+<li>1.BookOpeningTransition 实现了 UIViewControllerAnimatedTransitioning 协议</li>
+<li>2.字典 transforms 存储了键为 UICollectionViewCell 值为 CATransform3D类型的键值对。当书本打开时，它存储了每个 cell 的 transform</li>
+<li>3.定义了目的控制器的背景色，使得渐变看起来更加清爽</li>
+<li>4.isPush 决定了转场为 push 还是 pop</li>
+<li>5.添加了协议中必须实现的方法避免编译器报错。紧接着就是要实现这些方法</li>
+</ul>
+<p>一切变量设置就绪，是时候来实现协议方法了。</p>
+<p>用下面代码来替换 transitionDuration(_:) 中的内容：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> isPush {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">} </span><span style="color:#D73A49;--shiki-dark:#F97583">else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>该方法返回了转场动画持续的时间，这里 pop 和 push都返回1秒。这个方法可以轻松改变转场动画的持续时间。
+接下来需要实现第二个必须是闲的方法——animateTransition，这个方法让一切变得皆有可能。你将分两部分来实现：</p>
+<p>写两个工具方法来分别实现 push 和 pop 的animateTransition。</p>
+<h2 id="创建-push-转场"><a href="#创建-push-转场">创建 push 转场</a></h2>
+<p>回想一下实际生活中，你翻书的场景：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-05-VN_PushStage.png" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAADdklEQVR4nG2U7U+bZRTG+1/4xcRvRv1iYrJkviSYYNQCMhC60vYplPI8TylYBgyVFzFmG3OQRTEMCCriUDIxjgFCcDDoiFmYlaRbaWmBlr5RVoczWSYbYORnnpsu2dQPV06uc5/7yjn3OefWHZEclDnrsTnrkWvexyS7KDDLFFoU8i2qgBZTYK3MwJHhj/oqBbRYXb7kwFjzAcaaVix1H1HkbEJvqyXXXkex3YXB7qKg1EluicxbZiUj5hRW4zma36KSZ1YE12mZnCt6ia+N2fRLegbK9Xxje4O+0jyKJZk8k0Jv/3ku/DDK2a4+mk60U3m8hfrWU5zp7KFv4Fu+uzjK0PBFyt95D53BqpI2PwXlz7HfIbPfXQW91dztdGC1qehNCu75n9n6LU04vEZweZlQKMitzU3WIxHisSiRSJg/ft/izGe96IolhVhVFrvNBdwf6uD++Tb+Gulia6wPSa4WJU1NzxJdX8cfCODz+QgEAqTTaUYvjeJ2uwmGQiTicU5/0o3OYJGJmZ5lr/E1dqe+ZHfyC/anh7gzNoBUUY2+RObylTni8RjLy8ssLS0Jm0qlGB8bF6Krq6tsJBOc/rQHnUFSiUvPs+s6xM7wxzwY/JC/Rzq5M9yFZP9/wVAoRHgtzNTkFFfd8yLz1EbyoaBCojqLvYZX2G54lT9Ln+GB+UnSlS8gWSvEG16emX1MMBgM4vnFw8T4BKOXxlhYuE5qYyNTsiSTrMpir/ZFtt/NZrvxCDtlT7NpfAJJKifHpP5HULM3b/gYH/uRyYlJPJ5fSSYyJWujEZcPs6Mc4p4ri3vHstlxvswt9TCS1Z7JcI5YLCqacdPnEyUmEgkWFxfxer34/QE2kknaDppi53arAdpl9tvs7J+wQrvC3ZMVWEsVIfjTzKzo4urKCiuhkBiTra3bxKJRwuEwfr+fzc3UwdgUSSqevg6iFz5nbbCbtcEeosP9eL86R4nNKcZmZu6quHjt2gJT01f4fmScGfc8C9c9eL03xBNEIhFaTp1Fl29xiB0stDoEtB3VuLZOAmYFtbYJta6ZoxUuck0yrxfbBApLK7E6j1PV0EpFTSP5FkUTVMkzyVgcddQ2n6SsukGIPPwYNOiP2tEb7eQY7ZQox0ScWt/C22VVwv+moVzEHHwOmUtC5F9Cj/42Apk4zWr8sbMM/weSWCG6PtKxZwAAAABJRU5ErkJggg=="></p>
+<p>看起来很复杂，但是你只需要关心动画的两种状态，然后让 UIView 的 animateWithDuration 方法来实现两种状态之间的过渡：</p>
+<ul>
+<li>1.第一阶段：书被合上</li>
+<li>2.第二阶段：书被打开</li>
+</ul>
+<p>在实现 animateTransition(_:) 前，首先写一个工具方法来处理两种状态。还是在 BookOpeningTransition.swift 中，在最后添加：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// MARK: Helper Methods</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> makePerspectiveTransform</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> CATransform3D {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> CATransform3DIdentity</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  transform.m34 </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1.0</span><span style="color:#D73A49;--shiki-dark:#F97583"> /</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> -2000</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transform</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>该方法返回一个 transform，以及添加一个 z 轴上的透视。后面动画过程中你将会用到它来改变 view。</p>
+<h3 id="第一阶段书本合起"><a href="#第一阶段书本合起">第一阶段——书本合起</a></h3>
+<p>接着在上述方法后面添加：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> closePageCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">cell</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : BookPageCell) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">makePerspectiveTransform</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell.layer.anchorPoint.x </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // 3</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CATransform3DRotate</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transform, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">CGFloat</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // 4</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CATransform3DTranslate</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transform, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">-0.7</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell.layer.bounds.width </span><span style="color:#D73A49;--shiki-dark:#F97583">/</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // 5</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CATransform3DScale</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transform, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">   }</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">   // 6</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">   else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">     // 7</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CATransform3DRotate</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transform, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">CGFloat</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8">M_PI), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">     // 8</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CATransform3DTranslate</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transform, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell.layer.bounds.width </span><span style="color:#D73A49;--shiki-dark:#F97583">/</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">     // 9</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">     transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> CATransform3DScale</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transform, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //10</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    cell.layer.transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transform</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>我们对每一个页面做了转换使其与书脊对齐，然后翻页时围绕着个轴做旋转来达到真实的翻阅效果。首先你想要书本是合上状态。这个方法使得每个页面平铺在封面的底部。如下图所示：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-06-VN2_ClosedState.png" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACjUlEQVR4nFWTWU9TQRiG+9e8kE0QBAqytmA3Fi0UCK0sYbNpsRi2oGgIioBtJAh4JRfCZaGVvT2ndDmHFhFMjP6Dx5ypELmYm5lv3nm+95tXV1hlJq+8gdwyI7nlRnL1Ru6WGsgpM5CvbxRnRVUWimust1ZhtZWCikby9A3Ze+VG7ldb0HX2juBfWcM3NYtr0IujZ5jh0Umm37xjKbDK7PwiFY2Pb4lqFy0NJmyOHuyuQbr63XT2uymtb0bnGZ/h6vICJZUiJsuoqkImnUaWJNJnKqqq0tLVL2hLam08qGsSNO+9A2QyGY6OjkilkiTicUxPnOie+aaE2MnJCfsHByiqSigUIhAIEIvFiEoyTR19or0H/wQ1O5Ymx/h5dYl/+QPhcJjY6Skmuwude2yaM1UlGo1yeHiIoijsBHfYWP8sKLXC5s4+8ioeUVTbRHFdsxBcnhnnTFHxLwcIBoMkEoksoXts6kbw+PhYUG193WZjbYPQbojTeBxbRx/l+lqcxkqs9fXcKTWy6Oljf2+P9U/rbG9tI0kSZkHouy0oy7IoWFtdIxwKIcditHYPYLB1YG/rwt7eTVGNlbf9Dr6Fwqx8XGHzyyaRSCQreONhJCJaTiaTgnJvb1+8KkmyGIo2wYdmB1VWB/l6IwvDTr6fn7MT3CUSiRKNSlkPveMzwtxkIo4UjaAoKX5cXJBWtQkrYsqah9f/rLjaIjz0v/Dw5/cvzhStRhFQZvtTdG2uIeYXA4z4Jml3DWFt78E54GF04hVzC34mXs6hN7ZkxWqslNRYKaoy0+5w0jviY8g7jm/qNc8nZ9E3tKK7V2kSydAItL92nQ4tOTnafpnhRuz/VVBpIler01Kipawsm5S/zTZWO7eZMboAAAAASUVORK5CYII="></p>
+<p>我们来解释一下上面的代码：</p>
+<ul>
+<li>1.使用之前创建的工具方法初始化一个新的 transform</li>
+<li>2.判断页面是否在书脊右侧</li>
+<li>3.如果是右侧页面，设其角度为0，使其呈平铺状态</li>
+<li>4.将页面居中并位于封面之下</li>
+<li>5.使页面的x，y 均乘以0.7.如果你不知道为什么要乘以0.7，回想上一篇教程中你曾将封面缩小到0.7。</li>
+<li>6.如果不是右侧页面，那就是左侧页面</li>
+<li>7.设置左侧页面角度为180度。</li>
+<li>8.使其位于封面之下，并居中</li>
+<li>9.同5</li>
+<li>10.设置 cell 的 transform</li>
+</ul>
+<p>现在添加如下代码到上面方法之前：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> setStartPositionForPush</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BooksViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BookViewController) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  toViewBackgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.backgroundColor</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  toVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.backgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //2</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  fromVC.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">selectedCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.alpha </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //3</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">visibleCells</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [BookPageCell] {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //4</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    transforms[cell] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell.layer.transform</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //5</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    closePageCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(cell)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    cell.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">updateShadowLayer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //6</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> indexPath </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">indexPathForCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(cell) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> indexPath.row </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        cell.shadowLayer.opacity </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>该方法设置了第一阶段的转场。它同时使用两个 VC 来做动画：</p>
+<ul>
+<li>fromVC：即书单 VC</li>
+<li>toVC：书页 VC</li>
+</ul>
+<p>相关解释：</p>
+<ul>
+<li>1.存储 BooksViewController 的 collectionView 的背景色，设置 BookViewController 中 collectionView 的背景色为 nil</li>
+<li>2.隐藏选中书籍的封面，toVC 将会处理封面图片的呈现</li>
+<li>3.遍历书本页面</li>
+<li>4.保存每个 cell 打开状态下的transform</li>
+<li>5.因为书本一开始是合上的，所以需要合上所有页面然后更新阴影层</li>
+<li>6.最后忽略封面的阴影</li>
+</ul>
+<h3 id="第二阶端打开书籍"><a href="#第二阶端打开书籍">第二阶端——打开书籍</a></h3>
+<p>我们已经完成第一阶段的过渡转场，是时候撸一撸第二阶段的了。第二阶段是有闭合到打开的状态。</p>
+<p>在 setStartPositionForPush(_:toVC:)) 方法下添加如下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> setEndPositionForPush</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BooksViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BookViewController) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">visibleCells</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [BookCoverCell] {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    cell.alpha </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">visibleCells</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [BookPageCell] {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    cell.layer.transform </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transforms[cell]</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    cell.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">updateShadowLayer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">animated</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">true</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>分析一下上面的代码：</p>
+<ul>
+<li>1.隐藏所有书的封面，因为我们将展示选中书籍的页面。</li>
+<li>2.遍历所有页面然后加载之前保存的打开状态下的 transform</li>
+</ul>
+<p>当你从 BooksViewController push 到 BookViewController 之后，还原之前的一些设置。</p>
+<p>加入以下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> cleanupPush</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BooksViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BookViewController) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // Add background back to pushed view controller</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  toVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.backgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toViewBackgroundColor</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>push 完成后将 BookViewController 的背景色设置为你之前保存的背景色，将下面所有东西都隐藏起来。</p>
+<h2 id="实现开书转场"><a href="#实现开书转场">实现开书转场</a></h2>
+<p>上面所有工具方法已经整装待发，接着我们来实现 push 动画。将下面代码加到 animateTransition(_:) 中：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> container </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">containerView</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> isPush {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //3</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewControllerForKey</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(UITransitionContextFromViewControllerKey) </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BooksViewController</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewControllerForKey</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(UITransitionContextToViewControllerKey) </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BookViewController</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //4</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  container.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">addSubview</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(toVC.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">view</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // Perform transition</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //5</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">setStartPositionForPush</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(fromVC, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: toVC)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  UIView.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">animateWithDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">transitionDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transitionContext), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">delay</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">usingSpringWithDamping</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initialSpringVelocity</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">options</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">animations</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //6</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">setEndPositionForPush</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(fromVC, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: toVC)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">completion</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: { finished </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //7</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">      self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">cleanupPush</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(fromVC, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: toVC)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //8</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">completeTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(finished)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  })</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">} </span><span style="color:#D73A49;--shiki-dark:#F97583">else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //POP</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>下面解释一下上面代码做了哪些事：</p>
+<ul>
+<li>1.获取容器视图，它在转场过程中充当父视图角色。</li>
+<li>2.判断当前是执行 push 操作</li>
+<li>3.获取 fromVC 和 toVC</li>
+<li>4.将 toVC 加入到当前容器视图</li>
+<li>5.设置闭合状态下 toVC 和 fromVC 的起始位置</li>
+<li>6.从起始位置做动画，直到终点位置</li>
+<li>7.还原设置</li>
+<li>8.告知系统转场已完成</li>
+</ul>
+<h2 id="在导航控制器中使用-push-转场"><a href="#在导航控制器中使用-push-转场">在导航控制器中使用 push 转场</a></h2>
+<p>上面我们已经实现了 push 转场动画，是时候来使用它了。打开 BooksViewController.swift 将下面属性添加到类声明之后：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition: BookOpeningTransition</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span></span></code></pre>
+<p>这个属性是转场类实例，它帮助你判断当前转场是 push 还是 pop。添加如下扩展：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">extension</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> BooksViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> animationControllerForPresentController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">vc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UIViewController) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIViewControllerAnimatedTransitioning</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> BookOpeningTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 2</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  transition.isPush </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> true</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 3</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.transition </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // 4</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li>1.创建一个 transition</li>
+<li>2.设置 isPush 为 true</li>
+<li>3&#x26;4.保存当前 transition，返回 transition</li>
+</ul>
+<p>接着打开 CustomNavigationController.swift 用下面代码替换 push 的 if 判断</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> operation </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Push {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> vc </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC </span><span style="color:#D73A49;--shiki-dark:#F97583">as?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BooksViewController {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> vc.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">animationControllerForPresentController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(toVC)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>这一步判断判断是否从 BooksViewController 中 push 过来的，然后用你创建的 BookOpeningTransition 来做转场展示你的 BookViewController。</p>
+<p>运行，选中某本书你会看到，书本在开、合之间的动画非常顺畅。</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-07-VN_PushGlitch.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB+klEQVR4nJ2SzW4SURiGewFehmtdmBgXKmEKMvzMMLEwM5wDZX7PlJkBaiihWFE7LYUubGkqBe2kLNpqRe1CE5uYuqmu8Bp6D9oUV50cg0TTyJioybN8n7z58r1j7w6P/psxCqBRaKAyAA2AA2i3DAWQi0wDFAAZLzAIoBMJ3Qt0Ekyd87WfjMg0UEmYmWaZJudvpJhGmmomwxkAg0D74athXgpxUoiXIkD9XWaA6gXmXtKDhYtny7LTyuEn2a2SMc6iKERMMj85ZcnmYlqbZ1KGi0wk9J10CJcD/d16v9vAB/bmkuWLKzRQRLO21nr/cr/3/MUngIpuMjR2eC/OXOrvr3076OCjV/bSgi8uR6EaF++27cNe77j3+VgwZl2bM7sihfNXv9xnTvIePOd/mhN8vEYDhZfvrbc+bD/72Nx8C1DhD7LC4Olrp3c8p/r1s9sX2vxNHzQpXkppD+ce7BXKnYmkRUPT/eZtIeTIl78aN06yhIOutCcpP9DDrFCsbKysv6k96i6vvuaV0WaIvCzqFiRsl52NWadZxJ3KVjHr41CEl43iQqX2uDS/WrJWJoSRZhoiklNmcjN2tdqyrNZi1a7XTbMQ5BQaakFWuhUTAnGRjAuRxMifhwsjOYWISeMDRCImkpwyXBgNtV+4z3MYip7jH7b993wHKTGBTbSfr6kAAAAASUVORK5CYII="></p>
+<p>WTF…这货看起来没有动画？！</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-08-angry-desk-flip.png" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAjKAAAIygAE/adBEAAACHUlEQVR4nJVUR8siQRCdv+0/8OpNULyI4k0RRTEgpoMgmEUdw5hzzmlqeQU9uyOz+7kPBjpUv656r3ok+gKXy4VWq9U3oSS93+8fg0qlEu12O0Ls+Xym6/XK481mQ81mk/b7/W/CXq/HQQKqqurIZrMZtdttHuMg5uv1mur1Oq8fj0fdGen1elG32yUQA7j5dDrx+Pl8UqPR0AhRuqIoZLVayWQyUSgU4gt0JYvBfD6nWq2mkYF4MpmQLMtUqVS0NY/HQxaLhT+73U7hcNiYEIA2IFgul3z4drvxWqFQYL1wQTQaZYlQPvYVReF4Q0KB8XjMgZADQNbIPp/PUywW07IFZFnmy/5JKPQql8u03W55fr/fKRAIkMPhYCPwDQYDTY4fCVGO3+8nn8+nGQRnO50Oeb1eSiaTbJb60RWGhAjKZDKsGTJE6XATMrRaLd4HuVGzS59EAMooFouc5eFw4LXFYkH9fp8bWTQ79j8hTadTHdloNKJsNsuZQUfsgyiXy3GZ6EuYBH3/PCcgoetRCjbQIqlUil2DZnAwEomwEWazmTVF27jdbn4MgGqkIRwbDocUDAY5G2gGQmQBzZxOJ8Xjcf7QfzDKqFydhrgJt6fTaZ4j82q1yuQ2m43LhVEAMkUbGUH6XIAJyA5PUejkcrn4yUFHABlDnq8IkSnMwEtAa4ifBTIU64lEgh6Px/8RAtBJPDG0CzpAxPwNvwAuak/BeXHFKAAAAABJRU5ErkJggg=="></p>
+<p>它直接从闭合状态跳转到打开状态，不要慌，这是因为你还没有加载页面 cell。
+导航控制器从 BooksViewController 过渡到 BookViewController，他们两个都是继承自 UICollectionViewController。UICollectionViewCell 没有在主线程中加载，所以没有动画过程。
+你需要给 collectionView 足够的时间让它来加载所有的 cell。
+打开 BooksViewController.swift 然后使用下面代码替换 openBook(_:)：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">func </span><span style="color:#6F42C1;--shiki-dark:#B392F0">openBook</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(book: Book</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  let vc </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> storyboard</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">instantiateViewControllerWithIdentifier</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"BookViewController"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) as</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BookViewController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  vc.book </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> selectedCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.book</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  vc.view.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">snapshotViewAfterScreenUpdates</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">true</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //2</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  dispatch_async</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">dispatch_get_main_queue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(), { () -> Void </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.navigationController</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">pushViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(vc, animated: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">true</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  })</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>下面说下是如何解决这个问题的：</p>
+<ul>
+<li>1.当转场要发生时告诉 BookViewController 去截取当前视图</li>
+<li>2.确定是在主线程中 push，来给 cell 足够的时间进行加载</li>
+</ul>
+<p>运行程序，应该和下图类似：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-09-VN_PushGlitchAnimate.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB3UlEQVR4nGPYue8I2YjBPyYNK/LDIe6PhBh8o1IwkV9Usl90il9kkl9kol9Eok9kMkIqOhWMQGwGGAeKAqJTXGOyJoQ7XA3XOpfje67Y73qhV1tKpHtUWkB0Kkh/JAj5RIJMQdccGJ3iFJ21ItHtf67Znxnlf5e2/l/bOb+50iUsOSAmJSK5urRuXkPb4ur6eWGJ+Vg0O0dnLYl2/ldi/211/7d10/7vXjSnrdE1LNk/Ojkhu3nmvH0HD93Yu/9KXGYZds1LY1z/Z+h+nF/3bWnr/y3T5zTVuoJtDk4onzZ7z+HDNw8fvZGUW4FNc1TG0lT//4WWn/JtPsWo/w0Xmhnv7hqd5ReVGJNe39O/o6tvY1bJxOCEHByak/3+ZRl/Lnb+XObzN15pZowLSHNkYmJ2a1nN4qLKuclZE4LjsPnZKSpjeYrv/0KnH8WeP4rc/5e4z00Nc43O8A6Pr2udOXP+1r5pqybOWBuZWogRVTGpzuHJC6oKv62Y9Hph3+tF/V9XT5taVe4anuwfnRqenBubWQxBAbHp6Jr9wJEZkZiVmJabkJqTkJaXmJYXEp8BSR4+kcneEUkQhCWRQJBPVIpXZDIIRYCQDyxhoaRfzEQCVQRHMSCEVQ1OzUQiAE+fgtz4AUmCAAAAAElFTkSuQmCC"></p>
+<p>看起来更完美了。至此 push 的转场已经完成，继续撸 pop 的转场。</p>
+<h2 id="实现-pop-转场的工具方法"><a href="#实现-pop-转场的工具方法">实现 Pop 转场的工具方法</a></h2>
+<p>pop 的过程和 push 过程刚好相反。第一阶段是书打开状态，第二阶段是书本闭合状态。</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-10-VN_PopState.png" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAADh0lEQVR4nHWU21MbZRjG8yf4D3jhhRe9UC/UGQ9TndYOp4KcGkiyOUBCdhOgIQdCQXBahFYv1I5jB0Vti9JStQdagVJ14EJFRcLQhEN2k91ICLaOl1Da4gA/Zze0ozP14pl55/ne9/d93+48n6nC4UMKdeKLdHG4vZsadzOVTh9VrkaqXY1UOf1UOv1UufzovVUOiepHqNLho9wuYXpdELF4W4xhc32zYepemdVLicVDqc1rwMtsIofqmihzhyk2FKSkPvRQ1fUBY3OTL9LJyPh3DAx9zbsf9tPR/Q7hrl5OvH+KTwbOc+HSVUbHv+XTL4aocPo5eWgvX1pe4ZyzhHPuIs7XHWDQUYjT5qJEkDBF3uxlNZdjZSVLRlNJLi2RzS5z69YfaGqalWyW5d8zZLNZ7I1REtYnwfkE22+72elrhv4AO31NtPklCiwiplBnD+l0mmQyycLCAvF4HC2joWkaA2cHSCQSyHKSJVnBLoX4TdzP1pFiNgaOc/fzXu59dZK7I31EW49QUOPBFO7sQdNUFEVhcXHRAGYyGVKpFGdPn2H612lUNY2spLD7wsyYn2I7/BL3r51ic/wz/v5+iM0bg0RDUQpq/we4vLxMLBZjdGSM2EyMdCqFnMoDY7bn2fI9zb3Bo9wfPMrmxffYHO4j2hJ5NHB+fh5ZlpmYmGT4yjDXR68bvg4UpBAxcR/bkRdZb3uNO649bFgeZ13cQ2u9g0Kbbxeo/heo11NTP3Pl8jCTE5Ms6JvoV5ZCzIr72Q6+wHp0Hxvt5Wx4nmGt5jFa7WYKBX8eqKqqcaqFxUVuxuOoqmZ409PTxo9SZJmkoiD4QsTqXmbL+yxrh19lPXSAO017WROfI+K0USjsnlAfTqdTpFIKcjLJ6mqOP2/fNj6F7uvAtJbBLrUQj1TACSdbPS52jtnYOV5n1G0eDwVWEVO4Kw+cm7vJjz9NcfWbMS5fG+OHqV+IxWaJJxIoiszM7By17iYmP+jlr0unyQ19TG7oI3IXz5C90E+gMUiRpQFTrecwgfZjuBpbjayWWhsornFz0OLB7G7C09JOS0c3ghSk1Oo1MltlF6l0SFQIXiPblXaJMkE0ImvSm4rMdQagzOY1AIGOt7CJQSPHxbVuisz1HLQ25DMueI1hb/ANAu3dWL16Xx5mAMsFkQq79PBR0PWgLrfna2N9d+2BdE9/gf7t6cB/ACsRJQyC9+s4AAAAAElFTkSuQmCC"></p>
+<p>打开 BookOpeningTransition.swift 添加如下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// MARK: Pop methods</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> setStartPositionForPop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BookViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BooksViewController) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // Remove background from the pushed view controller</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  toViewBackgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.backgroundColor</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  fromVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.backgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>该方法存储了 BookViewController 的背景色然后移除了 BooksViewController 中 collectionView 的背景色。我们不需要设置任何的 transform，因为书本当前状态就是打开状态。
+接下来添加如下代码到上述代码之后：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> setEndPositionForPop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BookViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BooksViewController) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> coverCell </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">selectedCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">visibleCells</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [BookCoverCell] {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell </span><span style="color:#D73A49;--shiki-dark:#F97583">!=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> coverCell {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      cell.alpha </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }      </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //3</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cell </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">visibleCells</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [BookPageCell] {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    closePageCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(cell)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>该方法设置 pop 转场的最终状态：</p>
+<ul>
+<li>1.获取当前选中书本的封面</li>
+<li>2.在书本闭合状态，遍历 BooksViewController 所有书本封面，然后渐显</li>
+<li>3.遍历 BookViewController 中所有的 cell，然后将它们转换成闭合态</li>
+</ul>
+<p>然后加入以下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> cleanupPop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">fromVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BookViewController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: BooksViewController) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // Add background back to pushed view controller</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  fromVC.collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.backgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.toViewBackgroundColor</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // Unhide the original book cover</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  toVC.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">selectedCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.alpha </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>该方法在 pop 转场结束后做了一些还原工作。主要是将 BooksViewController 的 collectionView 的背景色还原成之前的状态，以及展示之前的书本封面。
+把下面代码加到代理方法 animateTransition(_:) 中的 带有 <code>//POP</code> 注释的 else 大括号内。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewControllerForKey</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(UITransitionContextFromViewControllerKey) </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BookViewController</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewControllerForKey</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(UITransitionContextToViewControllerKey) </span><span style="color:#D73A49;--shiki-dark:#F97583">as!</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BooksViewController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//2</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">container.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">insertSubview</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(toVC.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">view</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">belowSubview</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: fromVC.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">view</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//3</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">setStartPositionForPop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(fromVC, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: toVC)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">UIView.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">animateWithDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">transitionDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(transitionContext), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">animations</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //4</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">setEndPositionForPop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(fromVC, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: toVC)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">completion</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: { finished </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //5</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">cleanupPop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(fromVC, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">toVC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: toVC)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  //6</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  transitionContext.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">completeTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(finished)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">})</span></span></code></pre>
+<p>下面解释下 pop 转场动画的工作原理：</p>
+<ul>
+<li>1.获取转场过程中的控制器。fromVC 现在变成了 BookViewController，toVC 变成了 BooksViewController。</li>
+<li>2.在 containerView 中把 BooksViewController 的视图放置到 BookViewController 视图下面。</li>
+<li>3.setStartPositionForPop(_:toVC) 方法存储了背景色</li>
+<li>4.用动画形式将书本有打开状态转换到闭合状态</li>
+<li>5.动画完成则做还原设置，将背景色设置为之前保存的，然后显示书本封面</li>
+<li>6.通知转场完成</li>
+</ul>
+<h2 id="在导航控制器中使用-pop-转场"><a href="#在导航控制器中使用-pop-转场">在导航控制器中使用 pop 转场</a></h2>
+<p>现在让我们像之前添加自定义 push 动画那样将 pop 动画也加入到代理方法中去。
+打开 BooksViewController.swift 然后在 animationControllerForPresentController(_:) 方法后添加如下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> animationControllerForDismissController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">vc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UIViewController) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIViewControllerAnimatedTransitioning</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> BookOpeningTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  transition.isPush </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> false</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.transition </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>这个方法同样创建一个 BookOpeningTransition 实例，唯一不同的是其 transition 设置为 pop。
+打开 CustomNavigationController.swift 用下面代码替换之前的 if 逻辑：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> operation </span><span style="color:#D73A49;--shiki-dark:#F97583">==</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Pop {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> vc </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> toVC </span><span style="color:#D73A49;--shiki-dark:#F97583">as?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BooksViewController {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> vc.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">animationControllerForDismissController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(vc)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>它返回一个 transition，然后执行 pop 动画来把书合上。
+运行程序，选中一本书，看下它的打开和闭合状态，应该和下图类似：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-11-VN_OpenAndClose.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACBElEQVR4nGPYue8I2YjBPyYNEwXEpAYioQBsavxj0hh8o1LQkF9Uikd0unN0pnN0hnNUplN0pmdUmh9UNtUvGop8o1IY4BwI8o9O8YrJyA8PnBTh2hcb0BfvOynWOzM6yis6zR+kIMUnMtE7MtEnMtEvGkNzYHSKU3T2ili7/wkqfzqS/kzL/T8je155lktEagDI/XlxGfVJ2Y1xaXWBsZlYNDtHZS5J9Pxf6f51SfvXVf3/t8+e097oGpbsH52cmNM2cfrOVWtPLltxJDqtBJvmmKylEY7/MvW+b5j8Y/v8/4fXzmlrdg1LCohJCUuqmjF3z+nT906fuZuYU47V5oylST7/88y+NAR9LHL+X+s5Oz/BNTLNPzo5Irl68vS9S5YdmTZ3S3R6EQ7Nqf7/Cyy+FNq9z7L9E8Q9M8LWNSbbLzIxNr2humFlceX8oJhG/+hsHH5O8PybrP8px+5TnvPfNOOZ8T5u0Zk+4fGlNVN7J21s61nZ0bs2MqUYQ3NMqlN46qrixP+zyv9OLfs7pfj/3Or5pdmuEam+kUm55c31HVMrW/orWyaEJGLY7B+T6hmRXF5QsrCjbXZr86y2tgXdnfm5xZ4Ryf4xaV7hie6h8Z5hCZ5hCVgSCTidgPQ7hya6gFCCc2iCV0QyOIWkIqdNv+hULJohigKQEEQnJsKumUgEAIp8gtIVznBZAAAAAElFTkSuQmCC"></p>
+<h2 id="创建一个可交互的导航控制器"><a href="#创建一个可交互的导航控制器">创建一个可交互的导航控制器</a></h2>
+<p>打开和关闭转场动画看起来非常屌，但是你可以做得更好。你可以使用 pinch 手势来控制书的开、合。
+首先打开 BookOpeningTransition.swift 添加如下属性：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// MARK: Interaction Controller</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> interactionController: UIPercentDrivenInteractiveTransition</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span></span></code></pre>
+<p>接着打开 CustomNavigationController.swift 然后添加如下代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> navigationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">navigationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UINavigationController, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">interactionControllerForAnimationController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> animationController: UIViewControllerAnimatedTransitioning) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIViewControllerInteractiveTransitioning</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> animationController </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> animationController </span><span style="color:#D73A49;--shiki-dark:#F97583">as?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> BookOpeningTransition {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> animationController.interactionController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>上述方法返回一个可交互的动画对象。它使得导航控制器控制着整个动画过程，这样用户就可以使用 pinch 手势来控制书本的开、合。
+打开 BooksViewController.swift 在transition 变量下添加如下属性：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> interactionController: UIPercentDrivenInteractiveTransition</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer: UIGestureRecognizer</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  didSet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">addGestureRecognizer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(recognizer)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>下面解释为什么要添加这几个变量：</p>
+<ul>
+<li>1.interactionController 是一个 UIPercentDrivenInteractiveTransition 实例，它管理 VC 转场过程中自定义动画的出现和消失。这个可交互控制器同样依赖一个 transition animator。这个 animator 实现了 UIViewControllerAnimatorTransitioning 协议，你刚才创建的 BookOpeningTransition 就是干这件事的。iteractionController 可以控制 push 和 pop 的过程，如果想要了解更多细节可以参考<a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIPercentDrivenInteractiveTransition_class/index.html#//apple_ref/occ/instm/UIPercentDrivenInteractiveTransition/cancelInteractiveTransition" rel="noopener noreferrer" target="_blank">苹果官方文档</a>。</li>
+<li>2.recognizer 是一个 UIGestureRecognizer 实例。你可以使用它来控制书本的开、合。</li>
+</ul>
+<p>在 BooksViewController 扩展中的 animationControllerForPresentController(_:) 方法中添加如下代码，将其放在 transition.isPush = true 这一行之后：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">transition.interactionController </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> interactionController</span></span></code></pre>
+<p>这行代码让自定义导航控制器知道使用那一个交互控制器。
+同样把上面在添加到  animationControllerForDismissController(_:) 方法中 transition.isPush = false 之后。
+紧接着在 viewDidLoad() 中加入下面一行代码：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">recognizer </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> UIPinchGestureRecognizer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">target</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">action</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"handlePinch:"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<p>它初始化了一个 UIPinchGestureRecognizer 实例，这个 pinch 手势的 action 是 handlePinch(_:)。</p>
+<p>现在我们来实现 handlePinch(_:) 这个方法：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// MARK: Gesture recognizer action</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> handlePinch</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">recognizer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: UIPinchGestureRecognizer) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  switch</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer.state {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    case</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Began</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      interactionController </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> UIPercentDrivenInteractiveTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer.scale </span><span style="color:#D73A49;--shiki-dark:#F97583">>=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //3</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">view</span><span style="color:#D73A49;--shiki-dark:#F97583"> ==</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> collectionView {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">          //4</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">          var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> book </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">selectedCell</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.book</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">          //5</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">          self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">openBook</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(book)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //6</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      } </span><span style="color:#D73A49;--shiki-dark:#F97583">else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //7</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        navigationController</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">popViewControllerAnimated</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">true</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      }        </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    case</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Changed</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //8</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> transition</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.isPush {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //9</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> progress </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> min</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">max</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">abs</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((recognizer.scale </span><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)) </span><span style="color:#D73A49;--shiki-dark:#F97583">/</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 5</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //10</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	interactionController</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">updateInteractiveTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(progress)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">	//11</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      } </span><span style="color:#D73A49;--shiki-dark:#F97583">else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //12</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">	var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> progress </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> min</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">max</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">abs</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((</span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#D73A49;--shiki-dark:#F97583"> -</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer.scale)), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        //13</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	interactionController</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">updateInteractiveTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(progress)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      } </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    case</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .Ended</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //14</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      interactionController</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">finishInteractiveTransition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">      //15</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      interactionController </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    default:</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      break</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>对于 UIPinchGestureRecognizer，我们关心三种不同的状态：began，changed，end。</p>
+<p><strong>begin状态</strong></p>
+<ul>
+<li>1.初始化一个 UIPercentDrivenInteractiveTransition 对象</li>
+<li>2.判断 scale， 也就是 pinch 手势移动的距离，看起是否大于等于1</li>
+<li>3.如果是，确保手势发生在 colletionView 当中</li>
+<li>4.获取当前手势所作用的书脊</li>
+<li>5.执行 push 转场动画，显示书籍页面</li>
+<li>6.如果小于1</li>
+<li>7.执行 pop 动画来展示书本封面</li>
+</ul>
+<p><strong>changed 状态</strong></p>
+<ul>
+<li>8.判断当前转场是否为 push</li>
+<li>9.如果正 push 到 BookViewController，获取用户 pinch 手势的百分比。将 pinch 手势缩小为其原始值的 1/5，这样用户更加容易控制转场过程</li>
+<li>10.根据之前计算的白封闭更新 transition 完成状态的百分比。</li>
+<li>11.如果当前转场不是 push，那肯定是 pop</li>
+<li>12.当使用 pinch 手势控制书本关闭时，缩放比一定是从1变到0</li>
+<li>13.最后更新 transition 的进度</li>
+</ul>
+<p><strong>end 状态</strong></p>
+<ul>
+<li>14.通知系统用户转场交互已完成</li>
+<li>15.将交互 controller 置为 nil</li>
+</ul>
+<p>最后，你需要实现 pinch-to-closed 状态。因此你需要将手势传递给 BookViewController，这样他就能自发进行 pop。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer: UIGestureRecognizer</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  didSet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#D73A49;--shiki-dark:#F97583"> let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> recognizer {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      collectionView</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">addGestureRecognizer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(recognizer)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>当你在 BookViewController 中设置好手势时，它会马上被加到 collectionView 中区，这样我们就可以在用户合上书本的时候追踪 pinch 手势。
+下面需要在 BooksViewController 和 BookViewController 之间进行手势的传递。
+打开 BookOpeningTransition.swift 添加下面一行代码到 cleanUpPush(_:toVC) 方法中，并且将它放在设置背景色之后：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Pass the gesture recognizer</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">toVC.recognizer </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC.recognizer</span></span></code></pre>
+<p>当从 BooksViewController push 到 BookViewController后，你需要将手势回传。
+加入下面代码到 cleanUpPop(_:toVC) 方法中，同样是放在设置背景色之后：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Pass the gesture recognizer</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">toVC.recognizer </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fromVC.recognizer</span></span></code></pre>
+<p>运行程序，选中任意一本书然后使用 pinch 手势来控制书本的开、合。</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-12-VN_Pinching.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACpUlEQVR4nJ3S3UtTcRgH8PN/9B9EQeBfkIqb87z8znbczvmd33a2877NLXW+zLM3p1NRM9fmy3RTpzSEzAotJUvESCICC+1KIboJyvAiAm+MjOlugoQIPlfP8/1ePPBga89f/jcMIP0SXtpZcVkGo6BKQ5XmywBUyQqFgFIDK+KchEOJhHJlzqsk0qhzJFQxgtdrUaCW89VwPjP0Al6jeBXwAbtgiN6UU07wYrxRaCWhUu44VMAopE0mrTLFqRgHPWlHTUa2Tqh0pwBx3ktykqAnO4zF4sJOPr81P/fKSExZWBGwGtHqtwyE7MNdjjtdQPNjXh6e6Fd/jmln883PBlpNrE5B2alGY8nFlZXdjY39nZ3DgZFiPSsCm8rkwvrBTPbjev7rptSTwHQIv/mrfjy4fbZVepIbNTsUgFSbK3SrbXZ9bX97e+/9u8/p8ZLZ4aEbtfqhUOxTafNo98WXvUBPH6Yj13HTje8p+rTbstIOz89W7O62jq7S6urr2bnl2eJWvH/cwkqgUSWGOqT9yfa9Yudh0d1rYJrTdaRfP26qOnFdechcM6MABSVO7IwnljN3V5OpezgTJewtwKWRVtmRNdCHUfRmhNjtpRIBzOd2n/Yxv4adZ2nXRthj4so3QykSbMkHmwstoZmm4JTsGySRgtOSXEiljh7FD+5HD5ZgogvjPb5Cb/dMKrkw2B9rD+NQs9jdISOztPQ2O/F4YvpprrAWiozinEQ4FDEciRZyRi5rTI9BfwgjoFrNiNWMeNMmmuwyQHoDKyvBaM/QZCSVjvVnugfHleYozpZXuF02A5eZFsxAIFgFA7xmRXqZU6eRRvHaRb/OJpgYt4lx19mEBodElZ9Ho5AOnN4LFK9hlemfANJpVH5pGnlppP81c2n5H/0GvLCXhiNZi3YAAAAASUVORK5CYII="></p>
+<p>用 pinch 收拾来控制书本的开合显得非常自然，同样可以让界面更加简洁，我们不再需要导航栏上的返回按钮，是时候来清理它了。</p>
+<p>如下图设置即可：</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-13-Screen-Shot-2015-03-14-at-1.16.36-PM.png" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABuUlEQVR4nKWT2W7bMBBF9f9f0z8o0MeiTpfE8UrLkkVrJyVZoixb8ikoOynapEjQEjgACQ7v3MEMnVju2Xk7PCHIwoC60nTdkbY1GNPSNM0NQ2sOHNv6um9bsizD3WzYBZJcF+xTjZPNvvHj00dWXybI6SNlGPLepbUmkBLP92iOHd/9BqdVKduNIM8Vp/OZvu+5cBkfXC6Wy0uG632WJLjrNYHnobOctZ/ilEVFFEUjNuP5fH7TmRW1KwlDxP0987s7ttMp+V7iWEdj0C24Hwb6wTqB03Chahr61mBN/UmuFEprhNiwXouxfGfoh9+yd92JQ31tQlU3pCqnLhR1Y14QxTFSBhRaU5YlWZr+Enwqw3ZPKTWWbymLAm25nZ+wzpI4Js0Vi6VgPpvhed7rgvZBURRvEoUhYZLzsNjwOH0Yx+ifBW2JcRwTBBIhBP4uYJua/3N4OByoDxV+IAn2EbVp3y/4ehKNWK+YTL6yXK5IkvjvTbHY2QzDECnl85xeseNSYaodufzM42yJ67rUdY1z6k7jzxiGq7AxZixl7KRSVFU1YoPt3ZUG0/a05Zzc/8BiucV1N6OZn9UL4lqEC6P8AAAAAElFTkSuQmCC"></p>
+<p>继续运行，可以看到导航栏不复存在画面变得更加简洁！:]</p>
+<p><img src="/media/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation-14-VN_BookOpening.gif" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB/0lEQVR4nGPwi0onGzFgFfWPSgtAQv5RacRq9o9K84rKconKcQGR2c5ROZ5RWf5wBdHp/tEZ/lEZWDT7R6V5RmVlhwdPD3OYHOc7KcF7Rpx7UXS4Z1QmWH+qT0Syd3iyT2SKb2QauubAqDSnqNzpsS7/4yV/dkT/nJH5f17W+rpM57D0gOi0wOj8+LTm5KzWuNTG4Nh8bJojc6bEe/8stf64uOnTyu7/O2et6m12CU31i0yOT2+aMGnXmjVnVq86mVnYgt3mKZFuv1IUP61qf79l5v/DK9f0d7qEpAREp4bElU2YtP34sTtnTj8oqOzAanP2lET/3/k67+o8XuRa/KuyXVkU5RKR6R+VEpZQ3j9h59Ilx6fN3JqSV4td89TkwN+F+u+LLN7n2/wK41kWYewanecXkRSVVF1RuaKoZGFQRKN/JDY/O0fmTI73/p6q/ibb9HW+zc8MneUJLq5ROV6h8YXlEydP2d7du7ZvwsbErDoMzdHpjmEZswsS/s8t/jOz9M+0wv+LqtbX5rmEp/uGJ6cV1NW1Ta1o6Kto7I9IKcCI5+h0z/DU3OyiWa0tU5qapjS3zOroKC4o8wxPDYjO8ApLdg2KcwtOcAtO8IlIxZrCQPodg5OcwMgxMNE9LAWSwkBpKybDPzojIDoTT9pOD4zOgCNE2iQmYxCZqwD8x2r7YWcwwQAAAABJRU5ErkJggg=="></p>
+<h2 id="何去何从"><a href="#何去何从">何去何从</a></h2>
+<p>你可以在此下载<a href="https://koenig-media.raywenderlich.com/uploads/2015/05/Part-2-Paper-Completed_Final.zip" rel="noopener noreferrer" target="_blank">完整代码</a>。在这系列教程中，你学会了如何使用自定义布局、自定义转场、使用手势来控制转场交互。
+我希望你喜欢这篇教程并从中受益，我想在此感谢<a href="https://twitter.com/hegedus90" rel="noopener noreferrer" target="_blank">Attila Hegedüs</a>创建了这个碉堡的项目。
+如有任何疑问，请在下面留言指出。</p>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/communication-between-webview-and-js/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">WebView 与 JS 的交互</span> </a> <a href="/posts/how-to-create-an-ios-book-open-animation-part-one-translation/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">如何创建一个翻书动画(Part 1)[译]</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

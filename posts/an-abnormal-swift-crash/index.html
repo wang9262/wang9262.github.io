@@ -1,0 +1,448 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/an-abnormal-swift-crash/"><!-- Primary Meta Tags --><title>聊聊最近遇到的一个Crash | Vong</title><meta name="title" content="聊聊最近遇到的一个Crash | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/an-abnormal-swift-crash/"><meta property="og:title" content="聊聊最近遇到的一个Crash | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/an-abnormal-swift-crash/"><meta property="twitter:title" content="聊聊最近遇到的一个Crash | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2020-09-20T00:13:00.000Z"><meta property="article:tag" content="Crash"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"聊聊最近遇到的一个Crash","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2020-09-20T00:13:00.000Z","dateModified":"2020-09-20T00:13:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">聊聊最近遇到的一个Crash</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2020-09-20T00:13:00.000Z" class="flex items-center gap-1.5"> 9/20/2020 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#Crash </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <h2 id="卖个关子"><a href="#卖个关子">卖个关子</a></h2>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 代码段1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Manager</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject </span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    deinit</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">         print</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"deinit "</span><span style="color:#D73A49;--shiki-dark:#F97583"> +</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> String</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">format</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"%p"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#6F42C1;--shiki-dark:#B392F0">UIViewController </span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    override</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        super</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        var</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> x: Manager</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> Manager</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        x </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 代码段2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Manager</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@implementation</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Manager</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">dealloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"dealloc: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">%@</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> stringWithFormat:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"</span><span style="color:#005CC5;--shiki-dark:#79B8FF">%p</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ViewController</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@implementation</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ViewController</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">super</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> viewDidLoad</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Manager </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">manager </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [Manager </span><span style="color:#005CC5;--shiki-dark:#79B8FF">new</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span></code></pre>
+<p>以上两段代码运行起来后会分别会发生什么？编译报错？正常输出？输出异常？Crash？</p>
+<p>相信看了标题，肯定会有人说会 Crash，具体是代码段1还是代码段2，还是都会 Crash 呢？且往下看～</p>
+<h2 id="场景一"><a href="#场景一">场景一</a></h2>
+<h3 id="现象"><a href="#现象">现象</a></h3>
+<p>线上遇到这类 Crash，基本上都是系统堆栈，如下图</p>
+<p><img src="/media/An-Abnormal-Swift-Crash/An-Abnormal-Swift-Crash-01.png" alt="Untitled" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB00lEQVR4nJVUwW6rMBDMF/fWn6k4Vj32FiUfEyVCOHZwQowxGDAOrmaDnbSq+vSQRus1MDu7Y1gJIV7yPH/nnL8VRZHt9/tst9tljLEMOeecoLXObrdb5pzLpmlKcPf8zTn3box5WVlrt/M8B2utb9s21HUdtNYBa2ttwjiOwTmXMAwD7U3ThNyHEBC3K6XUWikVpJQj59wzxghCCC+l9GVZ+tPp5HEPa6UUCntjDMW2bX3XdSMIrbVrEG6gCA9zzoMQgiClJJRlSfF6vYa+70mV9/4bpmkihdbazUprvcGDVVVBSSK7XC4Uz+dzIse6qqpgjEmj6PuexgVCY8wmKVzaCkVRECnIQYq9ZxyPR0Ke56FgRcw9yIkQCruuI4VQACLgWVFUi4jiMCSq6+8ghcMw3BU2TYPq1DIUoipUxgJYQx1yuL84m+I4jo8ZghAKFxdTu1C0uE97uAeFePb5+LjfCNECXMYLIIMaEGEdXQZpbPlPQq11ajkOHIRxltEIEEPxTzL3k7Cu6/ViyoiDjEMNx6EYwB4Mw+CHYfB4+Rc8DnbXdVskTdPQpwfy6CCq4+D+65rn+fHpMcZeGWOfh8MBP4iPtm0/mqb5X+DH8KmUev0CgAsWUWVFOSkAAAAASUVORK5CYII="></p>
+<h3 id="排查"><a href="#排查">排查</a></h3>
+<p>唯一的业务堆栈是 #5 那一行，而那一行对应的代码是 <code>xxx = nil</code>，并且这个类的 <code>dealloc</code> 方法就这一行代码。</p>
+<ul>
+<li>首先排除了多线程的问题，因为都是在主线程；</li>
+<li>另外在崩溃日志的附加信息里有一个共有的规律就是都是收到内存警告后触发，但是尝试模拟内存警告，也无法。因为 cell 是在一个常驻页面上，只有内存警告才会触发 <code>dealloc</code>；</li>
+<li>尝试符号断点在 <code>objc_release</code> 上，分析对应的汇编代码，也没啥收获；</li>
+<li>崩溃附加信息里记录曾经收到过内存警告；</li>
+<li>继续尝试在  <code>xxx</code>  对应类的 <code>dealloc</code> 方法，并前后加上 log，上线后抓取崩溃的附加信息发现 <code>xxx</code> 的 <code>dealloc</code> 前后的 log 都有执行；看来也不是 <code>xxx</code>的 <code>dealloc</code> 导致的。</li>
+</ul>
+<p>经过上面的排查还是没法定位到具体原因，后面某天其他组同事重现了这个问题，拿到本地日志后，发现 Crash 前最后的日志是 cell 持有的某个 <code>Swift</code> 对象 <code>deinit</code> 输出的 log。于是 Review 了对应类的代码，发现没啥问题。然后找对应同学构建这个类生效的场景，再模拟内存警告，然后就必现了，堆栈和上报的是一样的。然后通过开启 <code>Xcode</code> 僵尸对象，检测到确实是那个类出现了野指针。</p>
+<p><img src="/media/An-Abnormal-Swift-Crash/An-Abnormal-Swift-Crash-02.png" alt="Untitled 1" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAACAklEQVR4nHWST0/cMBDF93NQHNv5Z4/tOKvsBkKXrmDLqvRSsVJV1EOlXnrooRfUY3stm0+MkIVe5SwsBbqHp+R53vw8GWVERHNj9G9jzJW19qdS6r8qiuKpV49ea32llPoVWSNnTP/meIa2m4VxM4VzFYjMVtY6GGPhvR+esW7IonJ+m9GawqaP1iOl6PqgPYI1/oa9EkGKPHCeDkoSGfJchaoah7puApELlR+HsqCQyfKfXHqTZSWUUn9GjZ7239//wNfjb+Gy/oJjOsUeY+BJiiSRECJDnivEBiKHpmmhtAEX6VBLEgnGREjTIgLXI1Wofj47QTedhZQVyGQ5hF6ICRS5hrUepaItLHkOLArVtwcdnK/D3j4bbn6YjjGxncxQBas8DDkQ2SeXsScTKtXHJiGyuDNwvoE9APO8hLUVtKlQjRscdDOQ9UNtB1D3UubD4XPg4GMDT1HJDB/aDh9PTzC3dljBTmCaFjuBSSKwzwQk4xiXCl09xsQ6aLLI8rhvsQHKLZDW8ZOTRN5ynt5Jmd0Jkb4QF+kd4xslImYec5zL2whXSl2PjDH92dkZzs/Pw3K5RNd1WCwW0WPxdoGj9jXaaQtjDYy51/0PHd81aSyn78Kn+Wd48uuR1tp57y8nk8lF0zQr59yqrutV27arBx9VFMVOTWhycWgPLykj+xfQ3TyOfAn8tgAAAABJRU5ErkJggg=="></p>
+<blockquote>
+<p>上面说到的模拟内存警告，如果是模拟器可以通过 Debug→Simulate Memory Warning 来模拟内存警告，如图所示</p>
+</blockquote>
+<p><img src="/media/An-Abnormal-Swift-Crash/An-Abnormal-Swift-Crash-03.png" alt="Untitled 2" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAcElEQVR4nGPw9fW1AGFXV1drd3dHbU8n//Yg/7D/VrZ2/zW0dQ4ZGBiY6urqWhCLGWDA3t6eBURbWDukh4ZG//fyCPhvaGixFSrNCFdICNTX1zOBsLGxMSuI7+sQ7h/uFXcs1CPqqLdtQAdUGROxGAAMISRfcZoTHAAAAABJRU5ErkJggg=="></p>
+<blockquote>
+<p>而如果是真机的话，需要使用一个私有方法，即 <code>[[UIApplication sharedApplication] _performMemoryWarning]</code> ，这个方法需要动态调用。</p>
+</blockquote>
+<p>再回到上面卖的那个关子，答案是只有代码段1会 Crash，代码段2正常输出。</p>
+<p>代码段1运行起来之后，报了一个 objc_release 的 crash</p>
+<p><img src="/media/An-Abnormal-Swift-Crash/An-Abnormal-Swift-Crash-04.png" alt="Untitled 3" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAACEElEQVR4nIXRy27TUBAGYL8MJPH1HJ+rfWzn+JImaRwuBZUF78WGDRveo63UOiuEKu8QT5Ic/cgRCFEkWHz6pRlppJnxVrX9eNnvv+z3r+93/dVw2b8attt+KOt24Fkx7PqXw8V6N1jbDNa2Q1U1Z1oXQ5KwX+7jOP3Kpf7gdevtYVl3IEw6yhS4LOCHAsJsYOwVWLEGKTpQ2SGIM8wWFH6kMAsEnvvs7NkiPc1DAT9Rd15Tbx9stQKn2VHy0hVZ6+JYOK1WrrXXTuUXTtqNM1XvhG5dGHLHaO40zZwi+kwm8pjzAkaWN95muT9c797jRffW9fUbbMo9KJEwZotV8w6mukTe9rDNFbJqiySRyHiBztSoc4u6aKY8taaG1ctbj3FxqGwDs6ydykuk0mAecCS0gpRbENki0S24WoPkHabV4tSAqQYxbxCLGqG0p1As4Sf61hNCH+pmhXLZurJqoHKLRcD/gWEx3SsUCCaBgB/wU0QyxGl+63EhDrbuUC07x0QOyrP/DPzb3GenIFIISX7rSWUe6nYNocwxSpiLiXSzBXNzf8J/5lNT/bfZgh2nz0c0v/HKpj906x40FS7lGoRrUKYRJwoxkaAsAxMGCc1AU42EKkSx+EMY8VNCpp6+87Ll5rNtNt+kMo8py8aY8JEwNYYRO4uJGinTY0TUGBM5RkSOfpg+wR79IP2+COinH47xOjwmZYcMAAAAAElFTkSuQmCC"></p>
+<p>开启僵尸对象，输出如下 log</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">***</span><span style="color:#D73A49;--shiki-dark:#F97583"> -</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[SwiftDemo.Manager release]</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> message sent to deallocated instance </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0x6000013c4500</span></span></code></pre>
+<p>代码段2正常输出，没有Crash</p>
+<p><img src="/media/An-Abnormal-Swift-Crash/An-Abnormal-Swift-Crash-05.png" alt="Untitled 4" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAACUUlEQVR4nI2Ty27UMBSG52XojO04vtuJc/HQTpkZWsSCN0OskXgPBBSUJaxQtvAcNNaPkuFSLosuPp2jY+nTucirNpgX293Fx+Px6sPl/mrY74/D4Xg9pJQGbfzgQxwOh+tht9svXF4ehuPxeuHq6smQ0vlQ1e2H892jT13XP1/tLg/v2+4hpLTZ2QalblDKAKUcSuHACgNWWJytOR6ccaw3AoSqv5l4aef4dvX4+PRd11+AC3UbYso6HrIoqsyoz7SsMuEhE+4zLdwCYfYfNtR+o4UHZeb1qu3Pb2KzhdRuCjFBVjs43kDxCOESmGlBRQ1CNAg1IGzG3ol2zifG/fz+ZiWEuTGuhjZ+UraGCBcwooGTHbTuIUwHWlhQ7kC5XyIrHOgf2KkoA0hh36yktItQ6pPQdUf4KiF0e9Shh9M1ZJUgw9z9FiokeF3D2g7SRAhVQagwKbPsfhaeOlSz0FQoTQ/FazDqUHALVjqQwt0Z73+Y3yP/Eho/CTkLPJzoIXkNYQOEqZYaofcW2tPIyk3lInTQZQvFIkrRoLQJTDY/DnIfoQk3xkcIaSehPLhuoE2HtH0Mt38GnQ6QPoLJ+n5CocO7pUNpb6XyudBt5jJmEVLmosmk8JkUJm+Yyxtq8pqcmPOfrIn5RpjDhprXK6nc+9MOQ5bany5sOzCmwYWFkB56vqb0yw+SuloQKtxlMq4Bl+7tigv9qpTmSynN51KYkXM5rjd0PFuTkVC+0HYPx7pOY1V1Y4zbMbbbMTbbsaq7sY5prOr+c9fvvjoXX34Hvq6QU1YCkXkAAAAASUVORK5CYII="></p>
+<p>代码段1就是上面 <code>someInstance</code>类刨去业务代码后的最简化场景。Cell 复用时为了判断是哪一个 cell 的某个逻辑触发的，写了一个类似下面的 log 函数：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> log</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">_</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> des: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">String</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">		print</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"log: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">\(des)</span><span style="color:#032F62;--shiki-dark:#9ECBFF">, address=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">\(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">String</span><span style="color:#032F62;--shiki-dark:#9ECBFF">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">format</span><span style="color:#032F62;--shiki-dark:#9ECBFF">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"%p"</span><span style="color:#032F62;--shiki-dark:#9ECBFF">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#032F62;--shiki-dark:#9ECBFF">))</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>然后 deinit 时某个业务会调用上面的 log 函数，然后在退出页面或者收到内存警告时触发了类似代码段1对应的 Crash。</p>
+<p>通过堆栈以及结论来倒推，应该是 <code>someInstance dealloc</code>之后，runloop 将要进行休眠时触发了 <code>autoreleasepool pop</code> 操作，然后对 <code>pool</code> 内的对象发送 <code>release</code> 消息，但此时<code>someInstance</code> 已经释放，所以出现了野指针。那么问题来了，<code>someInstance</code> 什么时候被加入到自动释放池的呢？从代码层面上来看，猜测是构建 log 时，<code>String(format:)</code> 生成了自动释放的 <code>String</code> 对象，该对象加入到了自动释放池中。</p>
+<p>真的是自动释放池导致的么？因为代码中没有显式创建自动释放池，那这里肯定是主线程默认的自动释放池。既然默认的 <code>autoreleasepool</code> 会在 runloop 休眠才将池子里的对象执行release操作，那是不是直接在 <code>deinit</code> 包一层 <code>autoreleasepool</code> 就可以让这个临时对象出了作用域就会立即释放呢？动手试试～</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Manager</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#6F42C1;--shiki-dark:#B392F0">NSObject </span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    deinit</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">				// 显式创建一个自动释放池</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        autoreleasepool</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">            print</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"deinit "</span><span style="color:#D73A49;--shiki-dark:#F97583"> +</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> String</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">format</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"%p"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p><strong>添加如上代码，发现log能正常输出，也不会崩溃了。</strong></p>
+<p>但是为什么同样的代码在 <code>Swift</code> 就会崩溃，而使用 <code>Objective-C</code> 就不会有问题呢？带着这个疑问，和同事一起翻了下 <code>Swift</code> 关于 <code>String</code>  <code>String(format:)</code>方法的相关源码。发现这个方法里会对参数有一个持有关系。</p>
+<p>截取源码中的几个片段</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// https://github.com/apple/swift/blob/cc78af105faeb85a2b3d915f1959c75a919ea3dc/stdlib/public/Darwin/Foundation/NSStringAPI.swift#L447-L459</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 片段1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">public</span><span style="color:#D73A49;--shiki-dark:#F97583"> init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">format</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: __shared </span><span style="color:#005CC5;--shiki-dark:#79B8FF">String</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">locale</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: __shared Locale</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">arguments</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: __shared [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">CVarArg</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">#</span><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> DEPLOYMENT_RUNTIME_SWIFT</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> withVaList</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(arguments) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">      String</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">_unconditionallyBridgeFromObjectiveC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        NSString</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">format</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: format, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">locale</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: locale</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">_bridgeToObjectiveC</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(), </span><span style="color:#005CC5;--shiki-dark:#79B8FF">arguments</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">$0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      )</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">#</span><span style="color:#D73A49;--shiki-dark:#F97583">else</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    self</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> withVaList</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(arguments) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">      NSString</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">format</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: format, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">locale</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: locale, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">arguments</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">$0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">as</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> String</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">#</span><span style="color:#D73A49;--shiki-dark:#F97583">endif</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// https://github.com/apple/swift/blob/da61cc8cdf7aa2bfb3ab03200c52c4d371dc6751/stdlib/public/core/VarArgs.swift#L145-L152</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 片段2</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@inlinable</span><span style="color:#6A737D;--shiki-dark:#6A737D"> // c-abi</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">public</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> withVaList</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">R</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">_</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> args: [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">CVarArg</span><span style="color:#24292E;--shiki-dark:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  _</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> body: (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">CVaListPointer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> R) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> R {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> builder </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> __VaListBuilder</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  for</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> a </span><span style="color:#D73A49;--shiki-dark:#F97583">in</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> args {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    builder.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">append</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(a)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> _withVaList</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(builder, body)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// https://github.com/apple/swift/blob/da61cc8cdf7aa2bfb3ab03200c52c4d371dc6751/stdlib/public/core/VarArgs.swift#L155-L163</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 片段3</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@inlinable</span><span style="color:#6A737D;--shiki-dark:#6A737D"> // c-abi</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">internal</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> _withVaList</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">R</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>(</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  _</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> builder: __VaListBuilder,</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  _</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> body: (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">CVaListPointer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> R</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> R {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> result </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> body</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(builder.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">va_list</span><span style="color:#24292E;--shiki-dark:#E1E4E8">())</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  _fixLifetime</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(builder)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> result</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// https://github.com/apple/swift/blob/6636815568efa8af5a62bbd68d585691d981a82b/stdlib/public/core/LifetimeManager.swift#L49-L52</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 片段4</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@_transparent</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">public</span><span style="color:#D73A49;--shiki-dark:#F97583"> func</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> _fixLifetime</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">T</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">_</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> x: T) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Builtin.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">fixLifetime</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(x)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>可以看到 Swift 中的 <code>String</code> 最终还是会调用 <code>NSString</code> 来生成字符串，那理论上应该和上面 Objective-C 代码片段一样，不会 Crash。但是仔细看会发现上面在调用 <code>NSString</code> 的相关方法前，会先创建一个 __VaListBuilder，这个类的源码可以查看<a href="https://github.com/apple/swift/blob/55e7050ffc35489398246671e4029efcdd527c55/stdlib/public/core/VarArgs.swift#L440-L712" rel="noopener noreferrer" target="_blank">这里</a>。内部会持有传进去的参数，应该是这里出了些问题，具体原因暂时还没有结论。但感觉这里应该是Swift的坑，当然也有可能是我的理解有问题。</p>
+<h2 id="总结"><a href="#总结">总结</a></h2>
+<p>总之目前来看，Swift <code>deinit</code> 中在使用 <code>print</code> 时尽量还是少用  <code>%p, %@</code> ，然后参数传 <code>self</code> 这种形式，避免产生一些难以捉摸的 Crash。</p>
+<blockquote>
+<p>最后附上上述场景出现的环境：</p>
+</blockquote>
+<blockquote>
+<p>Xcode 11.7 (11E801a)、MacOS 10.15.6、Swift 5.0</p>
+</blockquote>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/xcode-condition-build/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">iOS 中资源的条件编译</span> </a> <a href="/posts/eliminate-animation-hitches-with-xctest/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">WWDC20 10077 - 使用 XCTest 消除动画卡顿</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

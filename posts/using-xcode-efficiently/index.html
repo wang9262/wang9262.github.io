@@ -1,0 +1,568 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/using-xcode-efficiently/"><!-- Primary Meta Tags --><title>高效利用你的Xcode[译] | Vong</title><meta name="title" content="高效利用你的Xcode[译] | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/using-xcode-efficiently/"><meta property="og:title" content="高效利用你的Xcode[译] | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/using-xcode-efficiently/"><meta property="twitter:title" content="高效利用你的Xcode[译] | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2014-07-23T23:37:00.000Z"><meta property="article:tag" content="Xcode"><meta property="article:tag" content="翻译"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"高效利用你的Xcode[译]","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2014-07-23T23:37:00.000Z","dateModified":"2014-07-23T23:37:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">高效利用你的Xcode[译]</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2014-07-23T23:37:00.000Z" class="flex items-center gap-1.5"> 7/23/2014 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#Xcode </span><span class="text-text-muted hover:text-primary transition-colors">
+#翻译 </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>好莱坞电影里经常看到黑客们手指在键盘上飞速跳跃,同时终端上的代码也随着飞舞。如果你也想像电影里那样,那么你来对地方了。这篇教程将会教你在Xcode编程中更像程序员,你可以称之为魔法、疯狂的技术、好运当头或者黑客。毫无疑问,在学习完本教程之后,不管你怎么认为,都会感觉很酷,同时能更高效地运用Xcode,甚至可以通过这些新发现使你的代码免于毁灭。</p>
+<p><a href="http://www.raywenderlich.com/72021/supercharging-xcode-efficiency" rel="noopener noreferrer" target="_blank">原文地址</a></p>
+<h3 id="开始"><a href="#开始">开始</a></h3>
+<p>要看起来很酷,所以有一些必不可少的因素.下面列出来的是其中一部分</p>
+<ul>
+<li>快速执行任务</li>
+<li>精准</li>
+<li>简洁美观的代码</li>
+</ul>
+<p>要表现地更酷,你可以试着不用鼠标或者触摸板来完成教程中的每一个任务.学习之旅将从学习一些实用的Xcode功能开始,然后通过修复一些在CardTilt中的一些bug来训练。最后你将整理一下你的代码,使整个界面看起来更整洁。在学习该教程时,要记住:它不是教你做一个app,而是教你比以前更有效地利用Xcode来开发app。这篇教程建立在你对Xcode有一个基本的了解的基础上,然后着重于提高你的工作效率。每个人都有自己的编程习惯,本教程并非强制你形成某种风格。自始至终,本教程中你会看到某些命令的替代品,随着本教程的学习,请集中精力在提炼和形成你自己的编程风格,不要让微小的错误影响你。</p>
+<p>如果你对于Xcode不是很熟悉,建议先学习下面两篇教程。(<a href="http://www.raywenderlich.com/38557/learn-to-code-ios-apps-1-welcome-to-programming" rel="noopener noreferrer" target="_blank">教程1</a>和<a href="http://www.raywenderlich.com/1797/ios-tutorial-how-to-create-a-simple-iphone-app-part-1" rel="noopener noreferrer" target="_blank">教程2</a>)</p>
+<p>下载 <a href="http://cdn2.raywenderlich.com/wp-content/uploads/2014/05/CardTilt-starter.zip" rel="noopener noreferrer" target="_blank">CardTilt-starter</a>,然后就可以愉快地写代码了。</p>
+<h3 id="日常xcode任务"><a href="#日常xcode任务">日常Xcode任务</a></h3>
+<p>有一些在Xcode中你经常使用的技巧,这一部分让你更近距离的接触这些技巧,然后讲解一些潇洒应对它们的一些妙招。在这个过程中,你会在这些妙招的基础上发现使用它们的新方法。这些技巧将成为你编程工具腰带上的忍者之星。在Xcode中打开之前下载好的工程CardTilt,先不要急着去看代码,先将你Xcode的窗口和下图来一一对应。</p>
+<p><img src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcbnfyp6vj20jg0cydi3.jpg" alt=""></p>
+<p>是不是发现你的窗口和图中并不对应,先别着急。在下面介绍的快捷键部分,你将会学到如何轻松地显示以及隐藏这些对应的窗口。</p>
+<p>下面是组成窗口的每一个独立区域的快速浏览:</p>
+<ul>
+<li>The Toolbar(工具栏): 你选择视图,运行app,在不同布局界面切换的地方</li>
+<li>The Navigation Area(导航区): 导航你整个工程,警告,报错等的地方</li>
+<li>The Editing Area(编辑区): 所有奇迹诞生的地方,包括它上方的Jump bar</li>
+<li>The Utility Area(工具区): 包含检测器和一些库</li>
+<li>The Debugging Area(调试区): 包括调试窗口和变量检测器</li>
+</ul>
+<p>上面列出的所有视图区域都是Xcode的必要组成部分,它们也是在你开发过程中可能需要用到的,开发过程中通常不需要将他们一次性同时显示出来,下面将介绍一些快捷键,将会教你快速显示/隐藏这些视图区域。</p>
+<h3 id="快捷键"><a href="#快捷键">快捷键</a></h3>
+<p>在这一部分,你将首先学到怎么掌握这些快捷键,得益于一些模式,最有效的快捷键非常容易记。</p>
+<p>第一个需要知道的是Xcode的各区域与修饰键的关系,下面是一个快速浏览</p>
+<ul>
+<li>Command (⌘):用来导航,控制导航区域</li>
+<li>Alt (⎇): 控制右边的一些东西,比如Assistant Editor,utility editor</li>
+<li>Control: 编辑区域上的Jump bar的一些交互</li>
+</ul>
+<p>第二个需要知道的时数字键和标签栏的关系,将数字键和上面提到的修饰键组合可以在标签页之间来回切换。通常数字键对应标签页的索引位置(从1开始),0通常用来显示/隐藏区域。它还能再直观一点吗?</p>
+<p>下面是最常用的组合键:</p>
+<ul>
+<li>Command 1~ 8: 跳转到导航区的不同位置</li>
+<li>Command 0 :显示/隐藏导航区</li>
+<li>Command Alt 1~ 6:在不同检测器之间跳转</li>
+<li>Command Alt 0: 显示/关闭工具区.</li>
+<li>Control Command Alt 1~4: 在不同库之间跳转</li>
+<li>Control 1~ 6: 在Jump bar的不同标签页的跳转。</li>
+</ul>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbo88ow9j20jg0cywfq.jpg" alt=""></p>
+<p>最后也是最简单的就是回车键,当它和Command组合使用时,可以是你在Xcode中不同编辑器来回切换.</p>
+<ul>
+<li>Command + Enter: 显示标准单窗口编辑器</li>
+<li>Command Alt Enter:你可以猜下它的作用,它的功能是打开Assistant editor</li>
+<li>Command Alt Shift Enter: 打开版本控制编辑器</li>
+</ul>
+<p>同样重要的是显示/隐藏调试区的快捷键是 Command + Shift + Y,要记住这个你可以通过这句话来记忆“Y is my code not working?”(译者注:Y谐音Why)。如果你忘记了一些快捷键,你可以在Xcode的菜单栏Navigate一项中找到大部分快捷键。在即将完成这一部分的学习之时,你会惊奇的发现你仅仅只是用了键盘就让Xcode发生这各种变换。</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcbox6qvog20jg0cdtjr.gif" alt=""></p>
+<h3 id="xcode的行为"><a href="#xcode的行为">Xcode的行为</a></h3>
+<p>使用快捷键来管理Xcode的界面却是挺棒,有没有想过更棒的事情?比如让Xcode自动转换到你想看到的界面。接下来我们将学到更酷的东西。</p>
+<p>幸运的是,Xcode提供的Behaviors(行为)可以让你轻易地实现上面的事情。它们是一组定义好的有指定事件触发的动作,比如build一个工程。这里的动作的范围从改变界面到运行一个自定义脚本文件。来看一个例子,快速修改下载好的工程的CTAppDelegate.m文件,使其运行时会生成调试窗口输出,用下面的方法替代didFinishLaunchingWithOptions方法</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">BOOL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)application:(UIApplication </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)application didFinishLaunchingWithOptions:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSDictionary</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)launchOptions</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [[UIApplication </span><span style="color:#005CC5;--shiki-dark:#79B8FF">sharedApplication</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">setStatusBarHidden:YES</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // Override point for customization after application launch.</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSLog</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"Show me some output!"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> YES</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>运行程序,然后仔细观察调试区,你会发现调试区随着app运行而出现,如下所示</p>
+<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evcbphsi0bg20ko0cge81.gif" alt=""></p>
+<p>来看看是什么定义了上面的事件,在Xcode->Behaviors->Edit Behaviors打开Behavior偏好设置,在左侧你将看到所有事件集合,在右边是该事件可以触发的一些列动作。点击Running栏下的Generates output,然后发现它被设置成用来显示调试区。</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evccgo1totj20ix0dw41j.jpg" alt=""></p>
+<h4 id="一些推荐的行为"><a href="#一些推荐的行为">一些推荐的行为</a></h4>
+<p>根据你的开发环境,我推荐的两种不同的Generates output事件触发动作集。如果你有多个屏幕,试着使用第一种,如果是单显示器,试着调到第二种方法。</p>
+<h5 id="方法一"><a href="#方法一">方法一</a></h5>
+<p>如果你在两个或者多个屏幕上开发,把调试区放到第二屏幕是不是更加方便,你可以向下面这样设置</p>
+<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evccho04c6j20ix0dw779.jpg" alt=""></p>
+<p>现在,运行程序,然后你会看到一个分离的窗口出现,将它放到你的第二屏幕上,是不是效率高了不少?</p>
+<h5 id="方法二"><a href="#方法二">方法二</a></h5>
+<p>如果是单屏,通过隐藏工具板以及设置输出窗口占据整个调试区使输出窗口的有效区域最大化,设置如下</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbqrikydj20ix0dw779.jpg" alt=""></p>
+<p>然后运行程序,然后观察Xcode,看它是不是按照你的命令在执行。</p>
+<p><img src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcbregci2g20ko0cgb29.gif" alt=""></p>
+<p>当程序暂停的时候,你可能也想改变Xcode的行为,到Running栏下的Pauses事件,然后改变其设置,向下面这样:</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbrx8dbgj20i20dwacl.jpg" alt=""></p>
+<p>现在无论何时你设置了断点,你将会得到一个新的名为fix的展示变量和输出窗口的标签页,然后自动导航到第一个issue。</p>
+<p>你将要创建的最后一个行为是我个人最喜欢的一个,它是一个自定义行为—设置一个快捷键。当被触发的时候,它使Xcode转变到我指定的为下一次开发而优化的布局,名为Dev Mode。我们可以通过点击Behavior偏好设置的左下角的+,然后将其取名为Dev Mode,双击Dev Mode右边的Command (⌘)符号然后输入Command .来定义一个快捷键</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbsaehung206n01pt8s.gif" alt=""></p>
+<p>接下来为该事件设置相应动作:</p>
+<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evcbsoiwkdj20i20dwaci.jpg" alt=""></p>
+<p>现在,只要你按下command .就会触发上面设置的动作,即出现一个相同的整洁的开发界面。</p>
+<p>下面将介绍Xcode tab name,和行为配合起来使用堪称完美。</p>
+<p>Xcode Tab Names(Xcode标签名):可以通过双击标签页的标题来修改标签页的名称,对于它本身来说是一个无用的功能,但是当它和行为结合起来使用时就变得非常强大了。
+在上面的第二个例子中,当改变Pauses行为时,命名了一个叫fix的标签页,这就意味着当行为被触发时,Xcode将会使用fix标签页(如果存在),如果不存在,它会新建一个名为fix的标签页。
+另一个例子就是多屏Starts行为,如果一个名为Debug的标签页在之前运行时被打开,它将会复用这个标签页而不是重新创建一个。
+用这种方式,你可以创建非常有趣的行为。</p>
+<p>到现在为止,我们可以花点时间来回顾一下刚才的行为,不要着急,本教程会等着你。</p>
+<h3 id="小测验"><a href="#小测验">小测验</a></h3>
+<p>在接下来的部分,你将在测验中用到上面所学到的技巧,然后在CardTilt项目中学到一些新的技巧。</p>
+<p>运行CardTilt项目中，你看到如下画面</p>
+<p><img src="http://ww3.sinaimg.cn/large/ba81ca29gw1evcbt784ipj20c20jkjtx.jpg" alt=""></p>
+<p>它不是你期待看到的画面？是时候消灭这些bug了！</p>
+<h4 id="锁定bug"><a href="#锁定bug">锁定bug</a></h4>
+<p>app似乎在加载数据时出现了问题，你的任务就是消灭它们。打开CTMainViewController.m文件然后进入开发模式Dev Mode，快捷键为之前设置的command。注意viewDidload方法中的前几行</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.dataSource </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[CTTableViewDataSource </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.view.dataSource </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.dataSource;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.view.delegate </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span></code></pre>
+<p>看起来CTTableViewDataSource实现了UITableViewDataSource协议，为tableview提供了数据。是时候展现你Xcode的技术了，按住command键，同时点击CTTableViewDataSource在编辑器中来打开CTTableViewDataSource.h。CTTableViewDataSource.m应该已经在你的Assistant Editor，如果不是这样的话，打开顶部的Jump Bar，像下图一一样切换到Assistant Editor的counterparts模式。</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbtr4c4aj20cd0cn76b.jpg" alt=""></p>
+<p>翻看代码，你会发现数组members装载数据，loadData方法从bundle中加载数据至数组members。在assistant editor右边任意位置鼠标右击，选择Open in Primary Editor，就会在Primary Editor中打开CTTableViewDataSource.m文件，下面动画是该步骤的展示：</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbtr4c4aj20cd0cn76b.jpg" alt=""></p>
+<p>为了看起来更酷炫，你可以在不用鼠标的情况下完成上面的所有事情，步骤如下：</p>
+<ul>
+<li>1.同时按住Command + Shift + O，在输入框中输入CTMainViewController.m，然后回车来打开该文件。</li>
+<li>2.Command + . 进入Enter Dev模式 。</li>
+<li>3.将鼠标放在 CTTableViewDataSource 上，然后按住Command + Control + J，跳转至CTTableViewDataSource定义处。</li>
+<li>4.按住 Command + J, -> 然后按下回车，来转换 assistant editor 的焦点</li>
+<li>5.按住 ctrl +4 来下拉 Jump Bar，然后使用方向键和回车键来选择 counterparts</li>
+<li>6.按住 Command + Alt，在 primary editor 中打开 CTTableViewDataSource.m 文件</li>
+<li>7.上面的结果步骤看起来不呢么高效，但是它让你看起来很酷。</li>
+</ul>
+<h4 id="修复bug"><a href="#修复bug">修复bug</a></h4>
+<p>在self.members = json[@“Team”];打上断点来确定数据是否都被装载到数组members当中，然后运行程序。</p>
+<p>如果对于基本的设置断点和调试不太熟悉，可以先看看<a href="http://www.raywenderlich.com/video-tutorials" rel="noopener noreferrer" target="_blank">这篇教程</a>。</p>
+<p>就像你之前在Xcode行为看到的一样，Generates output将首先被触发，紧接着Pause行为被触发。因为你之前在Pause有过自定义设置，所以Xcode会新建一个名为fix的标签页，它专为调试而设。</p>
+<p>将目光切换到变量检测器variable inspector，你会发现数组members是nil，在loadData方法数组members被填充，代码如下</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSDictionary</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">json </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [NSJSONSerialization </span><span style="color:#005CC5;--shiki-dark:#79B8FF">JSONObjectWithData:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">data </span><span style="color:#005CC5;--shiki-dark:#79B8FF">options:kNilOptions</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> error:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x26;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">error];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.members </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#E36209;--shiki-dark:#FFAB70"> json</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"Team"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"></span></code></pre>
+<p>在变量检测器中查看json，看其是否被正确加载，你会发现数据中的第一个值是@“RWTeam”而不是@“Team”，当加载数组members时，这个值是错的，找到了一个bug。</p>
+<p>让我们按下面步骤来修复这个bug：</p>
+<ul>
+<li>使用command + .来进入开发模式</li>
+<li>按住Command + Option + J跳至filter bar然后输入teammember</li>
+<li>然后按住Alt同时点击TeamMembers.json在assistant editor来打开它</li>
+<li>最后，使用”Team”来替换”RWTeam”</li>
+</ul>
+<p>下图是上面四步的一个动画</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbuh3yqrg20jg0bcu0y.gif" alt=""></p>
+<p>现在移除断点，然后运行程序，它看起来应该像这个样子。</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcbv2p9w1j20c20jkq5c.jpg" alt=""></p>
+<p>是不是看起来比之前要好一点了，但是还是有一些bug，比如Ray和Brian的标题描述栏不见了。接下来我们通过修复这些bug来学到更多酷炫的技巧。</p>
+<h3 id="加速"><a href="#加速">加速</a></h3>
+<p>你应该已经知道<code>UITableViewCells在tableView:cellForRowAtIndexPath:</code>方法中被加载，所以用Open Quickly来导航到该方法，然后按照下面步骤：</p>
+<ul>
+<li>按下Command + Shift + O来呼出Open Quickly</li>
+<li>输入cellForRow</li>
+<li>按下回车来打开它</li>
+</ul>
+<p>按住command然后点击setupWithDictionary来跳转至其定义处，然后你会发现一些用来加载描述的代码</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">aboutText </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#E36209;--shiki-dark:#FFAB70"> dictionary</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"about"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]; </span><span style="color:#6A737D;--shiki-dark:#6A737D">// Should this be aboot?</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF"> self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.aboutLabel.text </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [aboutText </span><span style="color:#005CC5;--shiki-dark:#79B8FF">stringByReplacingOccurrencesOfString:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\\</span><span style="color:#032F62;--shiki-dark:#9ECBFF">n"</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> withString:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\n</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span></code></pre>
+<p>它使用dictionary[@“about”]中的数据来加载label。</p>
+<p>接下来呼出Open Quickly，然后打开TeamMembers.json，使用alt + command在Assistant Editor中打开。检查about的值，然后你会发现有人将about拼写成了aboot，我们可以使用全局的Find and Replace来修复这个bug。当然你可以在文件中直接做这件事，但是使用find navigate看起来更酷。打开find navigate，然后通过顶部的jump bar切换到替换(replace)模式，输入aboot,然后回车。</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcbvqwkkyj20c20jkq5c.jpg" alt=""></p>
+<p>在TeamMembers.json文件之外还有一个地方使用到了aboot，别担心，选中CTCardCell.m的搜索结果，然后按下Delete，将鼠标移至replace filed，然后输入about，点击Replace All，一切完成。整个过程看起来是这个样子的：</p>
+<p><img src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcbxo000lg20jg0bc1l2.gif" alt=""></p>
+<p>进阶技巧:使用 Command + Shift + Option + F 来打开 Find navigator 的替换模式，如果你嫌麻烦，也可以使用 Command + Shift + F 来打开 Find navigator 的查找模式，如果你还嫌麻烦，使用 command + 3 来打开 Find navigator，然后开启查找或者替换模式，选择一种最适合自己的方式就好。</p>
+<p>运行程序，看起来是这样的</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcbymqx48j20ah0hs76r.jpg" alt=""></p>
+<h3 id="让设计师高兴"><a href="#让设计师高兴">让设计师高兴</a></h3>
+<p>今天的调试任务到此就结束了，给自己一点掌声，然后开始运行程序。在你将它展示给别人之前，需要先确定app的界面是完美的。尤其当这个人是非常认真的设计师的时候，这一部分教你一些关于interface builder的技巧，让你变得更酷。</p>
+<p>打开Mainstoryboard.storyboard，通常你想在打开interface builder的同时打开standard editor和工具区(utilities area)，所以我们可以自定义一个新的叫做IB Mode的行为，当你在看下面的自定义发放之前，试着自己创建一个然后自定义，不必要完全一致。</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcbz07ee7j20gj0cewgq.jpg" alt=""></p>
+<p>我将这个模式的快捷键设置为Command Option .，现在你将看到一个舒服的Interface Builder界面，看看CTCardCell。首先你想让mainView处于ContentView的正中央。有两种技巧可以完成这个需求：</p>
+<ul>
+<li>按住Control + Shift，然后在mainView的任意位置鼠标左击，你将看到一个弹出视图让你选择在光标下的所有视图，如下图所示：</li>
+</ul>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcbzzrf1dj205i0980t5.jpg" alt=""></p>
+<p>这个方法让你轻松的就能选中mainView，尽管cardbg遮住了它。选中mainView之后，按住Alt然后在ContentView的边缘移动鼠标，来看它们之间的间隔。下面是这个过程的一个动画：</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcc0nbf2vg20jg0avtcl.gif" alt=""></p>
+<p>原来对其并不是那么优雅，看起来也不是很酷。为了解决这个，我们可以调整视图的大小。点击Editor->Canvas->Live Autoresizing来使子视图在父视图尺寸改变的时候强制调整大小。按住Alt同时拖拽mainView的一角，直到每边的距离为15.</p>
+<p>拖拽是像素点级别的技巧，你可以尝试不同的调整的处理方法，就像下面动画一样。在很多情况下，更倾向于使用Size Inspector来调整复杂的布局，而非用鼠标来拖拽。</p>
+<p><img src="/images/blogimg/Xcode/SC4-IB21.gif" alt=""></p>
+<p>试着使用相同的技巧来对齐titleLabel、locationLabel、aboutLabel,让他们竖直方向上的间隔为0。按住Alt来查看鼠标移动时，三个label之间的间隔。有发现三个label的左边缘并没有对齐吗？设计师肯定想让nameLabel和webLabel靠左对齐。使用Vertical Guide可以昂我们轻松完成这个任务。选中cardbg，然后点击菜单栏的Editor->Add Vertical Guide，这个步骤的快捷键是Command |，horizontal guide的快捷键是Command -，这两个快捷键是最可视化的。当视图上有了vertical guide之后，将其从cardbg的左边缘拖10个点。然后所有视图将会紧贴vertical guide，对的非常整齐，继续为其他的label进行对其操作。</p>
+<p>Xcode并不那么完美，有时候可能在你创建guideline的时候出现一些问题，可以打开其他文件然后再切回到storyboard页面，然后storyboard会被重新加载，这个时候问题一般会自动解决。
+让你更酷的建议：所有的视图能紧贴在guideline上才是最好的，guideline没有必要在同一个层级。</p>
+<p>下图是上面对齐过程的一个回放：</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcc0nbf2vg20jg0avtcl.gif" alt=""></p>
+<p>我敢打赌你现在迫不及待的想把你做的展示给你的设计师看！</p>
+<h3 id="提升和超越"><a href="#提升和超越">提升和超越</a></h3>
+<p>上面的步骤让你得到了一个实用的app，同时让你的设计师也感到很满意，那么接下来我们要做的就是让代码变得更为简洁。</p>
+<p>快速打开(Command + Shift + O)CTCardCell.m，记得进入Dev Mode(Command .)，你应该不会忘了这些快捷键吧。</p>
+<p>看下CTCardCell.m顶部凌乱的属性列表</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UILabel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">locationLabel;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (strong, nonatomic) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">website;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIButton </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">fbButton;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIImageView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">fbImage;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (strong, nonatomic) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">twitter;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIButton </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">twButton;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UILabel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">webLabel;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIImageView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">profilePhoto;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (strong, nonatomic) </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">facebook;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIImageView </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">twImage;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UILabel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">aboutLabel;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIButton </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">webButton;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UILabel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">nameLabel;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">property</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (weak, nonatomic) </span><span style="color:#D73A49;--shiki-dark:#F97583">IBOutlet</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UILabel </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">titleLabel;</span></span></code></pre>
+<p>在这部分，你将创建一个自定义服务以执行脚本命令来实现属性的快速整齐地排列。</p>
+<p>如果对于这些脚本命令还不熟悉，它们是相当好理解的。排序(sort)是按照字母顺序来的，uniq是会删除所有重复的行数。uniq在这里可能派不上用场，但是用它来管理#import，那是极好的。</p>
+<p>Mac OS X允许你创建整个操作系统全局通用的服务，你将用它来创建一个用在Xcode中的脚本服务，按如下步骤来设置</p>
+<p>使用Spotlight来搜索Automator，并打开它
+然后点击File->New，并选择服务(service)一项
+在Actions筛选栏，输入shell，然后双击运行shell脚本Run Shell Script
+在新添加的服务的菜单栏上,检查Output replaces selected text
+将脚本内容切换至sort | uniq
+同时按下command s，将服务保存为 Sort &#x26; Uniq
+最终的窗口看起来是这个样子：</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evcc32vbs0j20o70icjv5.jpg" alt=""></p>
+<p>切回到Xcode，然后选中CTCardCell.m中的那片混乱的属性区域，右击，选择Services -> Sort &#x26; Uniq，然后观察执行之后代码是多么的整洁。你可以看下面的一个示意图：</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evccbende3g20jg0avgrn.gif" alt=""></p>
+<h3 id="代码片段"><a href="#代码片段">代码片段</a></h3>
+<p>进行到这里，意味着那些基本的可以让你看起来酷酷的调试任务已经告一段落了，接下来我希望你觉得更酷。你可定想学更多技巧，幸运的是，这是最后分享的一个技巧。</p>
+<p>你之前可能已经使用过Xcode的代码片段(Code Snippets)功能了，一些常见的是for in片段和dispatch_after片段。在这一部分，你将学会如何创建自定义的代码片段，当你重用这些代码片段时，看起来非常棒。你将创建的是获取单例的代码片段。</p>
+<p>如果你不熟悉单例模式，可以看看这个教程。</p>
+<p>下面可能是你使用单例模式的常用代码模板</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">instancetype</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)sharedObject {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  static</span><span style="color:#D73A49;--shiki-dark:#F97583"> id</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> _sharedInstance </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  static</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> dispatch_once_t</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> oncePredicate;</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  dispatch_once</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x26;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">oncePredicate, </span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    _sharedInstance </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  });</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> _sharedInstance;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>非常酷的是这份片段也包含了dispatch_oncep片段。</p>
+<p>在工程CardTilt创建一个名为继承自NSObject名为SingletonObject的新类，你不需要为它做任何事，除了作为拖拽代码片段的一个地方。</p>
+<p>按下面步骤：</p>
+<ul>
+<li>在@implementation 的下一行粘贴上面的代码到SingletonObject.m</li>
+<li>用快捷键Command Option Control 2来打开代码片段库，在代码片段库中你会看到默认的包含在Xcode中的代码片段库。</li>
+<li>选中整个+sharedObject方法，将其拖拽到代码片段库中。
+看起来是这样的：</li>
+</ul>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evcc9d8yleg20q60fm7b5.gif" alt=""></p>
+<p>新创建的代码片段将会在代码片段库的最底部，你可以将其拖拽到任何你想拖拽的文件当中去，让我们来尝试一下。</p>
+<p>双击刚刚新建的代码片段，然后点击edit.弹出的视图非常使用，实际上它们都很重要，所以做个简短的解释。</p>
+<ul>
+<li>Title and Summary：代码片段库中该代码片段的名字和简述</li>
+<li>Platform and Language:代码片段匹配的平台和编程语言</li>
+<li>Completion Shortcut:在Xcode中输入的快捷键</li>
+<li>Completion Scopes:代码片段作用的范围，这对于保持代码片段库整洁来说十极好的。
+向下面一样填充里面的属性：</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/ba81ca29gw1evcc9ud0gbj20bn07z75y.jpg" alt=""></p>
+<h4 id="令牌"><a href="#令牌">令牌</a></h4>
+<p>当你加入令牌时，代码片段将会变得非常强大，因为它允许你在片段中标记代码，而不需要硬编码。通过使用Tab键使得他们非常容易修改，就像自动补全一样。</p>
+<p>在片段中仅仅只要输入&#x3C;#TokenName#>就可以添加一个令牌，创建一个令牌使用shared&#x3C;#ObjectName#>替代sharedObject，看起来像这样：</p>
+<p><img src="http://ww2.sinaimg.cn/large/ba81ca29gw1evccacwhcvj20bm080t9s.jpg" alt=""></p>
+<p>点击Done来保存该片段，然后来用用它。</p>
+<p>在SingletonObject.m文件中输入singleton accessor，然后当它出现的时候使用自动补全</p>
+<p><img src="http://ww4.sinaimg.cn/large/ba81ca29gw1evccaulztkg20b108ydh0.gif" alt=""></p>
+<p>对于经常使用的代码来说，创建一个代码片段是非常实用的。</p>
+<h3 id="何去何从"><a href="#何去何从">何去何从</a></h3>
+<p>总结一下在这个教程中你所学到的东西：</p>
+<ul>
+<li>使用快捷键来改变Xcode的布局</li>
+<li>使用自定义的行为来改变Xcode的布局</li>
+<li>使用assistant editor</li>
+<li>在Xcode中快速打开某文件</li>
+<li>在Find navigator删除搜索到的结果</li>
+<li>在Interface Builder使用快捷键和guideline来对齐视图</li>
+<li>创建一个在Xcode中使用的服务</li>
+<li>创建并使用自定义的代码片段</li>
+<li>最重要的是你知道怎么去成为一名Xcode大师</li>
+</ul>
+<p>上面列出来的内容都很简单对吧？在你的朋友面前展示这些炫酷的技巧，你的朋友一定会惊呆也会理解你的兴奋。还有很多方法可以提高你的Xcode的效率，比如：</p>
+<p><a href="http://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial" rel="noopener noreferrer" target="_blank">使用Doxygen风格的注释</a></p>
+<p><a href="http://nshipster.com/xcode-plugins/" rel="noopener noreferrer" target="_blank">使用Xcode插件</a></p>
+<p>下一步就是去寻找新的酷炫的技巧，我希望你能享受整个教程的学习过程，如果你有任何问题、评论、或者想分享你所知道的炫酷技巧，请在下面评论中指出。</p>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/avfoundation-and-gpuimage/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">AVFoundation和 GPUImage初探</span> </a> <a href="/posts/recent-thoughts/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">最近随想及学期总结</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

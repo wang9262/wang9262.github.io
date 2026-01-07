@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/replace-system-volume-view/"><!-- Primary Meta Tags --><title>替换系统音量提示的实现和遇到的坑 | Vong</title><meta name="title" content="替换系统音量提示的实现和遇到的坑 | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/replace-system-volume-view/"><meta property="og:title" content="替换系统音量提示的实现和遇到的坑 | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/replace-system-volume-view/"><meta property="twitter:title" content="替换系统音量提示的实现和遇到的坑 | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2018-06-03T17:47:00.000Z"><meta property="article:tag" content="原创"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"替换系统音量提示的实现和遇到的坑","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2018-06-03T17:47:00.000Z","dateModified":"2018-06-03T17:47:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">替换系统音量提示的实现和遇到的坑</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2018-06-03T17:47:00.000Z" class="flex items-center gap-1.5"> 6/3/2018 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#原创 </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>相信平时大家在用 iPhone 看视频调节音量时，总会被系统的音量提示所打扰，因为它会遮住一部分内容。所以很多视频应用都使用自定义音量视图的方式来替代系统的音量提示。</p>
+<p>比如下面三张截图，分别来自 Instagram、哔哩哔哩、即刻</p>
+<p><img src="/media/Replace-System-Volume-View/Replace-System-Volume-View-01-15247541167324.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC50lEQVR4nAHcAiP9AN/e3+jn5+Tj4+Tj4+no6Onn6N7d3dPS0NPU083Nyc/QzsfIxsnJx9PR0qSko6SkpKKhoqCfoJybnMTDxADk4+T8/f74+vvw9ff+/v7+/v/m5uePgnqCdGWBel5+fGN2dlmRj3m8ur4WHgkTFgsBAAIDAwMAAACJiIkA4d/fyaufxqiZvaCXwayku6ee2tXVjIBxe19QhWpgi35cn5Ner6aIvr6/AQEBAAAAAgICBQYGAAAAhoWGAN7e3quFdnMmB21JM4yGhWRPQMi3sJeSg08/NmBORoJzZH5zXHd2ccLBwggHBgcEAwUEAwkHBwAAAIeGhgDh5eaum5R1NSaooY+Qu6eSpZXQw7/HyMu2srS4t7m6u7y2sLPEur7R0M+Uf2hkSDhUNi9eSTxeSDiwpqAA4uTkmouFfkMxmW1Rn5+Vmod7zMK/8/P09vT1/v3+/P79//b5/e710c/NmH5idE48YTsxb1dHcFU+uKyjANzc27u4tpeHg5NkVYqBkGQ8NcG1sPL19vHx8fLz8/b19fP19Pj7+8zKyGdPO31SRH1jWGVRQ2NJOLqupgDa29vU19bV2NrNz8/O1tq+xsvRz9Dx8O/18/Ly8vL5+fn6+vr9/f3CwcEVDwsZFBAdGhoUEA4GAQCRjo0A5eTl7e3t8/Py+/v7+vr6+fj46ejnx8jTdn6Iy8vL7+/u9PT0/Pz8wcDBDxAOFhcWDg8PExQUAgIDiYmKAOTk5Ojo6O/w8O7v8PLz8/39/evq68TDxpORkNbV0/f39/r6+f///728vQYGBwUFBQUFBQgICAAAAIeGhgDZ2Nne3t7p6enq6urn5ubh4eHe3+DHurWhkIbc3Njs6+zn5+bp6enHxsdnZmdoaGhsbGxsbGxdXV2rqqsA1NLT1dTV0dDRwb/Azs3O1NLU09HS1dXX3d3fysjJv72+0tHT0tHS1tXW397f4+Lj19bX2tjZ4+Lj2NfYVz/HYgQMOoAAAAAASUVORK5CYII="></p>
+<h3 id="原理"><a href="#原理">原理</a></h3>
+<p>这里主要记录一下在项目中如何替换系统音量提示视图的过程。通过 <code>Google</code> 和 <code>stackoverflow</code>，可以查到，如果要自定义音量提示，需要做到以下几步：</p>
+<ol>
+<li>激活 <code>AudioSession</code></li>
+<li>创建一个 <code>MPVolumeView</code>，并将其添加到当前可见的视图层级当中，同时将其 frame 设置到不可见区域</li>
+<li>监听音量按钮触发事件，改变音量提示</li>
+</ol>
+<h3 id="实现"><a href="#实现">实现</a></h3>
+<p>然后为了调用统一且音量视图层级永远在最上方（即不被 <code>Alert</code> 等挡住），首先想到使用一个 <code>UIWindow</code>，然后自定义视图和系统的视图加到这个视图层级上，初始化时 <code>frame</code> 为 <code>CGRectZero</code>，<code>hidden</code> 属性为 <code>NO</code>（注意这里必须为 <code>NO</code>，不然系统音量提示仍会出现，上面说到的第2点）；要显示时设置其 <code>frame</code> 设置成 <code>mainScreen</code> 的 <code>bounds</code>，然后展示即可。</p>
+<blockquote>
+<p>由于自己创建的 <code>UIWindow</code> 的 <code>hidden</code> 属性默认是 <code>YES</code>，所以需要手动将其设成 <code>NO</code>。
+音量按钮每触发一次，变化量都是 6.25%，连续按16次，即可调节至最大或最小</p>
+</blockquote>
+<p>上述的第3步有两种方式可以做到，各有优劣，下面来做一个简单介绍。</p>
+<h4 id="kvo"><a href="#kvo">KVO</a></h4>
+<p>通过 <code>KVO</code> 监听 <code>[AVAudioSession sharedInstance]</code> 的 <code>outputVolume</code> 属性，然后来显示自定义的 UI 控件。这种方式有一个不好的地方就是，在音量调节至最大/最小时，这个时候再调大/调小音量，由于 <code>outputVolume</code> 的值不变，所以不会触发 <code>KVO</code>，也就无法展示自定义音量视图。代码大概长下面这样</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)dealloc {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [[AVAudioSession </span><span style="color:#005CC5;--shiki-dark:#79B8FF">sharedInstance</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">removeObserver:self</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                         forKeyPath:NSStringFromSelector</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">@selector</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">outputVolume</span><span style="color:#24292E;--shiki-dark:#E1E4E8">))];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)addObserver {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [[AVAudioSession </span><span style="color:#005CC5;--shiki-dark:#79B8FF">sharedInstance</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addObserver:self</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                      forKeyPath:NSStringFromSelector</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">@selector</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">outputVolume</span><span style="color:#24292E;--shiki-dark:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                         options:NSKeyValueObservingOptionNew</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                         context:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)observeValueForKeyPath:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)keyPath</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                      ofObject:(</span><span style="color:#D73A49;--shiki-dark:#F97583">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)object</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                        change:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSDictionary</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x3C;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">NSKeyValueChangeKey,</span><span style="color:#D73A49;--shiki-dark:#F97583">id></span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)change</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                       context:(</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)context {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ([change </span><span style="color:#005CC5;--shiki-dark:#79B8FF">isKindOfClass:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSDictionary</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> class</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]]) {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        NSNumber</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">volumeNum </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#E36209;--shiki-dark:#FFAB70"> change</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"new"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (volumeNum) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> volumeDidChange:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[volumeNum </span><span style="color:#005CC5;--shiki-dark:#79B8FF">floatValue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)volumeDidChange:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">CGFloat</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)volume {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // 显示自定义音量提示</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h4 id="通知"><a href="#通知">通知</a></h4>
+<p>这种方式通过监听系统私有（未公开的）通知，名字是 <code>AVSystemController_SystemVolumeDidChangeNotification</code>，这个监听不会受到最大/最小音量时，调大/调小音量的影响，只要音量键按下，始终都会触发。但是这个通知由于是私有的，可能存在被拒风险，而且将来系统版本该通知名字发生改变，由于是硬编码而不像其它系统通知使用的是常量，会导致监听不到的问题。</p>
+<p>代码大概长这样</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> NSNotificationName </span><span style="color:#D73A49;--shiki-dark:#F97583">const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> kSystemVolumeDidChangeNotification</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> @"AVSystemController_SystemVolumeDidChangeNotification"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)dealloc {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSNotificationCenter</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> defaultCenter</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">removeObserver:self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)addObserver {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSNotificationCenter</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> defaultCenter</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addObserver:self</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                             selector:</span><span style="color:#D73A49;--shiki-dark:#F97583">@selector</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">volumeDidChange:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                                 name:kSystemVolumeDidChangeNotification</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                               object:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)volumeDidChange:(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSNotification</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)notification {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">category </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> notification.userInfo[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"AVSystemController_AudioCategoryNotificationParameter"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">changeReason </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> notification.userInfo[</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[category </span><span style="color:#005CC5;--shiki-dark:#79B8FF">isEqualToString:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"Audio/Video"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">||</span><span style="color:#D73A49;--shiki-dark:#F97583"> !</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[changeReason </span><span style="color:#005CC5;--shiki-dark:#79B8FF">isEqualToString:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"ExplicitVolumeChange"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        return</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    CGFloat</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> volume </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[notification </span><span style="color:#005CC5;--shiki-dark:#79B8FF">userInfo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">][</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"AVSystemController_AudioVolumeNotificationParameter"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">floatValue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // 显示自定义音量提示</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p>以上两种方式各自优劣势都已经列出来了，上面说到的三个应用，<code>Instagram</code> 使用的是通知的方式，即刻和哔哩哔哩都是用 <code>KVO</code> 的方式。具体要选那种方式，就看具体需求了，如果在最大或最小时，调节音量可以接受不展示音量视图的话，个人推荐使用 <code>KVO</code> 的形式。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题">遇到的问题</a></h3>
+<p>上面阐明了原理和实现方式，接下来就是接入到项目中真正使用了，接入项目后发现问题还不少。</p>
+<h4 id="坑0x0001"><a href="#坑0x0001">坑0x0001</a></h4>
+<p>由于我们使用了 <code>window</code> 来显示自定义音量提示，所以 <code>window</code> 需要提前创建好，有一个需要注意的是 <code>UIWindow</code> 的 <code>hidden</code> 默认是 <code>YES</code>，由于上面说到系统的音量视图必须在可见视图层级内，所以创建的这个 <code>window</code> 必须要可见，然后尽量不影响交互，将其 <code>userInteractionEnabled</code> 置为 <code>NO</code>，且要让其不可见时层级最低，<code>windowLevel</code> 设置为 <code>UIWindowLevelNormal</code>。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[UIWindow </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithFrame:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[UIScreen </span><span style="color:#005CC5;--shiki-dark:#79B8FF">mainScreen</span><span style="color:#24292E;--shiki-dark:#E1E4E8">].bounds];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.hidden </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> NO</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.windowLevel </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIWindowLevelNormal </span><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.rootViewController </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[UIViewController </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.backgroundColor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [UIColor </span><span style="color:#005CC5;--shiki-dark:#79B8FF">clearColor</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.userInteractionEnabled </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> NO</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span></code></pre>
+<h4 id="坑0x0010"><a href="#坑0x0010">坑0x0010</a></h4>
+<p>这样一切看起来很正常，但是有一个问题就是有一些地方通过 <code>[[UIApplication sharedApplication].windows firstObject]</code> 来进行一些操作，比如展示 <code>toast</code> 或者收起键盘的 <code>UIControl</code>，所以会导致其不可见或者无法响应交互。
+所以上面代码改成</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[UIWindow </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithFrame:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">CGRectZero];</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.clipsToBounds </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> YES</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window.windowLevel </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> UIWindowLevelNormal;</span></span></code></pre>
+<p>嗯，运行起来，那些寻找 <code>firstObject</code> 的地方都正常了，但是…由于存在开屏广告，而且开屏广告用的也是 <code>window</code>，而且他会在自己要显示时，调用 <code>makeKeyAndVisible</code> 方法，消失的时候直接将其置为 <code>nil</code>，导致系统会自己寻找其它的 <code>window</code> 当做 <code>keyWindow</code>，这个时候不知道为什么会找到我们音量提示的 <code>window</code>？难道是因为 <code>[UIApplication sharedApplication].delegate.window</code> 层级是 <code>Normal</code>，音量提示 <code>window</code> 层级也是 <code>Normal</code>，然后会将后加入的  层级为 <code>Normal</code> 的 <code>window</code> 设置为 <code>key window</code>？暂时还不懂，有知道的大神麻烦指点一下。
+这样看来，这种修改方式也不太行，会导致其它地方取 <code>keyWindow</code> 的时候，取错掉。</p>
+<h4 id="坑0x0011"><a href="#坑0x0011">坑0x0011</a></h4>
+<p>嗯，那索性直接用 <code>[UIApplication sharedApplication].delegate.window</code> 这个来显示音量提示，最多也就出现 <code>Alert</code> 或键盘的时候，音量提示会被遮罩挡住，概率也比较小还好。于是改成下面代码</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.window </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [UIApplication </span><span style="color:#005CC5;--shiki-dark:#79B8FF">sharedApplication</span><span style="color:#24292E;--shiki-dark:#E1E4E8">].delegate.window;</span></span></code></pre>
+<p>但是这个时候会发现，iPhoneX 下音量提示会被状态栏挡住，wtf！！！那么好吧，在音量显示的时候隐藏一下状态栏，音量消失的时候回复一下之前记住的状态栏状态，但是如果存在两个页面状态栏显隐不一致的情况，就会出现问题。同时在某些 <code>present</code> 起来的页面，音量提示死活不显示，但是用 <code>Xcode</code> 自带视图层级调试工具看，音量提示视图的 <code>frame</code>、<code>alpha</code>、<code>hidden</code> 属性都是正常的，但就是没有显示出来。后面将提示视图 <code>layer</code> 的 <code>zPosition</code> 提高之后，就可以显示出来了，真的很神奇。</p>
+<p>一步步下来，填完一个坑，又来一个，感觉是个无底洞，永远填不满。搞了一晚上，一筹莫展。</p>
+<h5 id="完美填坑"><a href="#完美填坑">完美填坑</a></h5>
+<p>最后灵光一闪，如果自定义一个 <code>Window</code>，继承自 <code>UIWindow</code>，然后复写 <code>becomeKeyWindow</code> 方法，在这个方法里让自身不成为 <code>keyWindow</code> 同时将 <code>[UIApplication sharedApplication].delegate.window</code> 设置为 <code>keyWindow</code>，大致代码长这样：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@interface</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> VolumeWindow</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : </span><span style="color:#6F42C1;--shiki-dark:#B392F0">UIWindow</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@implementation</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> VolumeWindow</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#6F42C1;--shiki-dark:#B392F0">becomeKeyWindow</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> resignKeyWindow</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [[UIApplication </span><span style="color:#005CC5;--shiki-dark:#79B8FF">sharedApplication</span><span style="color:#24292E;--shiki-dark:#E1E4E8">].delegate.window </span><span style="color:#005CC5;--shiki-dark:#79B8FF">makeKeyWindow</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">@end</span></span></code></pre>
+<h4 id="坑0x0100"><a href="#坑0x0100">坑0x0100</a></h4>
+<p>拍摄页拍摄之前系统音量提示是可以被替换的，但是拍摄一段之后，莫名其妙音量按钮按下后自定义提示不见了，出现了系统的铃声提示。一脸懵逼，后面发现是由于设置了 <code>AVCaptureSession</code> 的 <code>usesApplicationAudioSession</code> 为 <code>NO</code>，会导致在拍摄之后会变成铃声，这个和是否替换系统音量提示无关。这个属性是由于项目中很久之前需要兼容 <code>iOS6</code>，然后一直遗留着这个属性设置没有删除。由于 <code>iOS7</code> 之后，<code>AVCaptureSession</code> 和应用使用的是同一个 <code>AudioSession</code>，支持同时播放和录制且不会受到影响和打断，所以不需要再去设置这个属性。</p>
+<h4 id="坑0x0101"><a href="#坑0x0101">坑0x0101</a></h4>
+<p>做了以上操作，在 iPhoneX 下，当拉起控制中心，并上下滑调整音量后，再回到应用，会发现自定义音量视图会出现在状态栏下面，猜测虽然在应用内自定义音量视图 <code>window</code> 层级高于状态栏 <code>window</code> 层级，但是由于状态栏是全局的，在重新进入到应用时会出现状态栏层级高于音量视图。所以就索性仅在应用为 <code>active</code> 的情况下才处理 <code>KVO</code>。</p>
+<p>最后一个需要注意的点是在语音电话（或者其它使用系统音量的场景下）时，去自己应用内调节音量是无效，因为这个时候音量其实代表的是系统在占用，系统优先级高于应用，所以在这些场景下，即使在应用内调节音量，也无法触发出自己的音量视图。</p>
+<p>然后上面所有问题都迎刃而解了。</p>
+<p>最后推荐一个开源库：<a href="https://github.com/gizmosachin/VolumeBar" rel="noopener noreferrer" target="_blank">VolumeBar</a></p>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/some-thoughts-on-gmtc-2018/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">GMTC 之旅</span> </a> <a href="/posts/pod-resource/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">Pod 中资源引入方式对比</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

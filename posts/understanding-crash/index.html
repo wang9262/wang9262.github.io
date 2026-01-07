@@ -1,0 +1,514 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/understanding-crash/"><!-- Primary Meta Tags --><title>WWDC 2018：理解崩溃以及崩溃日志 | Vong</title><meta name="title" content="WWDC 2018：理解崩溃以及崩溃日志 | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/understanding-crash/"><meta property="og:title" content="WWDC 2018：理解崩溃以及崩溃日志 | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/understanding-crash/"><meta property="twitter:title" content="WWDC 2018：理解崩溃以及崩溃日志 | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2019-02-22T22:13:00.000Z"><meta property="article:tag" content="WWDC"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"WWDC 2018：理解崩溃以及崩溃日志","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2019-02-22T22:13:00.000Z","dateModified":"2019-02-22T22:13:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">WWDC 2018：理解崩溃以及崩溃日志</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2019-02-22T22:13:00.000Z" class="flex items-center gap-1.5"> 2/22/2019 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#WWDC </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <blockquote>
+<p>本文首发于<a href="https://juejin.im/post/5b1e833ce51d450686186557" rel="noopener noreferrer" target="_blank">掘金</a>。</p>
+</blockquote>
+<p>人非圣贤，孰能无过。每个人在写代码的时候，或多或少都会犯错，那么如何调试、找出问题所在呢？让我们跟随苹果工程师一起了解一下崩溃是如何产生以及如何解决它们的吧。</p>
+<h2 id="1-基础知识"><a href="#1-基础知识">1. 基础知识</a></h2>
+<p>崩溃是什么？崩溃是当应用想要做某件事的时候，被意外终止。</p>
+<h3 id="11-崩溃为什么会发生"><a href="#11-崩溃为什么会发生">1.1 崩溃为什么会发生</a></h3>
+<p>主要是以下几方面原因</p>
+<ul>
+<li>CPU 无法执行的代码。</li>
+<li>被操作系统“强杀”，系统为了用户体验，会强制终止掉那些卡顿时间过长或者内存消耗过高的应用。</li>
+<li>编程语言为了防止错误发生而触发的崩溃，如 <code>NSArray</code> 或者 <code>Swift.Array</code>  越界</li>
+<li>开发者为了防止错误发生而触发的崩溃，比如一些非空判断的断言</li>
+</ul>
+<h3 id="12-崩溃长什么样子"><a href="#12-崩溃长什么样子">1.2 崩溃长什么样子</a></h3>
+<h4 id="121-调试器里"><a href="#121-调试器里">1.2.1 调试器里</a></h4>
+<p>当我们连接着 <code>Xcode</code> 进行调试的时候，遇到崩溃，大概长这个样子。
+<img src="/media/Understanding-Crash/Understanding-Crash-01-15286007690540.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAAsTAAALEwEAmpwYAAACH0lEQVR4nDXQS08TUQAF4PkZRhZQk0LndV/zbKede2du6xRESKsh+uekLSvKo2g18T9IIp2piWywUCgwrYlFRYskY1rjWZ3Nl5Mc4f7+PkmSYTw8PPzQCcNu91MUdaNuN5qVThgedcIwij4eHXXC6PPxcScMO1E3jKLLyyvh7u4uSZLWfgtj6BcDnz/O06LLik6BOS6ntORxnqd+1nEL1F9eWcvlaZ5yFZJ6vSFMZrjdfus4NJtzETIkBSlQV1SSkaAJ7VLBy9lZCIgko4wIJBnJCp6bS23W6v+XD15jYgGoSTKUZUg0C2NTkhFQNJNYBBJRAhkRihL85+cX0rVaQ/h5+ztJkt29A9umOcfVjaym27qRJUQHCtGgYZgO0W1FJSrAKiAAGQAbqdRSvdYQvn3/9SdJdlptrLu8WGZeybQciHQICFCQCc2CwwLmVymrMLfqs42gvE6puZjZamwJk8lkury7j43CypP1oLzKi2WXcgA0FWiShFRVw8iEKgYyBjJSZYRU8mghXZseNsPN5o6kai7lpuVouo2wsZhRFBFlLdfJM8O0iWHJUBcBERWUXlIePJx/tVkTftxO8Zt379cqL56uVV3qU8Yp4x4PuB9Ul6vPKhvPN14G5VXKiswrMVby/MC0nO3tpjAej29ubobD4Vl/mvPzi8Hg8urqOr6O4zgexcPR6Gs8Gg0GF/1+//T0rNc77fV6Jydf4jj+C+dqClfB6DhUAAAAAElFTkSuQmCC"></p>
+<p>当连着调试器的时候，我们能够拿到崩溃现场的一些调用栈以及对应的方法，当没有连着调试器的时候，系统会将崩溃日志存储到磁盘当中。</p>
+<h4 id="122-崩溃日志里"><a href="#122-崩溃日志里">1.2.2 崩溃日志里</a></h4>
+<p>通常情况下，<code>release</code> 模式的应用的崩溃日志是没有符号化的，日志内记录的都是地址。我们可以通过 <code>Xcode</code> 来将崩溃日志进行符号化，解析出对应文件名、方法名以及对应崩溃在第几行。</p>
+<h3 id="13-获取崩溃日志"><a href="#13-获取崩溃日志">1.3 获取崩溃日志</a></h3>
+<p>获取崩溃日志的方式很多，我们先来了解一下如何通过 <code>Xcode Organizer</code> 来获取从 <code>TestFlight</code> 或<code> App Store</code> 下载的应用的崩溃日志。</p>
+<h4 id="131-organizer-window"><a href="#131-organizer-window">1.3.1 Organizer Window</a></h4>
+<p>先来看一下下面这张图：</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-02-15286117125343.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAACr0lEQVR4nFWO20/TUADG+y9ooMBY7+3Wy2nPOW3PabuOsXIRJd4J8AABHGyMzQ0BFRMTb/GSGJB4g1FRkPhgfOBvNFweNPk9fN/DL9/HHO931puNjfba6srKam25Xau1a7XHrfabZy87Hz/vf/r69sWrzQcbq/XmWqO12mgtN1rN9tpirf5+6wPzenOTBhHBJBm6X5r+5F9/Ryc+FwcaxLKh40IALd1SRDXbx/WwGT0rDhUHSqUEOnh2do55vv4QYUKhPxyMxWMzpDzpJdPD4fggdIfigSQsjJWTJIwGfRpBFOeMu9ert6fWR64sPbr/lHnSeoB1QAGODNPFCFimaerFvIkNqOUMy7QDGrrYd6FrGgBI2lBxZPzqLR9F1fkqU11uCJJm2JgA5GJiWsgEKMQxBB6A2HZwEMWERgj7nKjqvBKRKCmP+K5fWagw9XpTlnOWjSlANIiwR5BH4uQmtLCDPIi8QlwKwpgGhZwBbEG9Mzp8a7QcI395dv5Uls5kAiAhoYNcy8EF24emo+lW3rCBg0RZU5V8v6i6sjo1NjgxNYqIf29u4VzOny7bKApj7JIgKhbCsquZnmFDVTcENc/JlqgZogJ55UYymgyPQ3qtOt+4WAaO6+rAMICs5nOabnAix0scJ/G8LAjKOTwvK3IuwgGBPsiZlX9vUxsTGtnYRx7Fjs/xMi8qvPAfgqQKkiQIwqXLlycmJ5n6SlNRdRt6IUAFj7o2ptAjDhFEVZQ0UdJ4SeWliywreRoUSqUEu36lssQsLtV6+3hVM7gMn2X7smwmy2Yy3b1dbKabzXSxGY7t59j+7rPa05s1LYgw1XLmzOw88/v3n+3tnd3dvU6advbTTvotPTj4fvTzx+HPw6NTTr4fnvw4StODTifd66S7e/tfvu5tbe8cH//6CzYixnyboL0OAAAAAElFTkSuQmCC"></p>
+<blockquote>
+<p>下面数字 1<del>6 分别代表图中标注的 1</del>6</p>
+</blockquote>
+<ul>
+<li>1.可以看到所有平台发布在 <code>App Store</code> 或者 <code>TestFlight</code> 上的应用。</li>
+<li>2.崩溃日志列表，可以看到对应影响的设备数以及对应的平台、扩展（extension），如图中蓝色框标注的位置。</li>
+<li>3.崩溃所在调用栈及崩溃位置的高亮。</li>
+<li>4.在对应工程中打开崩溃所在的文件，并跳转到指定位置，方便追踪问题。</li>
+<li>5.最近数据分析，包含系统和机型两个维度。</li>
+<li>6.在崩溃数较多时，支持翻页。</li>
+</ul>
+<p>PS：上面6个只是简单介绍了一下主题部分，剩余的可以自行探索使用。比如搜索、对单个日志做一些笔记、以及将已修复的崩溃标记为已解决等等。</p>
+<p>那么如何才能在 <code>Organizer</code> 中获取对应的崩溃日志呢？很简单，只需要做到下面几步</p>
+<ul>
+<li>
+<ol>
+<li>在 <code>Xcode</code> 中登录已付费的开发者帐号。</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>上传应用到 <code>App Store</code> 或 <code>TestFlight</code> 时，一并上传符号文件。</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>打开 <code>Xcode Organizer</code> 窗口，选中 <code>Crashes</code> tab(快捷键:<code>Cmd+Shift+6</code>)。</li>
+</ol>
+</li>
+</ul>
+<h4 id="132-devices-window"><a href="#132-devices-window">1.3.2 Devices Window</a></h4>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-03-15286130207605.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAsTAAALEwEAmpwYAAACdElEQVR4nIXRW2vTYBgH8Fhv3MnBwM60NMl7TNqma1KzVWxcD3SndromTWOFyeZYPYAbIijomOuGsSNkMvDCKl6IF3rpvVd+AfFT+DmUpDodK+zhf/Hy8v6e54GX2X76uG5WDLNmmktG3ayZllG3aqbVunt/+3n7webDtfWWadl+GrZhNRaq1wyrMV0o2LbN3L73JH3VlK8YSKulJ4v5aV3Xp9OKOpXNlsszuq5PTWVTKVlRlHRa1bTJVutOvW6NjY2pqspYzRUOp6WJy4KkaVn9ht0wDGN+fqFUKmmalkrJxXLl5vJaZfG6oii6rjebTcOohcNhHxvGEnvxAoKCwEWV9MR8UIvVaqlUKhSKmnapXGmsbuzPVBupVFLP5YrF4tzs7Pj4uKIojGmakUgUYwIhhIhAEgdYEhCFWEIkDkkcEZFQiokEsEjj8vKt1bmFxXODw5mM2sMRjDEEACCKRVlAIgcowBIPxZiAeSQCnAAkISApJpAwy3GADgyd99f+hyEAkMDgEQcoD0Ue+l2CMxWQ34sDVIAiovIJDECwdqIHAI73AKJJHolHTTlAIUn2mcwDzP2dFhNITCA89FmwP+ndBzgxODSayWSOYQFgDvzBR/mfcYByUMTSxMDwaL/Jx+XJRKIcy0ZHhkfy+byPWZYNMDwVxwSSnTErrWeb7ofOwWvGtm1KqSzLiUSC0DjA/t/2DaLJWIxfP/z66vuvjfc/NpyPTC6XYxgmFAoxp9WZ0FmGYVSjXT/4CYuPVna+MN1ud2tra3d3t91u7+3tOY6zv99xXdfzvIOgPM9zXbfTeek4Tntn+7D76e3nby863pvuu98Fqr3C8AFT/AAAAABJRU5ErkJggg=="></p>
+<p>连接上设备，打开 <code>Xcode</code>，使用快捷键 <code>Cmd+Shift+2</code> 来打开 <code>Devices Window</code>，选中对应设备，然后选择 <code>View Device Logs</code>，即可查看当前设备磁盘上的所有崩溃文件，找到应用对应的日志即可展开分析。</p>
+<blockquote>
+<p>有些时候，获取到的崩溃日志并没有符号化。这个时候需要自己做一些额外操作，这里可以参考我之前在<strong>知识小集</strong>分享过的一个小 tip——<a href="https://github.com/awesome-tips/iOS-Tips/blob/master/2017/12.md#ios%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97" rel="noopener noreferrer" target="_blank">iOS快速解析崩溃日志</a>。</p>
+</blockquote>
+<h4 id="133-其它途径"><a href="#133-其它途径">1.3.3 其它途径</a></h4>
+<ul>
+<li><code>Xcode</code> 的自动化测试（得到的是已符号化的日志）</li>
+<li><code>Mac</code> 自带的 <code>Console</code> 应用，获取 <code>Mac</code> 或者模拟器的崩溃日志</li>
+<li>iOS设备可通过这种操作获取，打开【设置】->【隐私】->【分析】->【分析数据】拿到对应的未符号化的崩溃日志，然后通过系统自带的分享即可传输到对应的设备上进行分析。</li>
+</ul>
+<h3 id="14-符号化最佳实践"><a href="#14-符号化最佳实践">1.4 符号化最佳实践</a></h3>
+<ul>
+<li>上传应用的符号文件，以便苹果后台可以直接符号化崩溃日志，最终得以在 <code>Xcode Organizer</code> 的 <code>Crashes</code>tab 中呈现。</li>
+<li>保留应用归档文件，以便做本地符号化，只要有归档文件在，<code>Xcode</code> 会自动进行符号化。</li>
+<li>在 <code>Xcode Organizer</code> 的 <code>Archive</code>tab 为已开启 <code>bitcode</code> 的应用下载 <code>dSYM</code> 文件。</li>
+</ul>
+<h2 id="2-分析奔溃日志"><a href="#2-分析奔溃日志">2. 分析奔溃日志</a></h2>
+<h3 id="21-崩溃日志的组成"><a href="#21-崩溃日志的组成">2.1 崩溃日志的组成</a></h3>
+<ul>
+<li>崩溃摘要，主要记录一些基本信息，比如机型、系统版本、崩溃时间等</li>
+<li>崩溃原因</li>
+<li>崩溃信息（这一部分在真机上处于隐私原因，一般都是不可见的，在模拟器和 <code>MacOS</code> 上可见）</li>
+<li>崩溃线程的调用栈</li>
+<li>崩溃发生时，其它线程的调用栈</li>
+<li>寄存器状态</li>
+<li>已加载的可执行二进制文件</li>
+</ul>
+<h3 id="22-如何分析"><a href="#22-如何分析">2.2 如何分析</a></h3>
+<p>首先从崩溃原因中的崩溃类型开始</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-04-15286161511718.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAABPklEQVR4nCWKWXaEIBQFXVLykVYRkOE9RhVUujE9JvvfRE6Sn3uqTt1Gsg+PHGUPkqAktHsnpzfBPlD2RlEQnVGDZK3mrVEDyMHqwUhiFEXZN8GKGJ01yjt0FjgjIycAwloIwTgLMdq/pIP/VQChFNdaTF41ebZH3dccc4plTyMndGjTEl7P6/12eT6Or9ft8yg5xcf9OOqel5BmP03OKNLkyVzOW05xW+c1T4x2dGjnyR11/3/frpd5clJQ7yB4jMHEYLxHVEPjgHmH1iiD8m8FZ72SzDvQihuUCAJh1IrToR3IiZLTP2jRN1sOz8e11r3s+X6rRy1ipDlNX6/7UUsp+fv7uW1p39KyBNCC0Z4zQilBRZrZ8vMaSjIl2zzhOTuPLNhxm6FuYQn6srqSHIjOKoKyU2NrZAeiQ3H6AZ6HdWUYMuaVAAAAAElFTkSuQmCC"></p>
+<p>如上图的崩溃类型为 <code>EXC_BAD_INSTRUCTION</code>，它代表 <code>CPU</code> 尝试在执行一段不存在或无效的代码，而导致进行被“杀死”。</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-05-15286169917791.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAIAAAABPYjBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA1UlEQVR4nC3IQU+DMBiAYX6Gq5ZJTGaWbaX0az9acIUNKUJVPOzgQf+CV49mi+Pg1T9scHvznN6grW1zb1tX/Cubar2xeluMNnZUFWYxnxFySekVpTQ8R0NKA42g1cigNCg1AnCmJEdIEBKDEiGZ386i6fVNFIU0JBdkMiGnAkQwNk/XmcpSrmAluDRpWVdZcadyzWSyAs4VgFZCKwZ8KWIheMyWMVsEb00xPLfHvht6/1nmH1oevPt9f/3Z9d9Pp999tfXeu+HF7707dG7XbR+cfWzsH3FpNztMxnpNAAAAAElFTkSuQmCC"></p>
+<p>然后我们可以找到崩溃线程的调用栈的前几行，结合崩溃信息（如果有的话）进一步分析。找到崩溃栈中第一处二进制名为应用名称所在那一行，进到对应文件对应的代码行数进行查看（如上图中标红的那一行），然后进一步分析。上图中的崩溃可以很明显看出其原因是对 <code>nil</code> 进行了强制解包。</p>
+<h3 id="23-断言和先决条件导致的崩溃"><a href="#23-断言和先决条件导致的崩溃">2.3 断言和先决条件导致的崩溃</a></h3>
+<p>断言和先决条件的意义在于当错误发生时，强制终止当前进程。</p>
+<p>上述提到的对 <code>nil</code> 强制解包导致的崩溃是断言和先决条件中的一种。而它们还包含下面几种情况：</p>
+<ul>
+<li>数据越界访问</li>
+<li>算术溢出</li>
+<li>未捕获的异常</li>
+<li>代码中的自定义断言</li>
+</ul>
+<h3 id="24-操作系统杀死应用导致的崩溃"><a href="#24-操作系统杀死应用导致的崩溃">2.4 操作系统“杀死”应用导致的崩溃</a></h3>
+<p>某些情况下，系统处于保护目的，会将一些异常的应用“杀死”。以下几种场景可能触发系统将应用“杀死”：</p>
+<ul>
+<li>看门狗事件，主线程长时间无响应</li>
+<li>设备过度发烫</li>
+<li>内存消耗殆尽</li>
+<li>非法的应用签名</li>
+</ul>
+<p>以上几种场景导致的崩溃，其崩溃日志可以在上面提到的 <code>Device Window</code> 中查看，<code>Organizer Window</code> 并不一定能够收集到这些日志。更多细节可以参考苹果的这个技术讲座 <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" rel="noopener noreferrer" target="_blank">Understanding and Analyzing Application Crash Reports</a>。</p>
+<p>先来看一个关于看门狗的例子。</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-06-15286187612409.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAIAAAAcOLh5AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAnElEQVR4nE3ESQ6CMAAAQL5hy0GPCIbuG5RKgRYixD2GA///hicTk8kkleZjaL0zU/DXOY6hxahECGFUHg57CGGapgDAHQD/AAAQpkns7PpeXrfp85y39b6tj3nycTgvl9BYnWXHosgrxZxVTa2c1e43QafEaDHGPg5d6L2WrO+clJxzrpQSQlBKpZRGq7oyjGDOCCWYc0oJLvL8C2ikJlWFvU17AAAAAElFTkSuQmCC"></p>
+<p>上面的崩溃类型为 <code>EXC_CRASH (SIGKILL)</code>，<code>SIGKILL</code> 一般代表的是系统终止了进程的运行，这种信号无法被应用捕获，进而也就无法处理。终止原因为 <code>Namespace SPRINGBOARD, Code 0x8badf00d</code>，如果你有查看上面提到的关于崩溃日志的讲座，你应该会知道 <code>Code 0x8badf00d</code> 代表什么。从终止描述中来看，是由于启动时长超过了 19.97 秒。</p>
+<blockquote>
+<p>这次总算知道为什么看门狗对应的 <code>code</code> 是 <code>0x8badf00d</code> 了，从这次苹果工程师的发音上来看，这个 <code>code</code> 的发音同 <code>ate bad food</code>。</p>
+</blockquote>
+<h4 id="241-如何避免启动超时"><a href="#241-如何避免启动超时">2.4.1 如何避免启动超时</a></h4>
+<p>应用审核被拒的比较常见的原因就包含启动超时这一项。那么如何来避免这种情况发生呢？苹果工程师给了我们这些建议：</p>
+<ul>
+<li>在真机上测试，因为看门狗在模拟器以及调试阶段是被禁用的</li>
+<li>在低性能设备上测试，高性能设备响应肯定会快，无法体现出真实效果</li>
+</ul>
+<h4 id="242-如何避免内存问题"><a href="#242-如何避免内存问题">2.4.2 如何避免内存问题</a></h4>
+<p>常见的内存错误包含：过度释放、野指针（访问已释放对象）、内存访问越界（比如 C 数组）。我们还是通过一个日志来分析一下具体问题。</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-07-15286203651661.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfklEQVR4nF2Py27bMBBF/R02KVIPikOKFDkULUqRatlxqgROFgGCLvv/v1FIQRftWczcxRwM7uF8PscYMQRB6d3j+9P01qfHMN6cX4xdMcxKG54TSrN/oTQ7hB0MoSpLNGaMMYWAxjRCQFnKooCiKBj7X812Oe6klKy1rXN9Sl2MoJQEIJQeT6cTIdtbSve98TdkB6UUIjrnAMBa65yTUsq6BgAFAFJWVSWEKIqirmuxZyllnm9FDmVZWmu11oQQxhgiYggO0YfQeo9dB1ppY2opvfda6zzPq6rinG+ytXa/D8YYrTUo1TXNo09rF9cuXhqzNObZWJvnjDHO2N6WsG3Sg9Z6mqZ5nhGREHIkZJTwe337dXv+Wq6PPn0Mw+c8v6fhimFu23uMP7s4GjtJ2Do/7XzLhFIj5ce6rrfb/XKZ+v4yjj/SMPX9uW0dgBHCC1Fzrjjf5Hmel2X5rk0praVcX1/vLy/L9drF6BFBa9U0SuuyqjLOj5TQLDtR+gcXC1ubSTScqQAAAABJRU5ErkJggg=="></p>
+<p>由上图中标注的1，我们知道崩溃类型为 <code>EXC_BAD_ACCESS(SIGSEGV)</code>，这种类型崩溃主要是有两种情况导致：</p>
+<ul>
+<li>对只读的内存地址进行写操作</li>
+<li>访问不存在的内存地址</li>
+</ul>
+<p>通过崩溃栈中的<code>objc_release</code>、<code>object_dispose</code> 等，我们更加确定这是由于内存问题导致的崩溃。我们通过这几个线索可以知道，<code>LoginViewController</code> 实例在调用 <code>deinit</code> 方法销毁相关属性的时候，发生了内存问题，进而导致崩溃的产生。</p>
+<p>我们回到日志的第一部分中的<code>Exception Codes</code>，苹果的工程师说可以根据经验以及日志中的相关信息得出结论，对应的 <code>BAD_ADDRESS</code> 为 <code>0x7fdd5e70700</code>。原因是 <code>0x7fdd5e70700</code> 刚好在日志中的这一段 <code>MALLOC_TINY            00007fdd5e400000-00007fdd5e800000</code> 地址范围内。</p>
+<p><strong>一些关于内存及释放的基础</strong></p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-08-15286214423478.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAIAAAB2/0i6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABhklEQVR4nGPQ1jXQNjA1NLXSMTSTVVKXkJIVl5AUl5ASExMXFRERERYRFRERFRUVFwcJiqMiBjUDC+/87qDiHv/CLtfMVmVtE4hSOTVdVUNbdSMbVUMbJV1zSWlZLJplZOU1NbVVlNTV1DSlZeTExCUlpGSEBAU9EkoL5x0umrWrYM7+hJbFsoqqEpLSID2S0nDEICIirqip6lkYJq+uIioqIS4pLSElI8gvEJHfOHXf3ek7Lk3ddaNy9lYZeSUJSRlRUXERETFRUTEwKc4gKiKuqKXmWRCuqKkmKiIO0SzALxBR0DRpz93ODef6dtyomrNdVlFVVEzCOy43v3dZWvPM7K5FUUWtDOKSUmJiEsKCYmJiEnDPiIlJqOkYGdu6GVg6Gdm46JnZSknL8fHyJlT1zzj8dMrOa1P33a+YtZUBohrqHyQkIiIqJCggJCgoJCgoLCQkKSXLz8sbV94zZd/9CVsuTtp5q3TaBqhmLAjsfmQkKCDgn1RUPnNzbu/SkinrEqv6Afj8ax4+VDs4AAAAAElFTkSuQmCC"></p>
+<p><code>Objective-C</code> 对象以及一些 <code>Swift</code> 对象的内存布局如图，当一个对象有效（未释放）时以 <code>isa</code> 开始，<code>isa</code> 指向它所属的类。<code>objc_release</code> 主要是读取对象的 <code>isa</code> 指针，然后将 <code>isa</code> 指针解除对 <code>Class</code> 的引用。</p>
+<p>正常情况下，一切都能照常工作。如果对象已经被释放，会发生什么呢？<code>free</code> 函数调用后，会将对象删除，并且将其插入到包含了其它已释放对象组成的链表中，同时将之前 <code>isa</code> 区域指向链表中下一个已释放对象。</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-09-15286229962132.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAIAAABM9SnKAAAACXBIWXMAAAsTAAALEwEAmpwYAAABBElEQVR4nHVPu0oDURDdH4hgzObOe+7Gx24SsxANwSbY2YhaaUhjkY1YaCNYKIIW6kco+K+yLlgpDIdh5nAeSV4Miv4wLwZqsRswAAFQp0utNrba0FqHtY36+Ockom4WPfZEHUlYLA1cbNrZbOtklp/Odo6mGREjqYghCbESKyATa0Ksog7IapHF1DwFOTwoP54Xn29XX+/V682xu6tlP9+aI+qi7rGXINUa3YDjvUnRHwJyJw275Xh1ffvw9HJ3/3i+uCQ2QAbk/cl0Oy8CUBMhAeQmrVoUdbXYScNoVK6qZbVcrqpqPr8gViSpC3rW2AYgUU+a6oDc4O/CYsTKYiz2H+cb7uU0YMc4EX8AAAAASUVORK5CYII=">
+<img src="/media/Understanding-Crash/Understanding-Crash-10-15286230171741.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAIAAADKYVtkAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA7UlEQVR4nD2OzUrDYBBF8wYK6Xzz+yW2Nk3SVqvBitAq0cYHUBdCN7ppV2rBPwrduPDBJQayGe5l5nAmSAZZmub5cBzFXSRxyOAoBNwLYT+EenYcOAJHSEKs7Y1DDppOrM3aLALWop+ur26eLuary/LhdIqsPjpgMYdMrGqRqDcfB2oRsbJYlo96hwmLhYDnJ8V2tf79+Px5fXu+uwdHop5Yx0cT83HjE/WBqEcSFkuzYbfXr+EQirPpy2az3e3ev78el0twxGIsNhofNzKHXMNtQhIkUYs6gMkgq6rbsrxeLKrZbN7CjUb+/xf1f5H/K5aEACV+AAAAAElFTkSuQmCC"></p>
+<p>当之前的 <code>isa</code> 内存区域被写入成 <code>rotated free list</code> 指针时，意味着访问这个地址返回的将是一个无效的内存地址，进而导致崩溃。所以当 <code>objc_release</code> 去解除 <code>isa</code> 引用时，访问到的是 <code>rotated free list</code>，所以崩溃就发生了。</p>
+<p>所以可以分析出，肯定是在释放某个属性时，该属性已经被释放。我们能知道具体是哪个属性导致的么？答案是肯定的。</p>
+<p>目前从崩溃的那一行来看，<code>__ivar_destroyer</code> 是编译器帮我们自动生成的函数，所以我们无从知晓具体是哪一行导致的问题。我们只知道这个类有如图三个属性：</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-11-15286236439932.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMUlEQVR4nHWR2WrDMBBF/TW1RrK12qNlbFmKl5L+/wcVOyGQksJluHo4oDnTaI3GhpgqhhxSjVTRZwwZ4+LG5GMZcOZCg1DA/6ZpQbYggauvtmtZ37L+VR5hIBmTjKlrSgZXgTNNsimZ5GyYlzXnlaZa6jHP6zTfct5SKmYYY45IIZzTDxH9FOyISo+N6t0gMVoiKkvZt/1n3e4+UJynaVnc4EGoXlllrLJOant110krOtO0XAphyCQcqd6+t/1e6mHsiHRKGOKorZPGcvH2bYBrZ8Zl31kyFPy07vdajzmvPqW4RCoTUsDkMflOGXYBb8IYV11nkiFrfKlHTMU49NO5nidiTF7aTqMfbANXXOheDSD0wy1w9TQM8rzQIx9h6wIDya8HF/o8KX8C/B/mBf8CnLloJS+sl2gAAAAASUVORK5CYII="></p>
+<p>但是从 <code>@objc LoginViewController.__ivar_destroyer + 42</code> 可以获取到一些信息，<code>+42</code> 代表着汇编里面的该函数的偏移量。我们可以对 <code>__ivar_destroyer</code> 函数进行反汇编，然后看偏移量为42对应获取的是哪个属性，在 <code>Xcode</code> 中可以使用 <code>lldb</code> 调试。</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-12-15286240224231.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAAsTAAALEwEAmpwYAAABbklEQVR4nG2SWW7cQAxEdZqMNNqavZPdrV60zaIxYPvD97+JkUyQAMkA9UcWSL5iJQWhDcmhM9YZMyGStsnhhIjaJEdjD009npsXqjgYo7zkloPWEpUkLfGnFClhjaah513L2vMr8zCooReSgWBMAcAImnPNQQEYAYoBDKA471v2wqyVI4paebQRMWrtCZPW3pjgfSFKjjIwc/rRNfVQn/r61Df18FRlTbhd3z7evx7Hx+N4L3nft2Ndrvt2LPNlmS/rfMtpc5QEt4Jba4LRHpgeelFx0MHlkrfgcpoWtBNhRBsII2G0JjiKjpJ32bssBQpuuxa6Ftozq5SkdXvcjs95uW/7W07btt7ncil5X+brtt6W+ZriGnzhYM7N+Fz4981SILklz49Y7j5eiEqalhTXFFdrgneZMHqXtHLjIP8FBkxPPs9ln0LJvwzBl+Czo2SNF9wOveg7/pz5X87cjkzXpyfAv4Vn6x+wL5/kG1jofeaHWXm8AAAAAElFTkSuQmCC"></p>
+<p>断点后分别输入上图中黄色字的命令，分别为 <code>command script import lldb.macosx.crashlog</code>，<code>crashlog /Users/.../RideSharingApp-2018-05-24-1.crash</code>，后面的路径需要替换成你的崩溃日志路径。<code>Xcode</code> 会自动检索二进制文件以及对应的 <code>dSYM</code> 文件，然后符号化显示在 <code>lldb</code> 控制台中。然后我们找到崩溃处的地址，执行如下命令，即可得到对应的反汇编代码：</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-13-15286333493975.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAABl0lEQVR4nHWQyY4UMRAF61+Aob3lapeXsstV3T2bNPz/76BmuIBAikPk4SmkXFIeo89zjlrqsffbsYvmAMqSRUsAuRgwFv/JEkB7/6jtTXSr7ejjlssAjN5zCOI8/29pLC7GUts+Sn1FLq0ffb+S5IvFp0v4buCBhYvB327+YEFLQ0bjbQ2x8bpJ7loyaHQsBtVStKQWo3tIdBwdq3tIcryopV7fS3kVaaXsrR2321vvZ849gPogSOsnIWgAJUrCqwsSgyxq8YXHnfsB6c75Wct77nfJ03O3uHs+QE9MJ6ZuqVuannfPw9GwtMjv8ovKVuusdT/O57ZNjdVY9EGBUoAYIAKmz37S4kDV/ypfuU/auk8Hr6fkl9wPzj1IvsDmZcfUIX4yIDbHB8TquBpcoqVrfR/5ucg26z7rvM/7bLPGigbJETsmx+yZHEkQCYqPU5LFRR1t/cda3zjupZ9tv3JqTxa/XsKTxb8x8M0AU/piAAw8vj10VhmZStPSpOy5rxjpAmRQvSSMmfJKa4JIBslg8oIGo8GfgnKDIN3joNQAAAAASUVORK5CYII="></p>
+<p>我们不需要理解每一行汇编的意思，每行后面的注释可以帮助我们理解，根据注释可以知道 1、2、3 处代码分别代表着 <code>userName</code>、<code>database</code>、<code>views</code> 的释放。回到上面提到的 <code>+42</code>，我们找到第3处的第一行，有一点需要注意的是大部分情况下汇编的偏移地址是返回地址，所以调用 <code>objc_release</code> 是在上一行。所以可以判断出是在释放 <code>database</code> 时出现了问题。虽然我们目前还不知道具体问题所在，但是可以通过这些信息缩小查找问题的范围，可以查找使用到 <code>database</code> 的地方，来找到真正的问题所在。</p>
+<h4 id="242-日志分析总结"><a href="#242-日志分析总结">2.4.2 日志分析总结</a></h4>
+<ul>
+<li>理解崩溃日志产生的原因</li>
+<li>检查崩溃栈信息</li>
+<li>使用反汇编帮我们找到更多线索来分析 <code>bad address</code> 问题</li>
+</ul>
+<h4 id="243-常见内存错误"><a href="#243-常见内存错误">2.4.3 常见内存错误</a></h4>
+<ul>
+<li>
+<p>objc_msgSend 或者 retain/release 崩溃
+<img src="/media/Understanding-Crash/Understanding-Crash-14-15286347974394.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAIAAAABPYjBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAApUlEQVR4nBXLSW7DQAwFUZ3EiJr8nKmpBTiB4ftfKxDwFrWpJcRnZ3ucFR0+Vtsj/q66Ouf2MPgWsWdcFWneHkxG47Fg8OZSihCUQYgdmK1n6u7SJuOHlZGKFJRKyBMYDOKFB7VBmVPh4NdrGPgqOVPSsIfQIAM/j8LAbVIGDBLiJc3fZ+7p95ZHxbrqUfG9+zPr3vL3rFA/Kmbn7EzzUONhTMqk/1KMJnbUejKMAAAAAElFTkSuQmCC"></p>
+</li>
+<li>
+<p>无法识别的方法异常
+<img src="/media/Understanding-Crash/Understanding-Crash-15-15286348142914.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAIAAABR8BlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAPUlEQVR4nBXGwRGAIAwEQDtScheIgQCOI/2X5LCvParK6jpvfqErdt66HwVR0DKc0jKGoRuH8XE6IWfClX6dpQ07IqrxCwAAAABJRU5ErkJggg=="></p>
+</li>
+<li>
+<p>abort() inside malloc/free</p>
+</li>
+</ul>
+<h3 id="25-日志分析建议"><a href="#25-日志分析建议">2.5 日志分析建议</a></h3>
+<ul>
+<li>不要只关注崩溃发生的那一行代码，多查看一下和崩溃相关的代码，比如上面那个崩溃代码并不是真正导致 <code>bug</code> 出现的原因</li>
+<li>查看所有调用栈，不要只关注崩溃所在线程的调用栈，非崩溃线程调用栈可以帮助我们查看崩溃时应用所处状态</li>
+<li>多查看一些崩溃日志，有些时候很多崩溃日志都是崩溃在同一个地方，但是某些崩溃日志会包含更多的信息</li>
+<li>使用 <code>Xcode</code> 提供的工具来复现内存问题，比如 <code>Address Sanitizer</code> 或者 <code>Zombies</code></li>
+</ul>
+<h2 id="3-多线程问题"><a href="#3-多线程问题">3. 多线程问题</a></h2>
+<h3 id="31-崩溃日志中多线程问题的一些症状"><a href="#31-崩溃日志中多线程问题的一些症状">3.1 崩溃日志中多线程问题的一些“症状”</a></h3>
+<ul>
+<li>最难复现和诊断的一类 bug</li>
+<li>多线程问题通常会引起内存竞争</li>
+<li>多个线程执行着相似代码</li>
+<li>同一个 bug 可能会有不同的崩溃日志</li>
+</ul>
+<h3 id="32-使用-thread-sanitizer-检测多线程问题"><a href="#32-使用-thread-sanitizer-检测多线程问题">3.2 使用 Thread Sanitizer 检测多线程问题</a></h3>
+<p>多线程问题即使我们拿到日志大概率情况下也无法分析问题所在，即使连着 <code>Xcode</code> 调试也不一定能够稳定复现，即使运气好能复现也可能分析不出具体问题。所以我们可以借助 <code>Xcode</code> 提供的工具来帮我们分析，这个工具就是 <code>Thread Sanitizer</code>。通过快捷键 <code>Cmd+shift+,</code>，然后选则 <code>Diagnostics</code> tab，勾选 <code>Thread Sanitizer</code> 即可。如下图所示</p>
+<p><img src="/media/Understanding-Crash/Understanding-Crash-16-15286367494006.jpg" alt="" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAIAAAB2/0i6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABr0lEQVR4nE3Qz2/SYADG8Rf4F8SwHYimjP54f/Qtb985O/tCh5smLm5xCWjCBpvEpZSpGcSFyxIPO3LCcPQKXbtkBjRG0nEw8e8ylMs+9yff5AHfr/+2zy87nXPX9Y6PT+r1RqX67mPb/Xx2euadtu5xY61Wy/O8ZrPZ7/dBp3uBMLWFs7K6CgBIJJIAAHNzV7zuYquqKEo+n0cImaZZWGAqxKqqZrPZWq0GLno92y6WSluZTAYAkEqlksmEwW2xU0WshGMkxjm3LItSqut6LpdrNBqg+6VnPXN2Xu5mVpblBQTVpxumpq4hhCCEhmGsc/5kw7JtW9d1jLEkSYvx5dW3Fwduee/DptguiiLn6zqhCCFMCEbLMDYMgzEmhHAcB0JICJGW5Ur17YP0w3Q6LZ4fnLS/vqp82t5rYkI1TYP3YIyFKJbLZcYYpVSSHtePDoHjOCCmaWh//41hMFlWVFXlnBNCKKWFQgEiIssyjm/DGCty/lEO1d+3QRAEg8FgOByORqPJZBKGN2F4M51O5/P5bDaLoujuLvr56/ft7Y8gCHzfH/v+tT8eh9M/0b//k3KKoFj+OJcAAAAASUVORK5CYII="></p>
+<ul>
+<li>可稳定复现多线程 bug</li>
+<li>在模拟器下也可进行</li>
+<li>只查找当前正在执行的代码的问题</li>
+</ul>
+<h3 id="33-实用建议"><a href="#33-实用建议">3.3 实用建议</a></h3>
+<p>在创建 <code>GCD Queue</code>、<code>(NS)OperationQueue</code>、<code>(NS)Thread</code> 时，使用自定义名称，方便后续调试以及崩溃日志内查看。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="swift"><code><span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> queue </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> DispatchQueue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">label</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"com.example.myapp.networking"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> operationQueue </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> OperationQueue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">operationQueue.name </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "Networking OperationQueue"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">let</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> thread </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> Thread</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">...</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">thread.name </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "Networking Thread"</span></span></code></pre>
+<h3 id="34-额外建议"><a href="#34-额外建议">3.4 额外建议</a></h3>
+<ul>
+<li>使用真机测试</li>
+<li>尝试复现，从用户处拿到崩溃日志后根据调用栈尝试去复现问题</li>
+<li>使用工具来查找难以复现的 bug，下面两个工具的更多使用方式可以参考 <a href="https://developer.apple.com/videos/play/wwdc2016/412/" rel="noopener noreferrer" target="_blank">WWDC 2016 Session 412 Thread Sanitizer and Static Analysis</a>
+<ul>
+<li>使用 <code>Address Sanitizer</code> 来查看内存问题</li>
+<li>使用 <code>Thread Sanitizer</code> 来查看多线程问题</li>
+</ul>
+</li>
+</ul>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/wwdc-2018-signpost/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">WWDC 2018：使用日志框架测量性能</span> </a> <a href="/posts/2018-summary/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">时光的河如海流</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,480 @@
+<!DOCTYPE html><html lang="zh" class="scroll-smooth"> <head><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://giscus.app"><link rel="dns-prefetch" href="https://giscus.app"><link rel="preconnect" href="https://hm.baidu.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><link rel="preconnect" href="https://busuanzi.ibruce.info"><link rel="dns-prefetch" href="https://busuanzi.ibruce.info"><meta name="generator" content="Astro v5.16.6"><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><!-- Canonical URL --><link rel="canonical" href="https://vonglo.cn/posts/avfoundation-and-gpuimage/"><!-- Primary Meta Tags --><title>AVFoundation和 GPUImage初探 | Vong</title><meta name="title" content="AVFoundation和 GPUImage初探 | Vong"><meta name="description" content="记录开发日常"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://vonglo.cn/posts/avfoundation-and-gpuimage/"><meta property="og:title" content="AVFoundation和 GPUImage初探 | Vong"><meta property="og:description" content="记录开发日常"><meta property="og:image" content="https://vonglo.cn/images/avatar.jpg"><meta property="og:site_name" content="Vong"><meta property="og:locale" content="zh_CN"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://vonglo.cn/posts/avfoundation-and-gpuimage/"><meta property="twitter:title" content="AVFoundation和 GPUImage初探 | Vong"><meta property="twitter:description" content="记录开发日常"><meta property="twitter:image" content="https://vonglo.cn/images/avatar.jpg"><!-- Article Specific --><meta property="article:author" content="Vong"><meta property="article:published_time" content="2014-08-24T00:41:00.000Z"><meta property="article:tag" content="AVFoundation"><meta property="article:tag" content="GPUImage"><meta property="article:tag" content="原创"><!-- JSON-LD Structured Data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AVFoundation和 GPUImage初探","image":"https://vonglo.cn/images/avatar.jpg","datePublished":"2014-08-24T00:41:00.000Z","dateModified":"2014-08-24T00:41:00.000Z","author":[{"@type":"Person","name":"Vong","url":"https://vonglo.cn"}]}</script><script>
+      // Only initialize theme if not already set by header script
+      if (!window.themeInitialized) {
+        const storedTheme = localStorage.getItem('color-theme');
+        const initialTheme = storedTheme || 'system';
+        
+        if (initialTheme === 'dark' || (initialTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        
+        window.themeInitialized = true;
+      }
+    </script><script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-ZHSZ71NFYK"></script><script type="text/partytown">(function(){const googleId = "G-ZHSZ71NFYK";
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleId);
+    })();</script><script type="text/partytown">(function(){const baiduId = "33560f4e09d57e84523912a2098670aa";
+
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    })();</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><link rel="stylesheet" href="/_astro/_slug_.CkdiCl3q.css"><script>!(function(w,p,f,c){if(!window.crossOriginIsolated && !navigator.serviceWorker) return;c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push","_hmt.push"])})(window,'partytown','forward');/* Partytown 0.11.2 - MIT QwikDev */
+const t={preserveBehavior:!1},e=e=>{if("string"==typeof e)return[e,t];const[n,r=t]=e;return[n,{...t,...r}]},n=Object.freeze((t=>{const e=new Set;let n=[];do{Object.getOwnPropertyNames(n).forEach((t=>{"function"==typeof n[t]&&e.add(t)}))}while((n=Object.getPrototypeOf(n))!==Object.prototype);return Array.from(e)})());!function(t,r,o,i,a,s,c,l,d,p,u=t,f){function h(){f||(f=1,"/"==(c=(s.lib||"/~partytown/")+(s.debug?"debug/":""))[0]&&(d=r.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(l=setTimeout(v,(null==s?void 0:s.fallbackTimeout)||1e4),r.addEventListener("pt0",w),a?y(1):o.serviceWorker?o.serviceWorker.register(c+(s.swPath||"partytown-sw.js"),{scope:c}).then((function(t){t.active?y():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&y()}))}),console.error):v())))}function y(e){p=r.createElement(e?"script":"iframe"),t._pttab=Date.now(),e||(p.style.display="block",p.style.width="0",p.style.height="0",p.style.border="0",p.style.visibility="hidden",p.setAttribute("aria-hidden",!0)),p.src=c+"partytown-"+(e?"atomics.js?v=0.11.2":"sandbox-sw.html?"+t._pttab),r.querySelector(s.sandboxParent||"body").appendChild(p)}function v(n,o){for(w(),i==t&&(s.forward||[]).map((function(n){const[r]=e(n);delete t[r.split(".")[0]]})),n=0;n<d.length;n++)(o=r.createElement("script")).innerHTML=d[n].innerHTML,o.nonce=s.nonce,r.head.appendChild(o);p&&p.parentNode.removeChild(p)}function w(){clearTimeout(l)}s=t.partytown||{},i==t&&(s.forward||[]).map((function(r){const[o,{preserveBehavior:i}]=e(r);u=t,o.split(".").map((function(e,r,o){var a;u=u[o[r]]=r+1<o.length?u[o[r]]||(a=o[r+1],n.includes(a)?[]:{}):(()=>{let e=null;if(i){const{methodOrProperty:n,thisObject:r}=((t,e)=>{let n=t;for(let t=0;t<e.length-1;t+=1)n=n[e[t]];return{thisObject:n,methodOrProperty:e.length>0?n[e[e.length-1]]:void 0}})(t,o);"function"==typeof n&&(e=(...t)=>n.apply(r,...t))}return function(){let n;return e&&(n=e(arguments)),(t._ptf=t._ptf||[]).push(o,arguments),n}})()}))})),"complete"==r.readyState?h():(t.addEventListener("DOMContentLoaded",h),t.addEventListener("load",h))}(window,document,navigator,top,window.crossOriginIsolated);;(e=>{e.addEventListener("astro:before-swap",e=>{let r=document.body.querySelector("iframe[src*='/~partytown/']");if(r)e.newDocument.body.append(r)})})(document);</script></head> <body class="font-sans leading-relaxed flex flex-col min-h-screen"> <header class="bg-bg-page sticky top-0 z-50 transition-colors duration-300"> <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20"> <div class="flex items-center gap-4"> <a href="/" class="flex-shrink-0"> <img class="h-10 w-10 rounded-full transition-all duration-300" src="/images/avatar.jpg" alt="Avatar"> </a> <div class="hidden sm:block"> <a href="/" class="text-lg font-medium text-text-main hover:text-primary transition-colors tracking-tight"> Vong </a> </div> </div> <div class="flex items-center gap-6"> <nav class="hidden md:block"> <ul class="flex items-center gap-8"> <li> <a href="/" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="text-sm font-medium text-text-muted hover:text-primary transition-colors"> 关于 </a> </li> </ul> </nav> <div class="flex items-center gap-4"> <button id="search-trigger" type="button" aria-label="Search" class="text-text-muted hover:text-primary transition-colors hidden md:block"> <i class="fa-solid fa-magnifying-glass text-sm"></i> </button> <div class="relative order-2 md:order-none"> <div class="relative"> <button id="theme-toggle-btn" type="button" aria-label="切换主题" class="flex items-center justify-center gap-2 text-sm font-medium text-text-muted hover:text-primary hover:bg-bg-surface-hover rounded-full transition-all duration-300 active:scale-95 h-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-10 p-2.5"> <i id="theme-toggle-icon" class="fa-regular fa-lightbulb text-base align-middle"></i> </button> <!-- Dropdown menu --> <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-bg-surface rounded-xl shadow-xl border border-border z-50 py-1 ring-1 ring-black/5 dark:ring-white/10"> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="light"> <i class="fa-regular fa-lightbulb w-4"></i> 浅色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="dark"> <i class="fa-solid fa-moon w-4"></i> 深色 </button> <button type="button" class="theme-option w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-bg-surface-hover flex items-center gap-2 transition-colors duration-200" data-theme="system"> <i class="fa-solid fa-desktop w-4"></i> 跟随系统 </button> </div> </div> <script>
+  (function() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    if (!themeBtn || !themeDropdown || !themeIcon) return;
+    
+    // Toggle dropdown
+    themeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      themeDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!themeBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+        themeDropdown.classList.add('hidden');
+      }
+    });
+    
+    // Update UI function
+    function updateThemeUI(theme) {
+      // Update icon
+      themeIcon.className = 'text-lg';
+      if (theme === 'light') {
+        themeIcon.classList.add('fa-regular', 'fa-lightbulb');
+      } else if (theme === 'dark') {
+        themeIcon.classList.add('fa-solid', 'fa-moon');
+      } else {
+        themeIcon.classList.add('fa-solid', 'fa-desktop');
+      }
+      
+      // Update active option
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+          option.classList.add('text-primary', 'font-medium');
+        } else {
+          option.classList.remove('text-primary', 'font-medium');
+        }
+      });
+    }
+    
+    // Set theme function
+    function setTheme(theme) {
+      if (theme === 'system') {
+        localStorage.removeItem('color-theme');
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
+      } else {
+        localStorage.setItem('color-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
+      
+      updateThemeUI(theme);
+      themeDropdown.classList.add('hidden');
+    }
+    
+    // Handle option clicks
+    themeOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setTheme(option.dataset.theme);
+      });
+    });
+    
+    // Initialize theme UI
+    const storedTheme = localStorage.getItem('color-theme') || 'system';
+    updateThemeUI(storedTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('color-theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
+  })();
+</script> </div> <div class="relative md:hidden order-3"> <button id="mobile-menu-toggle" type="button" aria-label="Menu" class="p-2 text-text-muted hover:text-primary"> <i class="fa-solid fa-bars text-lg"></i> </button> <div id="mobile-menu" class="hidden absolute right-0 mt-4 w-48 bg-bg-page border border-gray-100 dark:border-gray-800 shadow-lg py-2"> <ul class="flex flex-col"> <li> <button id="mobile-menu-search" type="button" class="flex items-center gap-3 px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary w-full text-left"> <i class="fa-solid fa-magnifying-glass w-4"></i>
+搜索
+</button> </li> <li> <a href="/" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 首页 </a> </li><li> <a href="/posts" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 文章 </a> </li><li> <a href="/about" class="block px-6 py-3 text-sm text-text-muted hover:bg-bg-surface-hover hover:text-primary transition-colors"> 关于 </a> </li> </ul> </div> </div> </div> </div> </div> </header> <div id="search-popup" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-label="搜索">  <div class="fixed inset-0 bg-bg-translucent backdrop-blur-sm transition-opacity" id="search-overlay"></div>  <div class="fixed inset-0 flex items-start justify-center pt-16 sm:pt-24 px-4"> <div class="bg-bg-page w-full max-w-2xl rounded-xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[80vh] transform transition-all scale-95 opacity-0" id="search-container">  <div class="flex items-center p-4 border-b border-border bg-bg-surface relative"> <div class="flex-1 flex items-center bg-bg-surface-hover border border-transparent focus-within:border-primary/50 rounded-lg px-3 py-2 transition-all shadow-sm"> <i class="fa-solid fa-search text-text-muted text-lg" aria-hidden="true"></i> <input type="text" id="search-input" class="flex-1 ml-3 bg-transparent border-none outline-none focus:ring-0 p-0 text-text-main text-base placeholder-text-muted h-full w-full" placeholder="搜索文章..." autocomplete="off" aria-label="搜索文章"> </div> <button id="close-search" class="ml-3 p-2 text-text-muted hover:text-text-main transition-colors rounded-lg hover:bg-bg-surface-hover"> <i class="fa-solid fa-times text-lg" aria-hidden="true"></i> </button> </div>  <div id="search-results" class="flex-1 overflow-y-auto p-4 space-y-2 min-h-[100px] bg-bg-page"> <div class="flex flex-col items-center justify-center py-12 text-text-muted"> <i class="fa-solid fa-magnifying-glass fa-3x mb-4 opacity-20"></i> <p>输入关键词开始搜索</p> </div> </div>  <div class="p-3 bg-bg-surface border-t border-border text-xs text-text-muted flex justify-between px-6"> <span><kbd class="font-sans bg-bg-surface-hover border border-border px-1.5 py-0.5 rounded">Esc</kbd> 关闭</span> <span>Powered by Fuse.js</span> </div> </div> </div> </div> <script>
+  (function() {
+    const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const devLog = (...args) => { if (isDev) console.log(...args); };
+    devLog('Header script running...');
+    
+    // 获取元素
+    const searchBtn = document.getElementById('search-trigger');
+    const mobileBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileSearchBtn = document.getElementById('mobile-menu-search');
+    
+    // 搜索按钮点击处理
+    if (searchBtn) {
+      searchBtn.addEventListener('click', async () => {
+        devLog('Search button clicked');
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      });
+    }
+    
+    // 点击外部时关闭移动菜单
+    document.addEventListener('click', function(e) {
+      if (mobileMenu && mobileBtn && !mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', async (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const mod = await import('/scripts/search-modal.js');
+        await mod.default();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    }
+    
+    devLog('Header script setup complete');
+  })();
+</script> <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">  <div id="mobile-progress" class="md:hidden fixed left-0 right-0 h-[3px] z-[60] bg-bg-surface/60"> <div id="mobile-progress-bar" class="h-full bg-primary w-0"></div> </div> <article class="max-w-3xl mx-auto min-w-0 py-12 sm:py-20"> <div class="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none bg-transparent p-0"> <header class="mb-16 text-center"> <h1 class="text-2xl font-bold text-text-main mb-6 leading-tight">AVFoundation和 GPUImage初探</h1> <div class="text-text-muted text-sm flex flex-wrap justify-center items-center gap-6"> <time datetime="2014-08-24T00:41:00.000Z" class="flex items-center gap-1.5"> 8/24/2014 </time> <div class="flex gap-4"> <span class="text-text-muted hover:text-primary transition-colors">
+#AVFoundation </span><span class="text-text-muted hover:text-primary transition-colors">
+#GPUImage </span><span class="text-text-muted hover:text-primary transition-colors">
+#原创 </span> </div> </div> </header> <div class="
+        leading-[1.8]
+        prose-p:mb-8 prose-p:leading-[1.8]
+        prose-headings:font-bold prose-headings:text-balance prose-headings:mt-12 prose-headings:mb-6
+        prose-img:my-10
+        prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:text-primary
+        prose-blockquote:not-italic prose-blockquote:text-base prose-blockquote:text-text-muted prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:bg-transparent prose-blockquote:px-6 prose-blockquote:py-2
+      ">  <p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
+<h3 id="avfoundation的一些基本概念"><a href="#avfoundation的一些基本概念">AVFoundation的一些基本概念</a></h3>
+<p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
+<!-- Missing: /oldimages/2019-11-21-15743465315046.jpg -->
+<h4 id="相关类"><a href="#相关类">相关类</a></h4>
+<ul>
+<li><code>AVAsset</code></li>
+<li><code>AVAssetTrack</code></li>
+<li><code>AVComposition</code></li>
+<li><code>AVVideoComposition</code></li>
+<li><code>AVAudioMix</code></li>
+<li><code>AVMutableAudioMixInputParameter</code></li>
+<li><code>AVMutableVideoCompositionInstrution</code></li>
+<li><code>AVMutableVideoCompositionLayerInstrution</code></li>
+</ul>
+<p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
+制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
+<p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
+<!-- Missing: /oldimages/2019-11-21-15743465478505.jpg -->
+<p>这里又一个重要的东西就是CMTime,它是一个结构体，定义如下:</p>
+<p>typedef struct
+{
+CMTimeValue    value;<br>
+CMTimeScale    timescale;<br>
+CMTimeFlags    flags;<br>
+CMTimeEpoch    epoch;<br>
+} CMTime;
+通常时间是等于value/timescale的，所以两个有相同时间的CMTime它们的timescale并不一定相同。关于更多CMTime的内容可以看<a href="https://developer.apple.com/library/ios/documentation/CoreMedia/Reference/CMTime/Reference/reference.html#//apple_ref/doc/uid/TP40009748" rel="noopener noreferrer" target="_blank">这里</a>。</p>
+<h3 id="进阶"><a href="#进阶">进阶</a></h3>
+<h4 id="视频的录制"><a href="#视频的录制">视频的录制</a></h4>
+<p>这里用的是系统原生录制,关于录制通常用到的几个类就是AVCaptureDevice、
+AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张图。</p>
+<!-- Missing: /oldimages/2019-11-21-15743465626129.jpg -->
+<p>一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">NSMutableArray</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">array </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [output.metadta </span><span style="color:#005CC5;--shiki-dark:#79B8FF">mutableCopy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">AVMutableMetadataItem </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">item </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[AVMutableMetadataItem </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">item.keyspace </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ...;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">item.key </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ...;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">item.value </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ...;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">[array </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addObject:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">item];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">output.metadata </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> array;</span></span></code></pre>
+<p>如果录制时候想要得到指定的视频size必须先指定分辨率，像这样</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ </span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    session.sessionPreset = AVCaptureSessionPreset640x480;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>else {</span></span>
+<span class="line"><span>    //设置失败</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>切换摄像头或其他输入源必须在beginConfiguration和commitConfiguration之间来处理，大致是这样</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[session beginConfiguration];</span></span>
+<span class="line"><span>//移除某个输入源</span></span>
+<span class="line"><span>//再添加某个输入源</span></span>
+<span class="line"><span>//再为新添加的输入源进行必要的相关设置</span></span>
+<span class="line"><span>//...其他操作</span></span>
+<span class="line"><span>[session commitConfiguration];</span></span></code></pre>
+<p>如果想对实时视频帧进行相关的渲染操作,通过 setSampleBufferDelegate:queue:方法来为output设置代理，同时必须指定queue，代理方法将会在这些queue上面被调用。可以在自己的类里面实现AVCaptureVideoDataOutput的协议方法,通过实现
+captureOutput:didOutputSampleBuffer:fromConnection:来拿到视频的每一帧，默认情况下这些视频帧会被用最有效的格式来输出到output,当然也可以在拍摄之前就为output进行相关设置。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];</span></span>
+<span class="line"><span>NSDictionary *newSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };</span></span>
+<span class="line"><span>videoDataOutput.videoSettings = newSettings;</span></span></code></pre>
+<p>说了这么多，感觉很虚，还是直接上代码，将以上部分衔接起来</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="objc"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//自定义方法，小演示只添加了视频，没有添加声音，添加声音类似</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)yourCustomMethodName{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    AVCaptureSession </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">session </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[AVCaptureSession </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ([session </span><span style="color:#005CC5;--shiki-dark:#79B8FF">canSetSessionPreset:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">AVCaptureSessionPreset640x480]){ </span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            session.sessionPreset </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> AVCaptureSessionPreset640x480;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        else</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">            //设置失败</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    AVCaptureDevice </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">device </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [AVCaptureDevice </span><span style="color:#005CC5;--shiki-dark:#79B8FF">defaultDeviceWithMediaType:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">AVMediaTypeVideo];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSError</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">error </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    AVCaptureDeviceInput </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">input </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [AVCaptureDeviceInput </span><span style="color:#005CC5;--shiki-dark:#79B8FF">deviceInputWithDevice:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">device </span><span style="color:#005CC5;--shiki-dark:#79B8FF">error:</span><span style="color:#D73A49;--shiki-dark:#F97583">&#x26;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">error];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">!</span><span style="color:#24292E;--shiki-dark:#E1E4E8">input) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        // Handle the error appropriately.</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(session canAddInput:input){</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        [session </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addInput:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">input];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    AVCaptureVideoDataOutput </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">output </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[AVCaptureVideoDataOutput </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">init</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(session canAddOutput:output){</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        [session </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addOutput:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">output];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    output.videoSettings </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">@{ (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#005CC5;--shiki-dark:#79B8FF">kCVPixelBufferPixelFormatTypeKey</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> : @(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">kCVPixelFormatType_32BGRA</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) };</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //设置帧率(FPS),每秒15帧</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    output.minFrameDuration </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> CMTimeMake</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">15</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    dispatch_queue_t</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> queue </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> dispatch_queue_create</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"CustomQueue"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">NULL</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [output </span><span style="color:#005CC5;--shiki-dark:#79B8FF">setSampleBufferDelegate:self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> queue:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">queue];</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">    dispatch_release</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(queue)</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    NSString</span><span style="color:#D73A49;--shiki-dark:#F97583"> *</span><span style="color:#24292E;--shiki-dark:#E1E4E8">mediaType </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> AVMediaTypeVideo;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"> //用来显示录制的实时画面</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    AVCaptureVideoPreviewLayer </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">captureVideoPreviewLayer </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [[AVCaptureVideoPreviewLayer </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithSession:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">session];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.view.layer </span><span style="color:#005CC5;--shiki-dark:#79B8FF">addSublayer:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">captureVideoPreviewLayer];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    //用户是否允许启用摄像头</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [AVCaptureDevice </span><span style="color:#005CC5;--shiki-dark:#79B8FF">requestAccessForMediaType:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">mediaType </span><span style="color:#005CC5;--shiki-dark:#79B8FF">completionHandler:</span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">BOOL</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> granted) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (granted)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">            //Granted access to mediaType</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> setDeviceAuthorized:YES</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [session </span><span style="color:#005CC5;--shiki-dark:#79B8FF">startRunning</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        else</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">            //Not granted access to mediaType</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">            dispatch_async</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">dispatch_get_main_queue</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(), </span><span style="color:#D73A49;--shiki-dark:#F97583">^</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            [[[UIAlertView </span><span style="color:#005CC5;--shiki-dark:#79B8FF">alloc</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">initWithTitle:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"AVCam!"</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                        message:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"AVCam doesn't have permission to use Camera, please change privacy settings"</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                                       delegate:self</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                              cancelButtonTitle:</span><span style="color:#032F62;--shiki-dark:#9ECBFF">@"OK"</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">                              otherButtonTitles:nil</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#005CC5;--shiki-dark:#79B8FF">show</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                    [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">self</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> setDeviceAuthorized:NO</span><span style="color:#24292E;--shiki-dark:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            });</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//协议方法,获取每一帧，将每一帧转换成图片，你也可以进行其他的渲染操作</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">-</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">void</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)captureOutput:(AVCaptureOutput </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)captureOutput</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">         didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">         fromConnection:(AVCaptureConnection </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)connection {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    UIImage </span><span style="color:#D73A49;--shiki-dark:#F97583">*</span><span style="color:#24292E;--shiki-dark:#E1E4E8">image </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> imageFromSampleBuffer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(sampleBuffer);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>上面演示了如何取得每一帧实时画面,如果想要直接存成视频可使用AVCaptureMovieFileOutput,如下</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];</span></span>
+<span class="line"><span>NSURL *fileURL = ...;    //存放位置</span></span>
+<span class="line"><span>//指定代理</span></span>
+<span class="line"><span>[aMovieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:delete];</span></span>
+<span class="line"><span>//也可以为其指定outputSettings</span></span>
+<span class="line"><span>同样代理必须实现协议方法captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:,</span></span></code></pre>
+<p>当然还有其他各种具体的设置，如对焦、曝光、闪光灯以及白平衡等等均可以通过KVO来设置，每次设置前都加一个判断，是否支持指定模式,在这里不做详细叙述了,这里你可以看到<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW14" rel="noopener noreferrer" target="_blank">更多</a>。</p>
+<h4 id="视频的剪辑"><a href="#视频的剪辑">视频的剪辑</a></h4>
+<p>视频的剪辑包括但不限于:裁剪、旋转(改变transform)、添加水印、添加字幕、合并等。关于剪辑，无非就是取出视频中的轨道(视频和音频),然后对轨道进行一系列的操作变可以得到各种想要的效果。首先我们先来看下面一张图</p>
+<!-- Missing: /oldimages/2019-11-21-15743465991142.jpg -->
+<p>AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重讲解这个类。AVMutableComposition和AVAsset一样含有多个视/音频轨道，但是更重要的是，它可以将多个AVAssetTrack合并到一起，比如在视频合并时，可以直接将多段视频拼接到一个轨道(AVMutableCompositonTrcak)，音频也一样。通过借助AVMutableVideoComposition和AVMutableAudioMix来设置每一段的视/音频的属性，从而达到想要的视听效果，比如视频切换处的淡入淡出，声音的渐变，字幕等等。
+关于上图的解释:首先通过将asset里面的轨道加载到composition的各轨道，然后通过audioMix和videoComposition对某个轨道进行对应操作,设置其相关属性。其中要用到的具体方法可以参见<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1" rel="noopener noreferrer" target="_blank">这里</a>。</p>
+<p>其中图中1，2，3用到的方法为</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[1]</span></span>
+<span class="line"><span>[mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid]</span></span>
+<span class="line"><span>[2]</span></span>
+<span class="line"><span>[AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:mutableCompositionAudioTrack];`</span></span>
+<span class="line"><span>[3]</span></span>
+<span class="line"><span>[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:mutableCompositionVideoTrack]</span></span></code></pre>
+<p>关于视频的剪辑的代码可以参见苹果给出的官方<a href="https://developer.apple.com/library/ios/samplecode/AVSimpleEditoriOS/Introduction/Intro.html#//apple_ref/doc/uid/DTS40012797" rel="noopener noreferrer" target="_blank">Demo</a>以及Raywendrich上的两篇文章<a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios" rel="noopener noreferrer" target="_blank">1</a>,<a href="http://www.raywenderlich.com/30200/avfoundation-tutorial-adding-overlays-and-animations-to-videos" rel="noopener noreferrer" target="_blank">2</a>。</p>
+<h3 id="gpuimage"><a href="#gpuimage">GPUImage</a></h3>
+<p>什么?!你没听说过GPUImage?!那你赶紧去看看它的<a href="https://github.com/BradLarson/GPUImage/blob/master/README.md#overview" rel="noopener noreferrer" target="_blank">相关介绍</a>。GPUImage是一个基于OpenGL ES的一个强大的图像/视频处理库,封装好了各种滤镜同时也可以编写自定义的滤镜。至于他到底是如何强大,用了就知道。在这篇文章不是为了介绍它，而是列出一些我在使用过程中遇到的问题和解决方法。</p>
+<h4 id="分段录制"><a href="#分段录制">分段录制</a></h4>
+<p>在使用GPUImageVideoCamera来录制的时候,可能需要分段录制,在GPUImage给出的视频录制Demo中直接只是录制一次，然而有时候需求可能是要录制多次，如果此时按照Demo的方法每次录制都要创建一个movieWriter,这样子的话每次都会在重新创建movieWriter并将它设置为videoCamera的audioEncodingTarget时候，界面都会卡顿一下，这是什么原因呢？因为videoCamera默认是不录制声音的，而每次创建movieWriter的时候都用到了movieWriter.hasAudioTrack = YES;,吊用这个之后videoCamera会自动去添加声音输入源,准备一些数据，所以这个过程会导致界面卡顿一下？这该怎么办呢？如果你有进到videoCamera的头文件去看的话你会发现这么一个方法和它的注释</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>//Add audio capture to the session. Adding inputs and outputs freezes </span></span>
+<span class="line"><span>//the capture session momentarily, so you can use this method to add </span></span>
+<span class="line"><span>//the audio inputs and outputs early, if you’re going to set the </span></span>
+<span class="line"><span>//audioEncodingTarget later. Returns YES is the audio inputs and </span></span>
+<span class="line"><span>//outputs were added, or NO if they had already been added.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>-(BOOL)addAudioInputsAndOutputs;</span></span></code></pre>
+<p>注释的大意是:录制的时候添加声音,添加输入源和输出源会暂时会使录制暂时卡住,所以在要使用声音的情况下要先调用该方法来防止录制被卡住。这不刚好就解决了上面的这个问题吗？所以问题就迎刃而解了,因为没看到这个,走了不少弯路,浪费了好长时间。</p>
+<p>关于分段录制,可能有这么一个需求就是所有片段都是存于一个文件中而不是录制完成后将各段合并到一个视频文件中。这两个东西或许会帮到你<a href="http://blog.csdn.net/whf727/article/details/18702643" rel="noopener noreferrer" target="_blank">分段录制的实现</a>,<a href="https://github.com/leanlyne/GPUImageExtend" rel="noopener noreferrer" target="_blank">GPUImageExtend</a>。前者是基于系统的分段录制的实现,后者是GPUImageMoiveWriter的一个子类。</p>
+<h4 id="所见即所得"><a href="#所见即所得">所见即所得</a></h4>
+<p>在录制的时候,使用GPUImageView来显示,因为给GPUImageView设置的大小是320*320的,如果不设置它的填充模式(fillMode)它是默认使用kGPUImageFillModePreserveAspectRatio即保持长宽比,其余空白处使用背景色填充,如果要设置成方形就得使用kGPUImageFillModePreserveAspectRatioAndFill,但是这个时候问题又来了假设你是用的录制分辨率是960x540,显示的画面则只会显示中间的540x540的画面,这个时候如果movieWriter的size设置为540x540,则最后保存的视频是失真的因为960被压到了540，整个画面变扁了。这个时候有两种解决方案</p>
+<ul>
+<li>1.使用GPUImageCropFilter,通过设置其cropRegion来裁出中间540x540部分。关于cropRegion要注意它是一个CGRect,它对坐标系做了一个归一化处理,所以让所有的取值都在0.0~1.0范围内,比如960x540裁剪至中间540x540部分则cropRegion为(0,((960-540)/2)/960,1,540/960)</li>
+<li>2.改变videoComposition的perferTransfom使其只显示中间的540x540。
+这样就完成了所见即所得。</li>
+</ul>
+<p>关于GPUImage的实时滤镜添加或给已存在的视频添加滤镜,Demo都给出了详细过程,依葫芦画瓢即可。有一点要注意的是,在一些操作完成的时候注意removeTarget,还有就是在使用movieFile来播放已存在视频并添加滤镜的时候是没有声音的,这是这个库的一个缺陷,Github上有人提了这个<a href="https://github.com/BradLarson/GPUImage/issues/458" rel="noopener noreferrer" target="_blank">issue</a>和<a href="https://gist.github.com/pgodino/3819907" rel="noopener noreferrer" target="_blank">一些解决办法</a>。同时在用movieFile处理视频的时候在切换滤镜的时候最好先cancelProcessing不然会有黑屏或卡顿现象出现。同样如果你是用老版本的GPUImage的时候,可能会遇到第一帧是红色的现象,有人提出这个issue后,作者修复了这个bug,切换到最新版的时候就不会有这种情况发生。发生这种情况的原因是视频掉帧,导致音频和视频不同步。</p>
+<h3 id="总结"><a href="#总结">总结</a></h3>
+<p>AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。</p>  </div> <!-- 版权声明 --> <div class="mt-8 bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-sm text-text-muted"> <p class="mb-2 font-bold text-text-main">版权声明</p> <p class="leading-relaxed">
+本博客所有文章除特别声明外，均采用
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-primary hover:underline font-medium">CC BY-NC-SA 4.0 许可协议</a>
+。转载请注明出处和作者。
+</p> </div> </div> <div class="supporter relative mt-8 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-colors duration-300"> <!-- Dynamic Update Badge --> <div class="absolute top-4 left-0 bg-primary text-white text-[10px] font-bold px-2 rounded-r flex items-center h-5 leading-none pt-[2px]">
+动态更新
+</div> <div class="p-6 pt-10 flex flex-col md:flex-row items-center gap-6"> <!-- Text Content --> <div class="flex-1 text-left"> <p class="text-gray-600 dark:text-gray-300 text-sm leading-7 transition-colors duration-300">
+关注微信公共号<span class="text-primary font-bold mx-1">Vong</span>或在微博上关注
+<a href="https://weibo.com/VongLo" target="_blank" class="text-primary font-bold hover:underline mx-0.5">@Vong_HUST</a>，永远不会错过新内容！您的<span class="text-primary font-bold">支持和鼓励</span>将为我的博客写作增添更多的动力！
+</p> </div> <!-- Green Card Area --> <div class="bg-[#07c160] rounded-xl p-4 flex items-center gap-4 w-full md:w-auto shrink-0 shadow-md"> <!-- QR Code --> <div class="bg-white p-1.5 rounded-lg shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"> <img src="/images/subscribe-wechat.JPG" alt="WeChat QR Code" class="w-20 h-20 rounded object-contain" data-zoomable> </div> <!-- Search Box --> <div class="flex flex-col gap-2 min-w-[140px]"> <div class="flex items-center gap-2 text-white font-bold text-lg leading-none"> <i class="fa-brands fa-weixin text-xl"></i> <span>微信搜一搜</span> </div> <div class="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-gray-800 text-sm shadow-sm"> <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs"></i> <span class="font-medium">Vong</span> </div> </div> </div> </div> </div> <nav class="flex flex-col sm:flex-row gap-4 mt-8"> <a href="/posts/how-we-built-tinder-like-koloda-animation-in-swift-chinese-translation/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group"> <span class="block text-xs text-gray-400 mb-1">上一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">如何创建一个类似 Tinder 的交互动画[译]</span> </a> <a href="/posts/using-xcode-efficiently/" class="flex-1 p-4 rounded-xl bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:border-brand-light dark:hover:border-brand-light shadow-sm hover:shadow-md transition-all group text-right"> <span class="block text-xs text-gray-400 mb-1">下一篇</span> <span class="block text-sm font-medium text-gray-900 dark:text-white group-hover:text-brand-light transition-colors">高效利用你的Xcode[译]</span> </a> </nav> <div class="giscus mt-8 p-6 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-[#1a1a1a]"></div> <script>(function(){const repo = "wang9262/Blog-Comments";
+const repoId = "MDEwOlJlcG9zaXRvcnk5OTAxNDQ4MQ==";
+const category = "Announcements";
+const categoryId = "DIC_kwDOBebXUc4CQzO5";
+const giscusMapping = "title";
+const giscusTerm = "";
+const lightThemeUrl = "https://vonglo.cn/styles/giscus.css";
+const darkThemeUrl = "https://vonglo.cn/styles/giscus-dark.css";
+
+  (function() {
+    function getThemeUrl() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? darkThemeUrl : lightThemeUrl;
+    }
+
+    function loadGiscus() {
+      const container = document.querySelector('.giscus');
+      if (!container) return;
+
+      // Clean up any existing script to be safe
+      const existingScript = container.querySelector('script[src*="giscus.app"]');
+      if (existingScript) existingScript.remove();
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', giscusMapping);
+      if (giscusMapping === 'number' && giscusTerm) {
+        script.setAttribute('data-term', giscusTerm);
+      }
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '1');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      script.setAttribute('data-theme', getThemeUrl());
+
+      container.appendChild(script);
+
+      script.addEventListener('error', () => {
+        console.error('[Giscus] 脚本加载失败');
+      });
+      script.addEventListener('load', () => {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) {
+            console.error('[Giscus] 未找到评论 iframe，请检查 repo/repoId/categoryId 与 mapping');
+          }
+        }, 1000);
+      });
+    }
+
+    // Load immediately
+    loadGiscus();
+
+    // Listen for theme changes and update Giscus theme dynamically
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          
+          const newThemeName = getThemeUrl();
+          iframe.contentWindow.postMessage({
+            giscus: {
+              setConfig: {
+                theme: newThemeName
+              }
+            }
+          }, 'https://giscus.app');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+})();</script> </article> <button id="mobile-back-to-top" class="md:hidden fixed bottom-16 right-4 w-10 h-10 rounded-full bg-primary text-white shadow-lg hidden"> <i class="fa-solid fa-arrow-up"></i> </button>  </main> <footer class="bg-bg-surface border-t border-border py-12 mt-20 transition-colors duration-300"> <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex flex-col md:flex-row justify-between items-center gap-6"> <div class="text-center md:text-left"> <p class="text-sm text-text-muted mb-2"> © 2026 Vong. All rights reserved. </p> </div> <div class="flex gap-6 items-center"> <a href="https://github.com/wang9262" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="GitHub"> <i class="fa-brands fa-github text-xl"></i> </a><a href="https://twitter.com/Vong_HUST" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Twitter"> <i class="fa-brands fa-x-twitter text-xl"></i> </a><a href="https://weibo.com/VongLo" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Weibo"> <i class="fa-brands fa-weibo text-xl"></i> </a><a href="mailto:wang9262@gmail.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary transition-colors" aria-label="Email"> <i class="fa-solid fa-envelope text-xl"></i> </a> <a href="/rss.xml" target="_blank" class="text-text-muted hover:text-primary transition-colors" aria-label="RSS"> <i class="fa-solid fa-rss text-xl"></i> </a> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.0GV0sgcX.js"></script> </body> </html> <script>
+  (function() {
+    if (window.matchMedia('(min-width: 768px)').matches) { return; }
+    const progress = document.getElementById('mobile-progress');
+    const bar = document.getElementById('mobile-progress-bar');
+    const backTop = document.getElementById('mobile-back-to-top');
+    const headerEl = document.querySelector('header');
+    
+    function positionBar() {
+      if (!progress || !headerEl) return;
+      const top = (headerEl.offsetTop + headerEl.offsetHeight) + 'px';
+      progress.style.top = top;
+    }
+    
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+      if (bar) bar.style.width = pct + '%';
+      if (backTop) {
+        if (scrollTop > 300) backTop.classList.remove('hidden');
+        else backTop.classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { positionBar(); update(); });
+    document.addEventListener('astro:page-load', () => { positionBar(); update(); });
+    positionBar();
+    update();
+    
+    if (backTop) {
+      backTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

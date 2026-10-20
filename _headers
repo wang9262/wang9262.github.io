@@ -2,6 +2,7 @@
 # 本文件由 scripts/generate-cloudflare-config.js 生成，请勿手动编辑。
 # 修改规则请改 src/utils/security.ts 后重新生成。
 
+/*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin

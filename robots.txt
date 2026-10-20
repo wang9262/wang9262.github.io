@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Partytown 运行时目录无内容价值
+Disallow: /~partytown/
+
 Sitemap: https://vonglo.cn/sitemap-index.xml

@@ -1,0 +1,57 @@
+# Vong 的工程笔记
+
+> 记录 iOS 开发的性能、稳定性与动画实践，也写下那些最后才被看见的细节。
+
+站点作者 Vong，iOS Developer，位于广州，中国。文章主要围绕 iOS 开发展开，覆盖性能、稳定性、动画、编译期优化与工程实践。
+
+## 主要栏目
+
+- [文章](https://vonglo.cn/): 全部文章列表，按时间倒序。
+- [关于](https://vonglo.cn/about/): 作者背景、当前状态与联系方式。
+- [主题](https://vonglo.cn/#topics): 按标签浏览文章。
+
+## 热门主题
+
+- 原创（10 篇）: https://vonglo.cn/tags/%E5%8E%9F%E5%88%9B/
+- 翻译（6 篇）: https://vonglo.cn/tags/%E7%BF%BB%E8%AF%91/
+- WWDC（5 篇）: https://vonglo.cn/tags/WWDC/
+- Xcode（5 篇）: https://vonglo.cn/tags/Xcode/
+- 杂谈（5 篇）: https://vonglo.cn/tags/%E6%9D%82%E8%B0%88/
+- UICollectionView（3 篇）: https://vonglo.cn/tags/UICollectionView/
+- Crash（2 篇）: https://vonglo.cn/tags/Crash/
+- Xcode8（2 篇）: https://vonglo.cn/tags/Xcode8/
+- 插件（2 篇）: https://vonglo.cn/tags/%E6%8F%92%E4%BB%B6/
+- AVFoundation（1 篇）: https://vonglo.cn/tags/AVFoundation/
+- GPUImage（1 篇）: https://vonglo.cn/tags/GPUImage/
+- Objective-C（1 篇）: https://vonglo.cn/tags/Objective-C/
+- Pod（1 篇）: https://vonglo.cn/tags/Pod/
+- WebView（1 篇）: https://vonglo.cn/tags/WebView/
+- 后台任务（1 篇）: https://vonglo.cn/tags/%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1/
+- 笔记（1 篇）: https://vonglo.cn/tags/%E7%AC%94%E8%AE%B0/
+
+## 代表文章
+
+- [iOS16 Live Activity 初体验](https://vonglo.cn/posts/ios16-live-activity/): iOS 16 Live Activity 的 API 提炼：锁屏实时活动的接入方式、ActivityKit 的状态更新机制，以及 Beta 阶段需要注意的限制。
+- [iOS 中资源的条件编译](https://vonglo.cn/posts/xcode-condition-build/): Debug 专用代码如何不进入线上包？对比 CocoaPods 的 configurations 限制与条件编译两种方案，并说明各自的适用边界。
+- [聊聊最近遇到的一个Crash](https://vonglo.cn/posts/an-abnormal-swift-crash/): 从一个看似普通的 Swift deinit 场景出发，还原一次难以复现的崩溃，并记录定位过程中对对象生命周期与内存管理的排查思路。
+- [WWDC20 10077 - 使用 XCTest 消除动画卡顿](https://vonglo.cn/posts/eliminate-animation-hitches-with-xctest/): 解读 WWDC20 Session 10077：什么是卡顿（Hitches）、帧渲染为什么会延迟，以及如何用 XCTest 在开发阶段量化并消除动画掉帧。
+- [一个不规范的 Category 写法导致的“血案”](https://vonglo.cn/posts/attention-to-category/): 线上包体积少了 5M、启动快了 300ms，原因却是一个不规范的 Category 写法。用 Instruments 对比 getMethodNoSuper_nolock 耗时，逐步定位到消息发送阶段的膨胀。
+- [全新后台任务框架及最佳实践](https://vonglo.cn/posts/backgroundtask/): 解读 WWDC 2019 Session 707，梳理 iOS 支持的 9 种后台模式、Background processing 的引入，以及延长后台执行时间的最佳实践。
+- [WWDC 2018：使用日志框架测量性能](https://vonglo.cn/posts/wwdc-2018-signpost/): 解读 WWDC 2018 Session 405：用 OSLog 的 signposts API 为异步任务打点，在 Instruments 中定位卡顿究竟由哪段代码引起。
+- [WWDC 2018：理解崩溃以及崩溃日志](https://vonglo.cn/posts/understanding-crash/): 跟随苹果工程师理解崩溃：崩溃为什么会发生、常见的 CPU 与系统强杀场景，以及如何用符号化与调试工具定位问题。
+- [时光的河如海流](https://vonglo.cn/posts/2018-summary/): 2018 年终总结：从美拍直播 SDK 拆分到北京分部，用 YYModel 与 IGListKit 替换 CoreData 方案，以及年底离开美图、南下广州的转折。
+- [GMTC 之旅](https://vonglo.cn/posts/some-thoughts-on-gmtc-2018/): 第一次参加 GMTC 的现场记录，重点整理性能优化专场里 LinkedIn 的组件化、监控体系与 LayoutKit 后台布局实践。
+- [替换系统音量提示的实现和遇到的坑](https://vonglo.cn/posts/replace-system-volume-view/): 很多视频 App 都会替换系统音量提示。本文记录激活 AudioSession、把 MPVolumeView 放到屏幕外，再监听音量按钮的完整实现。
+- [Pod 中资源引入方式对比](https://vonglo.cn/posts/pod-resource/): 对比 CocoaPods 中 s.resource 与 s.resource_bundle 两种资源引入方式，解释为什么用 .xcassets 会导致 Xcode 9 打包后丢失 icon，并附上验证 Demo。
+
+## 可用接口
+
+- [RSS Feed](https://vonglo.cn/rss.xml): 全部文章的订阅源
+- [Sitemap](https://vonglo.cn/sitemap-index.xml): 站点全部页面
+- [全文搜索索引](https://vonglo.cn/search.json): JSON 格式的标题、摘要与正文片段
+
+## 说明
+
+- 内容语言：zh-CN；首次发布于 2014-08-24。
+- 全部文章采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议。
+- 站点每日更新状态可通过 RSS 获取，文章更新时会同步 dateModified 字段。

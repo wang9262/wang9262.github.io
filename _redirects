@@ -1,0 +1,15 @@
+# Cloudflare Pages 重定向规则
+# 本文件由 scripts/generate-cloudflare-config.js 生成，请勿手动编辑。
+# 修改规则请改 src/utils/security.ts 后重新生成。
+
+/feed  /rss.xml  301
+/feed.xml  /rss.xml  301
+/feed/  /rss.xml  301
+/rss  /rss.xml  301
+/about.html  /about/  301
+/about/index.html  /about/  301
+/index.html  /  301
+/posts/index.html  /  301
+/posts.html  /  301
+/tag/*  /tags/:splat  301
+/category/*  /tags/:splat  301
